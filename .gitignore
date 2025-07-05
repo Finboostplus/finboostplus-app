@@ -1,0 +1,55 @@
+# Node.js (React frontend)
+frontend/node_modules/
+frontend/.env
+frontend/build/
+frontend/dist/
+frontend/.next/
+frontend/.cache/
+frontend/yarn-error.log
+frontend/npm-debug.log
+frontend/package-lock.json
+frontend/yarn.lock
+frontend/.DS_Store
+frontend/.eslintcache
+
+# IntelliJ/WebStorm/Vscode (IDE/Editor)
+.idea/
+.vscode/
+*.iml
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Spring Boot (Java backend)
+backend/target/
+backend/.classpath
+backend/.project
+backend/.settings/
+backend/.env
+backend/.DS_Store
+backend/logs/
+backend/*.log
+
+# Maven
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+
+# Gradle
+backend/.gradle/
+backend/build/
+backend/gradle-app.setting
+
+# Misc
+*.swp
+*.swo
+*.bak
+*.tmp
