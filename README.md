@@ -1,6 +1,6 @@
 # 💸 FinBoost+ - Controle Financeiro  Pessoal ou Compartilhado
 
-<div align="center">
+<div align="left">
   <img src="https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow" alt="Status">
   <img src="https://img.shields.io/badge/Java-17+-orange" alt="Java">
   <img src="https://img.shields.io/badge/React-18+-blue" alt="React">
@@ -16,7 +16,7 @@
 
 - [Funcionalidades](#-funcionalidades)
 - [Tecnologias](#-tecnologias-utilizadas)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Estrutura do Projeto](#-estrutura-do-repositório)
 - [Como Executar](#-como-executar-localmente)
 - [Testes](#-testes)
 - [Contribuição](#-como-contribuir)
@@ -76,44 +76,17 @@
 
 ---
 
-## 📁 Estrutura do Projeto
+## 📁 Estrutura do Repositório
 
-```plaintext
-controle-financeiro/
-├── 📁 backend/                    # API Spring Boot
-│   ├── 📁 src/
-│   │   ├── 📁 main/
-│   │   │   ├── 📁 java/
-│   │   │   │   └── 📁 com/projeto/controle/
-│   │   │   │       ├── 📁 controller/     # Controladores REST
-│   │   │   │       ├── 📁 service/        # Lógica de negócio
-│   │   │   │       ├── 📁 model/          # Entidades JPA
-│   │   │   │       ├── 📁 repository/     # Repositórios de dados
-│   │   │   │       ├── 📁 config/         # Configurações
-│   │   │   │       └── 📁 security/       # Segurança
-│   │   │   └── 📁 resources/
-│   │   │       ├── application.yml
-│   │   │       └── 📁 db/migration/       # Scripts SQL
-│   │   └── 📁 test/                       # Testes
-│   ├── pom.xml
-│   └── Dockerfile
-├── 📁 frontend/                   # Interface React
-│   ├── 📁 src/
-│   │   ├── 📁 components/         # Componentes reutilizáveis
-│   │   ├── 📁 pages/              # Páginas da aplicação
-│   │   ├── 📁 services/           # Serviços HTTP
-│   │   ├── 📁 hooks/              # Hooks customizados
-│   │   ├── 📁 context/            # Context API
-│   │   ├── 📁 utils/              # Utilitários
-│   │   └── 📁 assets/             # Recursos estáticos
-│   ├── package.json
-│   ├── vite.config.js
-│   └── Dockerfile
-├── 📁 docs/                       # Documentação
-├── 📁 .github/                    # GitHub Actions
-├── docker-compose.yml
-├── README.md
-└── .gitignore
+```
+| Caminho           | Conteúdo                                                              |
+|-------------------|-----------------------------------------------------------------------|
+| `frontend/`       | Aplicação React (interface)                                           |
+| `backend/`        | API REST em Spring Boot                                               |
+| `docs/`           | Documentação técnica do projeto em Markdown (usada com MkDocs)        |
+| `project_docs/`   | Documentos de planejamento, requisitos, MVPs, diagramas, atas, etc.   |
+| `README.md`       | Apresentação geral do projeto                                         |
+
 ```
 
 ---
