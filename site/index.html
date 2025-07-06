@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinBoost+ | Controle Financeiro Pessoal e Compartilhado</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/site/styles/reset.css" />
+    <link rel="stylesheet" href="/site/styles/styles.css" />
+  </head>
+
+  <body>
+    <header>
+      <div class="container">
+        <a href="#" class="logo">FinBoost+</a>
+        <button id="navToggle" class="nav-toggle" aria-label="Abrir Menu">
+          ☰
+        </button>
+        <nav id="navMenu" class="nav">
+          <ul>
+            <li><a href="#hero">Início</a></li>
+            <li><a href="#features">Funcionalidades</a></li>
+            <li><a href="#contact">Contato</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section id="hero" class="hero">
+      <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+      </div>
+      <div class="container">
+        <div class="hero-content animate-fade-in">
+          <h1>Controle Financeiro Inteligente</h1>
+          <p>
+            Organize suas finanças, divida despesas em grupo e receba insights
+            inteligentes para alcançar seus objetivos financeiros com o
+            <strong>FinBoost+</strong>.
+          </p>
+          <a href="#contact" class="btn btn-primary">Comece Agora</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <div class="container">
+        <h2>Funcionalidades Poderosas</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <span class="feature-icon">👥</span>
+            <h3>Gestão de Grupos</h3>
+            <p>
+              Crie grupos financeiros, convide pessoas e divida despesas de
+              forma automática e transparente.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">📊</span>
+            <h3>Relatórios Inteligentes</h3>
+            <p>
+              Visualize gráficos detalhados, acompanhe tendências e obtenha
+              insights sobre seus hábitos financeiros.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <span class="feature-icon">📱</span>
+            <h3>Multi-plataforma</h3>
+            <p>
+              Acesse suas finanças em qualquer dispositivo - web, mobile ou
+              desktop.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2>Fale Conosco</h2>
+        <form id="contactForm" class="contact-form">
+          <div class="form-group">
+            <label for="name">Nome Completo</label>
+            <input type="text" id="name" name="name" required />
+            <span class="error-msg"></span>
+          </div>
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" required />
+            <span class="error-msg"></span>
+          </div>
+          <div class="form-group">
+            <label for="message">Sua mensagem</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+            <span class="error-msg"></span>
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>
+          &copy; 2025 FinBoost+. Projeto educacional – +Prati & Codifica |
+          Desenvolvido com 💙 pelo Grupo 7
+        </p>
+      </div>
+    </footer>
+
+    <script src="/site/scripts/app.js"></script>
+  </body>
+</html>
