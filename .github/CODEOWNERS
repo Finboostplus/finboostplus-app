@@ -1,0 +1,11 @@
+# Responsável pelo diretório frontend
+/frontend/   @cleytonjesus07
+
+# Responsável pelo diretório backend
+/backend/    @Bruno-Pimenta
+
+# Responsável pelo arquivo de configuração geral
+/config.yml  @Alan-oliveir
+
+# Responsável por todo o repositório (fallback)
+*           @Alan-oliveir
