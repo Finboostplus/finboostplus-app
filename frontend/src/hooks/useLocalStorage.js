@@ -6,6 +6,7 @@ export function useLocalStorage(key, initialValue) {
     try {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
+      // eslint-disable-next-line no-unused-vars
     } catch (error) {
       return initialValue;
     }
@@ -15,6 +16,7 @@ export function useLocalStorage(key, initialValue) {
     try {
       setStoredValue(value);
       window.localStorage.setItem(key, JSON.stringify(value));
+      // eslint-disable-next-line no-unused-vars
     } catch (error) {
       // erro ignorado
     }
