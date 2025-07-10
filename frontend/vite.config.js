@@ -7,8 +7,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    // Ajuste o caminho se tiver um arquivo de setup para testes, ou remova essa linha se não usar
-    // setupFiles: './src/__tests__/setup.js',
+    setupFiles: './__tests__/setup.js', // <- descomente e ajuste o caminho
     include: ['**/*.{test,spec}.{js,jsx}'],
   },
 });
