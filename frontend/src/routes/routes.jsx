@@ -7,21 +7,30 @@ import Dashboard from '../pages/Dashboard';
 import Groups from '../pages/Groups';
 import Expenses from '../pages/Expenses';
 import Profile from '../pages/Profile';
-import NotFound from '../pages/NotFound';
+import NotFound from '../pages/Notfound';
+import ProtectedRoute from './ProtectedRoute';
 
 export const routes = createBrowserRouter([
+  // Rotas públicas (login e registro)
+  {
+    children: [{ path: '/login', element: <Login /> }],
+  },
+  // Rotas privadas (todas as outras)
   {
     path: '/',
-    element: <Layout />,
+    element: <ProtectedRoute />, // <== Aqui é onde protegemos tudo
     errorElement: <NotFound />,
     children: [
-      { index: true, element: <App /> },
-      { path: 'login', element: <Login /> },
-      { path: 'register', element: <Register /> },
-      { path: 'dashboard', element: <Dashboard /> },
-      { path: 'groups', element: <Groups /> },
-      { path: 'expenses', element: <Expenses /> },
-      { path: 'profile', element: <Profile /> },
+      {
+        element: <Layout />,
+        children: [
+          { index: true, element: <App /> }, // Redirecionamento ou página inicial
+          { path: 'dashboard', element: <Dashboard /> },
+          { path: 'groups', element: <Groups /> },
+          { path: 'expenses', element: <Expenses /> },
+          { path: 'profile', element: <Profile /> },
+        ],
+      },
     ],
   },
 ]);

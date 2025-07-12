@@ -1,3 +1,3 @@
-export default function Modal() {
+export default function ModalUI() {
   return <div>Modal</div>;
 }

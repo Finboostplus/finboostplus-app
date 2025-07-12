@@ -1,3 +1,3 @@
-export default function Card() {
+export default function CardUI() {
   return <div>Card</div>;
 }
