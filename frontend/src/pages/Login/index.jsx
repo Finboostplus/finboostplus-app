@@ -3,6 +3,7 @@ import { useState } from 'react';
 import RegisterForm from '../../components/forms/RegisterForm';
 import LoginForm from '../../components/forms/LoginForm';
 import ButtonUI from '../../components/ui/Button';
+import LogoImage from '../../components/Logo';
 
 export default function Login() {
   const [enabled, setEnabled] = useState(false);
@@ -15,11 +16,7 @@ export default function Login() {
       >
         <header className="text-center" role="banner">
           <figure className="flex flex-col items-center">
-            <img
-              src="/logo.png"
-              alt="Logo da Finboostplus"
-              className="h-16 w-auto"
-            />
+            <LogoImage className="h-16 w-auto" />
             <figcaption className="sr-only">Finboostplus</figcaption>
           </figure>
           <p className="text-sm text-gray-500" aria-label="Slogan">

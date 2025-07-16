@@ -18,7 +18,7 @@ export const routes = createBrowserRouter([
   // Rotas privadas (todas as outras)
   {
     path: '/',
-    element: <ProtectedRoute />, // <== Aqui é onde protegemos tudo
+    //element: <ProtectedRoute />, // <== Aqui é onde protegemos tudo
     errorElement: <NotFound />,
     children: [
       {
