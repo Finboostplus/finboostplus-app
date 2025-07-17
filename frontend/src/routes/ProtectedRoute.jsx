@@ -2,7 +2,7 @@
 import { Navigate, Outlet } from 'react-router';
 
 // Exemplo: verifica se há token salvo (ajuste conforme sua lógica real)
-const isAuthenticated = () => Boolean(localStorage.getItem('token'));
+const isAuthenticated = () => true; //Boolean(localStorage.getItem('token'));
 
 const ProtectedRoute = () => {
   return isAuthenticated() ? <Outlet /> : <Navigate to="/login" />;

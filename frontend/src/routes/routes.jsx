@@ -1,15 +1,15 @@
 import { createBrowserRouter } from 'react-router';
-import App from '../App';
-import Layout from '../components/layout/Layout';
-import Login from '../pages/Login';
-import Register from '../pages/Register';
-import Dashboard from '../pages/Dashboard';
-import Groups from '../pages/Groups';
-import Expenses from '../pages/Expenses';
-import Profile from '../pages/Profile';
-import NotFound from '../pages/Notfound';
 import ProtectedRoute from './ProtectedRoute';
-
+import { lazy } from 'react';
+const App = lazy(() => import('../App'));
+const Layout = lazy(() => import('../components/Layout/Layout'));
+const Login = lazy(() => import('../pages/Login'));
+const Register = lazy(() => import('../pages/Register'));
+const Dashboard = lazy(() => import('../pages/Dashboard'));
+const Groups = lazy(() => import('../pages/Groups'));
+const Expenses = lazy(() => import('../pages/Expenses'));
+const Profile = lazy(() => import('../pages/Profile'));
+const NotFound = lazy(() => import('../pages/Notfound'));
 export const routes = createBrowserRouter([
   // Rotas públicas (login e registro)
   {
@@ -18,7 +18,7 @@ export const routes = createBrowserRouter([
   // Rotas privadas (todas as outras)
   {
     path: '/',
-    //element: <ProtectedRoute />, // <== Aqui é onde protegemos tudo
+    element: <ProtectedRoute />, // <== Aqui é onde protegemos tudo
     errorElement: <NotFound />,
     children: [
       {
