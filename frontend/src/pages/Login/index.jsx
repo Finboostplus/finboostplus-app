@@ -1,9 +1,9 @@
-import { Button, Switch } from '@headlessui/react';
+import { Switch } from '@headlessui/react';
 import { useState } from 'react';
-import RegisterForm from '../../components/forms/RegisterForm';
 import LoginForm from '../../components/forms/LoginForm';
 import ButtonUI from '../../components/ui/Button';
 import LogoImage from '../../components/Logo';
+import RegisterForm from '../../components/forms/RegisterForm';
 
 export default function Login() {
   const [enabled, setEnabled] = useState(false);
