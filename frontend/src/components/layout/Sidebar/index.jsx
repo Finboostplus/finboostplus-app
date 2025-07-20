@@ -1,5 +1,5 @@
-import SidebarNav from '../SidebarNav';
-import UserGreeting from '../UserGreeting';
+import SidebarNav from './SidebarNav';
+import UserGreeting from '../../UserGreeting';
 
 export default function Sidebar() {
   return (

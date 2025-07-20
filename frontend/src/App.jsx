@@ -5,7 +5,7 @@ import './styles/globals.css';
 function App() {
   return (
     <div className="px-20">
-      <SummaryCards />
+      <SummaryCards saldo={'1.000,00'} />
       <LatestExpenses />
     </div>
   );

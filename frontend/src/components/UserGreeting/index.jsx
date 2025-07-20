@@ -1,6 +1,6 @@
 export default function UserGreeting() {
   return (
-    <div className="flex items-center gap-2 mb-8 border-b-2">
+    <div className="flex items-center gap-2 mb-8 border-b-2 pb-4">
       {/* <img
         src="/user-avatar.png"
         alt="Avatar"
