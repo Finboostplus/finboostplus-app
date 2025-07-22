@@ -16,6 +16,7 @@ export default function LoginForm() {
         <InputUI
           id={'email'}
           name={'email'}
+          type={'email'}
           placeholder={'Digite seu email'}
           required={true}
           className={'w-full h-10 rounded-[10px] border-2 border-gray-400 px-3'}

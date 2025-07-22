@@ -12,7 +12,7 @@ export default function LatestExpenses() {
   return (
     <section aria-labelledby="ultimas-despesas-heading">
       <h2 id="ultimas-despesas-heading" className="text-lg font-bold mb-4">
-        Últimas Despesas
+        Últimas Despesas ({`${expenses.length}`})
       </h2>
 
       <ul className="space-y-2">

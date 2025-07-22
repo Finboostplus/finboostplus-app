@@ -1,11 +1,13 @@
 import { createBrowserRouter } from 'react-router';
 import ProtectedRoute from './ProtectedRoute';
 import { lazy } from 'react';
+import { groupDetailsLoader } from '../pages/Groups/GroupDetails/groupDetailsLoader';
 const App = lazy(() => import('../App'));
 const Layout = lazy(() => import('../components/Layout/Layout'));
 const Login = lazy(() => import('../pages/Login'));
 const Dashboard = lazy(() => import('../pages/Dashboard'));
 const Groups = lazy(() => import('../pages/Groups'));
+const GroupDetails = lazy(() => import('../pages/Groups/GroupDetails'));
 const Expenses = lazy(() => import('../pages/Expenses'));
 const Profile = lazy(() => import('../pages/Profile'));
 const NotFound = lazy(() => import('../pages/Notfound'));
@@ -25,7 +27,17 @@ export const routes = createBrowserRouter([
         children: [
           { index: true, element: <App /> }, // Redirecionamento ou página inicial
           { path: 'dashboard', element: <Dashboard /> },
-          { path: 'groups', element: <Groups /> },
+          {
+            path: 'groups',
+            children: [
+              { index: true, element: <Groups /> },
+              {
+                path: ':group-id',
+                element: <GroupDetails />,
+                loader: groupDetailsLoader,
+              },
+            ],
+          },
           { path: 'expenses', element: <Expenses /> },
           { path: 'profile', element: <Profile /> },
         ],
