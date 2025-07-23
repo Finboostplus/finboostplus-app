@@ -1,16 +1,15 @@
-import { Checkbox, Input } from '@headlessui/react';
+import { Checkbox } from '@headlessui/react';
 import { useState } from 'react';
 import InputUI from '../ui/Input';
 import ButtonUI from '../ui/Button';
+import { Form } from 'react-router';
 
 export default function RegisterForm() {
   const [checked, setChecked] = useState(false);
   return (
-    <form
+    <Form
+      method="post"
       className="w-full flex flex-col items-center gap-4"
-      onSubmit={e => {
-        e.preventDefault();
-      }}
       aria-label="Formulário de cadastro"
     >
       <div className="w-full flex flex-col gap-1">
@@ -111,6 +110,7 @@ export default function RegisterForm() {
         type="submit"
         className="mt-2 w-full cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
       />
-    </form>
+      <input type="hidden" name="type" value="register" />
+    </Form>
   );
 }
