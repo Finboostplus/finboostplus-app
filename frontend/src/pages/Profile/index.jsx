@@ -8,19 +8,6 @@ import ButtonUI from '../../components/ui/Button';
 import ActiveGroups from './ActiveGroups';
 import StatBox, { FavoriteCategory } from './Stats';
 
-const ActionButton = ({ icon, label }) => (
-  <ButtonUI
-    icon={icon}
-    title={label}
-    type={'submit'}
-    className="flex items-center cursor-pointer gap-2 border rounded-full px-4 py-2 hover:bg-gray-100"
-    aria-label={label}
-  >
-    <span className="text-xl text-blue-800">{icon}</span>
-    <span className="font-semibold">{label}</span>
-  </ButtonUI>
-);
-
 export default function Profile() {
   return (
     <main className="flex-1 p-4 max-w-4xl mx-auto w-full">
@@ -55,3 +42,16 @@ export default function Profile() {
     </main>
   );
 }
+
+const ActionButton = ({ icon, label }) => (
+  <ButtonUI
+    icon={icon}
+    title={label}
+    type={'submit'}
+    className="flex items-center cursor-pointer gap-2 border rounded-full px-4 py-2 hover:bg-gray-100"
+    aria-label={label}
+  >
+    <span className="text-xl text-blue-800">{icon}</span>
+    <span className="font-semibold">{label}</span>
+  </ButtonUI>
+);
