@@ -11,7 +11,8 @@ export default function Login() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-100">
       <section
-        className="bg-white border shadow-md rounded-lg p-6 w-full max-w-md"
+        className="bg-white border shadow-md rounded-lg p-6 w-full max-w-md 
+                   max-md:rounded-none max-md:border-0 max-md:shadow-none max-md:min-h-screen max-md:p-4 max-md:w-full"
         aria-labelledby="auth-title"
       >
         <header className="text-center" role="banner">
@@ -43,11 +44,11 @@ export default function Login() {
             aria-checked={enabled}
             aria-labelledby="auth-label-login auth-label-register"
             className={`group inline-flex h-6 w-11 items-center rounded-full transition cursor-pointer
-      ${enabled ? 'bg-blue-600' : 'bg-gray-300'}`}
+              ${enabled ? 'bg-blue-600' : 'bg-gray-300'}`}
           >
             <span
               className={`inline-block h-4 w-4 transform rounded-full bg-white transition 
-        ${enabled ? 'translate-x-6' : 'translate-x-1'}`}
+                ${enabled ? 'translate-x-6' : 'translate-x-1'}`}
             />
           </Switch>
 
