@@ -1,0 +1,138 @@
+// src/data/mockGroups.js
+export const mockGroups = [
+  {
+    id: 'grp-001',
+    name: 'Casal - Marina & João',
+    members: ['Marina', 'João'],
+    status: 'Você deve: R$ 47,50',
+    statusColor: 'text-red-600',
+    icon: '👫',
+    totalBalance: 'R$ 1.247,30',
+    pendingDebts: [
+      {
+        id: 1,
+        name: 'Marina',
+        amount: 'R$ 47,50',
+        type: 'owesYou',
+        to: 'João',
+      },
+    ],
+    youOwe: [
+      { id: 1, name: 'João', amount: 'R$ 47,50', type: 'youOwe', to: 'Marina' },
+    ],
+    recentExpenses: [
+      {
+        id: 1,
+        description: 'Jantar no Restaurante Italiano',
+        amount: 'R$ 47,50',
+      },
+      { id: 2, description: 'Cinema com pipoca', amount: 'R$ 60,00' },
+    ],
+  },
+  {
+    id: 'grp-002',
+    name: 'Família Silva',
+    members: ['Pai', 'Mãe', 'Filho 1', 'Filha 1'],
+    status: 'Você recebe: R$ 25,00',
+    statusColor: 'text-green-600',
+    icon: '🏡',
+    totalBalance: 'R$ 525,00',
+    pendingDebts: [
+      {
+        id: 1,
+        name: 'Filho 1',
+        amount: 'R$ 25,00',
+        type: 'owesYou',
+        to: 'Você',
+      },
+    ],
+    youOwe: [],
+    recentExpenses: [
+      { id: 1, description: 'Mercado Semanal', amount: 'R$ 320,00' },
+      { id: 2, description: 'Passeio no Parque', amount: 'R$ 80,00' },
+    ],
+  },
+  {
+    id: 'grp-003',
+    name: 'Apartamento Compartilhado',
+    members: ['Lucas', 'Ana', 'Pedro', 'Julia', 'Carlos'],
+    status: 'Sem pendências',
+    statusColor: 'text-gray-500',
+    icon: '🏠',
+    totalBalance: 'R$ 0,00',
+    pendingDebts: [],
+    youOwe: [],
+    recentExpenses: [
+      { id: 1, description: 'Conta de Luz', amount: 'R$ 150,00' },
+      { id: 2, description: 'Internet Mensal', amount: 'R$ 90,00' },
+      { id: 3, description: 'Produtos de Limpeza', amount: 'R$ 45,00' },
+    ],
+  },
+  {
+    id: 'grp-004',
+    name: 'Viagem para Bahia',
+    members: ['Você', 'Renata', 'Caio'],
+    status: 'Você deve: R$ 120,00',
+    statusColor: 'text-red-600',
+    icon: '🌴',
+    totalBalance: 'R$ 890,00',
+    pendingDebts: [],
+    youOwe: [
+      {
+        id: 1,
+        name: 'Renata',
+        amount: 'R$ 120,00',
+        type: 'youOwe',
+        to: 'Renata',
+      },
+    ],
+    recentExpenses: [
+      { id: 1, description: 'Aluguel do Airbnb', amount: 'R$ 600,00' },
+      { id: 2, description: 'Almoço na Praia', amount: 'R$ 90,00' },
+    ],
+  },
+  {
+    id: 'grp-005',
+    name: 'Time da Faculdade',
+    members: ['João', 'Beatriz', 'Você'],
+    status: 'Você recebe: R$ 50,00',
+    statusColor: 'text-green-600',
+    icon: '📚',
+    totalBalance: 'R$ 50,00',
+    pendingDebts: [
+      {
+        id: 1,
+        name: 'João',
+        amount: 'R$ 25,00',
+        type: 'owesYou',
+        to: 'Você',
+      },
+      {
+        id: 2,
+        name: 'Beatriz',
+        amount: 'R$ 25,00',
+        type: 'owesYou',
+        to: 'Você',
+      },
+    ],
+    youOwe: [],
+    recentExpenses: [
+      { id: 1, description: 'Impressão de Trabalho', amount: 'R$ 50,00' },
+    ],
+  },
+  {
+    id: 'grp-006',
+    name: 'Rolê de Sábado',
+    members: ['Você', 'Vini', 'Letícia'],
+    status: 'Sem pendências',
+    statusColor: 'text-gray-500',
+    icon: '🎉',
+    totalBalance: 'R$ 210,00',
+    pendingDebts: [],
+    youOwe: [],
+    recentExpenses: [
+      { id: 1, description: 'Barzinho', amount: 'R$ 120,00' },
+      { id: 2, description: 'Uber', amount: 'R$ 90,00' },
+    ],
+  },
+];
