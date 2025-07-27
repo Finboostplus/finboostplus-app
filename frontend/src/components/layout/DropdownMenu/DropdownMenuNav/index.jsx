@@ -2,7 +2,7 @@ import { Menu, MenuItem } from '@headlessui/react';
 import { navItems } from './navItems';
 import { useCurrentPage } from './useSidebarNav';
 
-export default function SidebarNav() {
+export default function DropdownMenuNav() {
   const currentPage = useCurrentPage();
   return (
     <Menu as="nav" className="flex flex-col gap-4">

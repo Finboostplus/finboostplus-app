@@ -1,5 +1,4 @@
 import { mockGroups } from '../../Groups/mockGroups';
-import { Menu, MenuItem } from '@headlessui/react';
 
 export default function ActiveGroups() {
   const groupLimit = 4;
@@ -7,39 +6,33 @@ export default function ActiveGroups() {
   const hasMoreGroups = mockGroups.length > groupLimit;
 
   return (
-    <section className="bg-white border rounded p-4 mb-6">
-      <h2 className="text-lg font-semibold mb-2">Grupos Ativos</h2>
-      <div className="flex gap-2 items-center ">
-        <Menu as="div" className="flex gap-2 flex-wrap">
-          {groupsToShow.map(group => (
-            <MenuItem key={group.id}>
-              <a href={`/groups/${group.id}`}>
-                <Groups label={`${group.icon} ${group.name}`} />
-              </a>
-            </MenuItem>
-          ))}
+    <section className="bg-white border rounded-xl p-4 mb-6 shadow-sm">
+      <h2 className="text-lg font-semibold mb-3 text-gray-800">
+        Grupos Ativos
+      </h2>
 
-          {hasMoreGroups && (
-            <MenuItem>
-              <a
-                href="/groups"
-                className="inline-block p-2 border rounded text-sm bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
-                aria-label="Ver todos os grupos"
-              >
-                +{mockGroups.length - 4} mais
-              </a>
-            </MenuItem>
-          )}
-        </Menu>
+      <div className="flex flex-wrap gap-2">
+        {groupsToShow.map(group => (
+          <a
+            key={group.id}
+            href={`/groups/${group.id}`}
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-gray-100 text-sm text-gray-700 border border-gray-300 hover:bg-gray-200 transition"
+          >
+            <span>{group.icon}</span>
+            <span className="font-medium">{group.name}</span>
+          </a>
+        ))}
+
+        {hasMoreGroups && (
+          <a
+            href="/groups"
+            className="inline-flex items-center px-3 py-1.5 rounded-full bg-blue-100 text-blue-700 text-sm font-medium border border-blue-200 hover:bg-blue-200 transition"
+            aria-label="Ver todos os grupos"
+          >
+            +{mockGroups.length - groupLimit} mais
+          </a>
+        )}
       </div>
     </section>
-  );
-}
-
-function Groups({ label }) {
-  return (
-    <div className="inline-block p-2  border rounded text-sm bg-gray-100">
-      {label}
-    </div>
   );
 }

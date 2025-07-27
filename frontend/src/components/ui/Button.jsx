@@ -18,7 +18,7 @@ export default function ButtonUI({
       disabled={disabled}
     >
       {icon && <span className="text-xl text-blue-800">{icon}</span>}
-      {title}
+      <span>{title}</span>
     </Button>
   );
 }

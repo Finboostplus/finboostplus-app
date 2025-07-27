@@ -3,82 +3,100 @@ import InputUI from '../../../components/ui/Input';
 export default function FormFieldsExpenses() {
   return (
     <>
-      {/*   <!-- Título --> */}
-      <div>
-        <label htmlFor="descricao" className="block text-sm font-medium">
+      {/* Título */}
+      <div className="mb-4">
+        <label
+          htmlFor="titulo"
+          className="block text-sm font-semibold text-text mb-1"
+        >
           Título
         </label>
         <InputUI
           id="titulo"
           type="text"
           name="titulo"
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border border-neutral rounded-md text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
           placeholder="Ex: Jantar no restaurante"
           required
+          aria-required="true"
         />
       </div>
 
-      {/* <!-- Valor --> */}
-      <div>
-        <label htmlFor="valor" className="block text-sm font-medium">
+      {/* Valor */}
+      <div className="mb-4">
+        <label
+          htmlFor="valor"
+          className="block text-sm font-semibold text-text mb-1"
+        >
           Valor
         </label>
         <InputUI
           id="valor"
           type="number"
           name="valor"
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border border-neutral rounded-md text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
           placeholder="R$ 0,00"
           step="0.01"
           required
+          aria-required="true"
         />
       </div>
 
-      {/* <!-- Grupo --> */}
-      <div>
-        <label htmlFor="grupo" className="block text-sm font-medium">
+      {/* Grupo */}
+      <div className="mb-4">
+        <label
+          htmlFor="grupo"
+          className="block text-sm font-semibold text-text mb-1"
+        >
           Grupo
         </label>
         <InputUI
           id="grupo"
           name="grupo"
-          className="w-full p-2 border rounded read-only:opacity-80 read-only:cursor-not-allowed read-only:select-none"
-          readonly={true}
+          className="w-full p-2 border border-neutral rounded-md text-text bg-neutral cursor-not-allowed select-none opacity-80"
+          readOnly={true}
+          aria-readonly="true"
         />
-        {/* <select id="grupo" name="grupo" className="w-full p-2 border rounded">
-          <option>Casal - Marina & João</option>
-          <option>Família</option>
-        </select> */}
       </div>
 
-      {/* <!-- Categoria --> */}
-      <div>
-        <label htmlFor="categoria" className="block text-sm font-medium">
+      {/* Categoria */}
+      <div className="mb-4">
+        <label
+          htmlFor="categoria"
+          className="block text-sm font-semibold text-text mb-1"
+        >
           Categoria
         </label>
         <select
           id="categoria"
           name="categoria"
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border border-neutral rounded-md text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
+          aria-required="true"
+          defaultValue="Alimentação"
         >
-          <option>Alimentação</option>
-          <option>Transporte</option>
-          <option>Outros</option>
+          <option value="Alimentação">Alimentação</option>
+          <option value="Transporte">Transporte</option>
+          <option value="Outros">Outros</option>
         </select>
       </div>
 
-      {/* <!-- Quem pagou --> */}
-      <div className="col-span-2">
-        <label htmlFor="quemPagou" className="block text-sm font-medium">
+      {/* Quem pagou */}
+      <div className="mb-4 col-span-2">
+        <label
+          htmlFor="quemPagou"
+          className="block text-sm font-semibold text-text mb-1"
+        >
           Quem pagou?
         </label>
         <select
           id="quemPagou"
           name="quemPagou"
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border border-neutral rounded-md text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
+          aria-required="true"
+          defaultValue="Marina (Eu)"
         >
-          <option>Marina (Eu)</option>
-          <option>João</option>
+          <option value="Marina (Eu)">Marina (Eu)</option>
+          <option value="João">João</option>
         </select>
       </div>
     </>

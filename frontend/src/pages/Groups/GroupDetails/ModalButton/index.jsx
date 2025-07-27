@@ -12,10 +12,25 @@ export default function ModalButton({ modalChildren }) {
         isOpen={isOpenModal}
       />
       <ButtonUI
-        type={'button'}
+        type="button"
         fnClick={() => setIsOpenModal(true)}
-        className="fixed bg-blue-600 bottom-5 right-10 w-[50px] h-[50px] rounded-full text-2xl font-bold text-white opacity-45 hover:opacity-100 transition-opacity cursor-pointer"
-        title={'+'}
+        className="
+    fixed 
+    bottom-5 right-6
+    w-12 h-12
+    rounded-full
+    bg-primary
+    text-white
+    text-3xl
+    font-extrabold
+    flex items-center justify-center
+    opacity-60 hover:opacity-100
+    shadow-lg
+    transition-opacity
+    cursor-pointer
+    focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-60
+  "
+        title="+"
       />
     </>
   );
