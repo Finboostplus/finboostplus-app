@@ -1,4 +1,12 @@
-// src/data/mockGroups.js
+import {
+  FaBook,
+  FaGlassCheers,
+  FaHeart,
+  FaHome,
+  FaUmbrellaBeach,
+  FaUsers,
+} from 'react-icons/fa';
+
 export const mockGroups = [
   {
     id: 'grp-001',
@@ -6,27 +14,27 @@ export const mockGroups = [
     members: ['Marina', 'João'],
     status: 'Você deve: R$ 47,50',
     statusColor: 'text-red-600',
-    icon: '👫',
-    totalBalance: 'R$ 1.247,30',
+    icon: <FaHeart className="text-pink-500" />,
+    totalBalance: 1247.3,
     pendingDebts: [
       {
         id: 1,
         name: 'Marina',
-        amount: 'R$ 47,50',
+        amount: 47.5,
         type: 'owesYou',
         to: 'João',
       },
     ],
     youOwe: [
-      { id: 1, name: 'João', amount: 'R$ 47,50', type: 'youOwe', to: 'Marina' },
+      { id: 1, name: 'João', amount: 47.5, type: 'youOwe', to: 'Marina' },
     ],
     recentExpenses: [
       {
         id: 1,
         description: 'Jantar no Restaurante Italiano',
-        amount: 'R$ 47,50',
+        amount: 47.5,
       },
-      { id: 2, description: 'Cinema com pipoca', amount: 'R$ 60,00' },
+      { id: 2, description: 'Cinema com pipoca', amount: 60.0 },
     ],
   },
   {
@@ -35,21 +43,21 @@ export const mockGroups = [
     members: ['Pai', 'Mãe', 'Filho 1', 'Filha 1'],
     status: 'Você recebe: R$ 25,00',
     statusColor: 'text-green-600',
-    icon: '🏡',
-    totalBalance: 'R$ 525,00',
+    icon: <FaUsers className="text-blue-600" />,
+    totalBalance: 525.0,
     pendingDebts: [
       {
         id: 1,
         name: 'Filho 1',
-        amount: 'R$ 25,00',
+        amount: 25.0,
         type: 'owesYou',
         to: 'Você',
       },
     ],
     youOwe: [],
     recentExpenses: [
-      { id: 1, description: 'Mercado Semanal', amount: 'R$ 320,00' },
-      { id: 2, description: 'Passeio no Parque', amount: 'R$ 80,00' },
+      { id: 1, description: 'Mercado Semanal', amount: 320.0 },
+      { id: 2, description: 'Passeio no Parque', amount: 80.0 },
     ],
   },
   {
@@ -58,14 +66,14 @@ export const mockGroups = [
     members: ['Lucas', 'Ana', 'Pedro', 'Julia', 'Carlos'],
     status: 'Sem pendências',
     statusColor: 'text-gray-500',
-    icon: '🏠',
-    totalBalance: 'R$ 0,00',
+    icon: <FaHome className="text-green-700" />,
+    totalBalance: 0.0,
     pendingDebts: [],
     youOwe: [],
     recentExpenses: [
-      { id: 1, description: 'Conta de Luz', amount: 'R$ 150,00' },
-      { id: 2, description: 'Internet Mensal', amount: 'R$ 90,00' },
-      { id: 3, description: 'Produtos de Limpeza', amount: 'R$ 45,00' },
+      { id: 1, description: 'Conta de Luz', amount: 150.0 },
+      { id: 2, description: 'Internet Mensal', amount: 90.0 },
+      { id: 3, description: 'Produtos de Limpeza', amount: 45.0 },
     ],
   },
   {
@@ -74,21 +82,21 @@ export const mockGroups = [
     members: ['Você', 'Renata', 'Caio'],
     status: 'Você deve: R$ 120,00',
     statusColor: 'text-red-600',
-    icon: '🌴',
-    totalBalance: 'R$ 890,00',
+    icon: <FaUmbrellaBeach className="text-yellow-600" />,
+    totalBalance: 890.0,
     pendingDebts: [],
     youOwe: [
       {
         id: 1,
         name: 'Renata',
-        amount: 'R$ 120,00',
+        amount: 120.0,
         type: 'youOwe',
         to: 'Renata',
       },
     ],
     recentExpenses: [
-      { id: 1, description: 'Aluguel do Airbnb', amount: 'R$ 600,00' },
-      { id: 2, description: 'Almoço na Praia', amount: 'R$ 90,00' },
+      { id: 1, description: 'Aluguel do Airbnb', amount: 600.0 },
+      { id: 2, description: 'Almoço na Praia', amount: 90.0 },
     ],
   },
   {
@@ -97,27 +105,21 @@ export const mockGroups = [
     members: ['João', 'Beatriz', 'Você'],
     status: 'Você recebe: R$ 50,00',
     statusColor: 'text-green-600',
-    icon: '📚',
-    totalBalance: 'R$ 50,00',
+    icon: <FaBook className="text-purple-700" />,
+    totalBalance: 50.0,
     pendingDebts: [
-      {
-        id: 1,
-        name: 'João',
-        amount: 'R$ 25,00',
-        type: 'owesYou',
-        to: 'Você',
-      },
+      { id: 1, name: 'João', amount: 25.0, type: 'owesYou', to: 'Você' },
       {
         id: 2,
         name: 'Beatriz',
-        amount: 'R$ 25,00',
+        amount: 25.0,
         type: 'owesYou',
         to: 'Você',
       },
     ],
     youOwe: [],
     recentExpenses: [
-      { id: 1, description: 'Impressão de Trabalho', amount: 'R$ 50,00' },
+      { id: 1, description: 'Impressão de Trabalho', amount: 50.0 },
     ],
   },
   {
@@ -126,13 +128,13 @@ export const mockGroups = [
     members: ['Você', 'Vini', 'Letícia'],
     status: 'Sem pendências',
     statusColor: 'text-gray-500',
-    icon: '🎉',
-    totalBalance: 'R$ 210,00',
+    icon: <FaGlassCheers className="text-pink-600" />,
+    totalBalance: 210.0,
     pendingDebts: [],
     youOwe: [],
     recentExpenses: [
-      { id: 1, description: 'Barzinho', amount: 'R$ 120,00' },
-      { id: 2, description: 'Uber', amount: 'R$ 90,00' },
+      { id: 1, description: 'Barzinho', amount: 120.0 },
+      { id: 2, description: 'Uber', amount: 90.0 },
     ],
   },
 ];

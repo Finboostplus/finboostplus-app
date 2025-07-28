@@ -1,1 +1,12 @@
 @import 'tailwindcss';
+
+@theme {
+  --color-primary: #0152ac; /* Azul profundo – confiança, estabilidade */
+  --color-secondary: #00a6ed; /* Azul claro vibrante – destaque, botões secundários */
+  --color-success: #18af7d; /* Verde médio – sucesso, entradas financeiras */
+  --color-error: #e74c3c; /* Vermelho forte – erros, saídas financeiras */
+  --color-neutral: #f5f7fa; /* Cinza muito claro – fundo ou seções neutras */
+  --color-text: #1f2d3d; /* Cor padrão para textos – azul acinzentado escuro */
+  --color-muted: #95a5a6; /* Texto secundário – cinza azulado */
+  --font-principal: 'Inter', sans-serif;
+}

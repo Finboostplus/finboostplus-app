@@ -3,6 +3,7 @@ import ProtectedRoute from './ProtectedRoute';
 import { lazy } from 'react';
 import { groupDetailsLoader } from '../pages/Groups/GroupDetails/groupDetailsLoader';
 import { loginOrRegisterAction } from '../pages/Login/loginAction';
+import Register from '../pages/Register';
 const App = lazy(() => import('../App'));
 const Layout = lazy(() => import('../components/Layout/Layout'));
 const Login = lazy(() => import('../pages/Login'));
@@ -14,8 +15,10 @@ const NotFound = lazy(() => import('../pages/Notfound'));
 export const routes = createBrowserRouter([
   // Rotas públicas (login e registro)
   {
+    element: <Layout />,
     children: [
       { path: '/login', element: <Login />, action: loginOrRegisterAction },
+      { path: '/register', element: <Register /> },
     ],
   },
   // Rotas privadas (todas as outras)

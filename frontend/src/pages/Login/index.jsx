@@ -1,18 +1,32 @@
 import { Switch } from '@headlessui/react';
-import { useState } from 'react';
 import LoginForm from '../../components/forms/LoginForm';
 import ButtonUI from '../../components/ui/Button';
 import LogoImage from '../../components/Logo';
 import RegisterForm from '../../components/forms/RegisterForm';
+import CardUI from '../../components/ui/Card';
 
 export default function Login() {
-  const [enabled, setEnabled] = useState(false);
-
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-100">
+    <CardUI className="bg-neutral min-h-screen">
+      <div className="flex flex-col items-start w-full max-w-4xl px-4 mx-auto">
+        <h1 className="font-bold text-2xl md:text-3xl text-text mb-8">
+          Crie a sua conta
+        </h1>
+
+        <section className="w-full md:w-1/2">
+          <LoginForm />
+        </section>
+      </div>
+    </CardUI>
+  );
+}
+
+const login = () => {
+  return (
+    <main className="min-h-screen flex items-center justify-center bg-neutral">
       <section
         className="bg-white border shadow-md rounded-lg p-6 w-full max-w-md 
-                   max-md:rounded-none max-md:border-0 max-md:shadow-none max-md:min-h-screen max-md:p-4 max-md:w-full"
+                 max-md:rounded-none max-md:border-0 max-md:shadow-none max-md:min-h-screen max-md:p-4 max-md:w-full"
         aria-labelledby="auth-title"
       >
         <header className="text-center" role="banner">
@@ -44,11 +58,11 @@ export default function Login() {
             aria-checked={enabled}
             aria-labelledby="auth-label-login auth-label-register"
             className={`group inline-flex h-6 w-11 items-center rounded-full transition cursor-pointer
-              ${enabled ? 'bg-blue-600' : 'bg-gray-300'}`}
+            ${enabled ? 'bg-blue-600' : 'bg-gray-300'}`}
           >
             <span
               className={`inline-block h-4 w-4 transform rounded-full bg-white transition 
-                ${enabled ? 'translate-x-6' : 'translate-x-1'}`}
+              ${enabled ? 'translate-x-6' : 'translate-x-1'}`}
             />
           </Switch>
 
@@ -86,4 +100,4 @@ export default function Login() {
       </section>
     </main>
   );
-}
+};
