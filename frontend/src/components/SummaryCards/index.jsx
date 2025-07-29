@@ -28,7 +28,7 @@ export default function SummaryCards({ saldo }) {
       </CardUI>
 
       {/* Total Gasto */}
-      <CardUI className="relative p-6 rounded-2xl shadow-md border border-muted bg-neutral-light text-text">
+      <CardUI className="relative p-6 rounded-2xl shadow-md border border-muted bg-neutral text-text transition-colors">
         <p className="text-sm font-medium">Total Gasto (Mês)</p>
         <p className="text-2xl font-extrabold mt-2">R$ 1.234,56</p>
         <MdCreditCardOff className="absolute right-4 top-4 w-[80px] h-[80px] opacity-20" />

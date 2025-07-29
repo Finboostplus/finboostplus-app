@@ -3,7 +3,7 @@ import { formatBRL } from '../../../utils/formatters';
 export default function ExpensesList({ group }) {
   return (
     <section
-      className="bg-white p-6 rounded-lg shadow-md"
+      className="bg-surface p-6 rounded-lg shadow-md transition-colors"
       aria-labelledby="recent-expenses-heading"
     >
       <h2

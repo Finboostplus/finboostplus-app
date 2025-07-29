@@ -12,7 +12,7 @@ export default function LatestExpenses() {
   return (
     <section
       aria-labelledby="ultimas-despesas-heading"
-      className="bg-white rounded-2xl p-6 shadow-md border border-gray-200"
+      className="bg-surface rounded-2xl p-6 shadow-md border border-neutral transition-colors"
     >
       <h2
         id="ultimas-despesas-heading"
@@ -25,7 +25,7 @@ export default function LatestExpenses() {
         {expenses.map((expense, i) => (
           <li
             key={i}
-            className="flex justify-between items-start bg-neutral rounded-lg p-4 border border-gray-100 hover:shadow-sm transition-shadow"
+            className="flex justify-between items-start bg-neutral rounded-lg p-4 border border-surface hover:shadow-sm transition-shadow"
             aria-label={`Despesa: ${expense.title}`}
           >
             <div>

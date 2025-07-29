@@ -7,7 +7,7 @@ export default function LoginForm() {
     <section className="w-full max-w-md mx-auto">
       <Form
         method="post"
-        className="w-full flex flex-col items-center gap-6 bg-white p-6 rounded-2xl shadow-md border border-gray-200"
+        className="w-full flex flex-col items-center gap-6 bg-surface p-6 rounded-2xl shadow-md border border-neutral transition-colors"
         aria-label="Formulário de login"
       >
         <div className="w-full flex flex-col gap-2">
@@ -20,7 +20,7 @@ export default function LoginForm() {
             type="email"
             placeholder="Digite seu email"
             required
-            className="w-full h-11 rounded-xl border border-gray-300 px-4 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
+            className="w-full h-11 rounded-xl border border-muted px-4 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
           />
         </div>
 
@@ -34,7 +34,7 @@ export default function LoginForm() {
             type="password"
             placeholder="Digite sua senha"
             required
-            className="w-full h-11 rounded-xl border border-gray-300 px-4 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
+            className="w-full h-11 rounded-xl border border-muted px-4 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
           />
         </div>
 
@@ -46,7 +46,8 @@ export default function LoginForm() {
 
         <input type="hidden" name="type" value="login" />
 
-        <hr className="w-full border-t border-gray-200 mt-2" />
+        <hr className="w-full border-t border-neutral mt-2" />
+
         <Menu as={'div'}>
           <MenuItem>
             <a

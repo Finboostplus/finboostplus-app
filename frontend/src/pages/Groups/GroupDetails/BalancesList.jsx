@@ -5,12 +5,12 @@ export default function BalancesList({ group }) {
     <>
       {/* Pending Debts/Credits Section */}
       <section
-        className="bg-white p-6 rounded-lg shadow-md mb-8"
+        className="bg-surface p-6 rounded-lg shadow-md mb-8 transition-colors"
         aria-labelledby="pending-balances-heading"
       >
         <h2
           id="pending-balances-heading"
-          className="text-xl font-semibold text-text border-b pb-4 mb-4"
+          className="text-xl font-semibold text-text border-b border-muted pb-4 mb-4"
         >
           Saldos
         </h2>

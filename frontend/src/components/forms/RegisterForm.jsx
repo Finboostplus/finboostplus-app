@@ -10,79 +10,61 @@ export default function RegisterForm() {
     <section className="w-full max-w-md mx-auto">
       <Form
         method="post"
-        className="w-full flex flex-col items-center gap-6 bg-white p-6 rounded-2xl shadow-md border border-gray-200"
+        className="w-full flex flex-col items-center gap-6 bg-surface p-6 rounded-2xl shadow-md border border-neutral transition-colors"
         aria-label="Formulário de cadastro"
       >
-        <div className="w-full flex flex-col gap-2">
-          <label htmlFor="full_name" className="text-sm font-medium text-text">
-            Nome completo
-          </label>
-          <InputUI
-            id="full_name"
-            name="full_name"
-            type="text"
-            placeholder="Digite seu nome completo"
-            required
-            className="w-full h-11 rounded-xl border border-gray-300 px-4 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
-          />
-        </div>
-
-        <div className="w-full flex flex-col gap-2">
-          <label htmlFor="email" className="text-sm font-medium text-text">
-            Email
-          </label>
-          <InputUI
-            id="email"
-            name="email"
-            type="email"
-            placeholder="Digite seu email"
-            required
-            className="w-full h-11 rounded-xl border border-gray-300 px-4 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
-          />
-        </div>
-
-        <div className="w-full flex flex-col gap-2">
-          <label htmlFor="password" className="text-sm font-medium text-text">
-            Senha
-          </label>
-          <InputUI
-            id="password"
-            name="password"
-            type="password"
-            placeholder="Digite sua senha"
-            required
-            className="w-full h-11 rounded-xl border border-gray-300 px-4 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
-          />
-        </div>
-
-        <div className="w-full flex flex-col gap-2">
-          <label
-            htmlFor="confirm_password"
-            className="text-sm font-medium text-text"
-          >
-            Confirmar senha
-          </label>
-          <InputUI
-            id="confirm_password"
-            name="confirm_password"
-            type="password"
-            placeholder="Confirme sua senha"
-            required
-            className="w-full h-11 rounded-xl border border-gray-300 px-4 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
-          />
-        </div>
+        {[
+          {
+            id: 'full_name',
+            label: 'Nome completo',
+            type: 'text',
+            placeholder: 'Digite seu nome completo',
+          },
+          {
+            id: 'email',
+            label: 'Email',
+            type: 'email',
+            placeholder: 'Digite seu email',
+          },
+          {
+            id: 'password',
+            label: 'Senha',
+            type: 'password',
+            placeholder: 'Digite sua senha',
+          },
+          {
+            id: 'confirm_password',
+            label: 'Confirmar senha',
+            type: 'password',
+            placeholder: 'Confirme sua senha',
+          },
+        ].map(({ id, label, type, placeholder }) => (
+          <div key={id} className="w-full flex flex-col gap-2">
+            <label htmlFor={id} className="text-sm font-medium text-text">
+              {label}
+            </label>
+            <InputUI
+              id={id}
+              name={id}
+              type={type}
+              placeholder={placeholder}
+              required
+              className="w-full h-11 rounded-xl border border-muted px-4 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
+            />
+          </div>
+        ))}
 
         <div className="w-full flex items-start gap-2">
           <Checkbox
             id="terms"
             checked={checked}
             onChange={setChecked}
-            className="group block size-5 rounded border border-gray-300 bg-white data-checked:bg-primary"
+            className="group block w-5 h-5 rounded border border-muted bg-surface data-[checked]:bg-primary transition-colors"
             aria-checked={checked}
             role="checkbox"
           >
             <svg
-              className="stroke-white opacity-0 group-data-checked:opacity-100"
+              className="stroke-white opacity-0 group-data-[checked]:opacity-100 transition-opacity"
               viewBox="0 0 14 14"
               fill="none"
               aria-hidden="true"

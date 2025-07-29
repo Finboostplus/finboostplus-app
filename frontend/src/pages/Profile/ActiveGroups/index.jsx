@@ -6,8 +6,8 @@ export default function ActiveGroups() {
   const hasMoreGroups = mockGroups.length > groupLimit;
 
   return (
-    <section className="bg-white border rounded-xl p-4 mb-6 shadow-sm">
-      <h2 className="text-lg font-semibold mb-3 text-gray-800">
+    <section className="bg-surface border border-neutral rounded-xl p-4 mb-6 shadow-sm transition-colors">
+      <h2 className="text-lg font-semibold mb-3 text-text font-principal">
         Grupos Ativos
       </h2>
 
@@ -16,17 +16,17 @@ export default function ActiveGroups() {
           <a
             key={group.id}
             href={`/groups/${group.id}`}
-            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-gray-100 text-sm text-gray-700 border border-gray-300 hover:bg-gray-200 transition"
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-neutral text-muted text-sm font-principal border border-neutral hover:bg-neutral/80 transition-colors"
           >
             <span>{group.icon}</span>
-            <span className="font-medium">{group.name}</span>
+            <span className="font-medium text-text">{group.name}</span>
           </a>
         ))}
 
         {hasMoreGroups && (
           <a
             href="/groups"
-            className="inline-flex items-center px-3 py-1.5 rounded-full bg-blue-100 text-blue-700 text-sm font-medium border border-blue-200 hover:bg-blue-200 transition"
+            className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/20 text-primary text-sm font-medium font-principal border border-primary/40 hover:bg-primary/30 transition-colors"
             aria-label="Ver todos os grupos"
           >
             +{mockGroups.length - groupLimit} mais

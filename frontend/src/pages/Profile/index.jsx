@@ -10,7 +10,7 @@ import StatBox, { FavoriteCategory } from './Stats';
 
 export default function Profile() {
   return (
-    <main className="flex-1 p-4 max-w-5xl mx-auto w-full">
+    <main className="flex-1 p-4 max-w-5xl mx-auto w-full font-principal text-text bg-surface transition-colors">
       {/* Cabeçalho do perfil */}
       <header className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
         <div className="flex items-center gap-4">
@@ -18,8 +18,8 @@ export default function Profile() {
             J
           </div>
           <div>
-            <h1 className="text-2xl font-semibold text-gray-800">Usuário</h1>
-            <p className="text-sm text-gray-500">usuario@provedor.com</p>
+            <h1 className="text-2xl font-semibold text-text">Usuário</h1>
+            <p className="text-sm text-muted">usuario@provedor.com</p>
           </div>
         </div>
       </header>
@@ -29,10 +29,10 @@ export default function Profile() {
         <StatBox
           number="12"
           label="Grupos"
-          color="bg-blue-100"
-          icon={<FaUsers className="text-blue-600" />}
+          color="bg-primary/20"
+          icon={<FaUsers className="text-primary" />}
         />
-        <StatBox number="45" label="Despesas" color="bg-green-100" />
+        <StatBox number="45" label="Despesas" color="bg-success/20" />
         <FavoriteCategory />
       </section>
 
@@ -41,9 +41,18 @@ export default function Profile() {
 
       {/* Ações */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-        <ActionButton icon={<FaEdit />} label="Editar Perfil" />
-        <ActionButton icon={<FaQuestionCircle />} label="Ajuda e Suporte" />
-        <ActionButton icon={<FaInfoCircle />} label="Sobre o App" />
+        <ActionButton
+          icon={<FaEdit className="text-primary" />}
+          label="Editar Perfil"
+        />
+        <ActionButton
+          icon={<FaQuestionCircle className="text-primary" />}
+          label="Ajuda e Suporte"
+        />
+        <ActionButton
+          icon={<FaInfoCircle className="text-primary" />}
+          label="Sobre o App"
+        />
       </section>
     </main>
   );
@@ -54,10 +63,10 @@ const ActionButton = ({ icon, label }) => (
     icon={icon}
     title={label}
     type="button"
-    className="flex items-center justify-start gap-3 w-full border border-gray-200 px-4 py-3 rounded-xl bg-white hover:bg-gray-50 transition shadow-sm"
+    className="flex items-center justify-start gap-3 w-full border border-neutral px-4 py-3 rounded-xl bg-surface hover:bg-neutral transition shadow-sm"
     aria-label={label}
   >
     <span className="text-lg text-primary">{icon}</span>
-    <span className="font-medium text-gray-700">{label}</span>
+    <span className="font-medium text-text">{label}</span>
   </ButtonUI>
 );

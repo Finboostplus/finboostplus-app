@@ -19,7 +19,7 @@ export default function GroupDetails() {
     'cursor-pointer font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-full transition duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50';
 
   return (
-    <div className="flex flex-col min-h-screen bg-neutral font-principal">
+    <div className="flex flex-col min-h-screen bg-neutral font-principal transition-colors">
       <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 overflow-auto">
         <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <h1
@@ -32,7 +32,7 @@ export default function GroupDetails() {
         </header>
 
         <section
-          className="bg-white p-4 sm:p-6 rounded-lg shadow-md mb-8 flex flex-col items-center sm:items-start text-center sm:text-left"
+          className="bg-surface p-4 sm:p-6 rounded-lg shadow-md mb-8 flex flex-col items-center sm:items-start text-center sm:text-left transition-colors"
           aria-labelledby="group-total-heading"
         >
           <h2
