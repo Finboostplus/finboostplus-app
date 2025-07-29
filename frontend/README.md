@@ -1,15 +1,84 @@
-# Finboost+ (Frontend)
+# 🎨 Finboost+ Frontend — Controle Financeiro Compartilhado
 
-Projeto frontend do sistema **Finboost+**, criado com Vite, React e TailwindCSS.
+Finboost+ é uma interface web moderna para gerenciar finanças em grupo, feita com React, Vite e Tailwind CSS. Oferece navegação fluida, componentes acessíveis e testes com Vitest, focando em performance e experiência do usuário.
 
-## 📦 Tecnologias Utilizadas
+---
 
-- [React](https://react.dev/)
-- [Vite](https://vitejs.dev/)
-- [TailwindCSS](https://tailwindcss.com/)
-- [React Router v7](https://reactrouter.com/)
-- [ESLint](https://eslint.org/)
-- [Prettier](https://prettier.io/)
+## 📋 Índice
+
+- [🤝 Contribuição](#-contribuição)
+- [🚀 Como rodar o projeto](#-como-rodar-o-projeto)
+- [📚 Recursos Adicionais](#-recursos-adicionais)
+- [🛠️ Tecnologias](#-tecnologias)
+- [📁 Estrutura do Projeto](#-estrutura-do-projeto)
+- [⚙️ Configuração](#-configuração)
+- [🚀 Execução](#-execução)
+- [🎯 Funcionalidades](#-funcionalidades)
+- [🧪 Testes](#-testes)
+- [📦 Build & Deploy](#-build--deploy)
+
+
+---
+  
+## 🎯 Boas Práticas
+  
+### Código
+
+- **Componentes funcionais** com hooks
+- **TypeScript** para tipagem
+- **Custom hooks** para lógica reutilizável
+- **Memoização** com React.memo, useMemo, useCallback
+
+### Estrutura
+
+- **Atomic Design** para componentes
+- **Barrel exports** para imports limpos
+- **Absolute imports** com alias
+- **Consistent naming** em inglês
+
+### Performance
+
+- **Code splitting** por rotas
+- **Lazy loading** de componentes
+- **Otimização de imagens**
+- **Service Worker** para cache
+
+### Acessibilidade
+
+- **Semantic HTML** adequado
+- **ARIA labels** quando necessário
+- **Focus management** em modais
+- **Keyboard navigation** completa
+  
+---
+
+## 🤝 Contribuição
+
+### Padrões de Código
+
+- Use **TypeScript** para todos os arquivos
+- Siga as convenções do **ESLint** e **Prettier**
+- Escreva **testes** para componentes principais
+- Use **commits semânticos**
+
+### Fluxo de Trabalho
+
+1. Crie uma **branch** para sua feature
+2. Implemente a funcionalidade
+3. Escreva/atualize testes
+4. Verifique linting e tipos
+5. Abra um **Pull Request**
+
+### Checklist
+
+- [ ] Código tipado com TypeScript
+- [ ] Componentes testados
+- [ ] Acessibilidade verificada
+- [ ] Performance otimizada
+- [ ] Documentação atualizada
+
+
+---
 
 ## 🚀 Como rodar o projeto
 
@@ -20,13 +89,13 @@ git clone https://github.com/Finboostplus/finboostplus-app.git
 cd finboostplus-app/frontend
 ```
 
-## Instale as dependências:
+2. Instale as dependências:
 
 ```bash
 npm install
 ```
 
-## Inicie o servidor de desenvolvimento:
+3. Inicie o servidor de desenvolvimento:
 
 ```bash
 npm run dev
@@ -36,143 +105,162 @@ A aplicação estará disponível em http://localhost:5173
 
 ---
 
----
-
-# 🎨 Frontend - Controle Financeiro Compartilhado
-
-<div align="center">
-  <img src="https://img.shields.io/badge/React-18+-blue" alt="React">
-  <img src="https://img.shields.io/badge/Vite-5+-purple" alt="Vite">
-  <img src="https://img.shields.io/badge/TailwindCSS-3+-teal" alt="TailwindCSS">
-  <img src="https://img.shields.io/badge/TypeScript-5+-blue" alt="TypeScript">
-</div>
-
-Interface web moderna desenvolvida em **React** para gerenciamento de finanças compartilhadas. Oferece uma experiência intuitiva e responsiva para controle de despesas em grupo.
-
----
-
-## 📋 Índice
-
-- [Tecnologias](#-tecnologias)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Configuração](#-configuração)
-- [Execução](#-execução)
-- [Componentes](#-componentes-principais)
-- [Testes](#-testes)
-- [Build & Deploy](#-build--deploy)
-
----
-
 ## 🛠️ Tecnologias
 
 ### Core
 
-- **⚛️ React 18+** - Biblioteca de interface
-- **⚡ Vite 5+** - Build tool e dev server
-- **📘 TypeScript 5+** - Tipagem estática
-- **🎨 TailwindCSS 3+** - Framework CSS
+- **⚛️ [React 18+](https://react.dev/)** – Biblioteca de interface
+- **⚡ [Vite 5+](https://vitejs.dev/)** – Build tool e dev server
+- **📘 [TypeScript 5+](https://www.typescriptlang.org/)** – Tipagem estática
+- **🎨 [TailwindCSS 3+](https://tailwindcss.com/)** – Framework CSS utilitário
 
 ### Dependências Principais
 
-- **🔄 React Router DOM** - Roteamento
-- **📡 Axios** - Cliente HTTP
-- **🎯 React Hook Form** - Formulários
-- **✅ Yup** - Validação de schemas
-- **📊 Recharts** - Gráficos e visualizações
-- **🎭 Framer Motion** - Animações
-- **🔔 React Hot Toast** - Notificações
+- **🔄 [React Router DOM v7](https://reactrouter.com/)** – Roteamento SPA
+- **📡 [Axios](https://axios-http.com/)** – Cliente HTTP
+- **🎯 [React Hook Form](https://react-hook-form.com/)** – Manipulação de formulários
+- **✅ [Yup](https://github.com/jquense/yup)** – Validação de schemas
+- **📊 [Recharts](https://recharts.org/)** – Gráficos reativos
+- **🎭 [Framer Motion](https://www.framer.com/motion/)** – Animações declarativas
+- **🔔 [React Hot Toast](https://react-hot-toast.com/)** – Notificações
 
 ### Desenvolvimento & Testes
 
-- **🧪 Jest** - Framework de testes
-- **🎭 React Testing Library** - Testes de componentes
-- **📱 MSW** - Mock Service Worker
-- **🔧 ESLint** - Linting
-- **💅 Prettier** - Formatação de código
+- **🧪 [Vitest](https://vitest.dev/)** – Testes rápidos com compatibilidade Jest
+- **🧪 [Jest](https://jestjs.io/)** – Testes unitários
+- **🎭 [React Testing Library](https://testing-library.com/)** – Testes de componentes React
+- **📱 [MSW](https://mswjs.io/)** – Mock de requisições HTTP
+- **🔧 [ESLint](https://eslint.org/)** – Linter de código
+- **💅 [Prettier](https://prettier.io/)** – Formatação automática
+- **🎛️ [Headless UI](https://headlessui.com/)** – Componentes acessíveis sem estilos
 
 ---
+
+## 📚 Recursos Adicionais
+
+### Documentação
+
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [TailwindCSS](https://tailwindcss.com/)
+
+### Ferramentas
+
+- [React DevTools - Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
+- [React DevTools - FireFox](https://addons.mozilla.org/pt-BR/firefox/addon/react-devtools/)
+- [Redux DevTools - Chrome](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd)
+- [Redux DevTools - FireFox](https://addons.mozilla.org/pt-BR/firefox/addon/reduxdevtools/)
+- [Lighthouse](https://developers.google.com/web/tools/lighthouse)
+---
+
 
 ## 📁 Estrutura do Projeto
 
 ```plaintext
 frontend/
-├── 📁 public/                       # Arquivos públicos
-│   ├── favicon.ico
-│   └── index.html
-├── 📁 src/
-│   ├── 📁 components/               # Componentes reutilizáveis
-│   │   ├── 📁 ui/                   # Componentes básicos
-│   │   │   ├── Button.tsx
-│   │   │   ├── Input.tsx
-│   │   │   ├── Modal.tsx
-│   │   │   └── Card.tsx
-│   │   ├── 📁 forms/                # Formulários
-│   │   │   ├── LoginForm.tsx
-│   │   │   ├── RegisterForm.tsx
-│   │   │   └── ExpenseForm.tsx
-│   │   ├── 📁 charts/               # Gráficos
-│   │   │   ├── ExpenseChart.tsx
-│   │   │   └── BalanceChart.tsx
-│   │   └── 📁 layout/               # Layout
-│   │       ├── Header.tsx
-│   │       ├── Sidebar.tsx
-│   │       └── Layout.tsx
-│   ├── 📁 pages/                    # Páginas da aplicação
-│   │   ├── Login.tsx
-│   │   ├── Register.tsx
-│   │   ├── Dashboard.tsx
-│   │   ├── Groups.tsx
-│   │   ├── Expenses.tsx
-│   │   └── Profile.tsx
-│   ├── 📁 services/                 # Serviços HTTP
-│   │   ├── api.ts                   # Configuração do Axios
-│   │   ├── auth.ts                  # Serviços de autenticação
-│   │   ├── groups.ts                # Serviços de grupos
-│   │   ├── expenses.ts              # Serviços de despesas
-│   │   └── users.ts                 # Serviços de usuários
-│   ├── 📁 hooks/                    # Hooks customizados
-│   │   ├── useAuth.ts               # Hook de autenticação
-│   │   ├── useGroups.ts             # Hook de grupos
-│   │   ├── useExpenses.ts           # Hook de despesas
-│   │   └── useLocalStorage.ts       # Hook de localStorage
-│   ├── 📁 context/                  # Context API
-│   │   ├── AuthContext.tsx          # Contexto de autenticação
-│   │   ├── GroupContext.tsx         # Contexto de grupos
-│   │   └── ThemeContext.tsx         # Contexto de tema
-│   ├── 📁 types/                    # Tipos TypeScript
-│   │   ├── auth.ts
-│   │   ├── groups.ts
-│   │   ├── expenses.ts
-│   │   └── index.ts
-│   ├── 📁 utils/                    # Utilitários
-│   │   ├── formatters.ts            # Formatação de dados
-│   │   ├── validators.ts            # Validações
-│   │   ├── constants.ts             # Constantes
-│   │   └── helpers.ts               # Funções auxiliares
-│   ├── 📁 assets/                   # Recursos estáticos
-│   │   ├── 📁 images/
-│   │   ├── 📁 icons/
-│   │   └── 📁 fonts/
-│   ├── 📁 styles/                   # Estilos globais
-│   │   ├── globals.css
-│   │   └── components.css
-│   ├── App.tsx                      # Componente principal
-│   ├── main.tsx                     # Ponto de entrada
-│   └── vite-env.d.ts               # Tipos do Vite
-├── 📁 __tests__/                    # Testes
-│   ├── 📁 components/
-│   ├── 📁 pages/
-│   ├── 📁 hooks/
-│   └── 📁 utils/
-├── 📁 .storybook/                   # Storybook (opcional)
-├── package.json                     # Dependências
-├── vite.config.ts                   # Configuração do Vite
-├── tailwind.config.js               # Configuração do Tailwind
-├── tsconfig.json                    # Configuração do TypeScript
-├── eslint.config.js                 # Configuração do ESLint
-├── prettier.config.js               # Configuração do Prettier
-├── Dockerfile                       # Container Docker
-└── README.md                        # Este arquivo
+├── 📁 __tests__/                   # Testes automatizados
+│   ├── 📁 components/              # Testes de componentes
+│   │   └── Header.test.jsx
+│   └── setup.js                    
+├── 📁 public/                      # Arquivos públicos acessíveis diretamente
+│   └── logo.png                    # Imagem usada como logotipo
+├── 📁 src/                         # Código-fonte principal
+│   ├── 📁 components/              # Componentes reutilizáveis
+│   │   ├── 📁 Loading/             # Componente de loading
+│   │   │   └── index.jsx
+│   │   ├── 📁 Logo/                # Componente de logotipo
+│   │   │   └── index.jsx
+│   │   ├── 📁 Modal/               # Componente de modal
+│   │   │   └── index.jsx
+│   │   ├── 📁 SummaryCards/        # Cartões de resumo
+│   │   │   └── index.jsx
+│   │   ├── 📁 UserGreeting/        # Saudação ao usuário
+│   │   │   └── index.jsx
+│   │   ├── 📁 charts/              # Componentes de gráficos
+│   │   │   ├── BalanceChart.jsx
+│   │   │   └── ExpenseChart.jsx
+│   │   ├── 📁 forms/               # Componentes de formulários
+│   │   │   ├── ExpenseForm.jsx
+│   │   │   ├── LoginForm.jsx
+│   │   │   └── RegisterForm.jsx
+│   │   ├── 📁 layout/              # Componentes de layout (Header, Sidebar, etc)
+│   │   │   ├── 📁 DropdownMenu/    # Menu dropdown no layout
+│   │   │   │   ├── 📁 DropdownMenuNav/
+│   │   │   │   │   ├── 📁 SwitchTheme/ # Componente de troca de tema
+│   │   │   │   │   │   └── index.jsx
+│   │   │   │   │   ├── index.jsx
+│   │   │   │   │   ├── navItems.jsx
+│   │   │   │   │   └── useSidebarNav.js
+│   │   │   │   └── index.jsx
+│   │   │   ├── Header.jsx
+│   │   │   └── Layout.jsx
+│   │   └── 📁 ui/                  # Componentes de UI básicos (botões, inputs, etc)
+│   │       ├── Button.jsx
+│   │       ├── Card.jsx
+│   │       ├── Input.jsx
+│   │       └── Modal.jsx
+│   ├── 📁 context/                 # Context API para estado global
+│   │   ├── AuthContext.jsx         # Contexto de autenticação
+│   │   ├── GroupContext.jsx        # Contexto de grupos
+│   │   └── ThemeContext.jsx        # Contexto de tema (dark/light)
+│   ├── 📁 hooks/                   # Hooks customizados
+│   │   ├── useAuth.js              # Hook para acessar o AuthContext
+│   │   ├── useExpenses.js          # Hook para acessar dados de despesas
+│   │   ├── useGroups.js            # Hook para acessar dados de grupos
+│   │   └── useLocalStorage.js      # Hook para gerenciar localStorage
+│   ├── 📁 pages/                   # Páginas principais da aplicação
+│   │   ├── 📁 Dashboard/           # Página do dashboard
+│   │   │   └── index.jsx
+│   │   ├── 📁 Expenses/            # Página de despesas
+│   │   │   ├── 📁 CustomSplitAmount/
+│   │   │   │   └── index.jsx
+│   │   │   ├── 📁 FormFieldsExpenses/
+│   │   │   │   └── index.jsx
+│   │   │   ├── LatestExpenses.jsx
+│   │   │   └── index.jsx
+│   │   ├── 📁 Groups/              # Página de grupos
+│   │   │   ├── 📁 GroupDetails/    # Detalhes de um grupo
+│   │   │   │   ├── 📁 ModalButton/
+│   │   │   │   │   └── index.jsx
+│   │   │   │   ├── BalancesList.jsx
+│   │   │   │   ├── ExpensesList.jsx
+│   │   │   │   ├── groupDetailsLoader.js
+│   │   │   │   └── index.jsx
+│   │   │   ├── index.jsx
+│   │   │   └── mockGroups.jsx
+│   │   ├── 📁 Login/               # Página de login
+│   │   │   ├── index.jsx
+│   │   │   └── loginAction.js
+│   │   ├── 📁 Notfound/            # Página 404
+│   │   │   └── index.jsx
+│   │   ├── 📁 Profile/             # Página de perfil
+│   │   │   ├── 📁 ActiveGroups/
+│   │   │   │   └── index.jsx
+│   │   │   ├── 📁 Stats/
+│   │   │   │   └── index.jsx
+│   │   │   └── index.jsx
+│   │   └── 📁 Register/            # Página de cadastro
+│   │       └── index.jsx
+│   ├── 📁 routes/                  # Rotas protegidas e principais
+│   │   ├── ProtectedRoute.jsx
+│   │   └── routes.jsx
+│   ├── 📁 services/                # Serviços para API e chamadas HTTP
+│   │   ├── api.js                  # Configuração base do Axios
+│   │   ├── auth.js                 # Requisições de autenticação
+│   │   ├── expenses.js             # Requisições de despesas
+│   │   ├── groups.js               # Requisições de grupos
+│   │   └── users.js                # Requisições de usuários
+│   ├── App.jsx                    # Componente raiz da aplicação
+│   ├── index.css                  # Estilos globais da aplicação
+│   └── main.jsx                   # Ponto de entrada da aplicação (ReactDOM)
+├── tailwind.config.js             # Configuração do TailwindCSS
+├── .gitignore                     # Arquivos e pastas ignoradas pelo Git
+├── README.md                      # Documentação do projeto
+├── eslint.config.js               # Configuração do ESLint (linter)
+├── index.html                     # HTML principal da aplicação (usado pelo Vite)
+├── package.json                   # Dependências e scripts do projeto
+└── vite.config.js                 # Configuração do Vite
 ```
 
 ---
@@ -308,36 +396,6 @@ npm run format:check
 # Verificar se API está conectada
 curl http://localhost:5173/api/health
 ```
-
----
-
-## 🧩 Componentes Principais
-
-### Layout
-
-- **Header**: Navegação principal e perfil do usuário
-- **Sidebar**: Menu lateral com navegação
-- **Layout**: Wrapper principal da aplicação
-
-### Formulários
-
-- **LoginForm**: Formulário de login
-- **RegisterForm**: Formulário de cadastro
-- **ExpenseForm**: Formulário de despesas
-- **GroupForm**: Formulário de grupos
-
-### Visualizações
-
-- **ExpenseChart**: Gráfico de despesas
-- **BalanceChart**: Gráfico de saldos
-- **Dashboard**: Visão geral dos dados
-
-### UI Components
-
-- **Button**: Botões customizados
-- **Input**: Campos de entrada
-- **Modal**: Modais reutilizáveis
-- **Card**: Cartões de conteúdo
 
 ---
 
@@ -513,41 +571,6 @@ services:
 
 ---
 
-## 🎨 Customização
-
-### Temas
-
-```typescript
-// src/context/ThemeContext.tsx
-export const themes = {
-  light: {
-    primary: '#3b82f6',
-    secondary: '#64748b',
-    background: '#ffffff',
-    text: '#1f2937',
-  },
-  dark: {
-    primary: '#60a5fa',
-    secondary: '#94a3b8',
-    background: '#1f2937',
-    text: '#f9fafb',
-  },
-};
-```
-
-### Responsividade
-
-```css
-/* Breakpoints Tailwind */
-sm: 640px   /* Mobile */
-md: 768px   /* Tablet */
-lg: 1024px  /* Desktop */
-xl: 1280px  /* Desktop grande */
-2xl: 1536px /* Desktop muito grande */
-```
-
----
-
 ## 🔧 Troubleshooting
 
 ### Problemas Comuns
@@ -614,47 +637,8 @@ npm install web-vitals
 
 ---
 
-## 🎯 Boas Práticas
-
-### Código
-
-- **Componentes funcionais** com hooks
-- **TypeScript** para tipagem
-- **Custom hooks** para lógica reutilizável
-- **Memoização** com React.memo, useMemo, useCallback
-
-### Estrutura
-
-- **Atomic Design** para componentes
-- **Barrel exports** para imports limpos
-- **Absolute imports** com alias
-- **Consistent naming** em inglês
-
-### Performance
-
-- **Code splitting** por rotas
-- **Lazy loading** de componentes
-- **Otimização de imagens**
-- **Service Worker** para cache
-
-### Acessibilidade
-
-- **Semantic HTML** adequado
-- **ARIA labels** quando necessário
-- **Focus management** em modais
-- **Keyboard navigation** completa
-
----
 
 ## 🔍 Debugging
-
-### React DevTools
-
-```bash
-# Instalar extensão do navegador
-# Chrome: React Developer Tools
-# Firefox: React Developer Tools
-```
 
 ### Debug Console
 
@@ -886,6 +870,7 @@ Sentry.init({
   environment: import.meta.env.MODE,
   tracesSampleRate: 1.0,
 });
+
 ```
 
 ### Analytics
@@ -902,50 +887,6 @@ export const trackEvent = (
   }
 };
 ```
-
----
-
-## 🤝 Contribuição
-
-### Padrões de Código
-
-- Use **TypeScript** para todos os arquivos
-- Siga as convenções do **ESLint** e **Prettier**
-- Escreva **testes** para componentes principais
-- Use **commits semânticos**
-
-### Fluxo de Trabalho
-
-1. Crie uma **branch** para sua feature
-2. Implemente a funcionalidade
-3. Escreva/atualize testes
-4. Verifique linting e tipos
-5. Abra um **Pull Request**
-
-### Checklist
-
-- [ ] Código tipado com TypeScript
-- [ ] Componentes testados
-- [ ] Acessibilidade verificada
-- [ ] Performance otimizada
-- [ ] Documentação atualizada
-
----
-
-## 📚 Recursos Adicionais
-
-### Documentação
-
-- [React](https://react.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Vite](https://vitejs.dev/)
-- [TailwindCSS](https://tailwindcss.com/)
-
-### Ferramentas
-
-- [React DevTools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
-- [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd)
-- [Lighthouse](https://developers.google.com/web/tools/lighthouse)
 
 ---
 
