@@ -891,5 +891,5 @@ export const trackEvent = (
 ---
 
 <div align="center">
-  <strong>🎨 Frontend desenvolvido com React e TypeScript</strong>
+  <strong>🎨 Frontend desenvolvido com React</strong>
 </div>
