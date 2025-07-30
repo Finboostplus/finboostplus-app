@@ -1,14 +1,8 @@
-const expenses = [
-  {
-    title: 'Jantar - Restaurante',
-    date: 'Hoje',
-    group: 'Casal',
-    value: 'R$ 95,00',
-  },
-  { title: 'Mercado', date: 'Ontem', group: 'Família', value: 'R$ 157,80' },
-];
-
+import { Menu, MenuItem } from '@headlessui/react';
+import userData from '../../mockData/user/user.data';
+import { formatBRL } from '../../utils/formatters';
 export default function LatestExpenses() {
+  const current_user = userData;
   return (
     <section
       aria-labelledby="ultimas-despesas-heading"
@@ -18,40 +12,47 @@ export default function LatestExpenses() {
         id="ultimas-despesas-heading"
         className="text-lg font-bold text-text mb-4"
       >
-        Últimas Despesas <span className="text-muted">({expenses.length})</span>
+        Últimas Despesas{' '}
+        <span className="text-muted">
+          ({current_user.dashboard.recentExpenses.length})
+        </span>
       </h2>
 
-      <ul className="space-y-4">
-        {expenses.map((expense, i) => (
-          <li
-            key={i}
-            className="flex justify-between items-start bg-neutral rounded-lg p-4 border border-surface hover:shadow-sm transition-shadow"
-            aria-label={`Despesa: ${expense.title}`}
-          >
-            <div>
-              <p
-                className="font-semibold text-text"
-                aria-label="Título da despesa"
-              >
-                {expense.title}
-              </p>
-              <p
-                className="text-sm text-muted"
-                aria-label="Data e grupo da despesa"
-              >
-                {expense.date} | {expense.group}
-              </p>
-            </div>
-
-            <p
-              className="font-bold text-error"
-              aria-label={`Valor da despesa: ${expense.value}`}
+      <Menu as="ul" className="space-y-4">
+        {current_user.dashboard.recentExpenses.map((expense, i) => (
+          <li>
+            <MenuItem
+              as="a"
+              href={`/groups/${expense.groupId}`}
+              key={expense.id}
+              className="flex justify-between items-start bg-neutral rounded-lg p-4 border border-surface hover:shadow-sm transition-shadow cursor-pointer"
+              aria-label={`Despesa: ${expense.group}`}
             >
-              {expense.value}
-            </p>
+              <div>
+                <p
+                  className="font-semibold text-text"
+                  aria-label="Título da despesa"
+                >
+                  {expense.description}
+                </p>
+                <p
+                  className="text-sm text-muted"
+                  aria-label="Data e grupo da despesa"
+                >
+                  {expense.date} | {expense.group}
+                </p>
+              </div>
+
+              <p
+                className="font-bold text-error"
+                aria-label={`Valor da despesa: ${expense.amount}`}
+              >
+                {formatBRL(expense.amount)}
+              </p>
+            </MenuItem>
           </li>
         ))}
-      </ul>
+      </Menu>
     </section>
   );
 }

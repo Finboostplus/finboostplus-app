@@ -2,16 +2,19 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { navItems } from './DropdownMenuNav/navItems';
 import SwitchTheme from './DropdownMenuNav/SwitchTheme';
 import { FaMoon, FaSun } from 'react-icons/fa';
+import userData from '../../../mockData/user/user.data';
 
 export default function DropdownMenu() {
+  const current_user = userData;
   return (
     <Menu as="div" className="relative inline-block text-left">
       <MenuButton
         as="button"
-        className="w-10 h-10 flex items-center justify-center rounded-full bg-purple-800 text-white font-bold shadow-md hover:opacity-90 transition cursor-pointer"
+        style={{ backgroundColor: current_user.color }}
+        className="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white font-bold shadow-md hover:opacity-90 transition cursor-pointer"
         aria-label="Abrir menu do usuário"
       >
-        J
+        {current_user.username[0]}
       </MenuButton>
 
       <MenuItems

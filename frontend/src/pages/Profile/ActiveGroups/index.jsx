@@ -1,9 +1,8 @@
-import { mockGroups } from '../../Groups/mockGroups';
-
+import groupsData from '../../../mockData/pages/Groups/groups.data';
 export default function ActiveGroups() {
   const groupLimit = 4;
-  const groupsToShow = mockGroups.slice(0, groupLimit);
-  const hasMoreGroups = mockGroups.length > groupLimit;
+  const groupsToShow = groupsData.slice(0, groupLimit);
+  const hasMoreGroups = groupsData.length > groupLimit;
 
   return (
     <section className="bg-surface border border-neutral rounded-xl p-4 mb-6 shadow-sm transition-colors">
@@ -29,7 +28,7 @@ export default function ActiveGroups() {
             className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/20 text-primary text-sm font-medium font-principal border border-primary/40 hover:bg-primary/30 transition-colors"
             aria-label="Ver todos os grupos"
           >
-            +{mockGroups.length - groupLimit} mais
+            +{groupsData.length - groupLimit} mais
           </a>
         )}
       </div>

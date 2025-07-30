@@ -1,12 +1,13 @@
-import { createBrowserRouter } from 'react-router';
 import ProtectedRoute from './ProtectedRoute';
+import { createBrowserRouter } from 'react-router';
 import { lazy } from 'react';
 import { groupDetailsLoader } from '../pages/Groups/GroupDetails/groupDetailsLoader';
-import { loginOrRegisterAction } from '../pages/Login/loginAction';
-import Register from '../pages/Register';
+import { loginAction } from '../pages/Login/loginAction';
+import { registerAction } from '../pages/Register/registerAction';
 const App = lazy(() => import('../App'));
-const Layout = lazy(() => import('../components/Layout/Layout'));
+const Layout = lazy(() => import('../components/Layout'));
 const Login = lazy(() => import('../pages/Login'));
+const Register = lazy(() => import('../pages/Register'));
 const Dashboard = lazy(() => import('../pages/Dashboard'));
 const Groups = lazy(() => import('../pages/Groups'));
 const GroupDetails = lazy(() => import('../pages/Groups/GroupDetails'));
@@ -17,8 +18,8 @@ export const routes = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      { path: '/login', element: <Login />, action: loginOrRegisterAction },
-      { path: '/register', element: <Register /> },
+      { path: '/login', element: <Login />, action: loginAction },
+      { path: '/register', element: <Register />, action: registerAction },
     ],
   },
   // Rotas privadas (todas as outras)

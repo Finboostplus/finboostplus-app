@@ -3,7 +3,7 @@ import { useState } from 'react';
 import ButtonUI from '../../../components/ui/Button';
 import BalancesList from './BalancesList';
 import ExpensesList from './ExpensesList';
-import ModalButton from './ModalButton';
+import ModalButton from '../../../components/ModalButton';
 import Expenses from '../../Expenses';
 import { formatBRL } from '../../../utils/formatters';
 

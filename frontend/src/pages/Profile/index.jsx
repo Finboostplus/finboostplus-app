@@ -7,19 +7,26 @@ import {
 import ButtonUI from '../../components/ui/Button';
 import ActiveGroups from './ActiveGroups';
 import StatBox, { FavoriteCategory } from './Stats';
+import userData from '../../mockData/user/user.data';
 
 export default function Profile() {
+  const current_user = userData;
   return (
     <main className="flex-1 p-4 max-w-5xl mx-auto w-full font-principal text-text bg-surface transition-colors">
       {/* Cabeçalho do perfil */}
       <header className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full flex items-center justify-center font-bold text-white bg-primary shadow">
-            J
+          <div
+            style={{ backgroundColor: current_user.color }}
+            className="w-12 h-12 rounded-full flex items-center justify-center font-bold text-white bg-primary shadow"
+          >
+            {current_user.username[0]}
           </div>
           <div>
-            <h1 className="text-2xl font-semibold text-text">Usuário</h1>
-            <p className="text-sm text-muted">usuario@provedor.com</p>
+            <h1 className="text-2xl font-semibold text-text">
+              {current_user.username}
+            </h1>
+            <p className="text-sm text-muted">{current_user.email}</p>
           </div>
         </div>
       </header>
