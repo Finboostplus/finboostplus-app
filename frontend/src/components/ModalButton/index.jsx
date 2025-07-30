@@ -1,9 +1,18 @@
 import { useState } from 'react';
-import ButtonUI from '../../../../components/ui/Button';
-import Modal from '../../../../components/Modal';
+import Modal from './Modal';
+import ButtonUI from '../ui/Button';
 
+/**
+ * Componente de botão flutuante que abre um modal ao ser clicado.
+ *
+ * @param {Object} props - Propriedades do componente.
+ * @param {React.ReactNode} props.modalChildren - Conteúdo que será exibido dentro do modal.
+ *
+ * @returns {JSX.Element} O botão e o modal que ele controla.
+ */
 export default function ModalButton({ modalChildren }) {
   const [isOpenModal, setIsOpenModal] = useState(false);
+
   return (
     <>
       <Modal
@@ -24,6 +33,7 @@ export default function ModalButton({ modalChildren }) {
     text-3xl
     font-extrabold
     flex items-center justify-center
+    leading-none
     opacity-60 hover:opacity-100
     shadow-lg
     transition-opacity
