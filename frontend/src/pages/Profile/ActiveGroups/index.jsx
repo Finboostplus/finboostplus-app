@@ -1,8 +1,10 @@
-import groupsData from '../../../mockData/pages/Groups/groups.data';
+import userData from '../../../mockData/user/user.data';
+
 export default function ActiveGroups() {
+  const current_user = userData;
   const groupLimit = 4;
-  const groupsToShow = groupsData.slice(0, groupLimit);
-  const hasMoreGroups = groupsData.length > groupLimit;
+  const groupsToShow = current_user.groups.slice(0, groupLimit);
+  const hasMoreGroups = current_user.groups.length > groupLimit;
 
   return (
     <section className="bg-surface border border-neutral rounded-xl p-4 mb-6 shadow-sm transition-colors">
