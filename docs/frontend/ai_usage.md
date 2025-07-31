@@ -1,151 +1,111 @@
-# Documento de Uso de Inteligência Artificial no Desenvolvimento
+# Documento de Uso de Inteligência Artificial no Frontend
 
 ## Introdução
 
-Este documento descreve o uso de ferramentas de Inteligência Artificial (IA) durante o desenvolvimento deste projeto, 
-visando garantir a transparência no processo de criação, manutenção e evolução do software. Este registro detalha como 
-as ferramentas de IA contribuíram para o desenvolvimento da aplicação web de análise de sentimentos nas redes sociais.
+Este documento descreve o uso de ferramentas de Inteligência Artificial (IA) durante o desenvolvimento do frontend deste projeto, visando garantir a transparência no processo de criação, manutenção e evolução do software. A seguir, detalhamos como as ferramentas de IA auxiliaram na geração de ideias, produção de código, design de interface e definições técnicas ao longo do desenvolvimento da aplicação de gerenciamento de finanças compartilhadas.
 
 ## Ferramentas de Inteligência Artificial Utilizadas
 
-- **Nome da ferramenta**: ChatGPT
-- **Fornecedor**: OpenAI
-- **Descrição do uso**: Geração de código, refatoração, sugestões de melhoria, reescrita de documentação e design de 
-interface
+- **Nome da ferramenta**: ChatGPT  
+  **Fornecedor**: OpenAI  
+  **Descrição do uso**: Geração de código, definição de escopo do MVP, naming do projeto, sugestões de design, estruturação de pastas e modelagem de dados
 
+- **Nome da ferramenta**: Claude IA  
+  **Fornecedor**: Anthropic  
+  **Descrição do uso**: Geração de paletas de cores, sugestões de branding, boas práticas de arquitetura de frontend
 
-- **Nome da ferramenta**: Claude IA
-- **Fornecedor**: Anthropic
-- **Descrição do uso**: Geração de código, estruturação de projeto, refatoração, melhorias de layout e resolução de 
-problemas técnicos
+- **Nome da ferramenta**: DeepSeek  
+  **Fornecedor**: DeepSeek  
+  **Descrição do uso**: Implementação de gerenciamento de estado com Zustand/Jotai, persistência de tema, estruturação de mocks e contratos com Zod
 
-
-- **Nome da ferramenta**: GitHub Copilot
-- **Fornecedor**: GitHub/OpenAI
-- **Descrição do uso**: Assistência em tempo real na IDE PyCharm para pequenas correções de código e sugestões 
-incrementais durante o desenvolvimento
+- **Nome da ferramenta**: Stitch  
+  **Fornecedor**: Stitch AI  
+  **Descrição do uso**: Sugestões de design de telas (wireframes) para páginas como Cadastro, Login, Home, Grupos, etc.
 
 ## Aplicações da IA no Projeto
 
-As principais áreas onde houve auxílio de IA incluem:
+As principais áreas com auxílio de IA incluem:
 
-- [x] Geração de trechos de código
-- [x] Otimização de algoritmos
-- [x] Sugestões de arquitetura de software
-- [x] Escrita de documentação
-- [ ] Criação de testes automatizados
-- [x] Refatoração de código
-- [ ] Traduções de trechos de código ou comentários
-- [x] Outras: Melhorias de interface de usuário e design visual
+- [x] Definição de escopo e funcionalidades
+- [x] Design de interface (cores, telas, layout)
+- [x] Geração e refatoração de código
+- [x] Estruturação de projeto frontend (React + Zustand/Jotai)
+- [x] Modelagem de dados mockados
+- [x] Escrita de documentação e naming
+- [ ] Criação de testes automatizados (planejado para etapas futuras)
 
 ## Casos de Uso Específicos
 
-### Planejamento e Descrição do Projeto
-- **Data**: 2025-05-11
-- **Ferramenta**: ChatGPT (GPT-4 Turbo)
-- **Contribuição**: Reescrita e reformulação da descrição do projeto, com foco inicial no Reddit e plano de expansão 
-para múltiplas redes sociais
+### Design e Identidade Visual
+- **Data**: 05/07/2025  
+- **Ferramenta**: Claude IA  
+- **Contribuição**: Criação de paleta de cores baseada em valores como confiança, estabilidade e crescimento financeiro.
 
-### Estruturação Inicial do Projeto
-- **Data**: 2025-05-11
-- **Ferramenta**: Claude IA (Claude 3.7 Sonnet)
-- **Contribuição**: Geração completa dos arquivos iniciais do projeto (`app.py`, `requirements.txt`, `README.md`) e 
-implementação da análise de sentimento com TextBlob e NLTK
+### MVP e Definição de Escopo
+- **Data**: 06/07/2025  
+- **Ferramenta**: ChatGPT  
+- **Contribuição**: Geração da definição inicial do MVP com foco em grupos de despesas, cálculo automático de saldos e painel visual.
 
-### Reorganização da Arquitetura
-- **Data**: 2025-05-12
-- **Ferramenta**: Claude IA (Claude 3.7 Sonnet)
-- **Contribuição**: Refatoração do código para uma estrutura modular com separação em arquivos específicos:
-  - `app.py`: Interface e fluxo principal da aplicação
-  - `reddit_client.py`: Interação com a API do Reddit
-  - `sentiment_analyzer.py`: Análise de sentimentos e processamento de texto
-  - `visualization.py`: Geração de gráficos e visualizações
+### Nome e Branding do App
+- **Data**: 09/07/2025  
+- **Ferramenta**: ChatGPT  
+- **Contribuição**: Sugestão e justificativa de nomes como “FinBoost”, “GranaFácil” e “Divide+”.
 
-### Melhorias de Interface de Usuário
-- **Data**: 2025-05-12
-- **Ferramenta**: Claude IA (Claude 3.7 Sonnet) e ChatGPT (GPT-4 Turbo)
-- **Contribuição**: 
-  - Implementação de gráficos de pizza no lugar de barras verticais
-  - Redesenho do layout da aplicação
-  - Destaque ao botão "Analisar Sentimentos"
-  - Simplificação da visualização com remoção de elementos redundantes
+### Gerenciamento de Estado
+- **Data**: 02 e 30/07/2025  
+- **Ferramenta**: DeepSeek  
+- **Contribuição**: Comparação entre Zustand e Jotai, com recomendação e implementação de exemplo modular com persistência via localStorage.
 
-### Adição de Funcionalidades
-- **Data**: 2025-05-12
-- **Ferramenta**: ChatGPT (GPT-4 Turbo)
-- **Contribuição**: Expansão da tabela de análise com novas colunas relevantes:
-  - Proporção de cada palavra no total analisado
-  - Tipo de sentimento dominante por palavra
+### Dados Mockados Realistas
+- **Data**: 22 e 30/07/2025  
+- **Ferramenta**: DeepSeek  
+- **Contribuição**: Estrutura de diretório `/mock` e criação de exemplos realistas de grupos e transações.
 
-### Compatibilidade com Tema Escuro
-- **Data**: 2025-05-12
-- **Ferramenta**: Claude IA (Claude 3.7 Sonnet)
-- **Contribuição**: 
-  - Implementação de detecção automática do tema atual
-  - Ajustes de contraste e legibilidade para o modo escuro
-  - Reorganização do código em uma estrutura mais sustentável com arquivos estáticos separados
+### Sugestão de Telas e Navegação
+- **Data**: 22/07/2025  
+- **Ferramenta**: Stitch  
+- **Contribuição**: Wireframes para páginas principais do app: login, home, perfil, grupos, modais e detalhes.
 
-### Assistência Contínua no Desenvolvimento
-- **Período**: Durante todo o desenvolvimento
-- **Ferramenta**: GitHub Copilot
-- **Contribuição**: 
-  - Sugestões incrementais em tempo real na IDE PyCharm
-  - Pequenas correções de código e otimizações
-  - Autocompletar para aumentar a produtividade durante a codificação
+### Contrato de Respostas da API
+- **Data**: 30/07/2025  
+- **Ferramenta**: DeepSeek  
+- **Contribuição**: Implementação de contratos de API usando `zod` com validação segura, mesmo sem TypeScript.
 
 ## Revisão e Validação
 
-Todo o conteúdo gerado com o auxílio de ferramentas de IA foi:
+Todo o conteúdo gerado com o apoio das ferramentas de IA foi:
 
-- Revisado manualmente por um desenvolvedor humano.
-- Testado para assegurar a qualidade e adequação ao escopo do projeto.
-- Ajustado conforme as necessidades específicas do projeto.
-
-Como evidenciado no arquivo de registro de prompts, cada sugestão das ferramentas de IA passou por adaptações manuais e 
-ajustes específicos para garantir o funcionamento adequado no contexto do projeto.
+- Revisado por líder do frontend e mais 2 membros do time
+- Adaptado às necessidades do projeto
+- Testado para garantir a adequação as necessidades do projeto
+- Documentado para garantir rastreabilidade
 
 ## Desafios e Soluções
 
-Durante o desenvolvimento, foram encontrados alguns desafios ao utilizar conteúdo gerado por IA:
+1. **Organização de dados mockados**
+   - **Desafio**: Manter consistência e realismo nos exemplos de grupos e despesas
+   - **Solução**: Uso de estrutura modular com arquivos separados e dados inspirados em situações reais
 
-1. **Problema com recursos do NLTK**: A implementação inicial da análise de sentimentos encontrou erro com recursos 
-NLTK não encontrados (punkt_tab).
-   - **Solução**: A ferramenta Claude IA sugeriu e criou uma versão alternativa simplificada da aplicação sem 
-dependência crítica dos recursos do NLTK.
+2. **Escolha do gerenciador de estado**
+   - **Desafio**: Encontrar ferramenta leve e escalável para o MVP
+   - **Solução**: Análise comparativa com recomendação do Jotai para granularidade e performance
 
-2. **Código monolítico**: O arquivo app.py tornou-se muito grande e difícil de manter.
-   - **Solução**: Refatoração recomendada pela Claude IA para dividir o código em módulos especializados.
-
-3. **Problemas de legibilidade no tema escuro**: A sidebar ficou ilegível no modo escuro.
-   - **Solução**: Implementação de estilos condicionais baseados no tema atual e reorganização dos recursos estáticos 
-em arquivos separados.
+3. **Persistência de tema**
+   - **Desafio**: Manter dark mode ativo entre sessões
+   - **Solução**: Implementação de persistência via `localStorage` usando middleware do Zustand
 
 ## Rastreamento e Documentação
 
-Para garantir total transparência, este projeto:
+1. **Arquivo de prompts utilizados**:  
+   Todos os prompts e resultados estão registrados em [ai_prompts_log.md](docs/frontend/ai_prompts_log.md).
 
-1. **Documenta** todas as interações significativas com ferramentas de IA no arquivo [ai_prompts_log.md](docs/ai_prompts_log.md), incluindo:
-   - Data e ferramenta utilizada
-   - Prompts enviados
-   - Tipo de resultados obtidos
-   - Ajustes manuais realizados
-
-2. **Mantém** este sumário de alto nível [ai_usage.md](docs/ai_usage.md) para rápida visualização do uso de ferramentas de IA no projeto.
-
-Esta abordagem de documentação visa:
-
-- Garantir transparência sobre o uso de IA no desenvolvimento
-- Permitir auditoria das contribuições de IA no projeto
-- Facilitar a reprodutibilidade e compreensão do processo criativo
-- Servir como referência para futuros desenvolvedores e contribuidores
+2. **Este sumário de alto nível**:  
+   Resume as contribuições de IA no projeto de forma organizada, objetiva e auditável.
 
 ## Responsabilidade Final
 
-Embora ferramentas de Inteligência Artificial tenham sido empregadas como suporte, **as decisões de implementação, 
-curadoria de código e validação final** foram realizadas por um desenvolvedor humano, que assume a responsabilidade 
-integral pelo conteúdo, funcionamento e conformidade do software.
+Apesar do uso intensivo de ferramentas de IA, **todas as decisões finais de implementação, validação e curadoria** foram tomadas pelos desenvolvedores do grupo, que assumem a responsabilidade final pelo projeto entregue.
 
 ## Atualizações
 
-Este documento será atualizado sempre que novas ferramentas ou práticas de IA forem incorporadas ao projeto, garantindo 
-uma documentação transparente e atualizada.
+Este documento será atualizado sempre que houver novo uso relevante de IA no projeto, garantindo rastreamento e transparência contínuos.
