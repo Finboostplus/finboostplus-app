@@ -1,21 +1,39 @@
 import { GrMoney } from 'react-icons/gr';
 import { MdCreditCardOff } from 'react-icons/md';
 import CardUI from '../ui/Card';
+import userData from '../../mockData/user/user.data';
+import { formatBRL } from '../../utils/formatters';
 
-export default function SummaryCards({ saldo }) {
-  const isNegativeBalance =
-    saldo < 0 ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700';
+export default function SummaryCards() {
+  const current_user = userData;
+  const totalBalanceBRL = formatBRL(current_user.dashboard.totalBalance);
+  const totalMonthlySpentBRL = formatBRL(
+    current_user.dashboard.totalMonthlySpent
+  );
+  const isNegative = current_user.dashboard.totalBalance < 0;
+
   return (
-    <CardUI className="grid grid-cols-2 max-md:flex max-md:flex-col gap-4 mb-6 relative top-[-20px]">
-      <CardUI className={`relative p-8 rounded shadow ${isNegativeBalance}`}>
+    <CardUI className="grid grid-cols-2 gap-6 max-md:flex max-md:flex-col mb-6">
+      {/* Saldo Total */}
+      <CardUI
+        className={`relative p-6 rounded-2xl shadow-md border
+          ${
+            isNegative
+              ? 'border-error bg-error/10 text-error'
+              : 'border-success bg-success/10 text-success'
+          }
+        `}
+      >
         <p className="text-sm font-medium">Saldo Total</p>
-        <p className="text-xl font-bold">R$ {saldo}</p>
-        <GrMoney className="absolute right-2 top-2 size-[100px] opacity-30" />
+        <p className="text-2xl font-extrabold mt-2">{totalBalanceBRL}</p>
+        <GrMoney className="absolute right-4 top-4 w-[80px] h-[80px] opacity-20" />
       </CardUI>
-      <CardUI className="bg-gray-100 relative text-gray-700 p-8 rounded shadow">
+
+      {/* Total Gasto */}
+      <CardUI className="relative p-6 rounded-2xl shadow-md border border-muted bg-neutral text-text transition-colors">
         <p className="text-sm font-medium">Total Gasto (Mês)</p>
-        <p className="text-xl font-bold">R$ 1.234,56</p>
-        <MdCreditCardOff className="absolute right-2 top-2 size-[100px] opacity-30" />
+        <p className="text-2xl font-extrabold mt-2">{totalMonthlySpentBRL}</p>
+        <MdCreditCardOff className="absolute right-4 top-4 w-[80px] h-[80px] opacity-20" />
       </CardUI>
     </CardUI>
   );

@@ -1,51 +1,64 @@
 import { Form } from 'react-router';
 import Button from '../ui/Button';
 import InputUI from '../ui/Input';
+import { Menu, MenuItem } from '@headlessui/react';
 export default function LoginForm() {
   return (
-    <Form
-      method="post"
-      className="w-full flex flex-col items-center gap-4"
-      aria-label="Formulário de login"
-    >
-      <div className="w-full flex flex-col gap-1">
-        <label htmlFor="email" className="text-sm font-medium text-gray-700">
-          Email
-        </label>
-        <InputUI
-          id={'email'}
-          name={'email'}
-          type={'email'}
-          placeholder={'Digite seu email'}
-          required={true}
-          className={'w-full h-10 rounded-[10px] border-2 border-gray-400 px-3'}
+    <section className="w-full max-w-md mx-auto">
+      <Form
+        method="post"
+        className="w-full flex flex-col items-center gap-6 bg-surface p-6 rounded-2xl shadow-md border border-neutral transition-colors"
+        aria-label="Formulário de login"
+      >
+        <div className="w-full flex flex-col gap-2">
+          <label htmlFor="email" className="text-sm font-medium text-text">
+            Email
+          </label>
+          <InputUI
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Digite seu email"
+            required
+            className="w-full h-11 rounded-xl border border-muted px-4 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
+          />
+        </div>
+
+        <div className="w-full flex flex-col gap-2">
+          <label htmlFor="password" className="text-sm font-medium text-text">
+            Senha
+          </label>
+          <InputUI
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Digite sua senha"
+            required
+            className="w-full h-11 rounded-xl border border-muted px-4 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
+          />
+        </div>
+
+        <Button
+          title="Entrar"
+          type="submit"
+          className="w-full py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-secondary transition-colors"
         />
-      </div>
 
-      <div className="w-full flex flex-col gap-1">
-        <label htmlFor="password" className="text-sm font-medium text-gray-700">
-          Senha
-        </label>
-        <InputUI
-          id="password"
-          name="password"
-          type="password"
-          placeholder="Digite sua senha"
-          className="w-full h-10 rounded-[10px] border-2 border-gray-400 px-3"
-          required
-        />
-      </div>
+        <input type="hidden" name="type" value="login" />
 
-      {/* Botão de envio, opcionalmente com aria-label se o texto não for claro */}
+        <hr className="w-full border-t border-neutral mt-2" />
 
-      <Button
-        title={'Entrar'}
-        type="submit"
-        className={
-          'mt-2 w-full cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition'
-        }
-      />
-      <input type="hidden" name="type" value="login" />
-    </Form>
+        <Menu as={'div'}>
+          <MenuItem>
+            <a
+              href="/register"
+              className="text-sm text-primary hover:underline"
+            >
+              Já possui uma conta?
+            </a>
+          </MenuItem>
+        </Menu>
+      </Form>
+    </section>
   );
 }

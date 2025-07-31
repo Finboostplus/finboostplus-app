@@ -6,7 +6,6 @@ export default function InputUI({
   name,
   type,
   placeholder,
-  className,
   required,
   step,
   readonly,
@@ -18,7 +17,12 @@ export default function InputUI({
       name={name}
       type={type}
       placeholder={placeholder}
-      className={className}
+      className="
+        w-full h-11 rounded-xl border border-muted
+        px-4 text-sm text-text placeholder:text-muted
+        focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary
+        transition
+      "
       required={required}
       step={step}
       readOnly={readonly}

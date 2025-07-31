@@ -1,11 +1,5 @@
-export async function loginOrRegisterAction({ request }) {
+export async function loginAction({ request }) {
   const formData = await request.formData();
-  const type = formData.get('type');
-
-  if (type === 'register') {
-    console.log('Cadastrado!');
-    return;
-  }
 
   console.log('Logado!');
 }

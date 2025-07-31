@@ -1,4 +1,4 @@
-# 💸 FinBoost+ - Controle Financeiro  Pessoal ou Compartilhado
+# 💸 FinBoost+ - Controle Financeiro Pessoal ou Compartilhado
 
 <div align="left">
   <img src="https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow" alt="Status">
@@ -28,6 +28,7 @@
 ## 🎯 Funcionalidades
 
 ### ✅ MVP (Versão Atual)
+
 - [x] **Autenticação**: Cadastro e login seguro de usuários
 - [x] **Gerenciamento de Grupos**: Criação e administração de grupos financeiros
 - [x] **Controle de Despesas**: Adição e divisão automática de gastos
@@ -36,6 +37,7 @@
 - [x] **Histórico de Transações**: Visualização detalhada de todas as movimentações
 
 ### 🚀 Funcionalidades Futuras (Roadmap)
+
 - [ ] **IA para Categorização**: Classificação automática de despesas
 - [ ] **Sugestões Inteligentes**: Recomendações personalizadas de economia
 - [ ] **Alertas Preditivos**: Notificações sobre gastos atípicos
@@ -50,6 +52,7 @@
 ## 🛠️ Tecnologias Utilizadas
 
 ### 🔧 Backend
+
 - **☕ Java 17+** - Linguagem principal
 - **🍃 Spring Boot 3.2+** - Framework web
 - **🔐 Spring Security** - Autenticação e autorização
@@ -59,6 +62,7 @@
 - **📊 Spring Data JPA** - Acesso a dados simplificado
 
 ### 🎨 Frontend
+
 - **⚛️ React.js 18+** - Biblioteca de interface
 - **⚡ Vite** - Build tool e dev server
 - **🎨 TailwindCSS** - Framework CSS utilitário
@@ -68,6 +72,7 @@
 - **📊 Recharts** - Gráficos e visualizações
 
 ### 🚀 DevOps & Ferramentas
+
 - **🐳 Docker** - Containerização
 - **🔧 Maven** - Gerenciamento de dependências (Backend)
 - **📦 npm** - Gerenciamento de pacotes (Frontend)
@@ -94,6 +99,7 @@
 ## 🚀 Como Executar Localmente
 
 ### 📋 Pré-requisitos
+
 - **Node.js** 18+ e npm
 - **Java** 17+ e Maven
 - **PostgreSQL** 15+
@@ -102,12 +108,14 @@
 ### 🔧 Configuração do Ambiente
 
 1. **Clone o repositório**
+
 ```bash
 git clone https://github.com/sua-organizacao/controle-financeiro.git
 cd controle-financeiro
 ```
 
 2. **Configure o banco de dados**
+
 ```bash
 # Crie um banco PostgreSQL
 createdb controle_financeiro
@@ -159,6 +167,7 @@ docker-compose down
 ## 🧪 Testes
 
 ### Backend
+
 ```bash
 cd backend
 
@@ -176,6 +185,7 @@ cd backend
 ```
 
 ### Frontend
+
 ```bash
 cd frontend
 
@@ -209,6 +219,7 @@ npm run test:watch
 5. Abra um **Pull Request**
 
 ### 📝 Padrões de Commit
+
 - `feat:` Nova funcionalidade
 - `fix:` Correção de bug
 - `docs:` Documentação
@@ -221,11 +232,11 @@ npm run test:watch
 
 ## 👥 Equipe de Desenvolvimento
 
-| Área | Membros |
-|------|---------|
-| **🏆 Gestão do Projeto** | Alan |
-| **🔧 Backend** | Bruno, Cristiano, Eduardo, João |
-| **🎨 Frontend** | Cleiton, Ana, Ellen, Mariana, Raquel |
+| Área                     | Membros                              |
+| ------------------------ | ------------------------------------ |
+| **🏆 Gestão do Projeto** | Alan                                 |
+| **🔧 Backend**           | Bruno, Cristiano, Eduardo, João      |
+| **🎨 Frontend**          | Cleiton, Ana, Ellen, Mariana, Raquel |
 
 ---
 

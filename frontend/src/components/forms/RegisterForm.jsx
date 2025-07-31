@@ -1,4 +1,4 @@
-import { Checkbox } from '@headlessui/react';
+import { Checkbox, Menu, MenuItem } from '@headlessui/react';
 import { useState } from 'react';
 import InputUI from '../ui/Input';
 import ButtonUI from '../ui/Button';
@@ -7,87 +7,64 @@ import { Form } from 'react-router';
 export default function RegisterForm() {
   const [checked, setChecked] = useState(false);
   return (
-    <Form
-      method="post"
-      className="w-full flex flex-col items-center gap-4"
-      aria-label="Formulário de cadastro"
-    >
-      <div className="w-full flex flex-col gap-1">
-        <label
-          htmlFor="full_name"
-          className="text-sm font-medium text-gray-700"
-        >
-          Nome completo
-        </label>
-        <InputUI
-          id="full_name"
-          name="full_name"
-          type="text"
-          placeholder="Digite seu nome completo"
-          className="w-full h-10 rounded-[10px] border-2 border-gray-400 px-3"
-          required
-        />
-      </div>
+    <section className="w-full max-w-md mx-auto">
+      <Form
+        method="post"
+        className="w-full flex flex-col items-center gap-6 bg-surface p-6 rounded-2xl shadow-md border border-neutral transition-colors"
+        aria-label="Formulário de cadastro"
+      >
+        {[
+          {
+            id: 'full_name',
+            label: 'Nome completo',
+            type: 'text',
+            placeholder: 'Digite seu nome completo',
+          },
+          {
+            id: 'email',
+            label: 'Email',
+            type: 'email',
+            placeholder: 'Digite seu email',
+          },
+          {
+            id: 'password',
+            label: 'Senha',
+            type: 'password',
+            placeholder: 'Digite sua senha',
+          },
+          {
+            id: 'confirm_password',
+            label: 'Confirmar senha',
+            type: 'password',
+            placeholder: 'Confirme sua senha',
+          },
+        ].map(({ id, label, type, placeholder }) => (
+          <div key={id} className="w-full flex flex-col gap-2">
+            <label htmlFor={id} className="text-sm font-medium text-text">
+              {label}
+            </label>
+            <InputUI
+              id={id}
+              name={id}
+              type={type}
+              placeholder={placeholder}
+              required
+              className="w-full h-11 rounded-xl border border-muted px-4 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
+            />
+          </div>
+        ))}
 
-      <div className="w-full flex flex-col gap-1">
-        <label htmlFor="email" className="text-sm font-medium text-gray-700">
-          Email
-        </label>
-        <InputUI
-          id="email"
-          name="email"
-          type="email"
-          placeholder="Digite seu email"
-          className="w-full h-10 rounded-[10px] border-2 border-gray-400 px-3"
-          required
-        />
-      </div>
-
-      <div className="w-full flex flex-col gap-1">
-        <label htmlFor="password" className="text-sm font-medium text-gray-700">
-          Senha
-        </label>
-        <InputUI
-          id="password"
-          name="password"
-          type="password"
-          placeholder="Digite sua senha"
-          className="w-full h-10 rounded-[10px] border-2 border-gray-400 px-3"
-          required
-        />
-      </div>
-
-      <div className="w-full flex flex-col gap-1">
-        <label
-          htmlFor="confirm_password"
-          className="text-sm font-medium text-gray-700"
-        >
-          Confirmar senha
-        </label>
-        <InputUI
-          id="confirm_password"
-          name="confirm_password"
-          type="password"
-          placeholder="Confirme sua senha"
-          className="w-full h-10 rounded-[10px] border-2 border-gray-400 px-3"
-          required
-        />
-      </div>
-      <div className="flex items-center gap-2">
-        <label
-          htmlFor="terms"
-          className="flex items-center gap-2 cursor-pointer"
-        >
+        <div className="w-full flex items-start gap-2">
           <Checkbox
             id="terms"
             checked={checked}
             onChange={setChecked}
-            className="group block size-4 rounded border bg-white data-checked:bg-blue-500"
+            className="group block w-5 h-5 rounded border border-muted bg-surface data-[checked]:bg-primary transition-colors"
             aria-checked={checked}
             role="checkbox"
           >
             <svg
-              className="stroke-white opacity-0 group-data-checked:opacity-100"
+              className="stroke-white opacity-0 group-data-[checked]:opacity-100 transition-opacity"
               viewBox="0 0 14 14"
               fill="none"
               aria-hidden="true"
@@ -100,17 +77,36 @@ export default function RegisterForm() {
               />
             </svg>
           </Checkbox>
-          <span className="text-sm text-gray-700">
+          <label
+            htmlFor="terms"
+            className="text-sm text-text cursor-pointer select-none"
+          >
             Aceitar os termos de uso e política de privacidade
-          </span>
-        </label>
-      </div>
-      <ButtonUI
-        title={'Cadastrar'}
-        type="submit"
-        className="mt-2 w-full cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-      />
-      <input type="hidden" name="type" value="register" />
-    </Form>
+          </label>
+        </div>
+
+        <ButtonUI
+          title="Cadastrar"
+          type="submit"
+          className="w-full py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-secondary transition-colors"
+        />
+
+        <input type="hidden" name="type" value="register" />
+      </Form>
+      <Menu as={'div'}>
+        <p className="mt-6 text-sm text-text text-center">
+          Já tem uma conta?{' '}
+          <MenuItem>
+            <a
+              href="/login"
+              className="text-primary hover:underline font-semibold"
+              aria-label="Voltar para a tela de login"
+            >
+              Faça login
+            </a>
+          </MenuItem>
+        </p>
+      </Menu>
+    </section>
   );
 }

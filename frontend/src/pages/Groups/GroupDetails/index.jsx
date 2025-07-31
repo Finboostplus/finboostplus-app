@@ -1,28 +1,29 @@
 import { useLoaderData } from 'react-router';
+import { useState } from 'react';
 import ButtonUI from '../../../components/ui/Button';
 import BalancesList from './BalancesList';
 import ExpensesList from './ExpensesList';
-import { useState } from 'react';
-import ModalButton from './ModalButton';
+import ModalButton from '../../../components/ModalButton';
 import Expenses from '../../Expenses';
+import { formatBRL } from '../../../utils/formatters';
 
 export default function GroupDetails() {
-  const [showBalanceOrExpensesList, setShowBalanceOrExpensesList] =
-    useState(true);
-
-  const activeButtonClass = 'bg-blue-600 hover:bg-blue-700 text-white';
-  const inactiveButtonClass = 'bg-gray-200 hover:bg-gray-300 text-gray-800';
-  const commonButtonClasses =
-    'cursor-pointer font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-full transition duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50';
-
+  const [showBalances, setShowBalances] = useState(true);
   const group = useLoaderData();
 
+  const activeBtn =
+    'bg-primary text-white hover:bg-primary/90 focus:ring-primary';
+  const inactiveBtn =
+    'bg-neutral text-text hover:bg-neutral/80 focus:ring-muted';
+  const baseBtn =
+    'cursor-pointer font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-full transition duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50';
+
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className="flex flex-col min-h-screen bg-neutral font-principal transition-colors">
       <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 overflow-auto">
         <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <h1
-            className="text-2xl sm:text-3xl font-semibold text-gray-800"
+            className="text-2xl sm:text-3xl font-semibold text-text"
             role="heading"
             aria-level="1"
           >
@@ -31,59 +32,51 @@ export default function GroupDetails() {
         </header>
 
         <section
-          className="bg-white p-4 sm:p-6 rounded-lg shadow-md mb-8 flex flex-col items-center! sm:items-start text-center sm:text-left"
-          aria-labelledby="total-balance-heading"
+          className="bg-surface p-4 sm:p-6 rounded-lg shadow-md mb-8 flex flex-col items-center sm:items-start text-center sm:text-left transition-colors"
+          aria-labelledby="group-total-heading"
         >
           <h2
-            id="total-balance-heading"
-            className="text-xl sm:text-2xl font-thin text-gray-700"
+            id="group-total-heading"
+            className="text-xl sm:text-2xl font-light text-text"
           >
-            Total Gasto
+            Total do grupo
           </h2>
+
           <div className="mt-2 sm:mt-0">
             <p
-              className="text-4xl sm:text-5xl font-bold text-green-600 mb-1 sm:mb-2"
+              className="text-4xl sm:text-5xl font-bold text-success mb-1 sm:mb-2"
               aria-live="polite"
             >
-              {group.totalBalance}
+              {formatBRL(group.totalBalance)}
             </p>
-            <p className="text-gray-600 text-center text-base sm:text-lg">
-              Este mês
-            </p>
+            <p className="text-muted text-base sm:text-lg">acumulado do mês</p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 mt-6 w-full sm:w-auto">
             <ButtonUI
-              fnClick={() => setShowBalanceOrExpensesList(true)}
+              fnClick={() => setShowBalances(true)}
               title="Saldos"
-              className={`${commonButtonClasses} ${
-                showBalanceOrExpensesList
-                  ? `${activeButtonClass} focus:ring-blue-500`
-                  : `${inactiveButtonClass} focus:ring-gray-400`
-              }`}
-              aria-label="Ver detalhes de saldos"
+              className={`${baseBtn} ${showBalances ? activeBtn : inactiveBtn}`}
+              aria-label="Ver saldos entre os membros"
             />
             <ButtonUI
-              fnClick={() => setShowBalanceOrExpensesList(false)}
+              fnClick={() => setShowBalances(false)}
               title="Despesas"
-              className={`${commonButtonClasses} ${
-                !showBalanceOrExpensesList
-                  ? `${activeButtonClass} focus:ring-blue-500`
-                  : `${inactiveButtonClass} focus:ring-gray-400`
+              className={`${baseBtn} ${
+                !showBalances ? activeBtn : inactiveBtn
               }`}
-              aria-label="Ver detalhes de despesas"
+              aria-label="Ver despesas recentes do grupo"
             />
           </div>
         </section>
 
-        {showBalanceOrExpensesList ? (
+        {showBalances ? (
           <BalancesList group={group} />
         ) : (
           <ExpensesList group={group} />
         )}
       </main>
 
-      {/* ModalButton pode ser ajustado também se necessário */}
       <ModalButton modalChildren={<Expenses />} />
     </div>
   );
