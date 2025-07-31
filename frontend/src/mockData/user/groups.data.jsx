@@ -1,21 +1,11 @@
-import {
-  FaBook,
-  FaGlassCheers,
-  FaHeart,
-  FaHome,
-  FaUmbrellaBeach,
-  FaUsers,
-  FaShoppingCart,
-  FaLaptopCode,
-  FaTree,
-} from 'react-icons/fa';
+import { FaGlassCheers, FaHeart, FaUsers, FaLaptopCode } from 'react-icons/fa';
 
 export default [
   {
     id: 'grp-bffs',
     name: 'BFFs da Escola 💖',
     members: [
-      { name: 'LunaStar', color: '#ff69b4' },
+      { name: 'Luna Martins', color: '#ff69b4' },
       { name: 'Mel', color: '#9370DB' },
       { name: 'Bia', color: '#FFB6C1' },
     ],
@@ -24,7 +14,7 @@ export default [
     icon: <FaHeart className="text-pink-400" />,
     totalBalance: 45.0,
     pendingDebts: [
-      { id: 1, name: 'Mel', amount: 15.0, type: 'owes', to: 'LunaStar' },
+      { id: 1, name: 'Mel', amount: 15.0, type: 'owes', to: 'Luna Martins' },
     ],
     recentExpenses: [
       {
@@ -39,7 +29,7 @@ export default [
     id: 'grp-creative',
     name: 'Estúdio Criativo 🎨',
     members: [
-      { name: 'LunaStar', color: '#ff69b4' },
+      { name: 'Luna Martins', color: '#ff69b4' },
       { name: 'Noah', color: '#4682B4' },
       { name: 'Jade', color: '#8A2BE2' },
     ],
@@ -63,7 +53,7 @@ export default [
     id: 'grp-cafe',
     name: 'Mood Café ☕',
     members: [
-      { name: 'LunaStar', color: '#ff69b4' },
+      { name: 'Luna Martins', color: '#ff69b4' },
       { name: 'Tati', color: '#D2691E' },
     ],
     status: 'Sem pendências',
@@ -84,7 +74,7 @@ export default [
     id: 'grp-fam',
     name: 'Família Carvalho 🏡',
     members: [
-      { name: 'LunaStar', color: '#ff69b4' },
+      { name: 'Luna Martins', color: '#ff69b4' },
       { name: 'Mãe', color: '#DA70D6' },
       { name: 'Papai', color: '#4169E1' },
       { name: 'Sofia', color: '#FFD700' },
