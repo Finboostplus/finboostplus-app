@@ -20,7 +20,7 @@ export default function LatestExpenses() {
 
       <Menu as="ul" className="space-y-4">
         {current_user.dashboard.recentExpenses.map((expense, i) => (
-          <li>
+          <li key={i}>
             <MenuItem
               as="a"
               href={`/groups/${expense.groupId}`}

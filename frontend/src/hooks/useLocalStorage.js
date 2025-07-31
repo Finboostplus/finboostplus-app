@@ -1,24 +1,27 @@
-// useLocalStorage.js
+// hooks/useLocalStorage.js
 import { useState } from 'react';
 
 export function useLocalStorage(key, initialValue) {
   const [storedValue, setStoredValue] = useState(() => {
     try {
-      const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
-      // eslint-disable-next-line no-unused-vars
+      const item = localStorage.getItem(key);
+      return item !== null ? JSON.parse(item) : initialValue;
     } catch (error) {
+      console.warn(`Erro ao ler localStorage[${key}]:`, error);
       return initialValue;
     }
   });
 
   const setValue = value => {
     try {
-      setStoredValue(value);
-      window.localStorage.setItem(key, JSON.stringify(value));
-      // eslint-disable-next-line no-unused-vars
+      // Suporta funções de atualização como no useState
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
+
+      setStoredValue(valueToStore);
+      localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {
-      // erro ignorado
+      console.warn(`Erro ao salvar localStorage[${key}]:`, error);
     }
   };
 
