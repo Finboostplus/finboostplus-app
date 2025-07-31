@@ -37,38 +37,45 @@ As principais áreas com auxílio de IA incluem:
 ## Casos de Uso Específicos
 
 ### Design e Identidade Visual
-- **Data**: 05/07/2025  
-- **Ferramenta**: Claude IA  
+
+- **Data**: 05/07/2025
+- **Ferramenta**: Claude IA
 - **Contribuição**: Criação de paleta de cores baseada em valores como confiança, estabilidade e crescimento financeiro.
 
 ### MVP e Definição de Escopo
-- **Data**: 06/07/2025  
-- **Ferramenta**: ChatGPT  
+
+- **Data**: 06/07/2025
+- **Ferramenta**: ChatGPT
 - **Contribuição**: Geração da definição inicial do MVP com foco em grupos de despesas, cálculo automático de saldos e painel visual.
 
 ### Nome e Branding do App
-- **Data**: 09/07/2025  
-- **Ferramenta**: ChatGPT  
+
+- **Data**: 09/07/2025
+- **Ferramenta**: ChatGPT
 - **Contribuição**: Sugestão e justificativa de nomes como “FinBoost”, “GranaFácil” e “Divide+”.
 
 ### Gerenciamento de Estado
-- **Data**: 02 e 30/07/2025  
-- **Ferramenta**: DeepSeek  
+
+- **Data**: 02 e 30/07/2025
+- **Ferramenta**: DeepSeek
 - **Contribuição**: Comparação entre Zustand e Jotai, com recomendação e implementação de exemplo modular com persistência via localStorage.
 
 ### Dados Mockados Realistas
-- **Data**: 22 e 30/07/2025  
-- **Ferramenta**: DeepSeek  
+
+- **Data**: 22 e 30/07/2025
+- **Ferramenta**: DeepSeek
 - **Contribuição**: Estrutura de diretório `/mock` e criação de exemplos realistas de grupos e transações.
 
 ### Sugestão de Telas e Navegação
-- **Data**: 22/07/2025  
-- **Ferramenta**: Stitch  
+
+- **Data**: 22/07/2025
+- **Ferramenta**: Stitch
 - **Contribuição**: Wireframes para páginas principais do app: login, home, perfil, grupos, modais e detalhes.
 
 ### Contrato de Respostas da API
-- **Data**: 30/07/2025  
-- **Ferramenta**: DeepSeek  
+
+- **Data**: 30/07/2025
+- **Ferramenta**: DeepSeek
 - **Contribuição**: Implementação de contratos de API usando `zod` com validação segura, mesmo sem TypeScript.
 
 ## Revisão e Validação
@@ -83,16 +90,18 @@ Todo o conteúdo gerado com o apoio das ferramentas de IA foi:
 ## Desafios e Soluções
 
 1. **Organização de dados mockados**
+
    - **Desafio**: Manter consistência e realismo nos exemplos de grupos e despesas
    - **Solução**: Uso de estrutura modular com arquivos separados e dados inspirados em situações reais
 
 2. **Escolha do gerenciador de estado**
+
    - **Desafio**: Encontrar ferramenta leve e escalável para o MVP
    - **Solução**: Análise comparativa com recomendação do Jotai para granularidade e performance
 
 3. **Persistência de tema**
    - **Desafio**: Manter dark mode ativo entre sessões
-   - **Solução**: Implementação de persistência via `localStorage` usando middleware do Zustand
+   - **Solução**: Implementação de persistência via `localStorage` usando Context API do biblioteca React JS.
 
 ## Rastreamento e Documentação
 
