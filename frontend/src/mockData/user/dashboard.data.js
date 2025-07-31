@@ -1,3 +1,5 @@
+import chartsData from './charts/charts.data';
+
 export default {
   totalBalance: 312.4, // Saldo Total
   totalMonthlySpent: 428.9, // Total Gasto (Mês)
@@ -31,4 +33,5 @@ export default {
       groupId: 'grp-fam',
     },
   ],
+  chartsData,
 };
