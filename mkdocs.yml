@@ -1,0 +1,82 @@
+site_name: FinBoost+ Documentation
+site_description: Documentação completa da aplicação FinBoost+ (Frontend e Backend)
+site_author: Equipe FinBoost+
+repo_url: https://github.com/seu-usuario/finboostplus-app
+repo_name: finboostplus-app
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search
+  - mermaid2
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+
+nav:
+  - Home: index.md
+  - Projeto:
+      - Visão Geral: project/overview.md
+      - Requisitos: project/requirements.md
+      - User Stories: project/user-stories.md
+      - Diagramas: project/diagrams.md
+      - Personas: project/personas.md
+  - Frontend:
+      - Visão Geral: frontend/index.md
+      - Getting Started: frontend/getting-started.md
+      - Arquitetura: frontend/architecture.md
+      - Componentes: frontend/components.md
+      - Páginas: frontend/pages.md
+      - Hooks: frontend/hooks.md
+      - Serviços: frontend/services.md
+      - Styling: frontend/styling.md
+      - Testes: frontend/testing.md
+      - Deploy: frontend/deployment.md
+      - API Reference: frontend/api-reference.md
+  - Backend:
+      - Visão Geral: backend/index.md
+      - Getting Started: backend/getting-started.md
+      - Arquitetura: backend/architecture.md
+      - API Endpoints: backend/api-endpoints.md
+      - Database: backend/database.md
+      - Autenticação: backend/authentication.md
+      - Testes: backend/testing.md
+      - Deploy: backend/deployment.md

@@ -5,7 +5,11 @@ import { groupDetailsLoader } from '../pages/Groups/GroupDetails/groupDetailsLoa
 import { loginAction } from '../pages/Login/loginAction';
 import { registerAction } from '../pages/Register/registerAction';
 const App = lazy(() => import('../App'));
+<<<<<<< Updated upstream
 const Layout = lazy(() => import('../components/Layout'));
+=======
+const Layout = lazy(() => import('../components/layout/Layout'));
+>>>>>>> Stashed changes
 const Login = lazy(() => import('../pages/Login'));
 const Register = lazy(() => import('../pages/Register'));
 const Dashboard = lazy(() => import('../pages/Dashboard'));
