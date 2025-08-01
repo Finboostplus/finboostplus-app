@@ -1,0 +1,2264 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação completa da aplicação FinBoost+ (Frontend e Backend)">
+      
+      
+        <meta name="author" content="Equipe FinBoost+">
+      
+      
+      
+        <link rel="prev" href="../architecture/">
+      
+      
+        <link rel="next" href="../pages/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Componentes - FinBoost+ Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#componentes-frontend-finboost" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FinBoost+ Documentation" class="md-header__button md-logo" aria-label="FinBoost+ Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FinBoost+ Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Componentes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/seu-usuario/finboostplus-app" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    finboostplus-app
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../project/overview.md" class="md-tabs__link">
+          
+  
+  
+  Projeto
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Frontend
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../backend/index.md" class="md-tabs__link">
+          
+  
+  
+  Backend
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FinBoost+ Documentation" class="md-nav__button md-logo" aria-label="FinBoost+ Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FinBoost+ Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/seu-usuario/finboostplus-app" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    finboostplus-app
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Projeto
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Projeto
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/overview.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Visão Geral
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/requirements.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Requisitos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/user-stories.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    User Stories
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/diagrams.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Diagramas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/personas.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Personas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Frontend
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Frontend
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Visão Geral
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Arquitetura
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Componentes
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Componentes
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#visao-geral" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Visão Geral
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sistema-de-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎨 Sistema de Design
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎨 Sistema de Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principios-fundamentais" class="md-nav__link">
+    <span class="md-ellipsis">
+      Princípios Fundamentais
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convencoes-de-nomenclatura" class="md-nav__link">
+    <span class="md-ellipsis">
+      Convenções de Nomenclatura
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#componentes-ui-basicos-srccomponentsui" class="md-nav__link">
+    <span class="md-ellipsis">
+      📦 Componentes UI Básicos (src/components/ui/)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📦 Componentes UI Básicos (src/components/ui/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#button-buttonjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Button (Button.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#input-inputjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Input (Input.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#card-cardjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Card (Card.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modal-modaljsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modal (Modal.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#textarea-textareajsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Textarea (Textarea.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#componentes-de-formulario-srccomponentsforms" class="md-nav__link">
+    <span class="md-ellipsis">
+      📝 Componentes de Formulário (src/components/forms/)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Componentes de Formulário (src/components/forms/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loginform-loginformjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      LoginForm (LoginForm.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#registerform-registerformjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      RegisterForm (RegisterForm.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expenseform-expenseformjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      ExpenseForm (ExpenseForm.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groupform-groupformjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      GroupForm (GroupForm.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#componentes-de-layout-srccomponentslayout" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗️ Componentes de Layout (src/components/layout/)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏗️ Componentes de Layout (src/components/layout/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#header-headerjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Header (Header.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dropdownmenu-dropdownmenu" class="md-nav__link">
+    <span class="md-ellipsis">
+      DropdownMenu (DropdownMenu/)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#componentes-de-graficos-srccomponentschartswitcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Componentes de Gráficos (src/components/ChartSwitcher/)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Componentes de Gráficos (src/components/ChartSwitcher/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chartswitcher-indexjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      ChartSwitcher (index.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#balancechart-balancechartjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      BalanceChart (BalanceChart.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expensechart-expensechartjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      ExpenseChart (ExpenseChart.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#componentes-especializados" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Componentes Especializados
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Componentes Especializados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loading-loadingindexjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Loading (Loading/index.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logo-logoindexjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logo (Logo/index.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summarycards-summarycardsindexjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      SummaryCards (SummaryCards/index.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usergreeting-usergreetingindexjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      UserGreeting (UserGreeting/index.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modalbutton-modalbuttonindexjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      ModalButton (ModalButton/index.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#padroes-de-estilizacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎨 Padrões de Estilização
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎨 Padrões de Estilização">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#css-variables-utilizadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSS Variables Utilizadas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classes-tailwindcss-comuns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Classes TailwindCSS Comuns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testabilidade" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Testabilidade
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Testabilidade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convencoes-para-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Convenções para Testes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#responsividade" class="md-nav__link">
+    <span class="md-ellipsis">
+      📱 Responsividade
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📱 Responsividade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#breakpoints-utilizados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breakpoints Utilizados
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estrategias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estratégias
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Páginas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hooks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../services.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Serviços
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../styling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Styling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Testes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deploy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Backend
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Backend
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backend/index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Visão Geral
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backend/getting-started.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backend/architecture.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Arquitetura
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backend/api-endpoints.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    API Endpoints
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backend/database.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Database
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backend/authentication.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Autenticação
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backend/testing.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Testes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backend/deployment.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deploy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#visao-geral" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Visão Geral
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sistema-de-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎨 Sistema de Design
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎨 Sistema de Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principios-fundamentais" class="md-nav__link">
+    <span class="md-ellipsis">
+      Princípios Fundamentais
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convencoes-de-nomenclatura" class="md-nav__link">
+    <span class="md-ellipsis">
+      Convenções de Nomenclatura
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#componentes-ui-basicos-srccomponentsui" class="md-nav__link">
+    <span class="md-ellipsis">
+      📦 Componentes UI Básicos (src/components/ui/)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📦 Componentes UI Básicos (src/components/ui/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#button-buttonjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Button (Button.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#input-inputjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Input (Input.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#card-cardjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Card (Card.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modal-modaljsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modal (Modal.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#textarea-textareajsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Textarea (Textarea.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#componentes-de-formulario-srccomponentsforms" class="md-nav__link">
+    <span class="md-ellipsis">
+      📝 Componentes de Formulário (src/components/forms/)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Componentes de Formulário (src/components/forms/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loginform-loginformjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      LoginForm (LoginForm.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#registerform-registerformjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      RegisterForm (RegisterForm.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expenseform-expenseformjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      ExpenseForm (ExpenseForm.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groupform-groupformjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      GroupForm (GroupForm.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#componentes-de-layout-srccomponentslayout" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗️ Componentes de Layout (src/components/layout/)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏗️ Componentes de Layout (src/components/layout/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#header-headerjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Header (Header.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dropdownmenu-dropdownmenu" class="md-nav__link">
+    <span class="md-ellipsis">
+      DropdownMenu (DropdownMenu/)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#componentes-de-graficos-srccomponentschartswitcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Componentes de Gráficos (src/components/ChartSwitcher/)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Componentes de Gráficos (src/components/ChartSwitcher/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chartswitcher-indexjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      ChartSwitcher (index.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#balancechart-balancechartjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      BalanceChart (BalanceChart.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expensechart-expensechartjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      ExpenseChart (ExpenseChart.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#componentes-especializados" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Componentes Especializados
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Componentes Especializados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loading-loadingindexjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Loading (Loading/index.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logo-logoindexjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logo (Logo/index.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summarycards-summarycardsindexjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      SummaryCards (SummaryCards/index.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usergreeting-usergreetingindexjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      UserGreeting (UserGreeting/index.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modalbutton-modalbuttonindexjsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      ModalButton (ModalButton/index.jsx)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#padroes-de-estilizacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎨 Padrões de Estilização
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎨 Padrões de Estilização">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#css-variables-utilizadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSS Variables Utilizadas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classes-tailwindcss-comuns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Classes TailwindCSS Comuns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testabilidade" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Testabilidade
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Testabilidade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convencoes-para-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Convenções para Testes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#responsividade" class="md-nav__link">
+    <span class="md-ellipsis">
+      📱 Responsividade
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📱 Responsividade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#breakpoints-utilizados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breakpoints Utilizados
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estrategias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estratégias
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="componentes-frontend-finboost">🧩 Componentes - Frontend FinBoost+</h1>
+<h2 id="visao-geral">📋 Visão Geral</h2>
+<p>O sistema de componentes do <strong>FinBoost+</strong> é baseado em uma arquitetura modular e reutilizável, organizada por responsabilidades específicas. Todos os componentes seguem padrões consistentes de design, acessibilidade e performance.</p>
+<h2 id="sistema-de-design">🎨 Sistema de Design</h2>
+<h3 id="principios-fundamentais">Princípios Fundamentais</h3>
+<ul>
+<li><strong>Consistência Visual</strong>: Design system unificado com TailwindCSS</li>
+<li><strong>Acessibilidade</strong>: Componentes baseados em HeadlessUI</li>
+<li><strong>Responsividade</strong>: Abordagem mobile-first</li>
+<li><strong>Reutilização</strong>: Props bem definidas e configuráveis</li>
+<li><strong>Performance</strong>: Otimização com React.memo quando necessário</li>
+</ul>
+<h3 id="convencoes-de-nomenclatura">Convenções de Nomenclatura</h3>
+<ul>
+<li><strong>PascalCase</strong>: Para nomes de componentes (<code>ButtonUI</code>, <code>LoginForm</code>)</li>
+<li><strong>camelCase</strong>: Para props e funções (<code>onClick</code>, <code>ariaLabel</code>)</li>
+<li><strong>kebab-case</strong>: Para classes CSS e IDs (<code>btn-primary</code>, <code>form-login</code>)</li>
+</ul>
+<h2 id="componentes-ui-basicos-srccomponentsui">📦 Componentes UI Básicos (<code>src/components/ui/</code>)</h2>
+<h3 id="button-buttonjsx">Button (<code>Button.jsx</code>)</h3>
+<p>Componente de botão flexível com suporte a ícones e diferentes variantes.</p>
+<p><strong>Props:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="nx">ReactElement</span><span class="p">,</span><span class="w">        </span><span class="c1">// Ícone opcional (React Icons)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span><span class="w">            </span><span class="c1">// Texto do botão</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;button&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;submit&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;reset&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Tipo HTML</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nx">arialLabel</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span><span class="w">       </span><span class="c1">// Label para acessibilidade</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nx">className</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span><span class="w">        </span><span class="c1">// Classes CSS personalizadas</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="nx">fnClick</span><span class="o">:</span><span class="w"> </span><span class="kd">function</span><span class="p">,</span><span class="w">        </span><span class="c1">// Função de callback no click</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="nx">disabled</span><span class="o">:</span><span class="w"> </span><span class="kr">boolean</span><span class="w">         </span><span class="c1">// Estado desabilitado</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Exemplo de Uso:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">import</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./components/ui/Button&#39;</span><span class="p">;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">FaSave</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-icons/fa&#39;</span><span class="p">;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">&lt;</span><span class="nt">Button</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="na">icon</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">FaSave</span><span class="w"> </span><span class="p">/&gt;}</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="na">title</span><span class="o">=</span><span class="s">&quot;Salvar Despesa&quot;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="na">arialLabel</span><span class="o">=</span><span class="s">&quot;Salvar nova despesa&quot;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="na">className</span><span class="o">=</span><span class="s">&quot;bg-primary text-white px-6 py-2 rounded-lg&quot;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="na">fnClick</span><span class="o">=</span><span class="p">{</span><span class="nx">handleSave</span><span class="p">}</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="nx">isLoading</span><span class="p">}</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="p">/&gt;</span>
+</code></pre></div></p>
+<h3 id="input-inputjsx">Input (<code>Input.jsx</code>)</h3>
+<p>Campo de entrada com validação e suporte a diferentes tipos.</p>
+<p><strong>Props:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span><span class="w">              </span><span class="c1">// ID único do input</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span><span class="w">            </span><span class="c1">// Nome para formulários</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;text&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;email&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;password&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;number&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Tipo do input</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nx">placeholder</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span><span class="w">     </span><span class="c1">// Texto placeholder</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nx">required</span><span class="o">:</span><span class="w"> </span><span class="kr">boolean</span><span class="p">,</span><span class="w">       </span><span class="c1">// Campo obrigatório</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="nx">className</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span><span class="w">       </span><span class="c1">// Classes CSS personalizadas</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span><span class="w">          </span><span class="c1">// Valor controlado</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="nx">onChange</span><span class="o">:</span><span class="w"> </span><span class="kd">function</span><span class="w">      </span><span class="c1">// Callback de mudança</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">}</span>
+</code></pre></div></p>
+<h3 id="card-cardjsx">Card (<code>Card.jsx</code>)</h3>
+<p>Container para agrupar informações relacionadas com estilo consistente.</p>
+<p><strong>Características:</strong>
+- Background com <code>var(--color-surface)</code>
+- Border radius de <code>rounded-2xl</code>
+- Shadow e border consistentes
+- Padding responsivo</p>
+<h3 id="modal-modaljsx">Modal (<code>Modal.jsx</code>)</h3>
+<p>Modal acessível com transições suaves baseado em HeadlessUI.</p>
+<p><strong>Funcionalidades:</strong>
+- Overlay com blur
+- Animações de entrada/saída
+- Foco automático
+- Tecla ESC para fechar
+- Click fora para fechar</p>
+<h3 id="textarea-textareajsx">Textarea (<code>Textarea.jsx</code>)</h3>
+<p>Campo de texto multilinha para descrições e comentários.</p>
+<p><strong>Características:</strong>
+- Auto-resize baseado no conteúdo
+- Validação de caracteres máximos
+- Estilos consistentes com Input</p>
+<h2 id="componentes-de-formulario-srccomponentsforms">📝 Componentes de Formulário (<code>src/components/forms/</code>)</h2>
+<h3 id="loginform-loginformjsx">LoginForm (<code>LoginForm.jsx</code>)</h3>
+<p>Formulário de autenticação com validação client-side.</p>
+<p><strong>Campos:</strong>
+- <strong>Email</strong>: Validação de formato de email
+- <strong>Senha</strong>: Campo password com toggle de visualização
+- <strong>Lembrar-me</strong>: Checkbox para persistência de sessão</p>
+<p><strong>Funcionalidades:</strong>
+- Validação em tempo real
+- Estados de loading
+- Mensagens de erro
+- Integração com <code>useAuth</code> hook
+- Redirecionamento após login bem-sucedido</p>
+<p><strong>Estrutura:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">&lt;</span><span class="nt">Form</span><span class="w"> </span><span class="na">method</span><span class="o">=</span><span class="s">&quot;post&quot;</span><span class="w"> </span><span class="na">className</span><span class="o">=</span><span class="s">&quot;login-form&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">div</span><span class="w"> </span><span class="na">className</span><span class="o">=</span><span class="s">&quot;email-field&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p">&lt;</span><span class="nt">label</span><span class="w"> </span><span class="na">htmlFor</span><span class="o">=</span><span class="s">&quot;email&quot;</span><span class="p">&gt;</span><span class="nx">Email</span><span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="p">&lt;</span><span class="nt">InputUI</span><span class="w"> </span><span class="na">type</span><span class="o">=</span><span class="s">&quot;email&quot;</span><span class="w"> </span><span class="na">name</span><span class="o">=</span><span class="s">&quot;email&quot;</span><span class="w"> </span><span class="na">required</span><span class="w"> </span><span class="p">/&gt;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">div</span><span class="w"> </span><span class="na">className</span><span class="o">=</span><span class="s">&quot;password-field&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="p">&lt;</span><span class="nt">label</span><span class="w"> </span><span class="na">htmlFor</span><span class="o">=</span><span class="s">&quot;password&quot;</span><span class="p">&gt;</span><span class="nx">Senha</span><span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="p">&lt;</span><span class="nt">InputUI</span><span class="w"> </span><span class="na">type</span><span class="o">=</span><span class="s">&quot;password&quot;</span><span class="w"> </span><span class="na">name</span><span class="o">=</span><span class="s">&quot;password&quot;</span><span class="w"> </span><span class="na">required</span><span class="w"> </span><span class="p">/&gt;</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">&quot;Entrar&quot;</span><span class="w"> </span><span class="p">/&gt;</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="p">&lt;/</span><span class="nt">Form</span><span class="p">&gt;</span>
+</code></pre></div></p>
+<h3 id="registerform-registerformjsx">RegisterForm (<code>RegisterForm.jsx</code>)</h3>
+<p>Formulário de cadastro de novos usuários.</p>
+<p><strong>Campos:</strong>
+- Nome completo
+- Email
+- Senha
+- Confirmação de senha
+- Termos de uso (checkbox)</p>
+<h3 id="expenseform-expenseformjsx">ExpenseForm (<code>ExpenseForm.jsx</code>)</h3>
+<p>Formulário para criação e edição de despesas.</p>
+<p><strong>Campos:</strong>
+- <strong>Descrição</strong>: Textarea para detalhes da despesa
+- <strong>Valor</strong>: Input numérico com formatação de moeda
+- <strong>Categoria</strong>: Select com categorias predefinidas
+- <strong>Data</strong>: Date picker
+- <strong>Grupo</strong>: Select de grupos do usuário
+- <strong>Comprovante</strong>: Upload de arquivo (opcional)</p>
+<p><strong>Validações:</strong>
+- Valor deve ser positivo
+- Descrição obrigatória
+- Data não pode ser futura
+- Categoria deve ser selecionada</p>
+<h3 id="groupform-groupformjsx">GroupForm (<code>GroupForm.jsx</code>)</h3>
+<p>Formulário para criação de grupos de despesas.</p>
+<p><strong>Campos:</strong>
+- <strong>Nome do Grupo</strong>: Input de texto
+- <strong>Descrição</strong>: Textarea opcional
+- <strong>Membros</strong>: Lista de emails para convites
+- <strong>Foto do Grupo</strong>: Upload de imagem (opcional)</p>
+<h2 id="componentes-de-layout-srccomponentslayout">🏗️ Componentes de Layout (<code>src/components/layout/</code>)</h2>
+<h3 id="header-headerjsx">Header (<code>Header.jsx</code>)</h3>
+<p>Cabeçalho principal da aplicação com navegação e controles do usuário.</p>
+<p><strong>Elementos:</strong>
+- <strong>Logo</strong>: Link para dashboard
+- <strong>Navegação</strong>: Links principais (Desktop)
+- <strong>User Menu</strong>: Dropdown com perfil e logout
+- <strong>Theme Toggle</strong>: Alternador de tema claro/escuro
+- <strong>Mobile Menu</strong>: Hamburger menu para mobile</p>
+<p><strong>Responsividade:</strong>
+- Desktop: Navegação horizontal completa
+- Tablet: Navegação condensada
+- Mobile: Menu hamburger</p>
+<h3 id="dropdownmenu-dropdownmenu">DropdownMenu (<code>DropdownMenu/</code>)</h3>
+<p>Sistema de menus suspensos baseado em HeadlessUI.</p>
+<p><strong>Subcomponentes:</strong>
+- <strong>DropdownMenuNav</strong>: Navegação lateral mobile
+- <strong>SwitchTheme</strong>: Alternador de tema integrado</p>
+<p><strong>Funcionalidades:</strong>
+- Animações suaves
+- Navegação por teclado
+- Auto-fechamento
+- Posicionamento inteligente</p>
+<h2 id="componentes-de-graficos-srccomponentschartswitcher">📊 Componentes de Gráficos (<code>src/components/ChartSwitcher/</code>)</h2>
+<h3 id="chartswitcher-indexjsx">ChartSwitcher (<code>index.jsx</code>)</h3>
+<p>Container principal que alterna entre diferentes visualizações gráficas.</p>
+<p><strong>Estado:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">activeChart</span><span class="p">,</span><span class="w"> </span><span class="nx">setActiveChart</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="s1">&#39;balance&#39;</span><span class="p">);</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1">// &#39;balance&#39; | &#39;expense&#39;</span>
+</code></pre></div></p>
+<p><strong>Funcionalidades:</strong>
+- Toggle entre gráficos
+- Botão de alternância com ícones
+- Transições suaves
+- Estado persistente durante sessão</p>
+<h3 id="balancechart-balancechartjsx">BalanceChart (<code>BalanceChart.jsx</code>)</h3>
+<p>Gráfico de linha mostrando evolução do saldo ao longo do tempo.</p>
+<p><strong>Tecnologia</strong>: Recharts
+<strong>Tipo</strong>: Line Chart
+<strong>Dados</strong>: Saldo por período (diário/mensal)</p>
+<p><strong>Características:</strong>
+- Eixo X: Timeline (datas)
+- Eixo Y: Valores monetários
+- Cores: Verde para positivo, vermelho para negativo
+- Tooltips informativos
+- Responsive design</p>
+<h3 id="expensechart-expensechartjsx">ExpenseChart (<code>ExpenseChart.jsx</code>)</h3>
+<p>Gráfico de pizza mostrando distribuição de gastos por categoria.</p>
+<p><strong>Tecnologia</strong>: Recharts
+<strong>Tipo</strong>: Pie Chart
+<strong>Dados</strong>: Gastos agrupados por categoria</p>
+<p><strong>Características:</strong>
+- Legendas com percentuais
+- Cores distintivas por categoria
+- Hover effects
+- Labels com valores</p>
+<h2 id="componentes-especializados">🎯 Componentes Especializados</h2>
+<h3 id="loading-loadingindexjsx">Loading (<code>Loading/index.jsx</code>)</h3>
+<p>Indicador de carregamento com animação suave.</p>
+<p><strong>Variantes:</strong>
+- <strong>Spinner</strong>: Indicador circular rotativo
+- <strong>Skeleton</strong>: Placeholder para conteúdo
+- <strong>Progress</strong>: Barra de progresso com percentual</p>
+<h3 id="logo-logoindexjsx">Logo (<code>Logo/index.jsx</code>)</h3>
+<p>Componente da marca visual da aplicação.</p>
+<p><strong>Características:</strong>
+- SVG otimizado
+- Responsivo (tamanhos: sm, md, lg)
+- Suporte a tema claro/escuro
+- Link para página inicial</p>
+<h3 id="summarycards-summarycardsindexjsx">SummaryCards (<code>SummaryCards/index.jsx</code>)</h3>
+<p>Grid de cartões com métricas financeiras principais.</p>
+<p><strong>Cards Exibidos:</strong>
+- <strong>Saldo Total</strong>: Valor atual da conta
+- <strong>Gastos do Mês</strong>: Total de despesas mensais
+- <strong>Receitas do Mês</strong>: Total de receitas mensais
+- <strong>Economia</strong>: Diferença entre receitas e gastos</p>
+<p><strong>Layout:</strong>
+- Grid responsivo (1 coluna mobile, 2-4 desktop)
+- Ícones contextuais
+- Cores baseadas em valores (verde/vermelho)</p>
+<h3 id="usergreeting-usergreetingindexjsx">UserGreeting (<code>UserGreeting/index.jsx</code>)</h3>
+<p>Saudação personalizada baseada no horário e dados do usuário.</p>
+<p><strong>Funcionalidades:</strong>
+- Saudação dinâmica (Bom dia/tarde/noite)
+- Nome do usuário logado
+- Avatar ou iniciais
+- Status de conexão</p>
+<h3 id="modalbutton-modalbuttonindexjsx">ModalButton (<code>ModalButton/index.jsx</code>)</h3>
+<p>Botão que abre modais com conteúdo dinâmico.</p>
+<p><strong>Props:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nx">buttonText</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span><span class="w">      </span><span class="c1">// Texto do botão</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nx">modalTitle</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span><span class="w">      </span><span class="c1">// Título do modal</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nx">modalContent</span><span class="o">:</span><span class="w"> </span><span class="nx">ReactNode</span><span class="p">,</span><span class="w"> </span><span class="c1">// Conteúdo JSX do modal</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nx">buttonVariant</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span><span class="w">   </span><span class="c1">// Estilo do botão</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nx">modalSize</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;sm&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;md&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;lg&#39;</span><span class="w"> </span><span class="c1">// Tamanho do modal</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">}</span>
+</code></pre></div></p>
+<h2 id="padroes-de-estilizacao">🎨 Padrões de Estilização</h2>
+<h3 id="css-variables-utilizadas">CSS Variables Utilizadas</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">--color-primary</span><span class="o">:</span><span class="w"> </span><span class="p">#</span><span class="nn">3B82F6</span><span class="o">;</span><span class="w">     </span><span class="c">/* Azul principal */</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nt">--color-secondary</span><span class="o">:</span><span class="w"> </span><span class="p">#</span><span class="nn">10B981</span><span class="o">;</span><span class="w">   </span><span class="c">/* Verde secundário */</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nt">--color-surface</span><span class="o">:</span><span class="w"> </span><span class="p">#</span><span class="nn">FFFFFF</span><span class="o">;</span><span class="w">     </span><span class="c">/* Fundo de cards */</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nt">--color-text</span><span class="o">:</span><span class="w"> </span><span class="p">#</span><span class="nn">1F2937</span><span class="o">;</span><span class="w">        </span><span class="c">/* Texto principal */</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nt">--color-muted</span><span class="o">:</span><span class="w"> </span><span class="p">#</span><span class="nn">6B7280</span><span class="o">;</span><span class="w">       </span><span class="c">/* Texto secundário */</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nt">--color-border</span><span class="o">:</span><span class="w"> </span><span class="p">#</span><span class="nn">E5E7EB</span><span class="o">;</span><span class="w">      </span><span class="c">/* Bordas */</span>
+</code></pre></div>
+<h3 id="classes-tailwindcss-comuns">Classes TailwindCSS Comuns</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c">/* Containers */</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="p">.</span><span class="nc">container-card</span><span class="o">:</span><span class="w"> </span><span class="nt">bg-surface</span><span class="w"> </span><span class="nt">p-6</span><span class="w"> </span><span class="nt">rounded-2xl</span><span class="w"> </span><span class="nt">shadow-md</span><span class="w"> </span><span class="nt">border</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c">/* Inputs */</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="p">.</span><span class="nc">input-base</span><span class="o">:</span><span class="w"> </span><span class="nt">w-full</span><span class="w"> </span><span class="nt">h-11</span><span class="w"> </span><span class="nt">rounded-xl</span><span class="w"> </span><span class="nt">border</span><span class="w"> </span><span class="nt">px-4</span><span class="w"> </span><span class="nt">text-sm</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c">/* Buttons */</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="p">.</span><span class="nc">btn-primary</span><span class="o">:</span><span class="w"> </span><span class="nt">bg-primary</span><span class="w"> </span><span class="nt">text-white</span><span class="w"> </span><span class="nt">px-6</span><span class="w"> </span><span class="nt">py-2</span><span class="w"> </span><span class="nt">rounded-lg</span><span class="w"> </span><span class="nt">hover</span><span class="p">:</span><span class="nd">opacity-90</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c">/* Typography */</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="p">.</span><span class="nc">text-heading</span><span class="o">:</span><span class="w"> </span><span class="nt">text-xl</span><span class="w"> </span><span class="nt">font-semibold</span><span class="w"> </span><span class="nt">text-text</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="p">.</span><span class="nc">text-body</span><span class="o">:</span><span class="w"> </span><span class="nt">text-sm</span><span class="w"> </span><span class="nt">text-muted</span>
+</code></pre></div>
+<h2 id="testabilidade">🧪 Testabilidade</h2>
+<h3 id="convencoes-para-testes">Convenções para Testes</h3>
+<ul>
+<li><strong>data-testid</strong>: Para identificação em testes</li>
+<li><strong>aria-label</strong>: Para acessibilidade e testes</li>
+<li><strong>role</strong>: Papéis semânticos claros</li>
+</ul>
+<h2 id="responsividade">📱 Responsividade</h2>
+<h3 id="breakpoints-utilizados">Breakpoints Utilizados</h3>
+<ul>
+<li><strong>Mobile</strong>: até 640px (sm)</li>
+<li><strong>Tablet</strong>: 641px - 1024px (md/lg)</li>
+<li><strong>Desktop</strong>: 1025px+ (xl/2xl)</li>
+</ul>
+<h3 id="estrategias">Estratégias</h3>
+<ul>
+<li><strong>Mobile-first</strong>: Estilos base para mobile</li>
+<li><strong>Progressive Enhancement</strong>: Melhorias para telas maiores</li>
+<li><strong>Flexible Grids</strong>: CSS Grid e Flexbox</li>
+<li><strong>Fluid Typography</strong>: Tamanhos escaláveis</li>
+</ul>
+<hr />
+<p><strong>💡 Todos os componentes seguem as melhores práticas do React e são otimizados para performance, acessibilidade e reutilização em todo o sistema FinBoost+.</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>
