@@ -13,7 +13,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=1234
   db:
-    image: postgres
+    image: postgres:15
     restart: always
     volumes:
       - db-data:/var/lib/postgresql/data
