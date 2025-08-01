@@ -1,16 +1,17 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect } from 'react';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 const KEY_THEME_CONTEXT = 'app_theme';
+const THEME_DEFAULT = 'light';
+
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem(KEY_THEME_CONTEXT) || 'light';
-  });
+  const [theme, setTheme] = useLocalStorage(KEY_THEME_CONTEXT, THEME_DEFAULT);
 
+  // Sempre que o tema mudar, aplicamos no <html>
   useEffect(() => {
-    localStorage.setItem(KEY_THEME_CONTEXT, theme);
-    document.documentElement.className = theme; // Aplica a classe no <html>
+    document.documentElement.className = theme;
   }, [theme]);
 
   const toggleTheme = () => {
@@ -26,7 +27,8 @@ export function ThemeProvider({ children }) {
 
 export function useTheme() {
   const context = useContext(ThemeContext);
-  if (!context)
+  if (!context) {
     throw new Error('useTheme deve ser usado dentro de ThemeProvider');
+  }
   return context;
 }
