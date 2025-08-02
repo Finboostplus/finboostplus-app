@@ -1,5 +1,6 @@
 import groupsData from './groups.data';
 import dashboardData from './dashboard.data';
+
 export default {
   username: 'Luna Martins',
   email: 'luna.martins@galaxykids.com',

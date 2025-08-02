@@ -9,7 +9,7 @@ export default function SwitchTheme() {
     <Switch
       checked={enabled}
       onChange={toggleTheme}
-      className={`group relative inline-flex h-8 w-16 items-center rounded-full ${
+      className={`group cursor-pointer relative inline-flex h-8 w-16 items-center rounded-full ${
         enabled ? 'bg-zinc-700' : 'bg-zinc-300'
       } transition-colors duration-300 focus:outline-none`}
       aria-label="Alternar tema escuro/claro"
