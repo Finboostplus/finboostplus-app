@@ -1,6 +1,7 @@
 import { Menu, MenuItem } from '@headlessui/react';
 import userData from '../../mockData/user/user.data';
 import { formatBRL } from '../../utils/formatters';
+
 export default function LatestExpenses() {
   const current_user = userData;
   return (

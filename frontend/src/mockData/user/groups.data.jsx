@@ -1,6 +1,6 @@
 import { FaGlassCheers, FaHeart, FaUsers, FaLaptopCode } from 'react-icons/fa';
 
-export default [
+const groups = [
   {
     id: 'grp-bffs',
     name: 'BFFs da Escola 💖',
@@ -9,10 +9,9 @@ export default [
       { name: 'Mel', color: '#9370DB' },
       { name: 'Bia', color: '#FFB6C1' },
     ],
-    status: 'Saldo: R$ 45,00',
-    statusColor: 'text-green-600',
-    icon: <FaHeart className="text-pink-400" />,
+    status: 45.0,
     totalBalance: 45.0,
+    icon: <FaHeart className="text-pink-400" />,
     pendingDebts: [
       { id: 1, name: 'Mel', amount: 15.0, type: 'owes', to: 'Luna Martins' },
     ],
@@ -33,10 +32,9 @@ export default [
       { name: 'Noah', color: '#4682B4' },
       { name: 'Jade', color: '#8A2BE2' },
     ],
-    status: 'Saldo: R$ 100,00',
-    statusColor: 'text-blue-600',
-    icon: <FaLaptopCode className="text-indigo-500" />,
+    status: 100.0,
     totalBalance: 100.0,
+    icon: <FaLaptopCode className="text-indigo-500" />,
     pendingDebts: [
       { id: 2, name: 'Noah', amount: 50.0, type: 'owes', to: 'Jade' },
     ],
@@ -56,10 +54,9 @@ export default [
       { name: 'Luna Martins', color: '#ff69b4' },
       { name: 'Tati', color: '#D2691E' },
     ],
-    status: 'Sem pendências',
-    statusColor: 'text-gray-500',
-    icon: <FaGlassCheers className="text-yellow-600" />,
+    status: 0.0,
     totalBalance: 0.0,
+    icon: <FaGlassCheers className="text-yellow-600" />,
     pendingDebts: [],
     recentExpenses: [
       {
@@ -79,10 +76,9 @@ export default [
       { name: 'Papai', color: '#4169E1' },
       { name: 'Sofia', color: '#FFD700' },
     ],
-    status: 'Saldo: R$ 0,00',
-    statusColor: 'text-gray-500',
-    icon: <FaUsers className="text-violet-600" />,
+    status: 0.0,
     totalBalance: 0.0,
+    icon: <FaUsers className="text-violet-600" />,
     pendingDebts: [],
     recentExpenses: [
       {
@@ -94,3 +90,14 @@ export default [
     ],
   },
 ];
+
+// statusColor baseado no saldo
+export default groups.map(group => ({
+  ...group,
+  statusColor:
+    group.status < 0
+      ? 'text-error'
+      : group.status === 0
+        ? 'text-muted'
+        : 'text-success',
+}));
