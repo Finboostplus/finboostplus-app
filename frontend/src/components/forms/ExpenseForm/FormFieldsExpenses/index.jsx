@@ -1,4 +1,4 @@
-import InputUI from '../../../components/ui/Input';
+import InputUI from '../../../ui/Input';
 
 export default function FormFieldsExpenses() {
   return (

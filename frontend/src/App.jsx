@@ -1,7 +1,6 @@
 import ChartSwitcher from './components/ChartSwitcher';
+import LatestExpenses from './components/LatestExpenses';
 import SummaryCards from './components/SummaryCards';
-import LatestExpenses from './pages/Expenses/LatestExpenses';
-import './styles/globals.css';
 
 function App() {
   return (

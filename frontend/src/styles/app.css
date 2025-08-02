@@ -1,0 +1,30 @@
+html {
+  background-color: var(--color-neutral);
+}
+
+/* Cores e fonte da aplicação */
+@theme {
+  --color-primary: #0152ac;
+  --color-secondary: #00a6ed;
+  --color-success: #18af7d;
+  --color-error: #e74c3c;
+  --color-neutral: #f5f7fa;
+  --color-surface: #ffffff;
+  --color-text: #1f2d3d;
+  --color-muted: #95a5a6;
+  --font-principal: 'Inter', sans-serif;
+}
+
+@custom-variant dark (html:where(.dark,.dark *));
+
+.dark {
+  --color-primary: #4a90e2; /* Azul médio – ainda confiável e suave */
+  --color-secondary: #5bc0f8; /* Azul claro vibrante – destaque */
+  --color-success: #2fd8a3; /* Verde claro – entradas */
+  --color-error: #ff7a6b; /* Vermelho suave – saídas */
+  --color-neutral: #2e3239; /* Cinza grafite – fundo geral */
+  --color-surface: #3a3f47; /* Cinza médio – cartões/inputs */
+  --color-text: #e3e8ee; /* Branco suave – textos */
+  --color-muted: #a0a9b8; /* Cinza azulado claro – texto secundário */
+  --font-principal: 'Inter', sans-serif;
+}

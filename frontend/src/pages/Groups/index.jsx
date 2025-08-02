@@ -1,8 +1,8 @@
 import GroupForm from '../../components/forms/GroupForm';
 import ModalButton from '../../components/ModalButton';
 import CardUI from '../../components/ui/Card';
-import groupsData from '../../mockData/user/groups.data';
 import userData from '../../mockData/user/user.data';
+import { formatBRL } from '../../utils/formatters';
 export default function Groups() {
   const current_user = userData;
   return (
@@ -59,7 +59,7 @@ export default function Groups() {
                 <p
                   className={`text-sm font-semibold select-none ${group.statusColor}`}
                 >
-                  {group.status}
+                  Saldo: {formatBRL(group.status)}
                 </p>
               </CardUI>
             </a>
