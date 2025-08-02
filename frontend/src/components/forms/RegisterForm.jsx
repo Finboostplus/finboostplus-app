@@ -1,11 +1,16 @@
 import { Checkbox, Menu, MenuItem } from '@headlessui/react';
 import { useState } from 'react';
+import { Form, useActionData } from 'react-router';
 import InputUI from '../ui/Input';
 import ButtonUI from '../ui/Button';
-import { Form } from 'react-router';
+import MessageBox from '../MessageBox';
 
 export default function RegisterForm() {
   const [checked, setChecked] = useState(false);
+  const actionData = useActionData();
+  const errors = actionData?.errors || {};
+  const values = actionData?.values || {};
+
   return (
     <section className="w-full max-w-md mx-auto">
       <Form
@@ -47,10 +52,12 @@ export default function RegisterForm() {
               id={id}
               name={id}
               type={type}
-              placeholder={placeholder}
               required
+              defaultValue={values[id] || ''}
+              placeholder={placeholder}
               className="w-full h-11 rounded-xl border border-muted px-4 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
             />
+            {errors[id] && <MessageBox>{errors[id][0]}</MessageBox>}
           </div>
         ))}
 
@@ -62,6 +69,7 @@ export default function RegisterForm() {
             className="group block w-5 h-5 rounded border border-muted bg-surface data-[checked]:bg-primary transition-colors"
             aria-checked={checked}
             role="checkbox"
+            name="terms"
           >
             <svg
               className="stroke-white opacity-0 group-data-[checked]:opacity-100 transition-opacity"
@@ -84,6 +92,11 @@ export default function RegisterForm() {
             Aceitar os termos de uso e política de privacidade
           </label>
         </div>
+        {errors.terms && (
+          <MessageBox className="-mt-4 w-full text-left">
+            {errors.terms[0]}
+          </MessageBox>
+        )}
 
         <ButtonUI
           title="Cadastrar"
@@ -93,6 +106,7 @@ export default function RegisterForm() {
 
         <input type="hidden" name="type" value="register" />
       </Form>
+
       <Menu as={'div'}>
         <p className="mt-6 text-sm text-text text-center">
           Já tem uma conta?{' '}

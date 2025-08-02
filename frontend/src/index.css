@@ -3,7 +3,7 @@
 html {
   background-color: var(--color-neutral);
 }
-
+/* Cores e fonte da aplicação */
 @theme {
   --color-primary: var(
     --color-primary
@@ -24,6 +24,14 @@ html {
   --color-text: var(--color-text); /* Azul acinzentado escuro – textos */
   --color-muted: var(--color-muted); /* Cinza azulado – texto secundário */
   --font-principal: 'Inter', sans-serif;
+}
+
+/* Cores da caixa e mensagem */
+@theme {
+  --color-error: rgba(220, 53, 69); /* Vermelho suave, menos agressivo */
+  --color-warning: rgba(255, 193, 7); /* Amarelo ouro, vibrante mas elegante */
+  --color-success: rgba(40, 167, 69); /* Verde vivo, mas suave */
+  --color-info: rgba(23, 162, 184); /* Azul petróleo, moderno e calmo */
 }
 
 :root {
