@@ -4,6 +4,7 @@ export default function InputUI({
   id,
   value,
   name,
+  onChange,
   type,
   placeholder,
   required,
@@ -15,6 +16,7 @@ export default function InputUI({
       id={id}
       value={value}
       name={name}
+      onChange={onChange}
       type={type}
       placeholder={placeholder}
       className="

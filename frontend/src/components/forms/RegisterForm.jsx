@@ -1,9 +1,10 @@
-import { Checkbox, Menu, MenuItem } from '@headlessui/react';
+import { Menu, MenuItem } from '@headlessui/react';
 import { useState } from 'react';
 import { Form, useActionData } from 'react-router';
 import InputUI from '../ui/Input';
 import ButtonUI from '../ui/Button';
 import MessageBox from '../MessageBox';
+import CheckboxUI from '../ui/Checkbox';
 
 export default function RegisterForm() {
   const [checked, setChecked] = useState(false);
@@ -62,35 +63,12 @@ export default function RegisterForm() {
         ))}
 
         <div className="w-full flex items-start gap-2">
-          <Checkbox
-            id="terms"
+          <CheckboxUI
             checked={checked}
             onChange={setChecked}
-            className="group block w-5 h-5 rounded border border-muted bg-surface data-[checked]:bg-primary transition-colors"
-            aria-checked={checked}
-            role="checkbox"
             name="terms"
-          >
-            <svg
-              className="stroke-white opacity-0 group-data-[checked]:opacity-100 transition-opacity"
-              viewBox="0 0 14 14"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path
-                d="M3 8L6 11L11 3.5"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </Checkbox>
-          <label
-            htmlFor="terms"
-            className="text-sm text-text cursor-pointer select-none"
-          >
-            Aceitar os termos de uso e política de privacidade
-          </label>
+            label="Aceitar os termos de uso e política de privacidade"
+          />
         </div>
         {errors.terms && (
           <MessageBox className="-mt-4 w-full text-left">
