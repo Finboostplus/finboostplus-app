@@ -1,0 +1,16 @@
+# Usa uma imagem com JDK e Maven
+FROM eclipse-temurin:21-jdk-jammy
+
+WORKDIR /build
+
+# Copia o Maven Wrapper e o diretório .mvn
+# Use '--chmod=0755' para garantir que o arquivo tenha permissão de execução
+COPY --chmod=0755 mvnw .
+COPY .mvn .mvn
+
+# Apenas para baixar as dependências uma vez.
+COPY pom.xml .
+RUN ./mvnw dependency:go-offline -DskipTests
+
+# Define o comando padrão para rodar a aplicação em modo de desenvolvimento
+CMD ["./mvnw", "spring-boot:run"]
