@@ -53,3 +53,6 @@ backend/gradle-app.setting
 *.swo
 *.bak
 *.tmp
+
+# MkDocs (Documentation)
+site/
