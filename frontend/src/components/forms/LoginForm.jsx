@@ -1,8 +1,14 @@
-import { Form } from 'react-router';
+import { Form, useActionData } from 'react-router';
 import Button from '../ui/Button';
 import InputUI from '../ui/Input';
 import { Menu, MenuItem } from '@headlessui/react';
+import MessageBox from '../MessageBox';
+
 export default function LoginForm() {
+  const actionData = useActionData();
+  const errors = actionData?.errors || {};
+  const values = actionData?.values || {};
+
   return (
     <section className="w-full max-w-md mx-auto">
       <Form
@@ -18,10 +24,12 @@ export default function LoginForm() {
             id="email"
             name="email"
             type="email"
+            defaultValue={values.email || ''}
             placeholder="Digite seu email"
             required
             className="w-full h-11 rounded-xl border border-muted px-4 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
           />
+          {errors.email && <MessageBox>{errors.email[0]}</MessageBox>}
         </div>
 
         <div className="w-full flex flex-col gap-2">
@@ -36,6 +44,7 @@ export default function LoginForm() {
             required
             className="w-full h-11 rounded-xl border border-muted px-4 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
           />
+          {errors.password && <MessageBox>{errors.password[0]}</MessageBox>}
         </div>
 
         <Button
@@ -62,3 +71,12 @@ export default function LoginForm() {
     </section>
   );
 }
+
+/* 
+!!!Estou implementando a validação dos formulários!!!
+
+já criei a pasta schemas
+componente message box para mensagens na aplicação
+adicionei paleta de cores para a caixa de mensagem
+
+*/

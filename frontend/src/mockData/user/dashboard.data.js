@@ -1,9 +1,23 @@
 import chartsData from './charts/charts.data';
 
-export default {
-  totalBalance: 312.4, // Saldo Total
-  totalMonthlySpent: 428.9, // Total Gasto (Mês)
-  recentExpenses: [
+function getAllRecentExpenses(groups) {
+  return groups.flatMap(group => group.recentExpenses || []);
+}
+
+export function createDashboardData(userData) {
+  const groups = userData.groups;
+
+  return {
+    totalBalance: 312.4, // você pode calcular com base nos grupos se quiser
+    totalMonthlySpent: 428.9, // idem
+    recentExpenses: getAllRecentExpenses(groups),
+    chartsData,
+  };
+}
+
+/* 
+
+[
     {
       description: 'Ingresso - Show da Taylor Swift',
       amount: 390.0,
@@ -32,6 +46,6 @@ export default {
       group: 'Família Carvalho',
       groupId: 'grp-fam',
     },
-  ],
-  chartsData,
-};
+  ]
+
+*/

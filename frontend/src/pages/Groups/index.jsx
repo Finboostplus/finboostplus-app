@@ -1,28 +1,50 @@
+import { useState } from 'react';
+import GroupFilters from '../../components/Filters/Groups';
+import { useFilteredGroups } from '../../components/Filters/Groups/useFilteredGroups';
 import GroupForm from '../../components/forms/GroupForm';
 import ModalButton from '../../components/ModalButton';
 import CardUI from '../../components/ui/Card';
-import groupsData from '../../mockData/user/groups.data';
 import userData from '../../mockData/user/user.data';
+import { formatBRL } from '../../utils/formatters';
 export default function Groups() {
   const current_user = userData;
+  const [filters, setFilters] = useState({
+    search: '',
+    onlyOwner: false,
+    sortOrder: 'desc', //desc ou asc
+  });
+
+  const filteredGroups = useFilteredGroups(
+    current_user.groups,
+    current_user.id,
+    filters
+  );
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-neutral p-6 transition-colors">
       <main className="flex-1 max-w-[1200px] mx-auto">
         <header className="mb-6">
           <h1 className="text-2xl font-bold text-text text-center md:text-left">
-            Meus grupos
+            Meus grupos ({current_user.groups.length})
           </h1>
         </header>
 
+        <GroupFilters
+          search={filters.search}
+          onlyOwner={filters.onlyOwner}
+          sortOrder={filters.sortOrder}
+          onFilterChange={setFilters}
+        />
+
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {current_user.groups.map(group => (
+          {filteredGroups.map(group => (
             <a
               key={group.id}
               href={`/groups/${group.id}`}
               className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg"
               aria-label={`Grupo ${group.name} com ${group.members.length} membros`}
             >
-              <CardUI className="p-6 rounded-2xl shadow-sm bg-surface hover:shadow-md cursor-pointer border border-neutral h-full transition-colors">
+              <CardUI className="relative p-6 rounded-2xl shadow-sm bg-surface hover:shadow-md cursor-pointer border-l-4 border-primary  h-full transition-colors">
                 <div className="flex items-center gap-3 mb-3 text-lg text-primary font-semibold">
                   <span className="text-2xl">{group.icon}</span>
                   <h3>{group.name}</h3>
@@ -59,7 +81,7 @@ export default function Groups() {
                 <p
                   className={`text-sm font-semibold select-none ${group.statusColor}`}
                 >
-                  {group.status}
+                  Saldo: {formatBRL(group.status)}
                 </p>
               </CardUI>
             </a>

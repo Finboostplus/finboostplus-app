@@ -1,6 +1,7 @@
 import { Menu, MenuItem } from '@headlessui/react';
 import userData from '../../mockData/user/user.data';
 import { formatBRL } from '../../utils/formatters';
+
 export default function LatestExpenses() {
   const current_user = userData;
   return (
@@ -39,7 +40,12 @@ export default function LatestExpenses() {
                   className="text-sm text-muted"
                   aria-label="Data e grupo da despesa"
                 >
-                  {expense.date} | {expense.group}
+                  {expense.date} |{' '}
+                  {
+                    current_user.groups.find(
+                      group => group.id === expense.groupId
+                    ).name
+                  }
                 </p>
               </div>
 
