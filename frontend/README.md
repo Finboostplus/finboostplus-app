@@ -6,16 +6,14 @@ Finboost+ é uma interface web moderna para gerenciar finanças em grupo, feita 
 
 ## 📇 Indíces
 
-1. [Estrutura do projeto](#-estrutura-do-projeto)
-
-2. [Intalação e execução](#️-instalação-e-execução)
-
-3. [Contribuição](#-contribuição)
-    + [Tecnologias usadas](#-tecnologias-utilizadas)
-    + [Boas práticas](#-boas-práticas)
+1. [Estrutura do projeto](#estrutura-do-projeto)
+2. [Instalação e Uso](#instalação-e-uso)
+3. [Contribuição](#contribuição)
+   - [Tecnologias Utilizadas](#tecnologias-utilizadas)
+   - [Boas práticas](#boas-práticas)
 ---
 
-## 🗂️ Estrutura do projeto
+## Estrutura do projeto
 
 ```plaintext
 frontend/
@@ -124,7 +122,7 @@ frontend/
 ```
 
 ---
-## ⚙️ Instalação e Uso
+## Instalação e Uso
 
 Para utilizar e instalar a aplicação, é necessário que você tenha os seguintes programas instalados em sua máquina:
 
@@ -176,9 +174,9 @@ Abra esse endereço no navegador para visualizar a aplicação funcionando.
 
 ---
 
-## 🤝 Contribuição
+## Contribuição
 
-### 🧑‍💻 Tecnologias Utilizadas
+### Tecnologias Utilizadas
 
 🚀 Principais
 - [ReactJS](https://reactjs.org/)
@@ -200,7 +198,7 @@ Abra esse endereço no navegador para visualizar a aplicação funcionando.
 🔌 Requisições HTTP
 - [Axios](https://axios-http.com/)
 
-### 🪜 Boas práticas
+### Boas práticas
 
 #### 🛠️ Padrões de Projeto
 
@@ -234,3 +232,5 @@ Template das branches:
 Exemplo:
 git checkout -b feat/21-criar-projeto-react
 ```
+---
+<p align="center">Finboost+ frontend!</p>
