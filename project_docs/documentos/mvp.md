@@ -792,7 +792,7 @@ Funcionalidades e histórias marcadas com \* não estão previstas para o MVP e 
 ### Restrições de Prazo Acadêmico
 
 - Desenvolvimento: MVP em até 5 semanas e prazo final do trabalho até o final de outubro de 2025
-- Equipe: 9 pessoas (7 backend, 2 frontend)
+- Equipe: 9 pessoas (6 backend, 2 frontend e 1 gestão)
 - Priorização rigorosa das funcionalidades essenciais do curso
 - Demonstração obrigatória de todas as competências técnicas aprendidas
 
