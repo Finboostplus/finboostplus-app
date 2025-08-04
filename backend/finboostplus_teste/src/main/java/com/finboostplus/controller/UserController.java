@@ -13,30 +13,27 @@ import com.finboostplus.DTO.UserRequestDTO;
 import com.finboostplus.model.User;
 import com.finboostplus.service.UserService;
 
-
-
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
 	@Autowired
 	UserService service;
-	
+
 	@PostMapping()
 	public ResponseEntity salvar(@RequestBody UserRequestDTO user) {
-		
+
 		User userEntity = new User();
-		userEntity  = user.toUser();
-		
+		userEntity = user.toUser();
+
 		var userControle = service.salvar(userEntity);
-		
-		if(userControle != null) {
-		
-		 return new ResponseEntity(HttpStatus.OK);
-			
+
+		if (userControle != null) {
+
+			return new ResponseEntity(HttpStatus.OK);
+
 		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);	 
-		
-		
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
 	}
 }
