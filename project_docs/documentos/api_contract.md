@@ -3,7 +3,8 @@
 > **Documentação de Desenvolvimento** - Este documento serve como registro do design da API durante o desenvolvimento. Para documentação interativa e testes, consulte a implementação no Scalar.
 
 ## Informações Gerais
-- **Base URL**: `https://localhost:3000/api/v1`
+- **Base URL (Desenvolvimento)**: `http://localhost:3000/api/v1`
+- **Base URL (Produção)**: `https://<seu-dominio>/api/v1`
 - **Formato de Dados**: JSON
 - **Autenticação**: Bearer Token (JWT)
 - **Versão**: v1.0.0
