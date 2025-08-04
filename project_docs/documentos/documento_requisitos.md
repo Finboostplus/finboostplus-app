@@ -392,7 +392,7 @@ Este é um projeto final de curso de desenvolvimento fullstack, com prazo limita
 ### 4.1 Restrições de Prazo
 
 - Desenvolvimento: até o final de outubro de 2025
-- Equipe: 10 pessoas (7 backend, 2 frontend, 1 gestão)
+- Equipe: 9 pessoas (6 backend, 2 frontend, 1 gestão)
 - Priorização rigorosa das funcionalidades essenciais
 - Foco em demonstrar competências técnicas do curso
 
