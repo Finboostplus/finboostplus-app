@@ -116,12 +116,20 @@ Quando a aplicação estiver rodando, você terá acesso às seguintes rotas:
 - `http://localhost:5173/` - Página inicial (redirecionamento)
 - `http://localhost:5173/login` - Página de login
 - `http://localhost:5173/register` - Página de cadastro
+- `http://localhost:5173/forgotPassword` - Página de redefinição de senha
 
 ### Rotas Protegidas (requer autenticação)
-- `http://localhost:5173/dashboard` - Dashboard principal
-- `http://localhost:5173/expenses` - Gestão de despesas
-- `http://localhost:5173/groups` - Gestão de grupos
+- `http://localhost:5173/` - Dashboard principal
 - `http://localhost:5173/profile` - Perfil do usuário
+- `http://localhost:5173/profile/edit` - Edição do perfil
+- `http://localhost:5173/groups` - Listar grupos
+- `http://localhost:5173/groups/{groupId}` - Detalhes do grupo
+- `http://localhost:5173/groups/{groupId}/edit` - Edição do grupo
+- `http://localhost:5173/groups/{groupId}/members` - Gestão de membros | Transferência de dono do grupo
+- `http://localhost:5173/groups/{groupId}/members/{userId}` - Detalhes do membro
+- `http://localhost:5173/groups/{groupId}/expenses` - Gestão de despesas
+- `http://localhost:5173/groups/{groupId}/expenses/{expenseId}` - Detalhes da despesa
+- `http://localhost:5173/groups/{groupId}/expenses/{expenseId}/edit` - Edição da despesa
 
 ## 🐛 Troubleshooting
 

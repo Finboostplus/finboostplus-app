@@ -1,13 +1,16 @@
 services:
     server:
+        # Usa o Dockerfile específico para desenvolvimento
         build:
             context: .
+            dockerfile: Dockerfile.dev
         ports:
             - 8080:8080
         depends_on:
             db:
                 condition: service_healthy
         volumes:
+            # Mapeia o diretório local para o diretório de trabalho
             - .:/build
         environment:
             - POSTGRES_URL=jdbc:postgresql://db:5432/finboostplus
@@ -15,6 +18,7 @@ services:
             - SPRING_DATASOURCE_USERNAME=postgres
             - SPRING_DATASOURCE_PASSWORD=1234
     db:
+        # ... (aqui o serviço do banco de dados continua o mesmo) ...
         image: postgres
         restart: always
         volumes:

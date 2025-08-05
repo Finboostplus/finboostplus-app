@@ -1,4 +1,5 @@
 import InputUI from '../../../ui/Input';
+import SelectUI from '../../../ui/Select';
 
 export default function FormFieldsExpenses() {
   return (
@@ -67,17 +68,18 @@ export default function FormFieldsExpenses() {
         >
           Categoria
         </label>
-        <select
+        <SelectUI
           id="categoria"
           name="categoria"
-          className="w-full p-2 border border-neutral rounded-md text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
+          className="w-full p-2 border border-neutral rounded-md text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition cursor-pointer"
           aria-required="true"
           defaultValue="Alimentação"
-        >
-          <option value="Alimentação">Alimentação</option>
-          <option value="Transporte">Transporte</option>
-          <option value="Outros">Outros</option>
-        </select>
+          options={[
+            { value: 'Alimentação', label: 'Alimentação' },
+            { value: 'Transporte', label: 'Transporte' },
+            { value: 'Outros', label: 'Outros' },
+          ]}
+        />
       </div>
 
       {/* Quem pagou */}

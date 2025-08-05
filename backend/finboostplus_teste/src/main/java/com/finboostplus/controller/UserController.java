@@ -15,7 +15,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -54,6 +53,7 @@ public class UserController {
 		}catch(Exception e){
 			throw new UsernameNotFoundException("Não foi encontrado o usuário");
 		}
+
 	}
 
 }

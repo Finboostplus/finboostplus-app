@@ -1,23 +1,23 @@
 import { Button } from '@headlessui/react';
 
 export default function ButtonUI({
-  icon,
+  icon, // renomeando para poder usar como componente
   title,
-  type,
-  arialLabel,
-  className,
+  type = 'button',
+  ariaLabel, // corrigido typo de arialLabel para ariaLabel
+  className = '',
   fnClick,
-  disabled,
+  disabled = false,
 }) {
   return (
     <Button
       onClick={fnClick}
-      aria-label={arialLabel}
+      aria-label={ariaLabel || title}
       type={type}
       className={className}
       disabled={disabled}
     >
-      {icon && <span className="text-xl text-blue-800">{icon}</span>}
+      {icon ? icon : ''}
       <span>{title}</span>
     </Button>
   );
