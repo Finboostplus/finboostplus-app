@@ -28,7 +28,7 @@ Permitir que usuários criem grupos, registrem despesas compartilhadas e visuali
    - Perfil básico (nome, foto opcional)
    - Logout
 
-**Justificativa:** Base necessária para identificar usuários e associar dados.
+   **Justificativa:** Base necessária para identificar usuários e associar dados.
 
 2. **Gerenciamento de Grupos**
 
@@ -37,7 +37,7 @@ Permitir que usuários criem grupos, registrem despesas compartilhadas e visuali
    - Aceitar convites
    - Visualizar membros do grupo
 
-**Justificativa:** Core da aplicação — sem grupos não há compartilhamento.
+   **Justificativa:** Core da aplicação — sem grupos não há compartilhamento.
 
 3. **Registro de Despesas**
 
@@ -47,7 +47,7 @@ Permitir que usuários criem grupos, registrem despesas compartilhadas e visuali
    - Listar despesas do grupo
    - Editar/Excluir despesas próprias
 
-**Justificativa:** Funcionalidade principal que entrega valor imediato.
+   **Justificativa:** Funcionalidade principal que entrega valor imediato.
 
 4. **Cálculo de Saldos**
 
@@ -55,7 +55,7 @@ Permitir que usuários criem grupos, registrem despesas compartilhadas e visuali
    - Resumo de quem deve para quem
    - Total gasto por pessoa
 
-**Justificativa:** Resolve o problema central dos usuários.
+   **Justificativa:** Resolve o problema central dos usuários.
 
 5. **Dashboard Simples**
 
@@ -63,7 +63,7 @@ Permitir que usuários criem grupos, registrem despesas compartilhadas e visuali
    - Últimas despesas
    - Status de débitos/créditos
 
-**Justificativa:** Visão geral rápida e intuitiva.
+   **Justificativa:** Visão geral rápida e intuitiva.
 
 ---
 
@@ -83,55 +83,103 @@ As funcionalidades nesta seção do documento não estão previstas para o MVP i
 
 ---
 
-### 4.3 Estrutura Técnica Mínima
+### 4.3 Estrutura Técnica Completa
 
 **Backend (Spring Boot)**
 
 1. **Controllers:**
-
-   - AuthController (login/register)
-   - UserController (perfil)
-   - GroupController (CRUD grupos)
-   - ExpenseController (CRUD despesas)
-   - BalanceController (cálculos)
+   - AuthController (login, registro, OAuth2, recuperação de senha)
+   - UserController (perfil, preferências)
+   - GroupController (CRUD de grupos com filtros)
+   - ExpenseController (CRUD de despesas com paginação)
+   - BalanceController (cálculos e métricas)
 
 2. **Models:**
-
-   - User
+   - User (com perfil e preferências)
    - Group
    - Expense
+   - ExpenseSplit
    - UserGroup (relacionamento)
+   - PasswordResetToken
 
 3. **Services:**
-   - AuthService
+   - AuthService (JWT, OAuth2, 2FA)
+   - UserService
    - GroupService
    - ExpenseService
    - BalanceService
+   - EmailService (recuperação de senha)
+   - CacheService (Redis)
+
+4. **Security & Validation:**
+   - JWT Configuration
+   - OAuth2 Configuration
+   - Security Headers (CSP, HSTS, X-Frame-Options)
+   - Input Validation & Sanitization
+   - CSRF Protection
 
 **Frontend (React)**
 
 1. **Pages:**
-
-   - Login/Register
-   - Dashboard
-   - Group Detail
-   - Add Expense
-   - Profile
+   - Login/Register (com OAuth2)
+   - Dashboard (com métricas e gráficos)
+   - Groups (listagem paginada com filtros)
+   - Expenses (CRUD com filtros avançados)
+   - Profile (edição de dados e preferências)
+   - PasswordRecovery
 
 2. **Components:**
-   - ExpenseList
-   - BalanceCard
-   - MemberList
-   - ExpenseForm
+   - Header (navegação com breadcrumbs)
+   - ExpenseList (paginação, filtros, drag & drop)
+   - ExpenseForm (validação em tempo real)
+   - GroupForm
+   - UserProfile
+   - ThemeToggle
+   - Loading/ErrorBoundary
+   - SearchBar (filtros avançados)
+
+3. **Hooks/Context:**
+   - AuthContext (JWT, refresh token)
+   - ThemeContext
+   - UserContext
+   - NotificationContext
+
+4. **Features Avançadas:**
+   - Lazy loading
+   - Code splitting
+   - Infinite scroll
+   - Responsive design
+   - Acessibilidade (ARIA)
 
 **Database (PostgreSQL)**
 
 1. **Tables:**
-   - users
+   - users (com preferências e configurações)
    - groups
    - expenses
-   - user_groups
    - expense_splits
+   - user_groups
+   - password_reset_tokens
+   - user_sessions
+
+2. **Índices e Performance:**
+   - user_id em expenses
+   - group_id em expenses
+   - created_at em expenses
+   - email em users (único)
+
+**Cache (Redis)**
+   - Sessões JWT
+   - Dados de usuário frequentemente acessados
+   - Resultados de cálculos complexos
+   - Cache de queries pesadas
+
+**DevOps e Documentação**
+   - Docker containers
+   - GitHub Actions CI/CD
+   - Swagger/OpenAPI documentation
+   - Jest/Testing Library para testes
+   - ESLint/Prettier para qualidade de código
 
 ---
 
@@ -314,23 +362,33 @@ Funcionalidades e histórias marcadas com \* não estão previstas para o MVP e 
 
 ## 8. Requisitos Funcionais (mínimos)
 
-### [RF01] Cadastro de Usuário
+### [RF01] Cadastro e Gestão de Usuário
 
-**Descrição:** O sistema deve permitir o cadastro de novos usuários.  
+**Descrição:** O sistema deve permitir o cadastro de novos usuários e gestão de perfil.  
 **Atores:** Usuário  
 **Prioridade:** Essencial  
 **Entradas:** Nome, e-mail, senha (ou login via conta Google)  
-**Saída:** Usuário cadastrado e redirecionado para a tela de login.
+**Saída:** Usuário cadastrado e redirecionado para a tela de login
+**Requisitos Técnicos:**
+- Entidade "Perfil" com dados pessoais (nome, e-mail) e preferências (tema, notificações)
+- Consulta e edição de perfil e configurações
+- Validação de dados de entrada
+- Criptografia de senhas (hash + salt)
 
 ---
 
-### [RF02] Login
+### [RF02] Login e Autenticação Segura
 
-**Descrição:** O sistema deve permitir login de usuários existentes.  
+**Descrição:** O sistema deve permitir login de usuários existentes com autenticação segura.  
 **Atores:** Usuário  
 **Prioridade:** Essencial  
-**Entradas:** E-mail e senha (ou conta Google)  
-**Saída:** Acesso à interface principal do sistema.
+**Entradas:** E-mail e senha (ou conta Google via OAuth2)  
+**Saída:** Acesso à interface principal do sistema com token JWT
+**Requisitos Técnicos:**
+- Implementação de OAuth2 para login social
+- Emissão de token JWT com expiração e refresh
+- Fluxo de recuperação de senha por e-mail (link único, validade limitada)
+- 2FA opcional via OTP para ações críticas
 
 ---
 
@@ -344,13 +402,19 @@ Funcionalidades e histórias marcadas com \* não estão previstas para o MVP e 
 
 ---
 
-### [RF04] Cadastro e Registro de Despesas
+### [RF04] Cadastro e Registro de Despesas com CRUD Completo
 
-**Descrição:** O sistema deve permitir registrar despesas (individuais ou em grupo), com opção de divisão igual ou personalizada.  
+**Descrição:** O sistema deve permitir registrar despesas (individuais ou em grupo), com opção de divisão igual ou personalizada, incluindo operações completas de CRUD.  
 **Atores:** Usuário  
 **Prioridade:** Essencial  
 **Entradas:** Valor, descrição, data, categoria, pagador, participantes envolvidos  
-**Saída:** Despesa registrada com saldo atualizado.
+**Saída:** Despesa registrada com saldo atualizado
+**Requisitos Técnicos:**
+- CRUD completo para todas as entidades de domínio
+- Filtros dinâmicos e paginação em listagens
+- Consulta detalhada incluindo relacionamentos e metadados
+- Cálculo de métricas simples (contagem, soma, média)
+- Pesquisa avançada com filtros em múltiplos campos
 
 ---
 
@@ -404,6 +468,51 @@ Funcionalidades e histórias marcadas com \* não estão previstas para o MVP e 
 
 ---
 
+### [RF10] Navegação e Usabilidade Avançada
+
+**Descrição:** O sistema deve garantir navegação fluida e intuitiva.  
+**Atores:** Usuário  
+**Prioridade:** Importante  
+**Entradas:** Interações do usuário  
+**Saída:** Interface responsiva e acessível
+**Requisitos Técnicos:**
+- Navegação fluida entre páginas com animações
+- Estrutura de menus e rotas clara
+- Breadcrumbs para orientação
+- Interface responsiva (mobile-first)
+
+---
+
+### [RF11] Listagem e Organização Avançada
+
+**Descrição:** O sistema deve exibir dados de forma organizada e interativa.  
+**Atores:** Usuário  
+**Prioridade:** Importante  
+**Entradas:** Dados do sistema  
+**Saída:** Listagens otimizadas
+**Requisitos Técnicos:**
+- Listas paginadas ou carregamento contínuo (infinite scroll)
+- Possibilidade de reorganizar itens (drag and drop)
+- Filtros dinâmicos e ordenação
+- Lazy loading para performance
+
+---
+
+### [RF12] Sistema de Preferências e Personalização
+
+**Descrição:** O usuário deve poder personalizar a experiência de uso.  
+**Atores:** Usuário  
+**Prioridade:** Desejável  
+**Entradas:** Configurações do usuário  
+**Saída:** Interface personalizada
+**Requisitos Técnicos:**
+- Tema claro/escuro
+- Configurações de notificações
+- Preferências de visualização
+- Salvamento de configurações no perfil
+
+---
+
 ## Observações
 
 - Funcionalidades marcadas com \* (ex: metas, gráficos, dicas automáticas, alertas, notificações push, IA, múltiplas moedas, auditoria, etc.) não serão implementadas no MVP inicial, ficando para versões futuras conforme validação e priorização.
@@ -421,12 +530,16 @@ Funcionalidades e histórias marcadas com \* não estão previstas para o MVP e 
 - Cálculos de saldo: máximo 5 segundos
 - Carregamento de páginas: máximo 4 segundos
 
-#### [RNF02] Capacidade de Usuários
+#### [RNF02] Performance e Otimização
 
-- Suportar pelo menos 50 usuários simultâneos (adequado para projeto acadêmico)
+- Cache distribuído (Redis ou equivalente)
+- Lazy loading, índices adequados e otimização de queries
+- Evitar re-renderizações desnecessárias no frontend
+- Code splitting e otimização de bundles
 
-#### [RNF03] Capacidade de Dados
+#### [RNF03] Capacidade do Sistema
 
+- Suportar pelo menos 50 usuários simultâneos
 - Máximo 1000 usuários cadastrados
 - Máximo 100 grupos
 - Máximo 10.000 despesas
@@ -459,113 +572,335 @@ Funcionalidades e histórias marcadas com \* não estão previstas para o MVP e 
 
 ### 9.4 Segurança
 
-#### [RNF08] Autenticação
+#### [RNF08] Autenticação e Autorização
 
 - Senhas criptografadas (hash + salt)
-- Sessões seguras
+- Sessões seguras com JWT
 - Timeout de sessão após inatividade
+- Proteção de APIs via JWT e HTTPS
+- Mitigação de SQL Injection, XSS e CSRF
+- Cabeçalhos de segurança (CSP, HSTS, X-Frame-Options)
 
-#### [RNF09] Autorização
+#### [RNF09] Autorização e Controle de Acesso
 
 - Validação de permissões em todas as operações
 - Isolamento de dados entre grupos
 - Prevenção de acesso não autorizado
+- 2FA opcional para ações críticas
 
 #### [RNF10] Proteção de Dados
 
-- Comunicação HTTPS
+- Comunicação HTTPS obrigatória
 - Sanitização de inputs
-- Proteção contra SQL Injection básica
+- Proteção contra SQL Injection
+- Validação rigorosa de dados de entrada
 
-### 9.5 Manutenibilidade
+### 9.5 Manutenibilidade e Deploy
 
-#### [RNF11] Código Limpo
+#### [RNF11] Código Limpo e Arquitetura
 
 - Padrões de codificação consistentes
 - Comentários em funções complexas
 - Separação clara de responsabilidades (MVC)
+- Arquitetura modular ou microsserviços
+- Componentes auxiliares em linguagens diversas, conforme necessidade
 
-#### [RNF12] Versionamento
+#### [RNF12] Versionamento e CI/CD
 
 - Uso de Git com commits descritivos
 - Branches para features principais
+- Pipeline de CI/CD (GitHub Actions, GitLab CI ou Jenkins)
+- Containerização com Docker
 - README com instruções de instalação
 
-### 9.6 Portabilidade
+#### [RNF13] Documentação Técnica
 
-#### [RNF13] Compatibilidade de Navegadores
+- Guia de configuração do ambiente local
+- Exemplos de chamadas de API (Postman/Insomnia)
+- Documentação de API: Swagger / OpenAPI
+- Diagramas de modelo de dados (ER) e fluxos principais
+- Guia do usuário básico
+- Comentários no código explicando pontos importantes
+
+### 9.6 Portabilidade e Compatibilidade
+
+#### [RNF14] Compatibilidade de Navegadores
 
 - Chrome (versão atual)
 - Firefox (versão atual)
 - Edge (versão atual)
 
-#### [RNF14] Responsividade
+#### [RNF15] Responsividade e Acessibilidade
 
 - Mobile (320px+)
 - Tablet (768px+)
 - Desktop (1024px+)
+- Contraste adequado de cores
+- Textos alternativos para imagens
+- Navegação por teclado
+- Leitores de tela
+- Feedback visual claro e em tempo real
 
 ### 9.7 Tecnológicos
 
-#### [RNF15] Arquitetura
+#### [RNF16] Arquitetura e Stack
 
 - Backend: Spring Boot + PostgreSQL
-- Frontend: React + CSS/Tailwind
+- Frontend: React + CSS/Tailwind 
 - API RESTful
 - Separação clara entre camadas
+- Navegação: React Router
+- Chamadas de API: Axios, Fetch API
+- Estado Global: Redux, Context API
+- Testes: Jest, Testing Library
 
-#### [RNF16] Banco de Dados
+#### [RNF17] Banco de Dados e Cache
 
+- PostgreSQL como banco principal
 - Normalização adequada
 - Índices em campos de consulta frequente
 - Constraints de integridade referencial
+- Cache distribuído (Redis)
+
+#### [RNF18] Ferramentas de Desenvolvimento
+
+- Gestão de código: GitHub
+- Containerização: Docker
+- Documentação de API: Swagger/OpenAPI
+- Testes automatizados
+- Análise de código estático
 
 ---
 
-## 10. Premissas e Restrições
+## 10. Alinhamento com Requisitos Acadêmicos
 
-### 10.1 Restrições de Prazo
+### 10.1 Requisitos Backend do Curso - Status de Implementação
 
-- Desenvolvimento: MVP em até 5 semanas e prazo final do trabalho até 10 de dezembro de 2025.
-- Equipe: 10 pessoas
-- Priorização rigorosa das funcionalidades essenciais
+**Autenticação e Segurança (Obrigatório)**
+- Login social (OAuth2) com Google
+- Cadastro próprio com validação
+- JWT com expiração e refresh token
+- Recuperação de senha por e-mail
+- 2FA opcional para ações críticas
 
-### 10.2 Restrições Tecnológicas
+**Gestão de Usuário (Obrigatório)**
+- Entidade "Perfil" completa
+- Preferências (tema, notificações)
+- Edição de perfil e configurações
 
-- Stack definida: Spring Boot + React + PostgreSQL
-- Integração de IA para futuras funcionalidades
-- Sem integrações externas complexas (bancos, pagamentos)
-- Deploy em ambiente de desenvolvimento/teste
+**CRUD de Entidades (Obrigatório)**
+- CRUD completo para Users, Groups, Expenses
+- Filtros dinâmicos em todas as listagens
+- Paginação implementada
 
-### 10.3 Restrições de Recursos
+**Detalhes de Item (Obrigatório)**
+- Relacionamentos entre entidades
+- Cálculo de métricas (somas, médias)
+- Metadados completos
 
-- Projeto acadêmico (sem orçamento para serviços pagos)
-- Foco em demonstrar competências técnicas
-- Dados de demonstração suficientes
+**Pesquisa Avançada (Obrigatório)**
+- Busca full-text em despesas
+- Filtros múltiplos
+- Histórico de buscas
 
----
+### 10.2 Requisitos Frontend do Curso - Status de Implementação
 
-## 11. Cronograma e Próximos Passos
+**Autenticação de Usuário (Obrigatório)**
+- Login seguro com OAuth2
+- Recuperação de senha
+- Verificação de e-mail
 
-- Prazo final para a entrega do trabalho: 10 de dezembro de 2025
-- Marcos recomendados:
-  - Finalização do backend e frontend básico: 3 semanas
-  - Integração frontend-backend: 1 semana
-  - Testes de usabilidade e ajustes finais: 1 semana
+**Gerenciamento de Perfis (Obrigatório)**
+- Perfil completo editável
+- Personalização (tema claro/escuro)
+- Configurações de notificações
+
+**Navegação e Usabilidade (Obrigatório)**
+- Navegação fluida com animações
+- Breadcrumbs implementados
+- Estrutura de rotas clara
+
+**Listagem e Organização (Obrigatório)**
+- Paginação em todas as listas
+- Infinite scroll opcional
+- Drag and drop para reordenação
+
+**Detalhes com Interatividade (Obrigatório)**
+- Páginas de detalhes completas
+- Comentários em despesas
+- Sistema de avaliações
+
+**Pesquisa e Filtros (Obrigatório)**
+- Filtros avançados por categoria, data, valor
+- Sugestões baseadas em histórico
+- Pesquisa em tempo real
+
+### 10.3 Requisitos Não Funcionais - Conformidade Acadêmica
+
+**Segurança (Obrigatório)**
+- HTTPS obrigatório
+- Proteção contra OWASP Top 10
+- Headers de segurança
+- JWT + refresh token
+
+**Performance (Obrigatório)**
+- Cache distribuído (Redis)
+- Lazy loading
+- Otimização de queries
+- Code splitting
+
+**Escalabilidade (Obrigatório)**
+- Arquitetura modular
+- Microsserviços preparados
+- Docker containerization
+
+**Manutenibilidade (Obrigatório)**
+- CI/CD pipeline
+- Testes automatizados
+- Documentação completa
+- Code quality tools
+
+### 10.4 Tecnologias Mandatórias - Checklist
+
+**Backend:**
+- Java + Spring Boot
+- PostgreSQL
+- Redis (cache)
+- Docker
+- Swagger/OpenAPI
+
+**Frontend:**
+- React (com hooks)
+- React Router
+- Axios/Fetch
+- Tailwind CSS
+- Jest + Testing Library
+
+**DevOps:**
+- GitHub Actions (CI/CD)
+- Docker Compose
+- Environment configs
+
+**Documentação:**
+- README detalhado
+- API documentation
+- User guide
+- Architecture diagrams
+
+## 11. Premissas e Restrições
+
+### Restrições de Prazo Acadêmico
+
+- Desenvolvimento: MVP em até 5 semanas e prazo final do trabalho até o final de outubro de 2025
+- Equipe: 9 pessoas (6 backend, 2 frontend e 1 gestão)
+- Priorização rigorosa das funcionalidades essenciais do curso
+- Demonstração obrigatória de todas as competências técnicas aprendidas
+
+### Restrições Tecnológicas do Curso
+
+- Stack obrigatória definida pelo curso: Spring Boot + React + PostgreSQL
+- Implementação obrigatória de todos os requisitos funcionais do backend
+- Implementação obrigatória de todos os requisitos funcionais do frontend
+- Integração de IA para futuras funcionalidades (demonstração de aprendizado)
+- Deploy obrigatório em ambiente com Docker
+- Pipeline CI/CD obrigatório (GitHub Actions)
+- Documentação técnica completa obrigatória
+
+### Restrições de Recursos Acadêmicos
+
+- Projeto de conclusão de curso (sem orçamento para serviços pagos)
+- Foco obrigatório em demonstrar competências técnicas do curso
+- Validação com dados de demonstração realistas
+- Apresentação e defesa obrigatória do projeto
+- Avaliação baseada na implementação dos requisitos do curso
+
+### Entregáveis Obrigatórios para Aprovação
+
+**Documentação:**
+- README com setup completo
+- Documentação de API (Swagger)
+- Guia do usuário
+- Diagramas de arquitetura e ER
+- Exemplos de API (Postman/Insomnia)
+
+**Código:**
+- Todos os requisitos funcionais implementados
+- Testes automatizados (mínimo 70% coverage)
+- CI/CD pipeline funcional
+- Docker deployment
+- Code quality (ESLint, SonarQube)
+
+**Demonstração:**
+- Apresentação técnica completa
+- Demo das funcionalidades principais
+- Explicação das decisões arquiteturais
+- Discussão de melhorias futuras
 
 ---
 
 ## 12. Equipe Responsável
 
 - Alan (Gestão de Projeto)
-- Ana (Frontend)
-- Bruno (Backend)
-- Cleyton (Frontend)
+- Bruno Henrique (Backend)
 - Cristiano (Backend)
-- Eduardo (Backend)
-- Ellen (Frontend)
 - João (Backend)
-- Mariana (Frontend)
-- Raquel (Frontend)
+- Tulio Malta (Backend)
+- Alisson (Backend)
+- Pedro Henrique (Backend)
+- Cleyton (Frontend)
+- Hugo (Frontend)
+
+---
+
+## 13. Histórico de Versões
+
+| Versão | Data | Autor | Justificativa das Mudanças |
+|--------|------|-------|---------------------------|
+| **v1.0** | **Julho 2025** | **Equipe FinBoost+** | **Versão inicial do MVP** - Definição das funcionalidades básicas do controle financeiro compartilhado com foco na resolução do problema central dos usuários. |
+| **v2.0** | **04 de Agosto de 2025** | **Alan (Gestão) + Equipe** | **Alinhamento com Requisitos Acadêmicos do Curso** - Atualização completa para atender todos os requisitos funcionais e não funcionais obrigatórios do projeto de conclusão de curso. Principais mudanças:<br/>• **Backend**: Adição de OAuth2, JWT, 2FA, CRUD completo, filtros dinâmicos, pesquisa avançada<br/>• **Frontend**: Navegação avançada, acessibilidade, listagem otimizada, personalização<br/>• **DevOps**: Pipeline CI/CD obrigatório, Docker, documentação Swagger<br/>• **Segurança**: Implementação de todos os requisitos OWASP e headers de segurança<br/>• **Documentação**: Estrutura acadêmica completa com diagramas e guias<br/>**Resultado**: Projeto mantém 100% do core original (controle financeiro compartilhado) com qualidade profissional e conformidade acadêmica total. |
+
+### **Notas sobre a Versão v2.0**
+
+**Core Preservado:** Todas as funcionalidades essenciais da v1.0 foram mantidas e aprimoradas
+**Valor Agregado:** Requisitos acadêmicos trouxeram melhorias reais ao produto
+**Personas Atendidas:** Todas as 4 personas continuam sendo contempladas
+**Critérios de Sucesso:** Mantidos e fortalecidos com melhor UX/UI
+**Cronograma:** Adaptado para 8 semanas com entregas por sprint
+
+### **Rastreabilidade das Mudanças v2.0**
+
+**Requisitos Funcionais Adicionados:**
+- `RF10` - Navegação e Usabilidade Avançada
+- `RF11` - Listagem e Organização Avançada  
+- `RF12` - Sistema de Preferências e Personalização
+
+**Requisitos Não Funcionais Expandidos:**
+- `RNF02` - Performance e Otimização (Redis, lazy loading)
+- `RNF08-RNF10` - Segurança robusta (OAuth2, OWASP, headers)
+- `RNF12-RNF13` - DevOps e Documentação completos
+
+**Seções Novas:**
+- `Seção 10` - Alinhamento com Requisitos Acadêmicos
+- `Seção 11` - Premissas e Restrições Acadêmicas
+- `Seção 12` - Cronograma Acadêmico detalhado
+- `Seção 14` - Histórico de Versões (esta seção)
+
+**Tecnologias Mandatórias Adicionadas:**
+- Redis (cache distribuído)
+- Swagger/OpenAPI (documentação)
+- Jest + Testing Library (testes)
+- Docker + GitHub Actions (DevOps)
+- Acessibilidade (ARIA, navegação por teclado)
+
+---
+
+### **Metadados do Documento**
+
+**Documento:** Proposta de MVP - FinBoost+ Controle Financeiro Compartilhado  
+**Versão Atual:** v2.0  
+**Data da Última Atualização:** 04 de Agosto de 2025  
+**Próxima Revisão Prevista:** Sprint Review (a cada 2 semanas)  
+**Status:** Aprovado para implementação  
+**Aprovação Acadêmica:** Conforme requisitos do curso  
 
 ---
