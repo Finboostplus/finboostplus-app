@@ -1,113 +1,125 @@
 package com.finboostplus.model;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import com.finboostplus.DTO.UserRequestDTO;
+import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 
-@Entity
+
+@SuppressWarnings("serial")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")
+@Entity
 @SequenceGenerator(name = "seq_user",sequenceName = "seq_user", allocationSize = 1, initialValue = 1)
-public class User {
+public class User implements UserDetails {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_user")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
+	@Column(name = "user_name", nullable = false)
 	private String name;
-	
+	@Column(name = "e_mail", nullable = false, unique = true)
 	private String email;
-	
+
+	@Column(name = "password", nullable = false)
 	private String password;
-	
-	private String profile_photo_url;
-	
-	private LocalDateTime created_at;
 
-	
-	public User() {}
-	
-	public User(Long id, String name, String email, String password, String profile_photo_url,
-			LocalDateTime created_at) {
-		super();
-		this.id = id;
+	@Column(name = "created_at", nullable = false)
+	private Instant createdAt;
+
+	@Column(name = "color_theme", nullable = false)
+	private String colorTheme;
+
+	@ManyToMany
+	@JoinTable(name = "users_roles",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
+
+	public User(String name, String email, String password, String colorTheme) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.profile_photo_url = profile_photo_url;
-		this.created_at = created_at;
+		this.colorTheme = colorTheme;
+		this.createdAt = Instant.now();
 	}
 
-	public Long getId() {
-		return id;
+	public static User dtoToUser(UserRequestDTO dto){
+		return new User(dto.name(), dto.email(), dto.password(), dto.colorTheme());
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void addRole(Role role) {
+		roles.add(role);
 	}
 
-	public String getName() {
-		return name;
+	public boolean hasRole(String roleName) {
+		for (Role role : roles) {
+			if (role.getAuthority().equals(roleName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 
-	public String getEmail() {
-		return email;
-	}
+		User user = (User) o;
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getProfile_photo_url() {
-		return profile_photo_url;
-	}
-
-	public void setProfile_photo_url(String profile_photo_url) {
-		this.profile_photo_url = profile_photo_url;
-	}
-
-	public LocalDateTime getCreated_at() {
-		return created_at;
-	}
-
-	public void setCreated_at(LocalDateTime created_at) {
-		this.created_at = created_at;
+		return Objects.equals(id, user.id);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return id != null ? id.hashCode() : 0;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		return Objects.equals(id, other.id);
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return roles;
 	}
-	
-	
-	
+
+	@Override
+	public String getPassword() {
+		return password;
+	}
+
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }
