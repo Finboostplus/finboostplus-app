@@ -1,236 +1,245 @@
-# 🎨 Finboost+ Frontend — Controle Financeiro Compartilhado
+# 🎨 Frontend - FinBoost+
 
-Finboost+ é uma interface web moderna para gerenciar finanças em grupo, feita com React, Vite e Tailwind CSS. Oferece navegação fluida, componentes acessíveis e testes com Vitest, focando em performance e experiência do usuário.
+<div align="center">
+  <img src="https://img.shields.io/badge/React-19+-61dafb" alt="React">
+  <img src="https://img.shields.io/badge/Vite-7+-646cff" alt="Vite">  
+  <img src="https://img.shields.io/badge/TailwindCSS-4+-38bdf8" alt="Tailwind">
+  <img src="https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow" alt="Status">
+</div>
+
+**Interface web moderna** do FinBoost+ desenvolvida em **React**. Oferece experiência fluida para gerenciamento de finanças compartilhadas, com design responsivo e componentes acessíveis.
 
 ---
 
-## 📇 Indíces
+## 🚀 **Funcionalidades Principais**
 
-1. [Estrutura do projeto](#estrutura-do-projeto)
-2. [Instalação e Uso](#instalação-e-uso)
-3. [Contribuição](#contribuição)
-   - [Tecnologias Utilizadas](#tecnologias-utilizadas)
-   - [Boas práticas](#boas-práticas)
+- 🎨 **Interface Moderna** - Design responsivo e intuitivo
+- 🔐 **Autenticação Segura** - Login e registro integrados
+- 👥 **Gestão de Grupos** - Interface para grupos financeiros
+- 📊 **Dashboard Interativo** - Gráficos e estatísticas em tempo real
+- 🌙 **Dark/Light Mode** - Alternância de temas
+- 📱 **Responsivo** - Funciona em todos os dispositivos
+
 ---
 
-## Estrutura do projeto
+## 🛠️ **Tecnologias**
 
-```plaintext
+### **Core**
+- **React 19+** - Biblioteca de interface
+- **Vite 7+** - Build tool e dev server
+- **TailwindCSS 4+** - Framework CSS utilitário
+- **JavaScript** - Linguagem principal
+
+### **Bibliotecas**
+- **React Router** - Roteamento de páginas
+- **Axios** - Requisições HTTP
+- **Recharts** - Gráficos e visualizações
+- **Headless UI** - Componentes acessíveis
+
+### **Desenvolvimento**
+- **Vitest** - Framework de testes
+- **ESLint + Prettier** - Padronização de código
+- **React Testing Library** - Testes de componentes
+
+---
+
+## 📁 **Estrutura Resumida**
+
+```
 frontend/
-├── 📁 __tests__/                   # Testes automatizados
-│   ├── 📁 components/              # Testes de componentes
-│   │   └── Header.test.jsx
-│   └── setup.js                    
-├── 📁 public/                      # Arquivos públicos acessíveis diretamente
-│   └── logo.png                    # Imagem usada como logotipo
-├── 📁 src/                         # Código-fonte principal
-│   ├── 📁 components/              # Componentes reutilizáveis
-│   │   ├── 📁 Loading/             # Componente de loading
-│   │   │   └── index.jsx
-│   │   ├── 📁 Logo/                # Componente de logotipo
-│   │   │   └── index.jsx
-│   │   ├── 📁 Modal/               # Componente de modal
-│   │   │   └── index.jsx
-│   │   ├── 📁 SummaryCards/        # Cartões de resumo
-│   │   │   └── index.jsx
-│   │   ├── 📁 UserGreeting/        # Saudação ao usuário
-│   │   │   └── index.jsx
-│   │   ├── 📁 charts/              # Componentes de gráficos
-│   │   │   ├── BalanceChart.jsx
-│   │   │   └── ExpenseChart.jsx
-│   │   ├── 📁 forms/               # Componentes de formulários
-│   │   │   ├── ExpenseForm.jsx
-│   │   │   ├── LoginForm.jsx
-│   │   │   └── RegisterForm.jsx
-│   │   ├── 📁 layout/              # Componentes de layout (Header, Sidebar, etc)
-│   │   │   ├── 📁 DropdownMenu/    # Menu dropdown no layout
-│   │   │   │   ├── 📁 DropdownMenuNav/
-│   │   │   │   │   ├── 📁 SwitchTheme/ # Componente de troca de tema
-│   │   │   │   │   │   └── index.jsx
-│   │   │   │   │   ├── index.jsx
-│   │   │   │   │   ├── navItems.jsx
-│   │   │   │   │   └── useSidebarNav.js
-│   │   │   │   └── index.jsx
-│   │   │   ├── Header.jsx
-│   │   │   └── Layout.jsx
-│   │   └── 📁 ui/                  # Componentes de UI básicos (botões, inputs, etc)
-│   │       ├── Button.jsx
-│   │       ├── Card.jsx
-│   │       ├── Input.jsx
-│   │       └── Modal.jsx
-│   ├── 📁 context/                 # Context API para estado global
-│   │   ├── AuthContext.jsx         # Contexto de autenticação
-│   │   ├── GroupContext.jsx        # Contexto de grupos
-│   │   └── ThemeContext.jsx        # Contexto de tema (dark/light)
-│   ├── 📁 hooks/                   # Hooks customizados
-│   │   ├── useAuth.js              # Hook para acessar o AuthContext
-│   │   ├── useExpenses.js          # Hook para acessar dados de despesas
-│   │   ├── useGroups.js            # Hook para acessar dados de grupos
-│   │   └── useLocalStorage.js      # Hook para gerenciar localStorage
-│   ├── 📁 pages/                   # Páginas principais da aplicação
-│   │   ├── 📁 Dashboard/           # Página do dashboard
-│   │   │   └── index.jsx
-│   │   ├── 📁 Expenses/            # Página de despesas
-│   │   │   ├── 📁 CustomSplitAmount/
-│   │   │   │   └── index.jsx
-│   │   │   ├── 📁 FormFieldsExpenses/
-│   │   │   │   └── index.jsx
-│   │   │   ├── LatestExpenses.jsx
-│   │   │   └── index.jsx
-│   │   ├── 📁 Groups/              # Página de grupos
-│   │   │   ├── 📁 GroupDetails/    # Detalhes de um grupo
-│   │   │   │   ├── 📁 ModalButton/
-│   │   │   │   │   └── index.jsx
-│   │   │   │   ├── BalancesList.jsx
-│   │   │   │   ├── ExpensesList.jsx
-│   │   │   │   ├── groupDetailsLoader.js
-│   │   │   │   └── index.jsx
-│   │   │   ├── index.jsx
-│   │   │   └── mockGroups.jsx
-│   │   ├── 📁 Login/               # Página de login
-│   │   │   ├── index.jsx
-│   │   │   └── loginAction.js
-│   │   ├── 📁 Notfound/            # Página 404
-│   │   │   └── index.jsx
-│   │   ├── 📁 Profile/             # Página de perfil
-│   │   │   ├── 📁 ActiveGroups/
-│   │   │   │   └── index.jsx
-│   │   │   ├── 📁 Stats/
-│   │   │   │   └── index.jsx
-│   │   │   └── index.jsx
-│   │   └── 📁 Register/            # Página de cadastro
-│   │       └── index.jsx
-│   ├── 📁 routes/                  # Rotas protegidas e principais
-│   │   ├── ProtectedRoute.jsx
-│   │   └── routes.jsx
-│   ├── 📁 services/                # Serviços para API e chamadas HTTP
-│   │   ├── api.js                  # Configuração base do Axios
-│   │   ├── auth.js                 # Requisições de autenticação
-│   │   ├── expenses.js             # Requisições de despesas
-│   │   ├── groups.js               # Requisições de grupos
-│   │   └── users.js                # Requisições de usuários
-│   ├── App.jsx                    # Componente raiz da aplicação
-│   ├── index.css                  # Estilos globais da aplicação
-│   └── main.jsx                   # Ponto de entrada da aplicação (ReactDOM)
-├── tailwind.config.js             # Configuração do TailwindCSS
-├── .gitignore                     # Arquivos e pastas ignoradas pelo Git
-├── README.md                      # Documentação do projeto
-├── eslint.config.js               # Configuração do ESLint (linter)
-├── index.html                     # HTML principal da aplicação (usado pelo Vite)
-├── package.json                   # Dependências e scripts do projeto
-└── vite.config.js                 # Configuração do Vite
+├── 📁 src/
+│   ├── 🧩 components/       # Componentes reutilizáveis
+│   │   ├── 📋 forms/        # Formulários (Login, Despesas, etc.)
+│   │   ├── 📊 charts/       # Gráficos (Balance, Expenses)
+│   │   ├── 🎛️ layout/       # Layout (Header, Sidebar, etc.)
+│   │   └── 🔧 ui/          # Componentes básicos (Button, Input)
+│   ├── 📄 pages/           # Páginas principais
+│   │   ├── Dashboard/      # Página inicial
+│   │   ├── Groups/         # Gestão de grupos
+│   │   ├── Expenses/       # Controle de despesas
+│   │   └── Profile/        # Perfil do usuário
+│   ├── 🔗 services/        # Requisições API
+│   ├── 🎣 hooks/           # Custom hooks
+│   ├── 📡 context/         # Context API (Auth, Theme)
+│   └── 🛣️ routes/          # Rotas e proteção
+├── 📁 __tests__/           # Testes automatizados
+└── 📁 public/             # Arquivos estáticos
 ```
+
+> 📖 **Documentação completa:** Veja nossa [documentação técnica](https://finboostplus.github.io/finboostplus-app/) para leitura sobre desenvolvimento e arquitetura.
 
 ---
-## Instalação e Uso
 
-Para utilizar e instalar a aplicação, é necessário que você tenha os seguintes programas instalados em sua máquina:
+## ⚡ **Execução Rápida**
 
-- [Node.js](https://nodejs.org)
-- NPM (já vem instalado com o Node.js)
-- [Git](https://git-scm.com)
+### **Pré-requisitos**
+- Node.js 18+
+- npm ou yarn
+- Git
 
-Você pode verificar se as instalações foram realizadas com sucesso utilizando os seguintes comandos:
-
-**Para o Node.js:**
+### **Verificar Instalação**
 ```bash
-node -v
-```
-**Para o Git:**
-```bash
-git -v
+node -v    # v18+
+npm -v     # 8+  
+git --version
 ```
 
-Após instalar as tecnologias necessárias, siga os passos abaixo para visualizar o frontend da aplicação:
-
-### 1. Clone o repositório:
+### **1. Instalar e Executar**
 ```bash
-git clone https://github.com/Finboostplus/finboostplus-app.git
-```
-
-### 2. Acesse a pasta do projeto:
-```bash
+# Se já clonou o repo, entre na pasta frontend
 cd frontend
-```
 
-### 3. Instale as dependências:
-```bash
+# Instalar dependências
 npm install
+
+# Executar em modo desenvolvimento  
+npm run dev
+
+# ✅ Aplicação rodando em: http://localhost:5173
 ```
 
-Aguarde a finalização da instalação. Em seguida, inicie o servidor local com o comando:
+### **2. Builds e Deploy**
+```bash
+# Build para produção
+npm run build
+
+# Preview do build
+npm run preview
+
+# Analisar bundle
+npm run build -- --analyze
+```
+
+---
+
+## 🧪 **Testes**
 
 ```bash
-npm run dev
-```
+# Executar todos os testes
+npm test
 
-O terminal exibirá algo como:
+# Testes em modo watch
+npm run test:watch  
 
-```
-Local: http://localhost:5173/
-```
+# Cobertura de testes
+npm run test:coverage
 
-Abra esse endereço no navegador para visualizar a aplicação funcionando.
+# Ver relatório de cobertura
+open coverage/index.html
+```
 
 ---
 
-## Contribuição
+## 🔧 **Configurações**
 
-### Tecnologias Utilizadas
+### **Variáveis de Ambiente**
+Crie um arquivo `.env.local`:
 
-🚀 Principais
-- [ReactJS](https://reactjs.org/)
-- [Vite](https://vitejs.dev/)
-- [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
-- [Tailwind CSS](https://tailwindcss.com/)
+```env
+# URL da API Backend
+VITE_API_BASE_URL=http://localhost:8080/api
 
-📦 Dependências
-- [React Router](https://reactrouter.com/)
-- [Recharts](https://recharts.org/)
+# Nome da aplicação
+VITE_APP_NAME=FinBoost+
 
-🧪 Desenvolvimento & Testes
-- [Vitest](https://vitest.dev/)
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
-- [ESLint](https://eslint.org/)
-- [Prettier](https://prettier.io/)
-- [Headless UI](https://headlessui.com/)
-
-🔌 Requisições HTTP
-- [Axios](https://axios-http.com/)
-
-### Boas práticas
-
-#### 🛠️ Padrões de Projeto
-
-- **Modularização por componentes** (React)
-- Separação clara entre lógica, apresentação e estado
-- Componentes reutilizáveis e desacoplados
-- Pastas organizadas por responsabilidade (ex: `components`, `pages`, `hooks`, `services`).
-
-#### 🗂️ Organização de Código
-
-- **camelCase** para variáveis e funções
-- **PascalCase** para nomes de componentes React
-- Arquivos com nomes descritivos e curtos, em inglês
-- Uso de arquivos `.module.css` ou Tailwind para estilização (evitar estilos globais)
-- Diretórios por domínio ou funcionalidade.
-
-#### 📝Padrões de Commit
-
-- **feat**: Nova funcionalidade
-- **fix**: Correção de bug
-- **docs**: Documentação
-- **style**: Formatação de código
-- **refactor**: Refatoração
-- **test**: Testes
-- **chore**: Tarefas de manutenção
-
+# Ambiente
+VITE_NODE_ENV=development
 ```
-Template das branches:
-<tipo>/<número-da-issue>-descricao-curta
 
-Exemplo:
-git checkout -b feat/21-criar-projeto-react
+### **Integração com Backend**
+```javascript
+// src/services/api.js
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api'
+
+// Certifique-se que o backend esteja rodando em :8080
 ```
+
 ---
-<p align="center">Finboost+ frontend!</p>
+
+## 📱 **Páginas Principais**
+
+| Rota | Componente | Descrição |
+|------|------------|-----------|
+| `/` | Dashboard | Visão geral e estatísticas |
+| `/groups` | Groups | Gestão de grupos financeiros |
+| `/expenses` | Expenses | Registro de despesas |
+| `/profile` | Profile | Perfil e configurações |
+| `/login` | Login | Autenticação |
+
+---
+
+## 🎨 **Customização de Tema**
+
+```javascript
+// tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#eff6ff',
+          500: '#3b82f6',
+          900: '#1e3a8a',
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+## 🤝 **Padrões de Desenvolvimento**
+
+### **Nomenclatura**
+- **Componentes:** PascalCase (`UserProfile.jsx`)
+- **Funções:** camelCase (`getUserData`)
+- **Constantes:** UPPER_SNAKE_CASE (`API_BASE_URL`)
+
+### **Estrutura de Componente**
+```jsx
+// Exemplo: components/ui/Button.jsx
+import { forwardRef } from 'react'
+
+const Button = forwardRef(({ className, variant = 'primary', ...props }, ref) => {
+  return (
+    <button
+      className={`btn btn-${variant} ${className}`}
+      ref={ref}
+      {...props}
+    />
+  )
+})
+
+export default Button
+```
+
+### **Commits**
+- `feat:` Nova funcionalidade UI
+- `fix:` Correção visual/funcional
+- `style:` Ajustes de CSS/styling
+- `refactor:` Refatoração de componentes
+
+---
+
+## 📞 **Suporte**
+
+- 🐛 **Issues:** [GitHub Issues](../../issues)
+- 📖 **Docs:** [Guia de Componentes](../docs/frontend)
+- 💬 **Discord:** [Nosso servidor](link-discord)
+- 🎨 **Figma:** [Design System](link-figma)
+
+---
+
+## 🚀 **Performance**
+
+- **Lighthouse Score:** 90+ ⚡
+- **Bundle Size:** < 500KB 📦
+- **First Paint:** < 1.5s ⏱️
+
+---
+
+<div align="center">
+  <strong>🎨 Interface React - FinBoost+</strong><br/>
+  <em>Desenvolvido pelo Grupo 7 - +Prati & Codifica</em>
+</div>

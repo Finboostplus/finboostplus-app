@@ -1,7 +1,7 @@
 site_name: FinBoost+ Documentation
 site_description: Documentação completa da aplicação FinBoost+ (Frontend e Backend)
 site_author: Equipe FinBoost+
-repo_url: https://github.com/seu-usuario/finboostplus-app
+repo_url: https://github.com/Finboostplus/finboostplus-app
 repo_name: finboostplus-app
 docs_dir: docs
 site_dir: site
@@ -55,10 +55,10 @@ nav:
   - Home: index.md
   - Projeto:
       - Visão Geral: project/overview.md
+      - Arquitetura: project/architecture.md
       - Requisitos: project/requirements.md
-      - User Stories: project/user-stories.md
       - Diagramas: project/diagrams.md
-      - Personas: project/personas.md
+      - API Contract: project/api-contract.md
   - Frontend:
       - Visão Geral: frontend/index.md
       - Getting Started: frontend/getting-started.md
@@ -66,11 +66,7 @@ nav:
       - Componentes: frontend/components.md
       - Páginas: frontend/pages.md
       - Hooks: frontend/hooks.md
-      - Serviços: frontend/services.md
       - Styling: frontend/styling.md
-      - Testes: frontend/testing.md
-      - Deploy: frontend/deployment.md
-      - API Reference: frontend/api-reference.md
   - Backend:
       - Visão Geral: backend/index.md
       - Getting Started: backend/getting-started.md
@@ -78,5 +74,9 @@ nav:
       - API Endpoints: backend/api-endpoints.md
       - Database: backend/database.md
       - Autenticação: backend/authentication.md
-      - Testes: backend/testing.md
-      - Deploy: backend/deployment.md
+  - Desenvolvimento:
+      - Visão Geral: development/index.md
+      - Uso de IA - Frontend: frontend/ai_usage.md
+      - Log de Prompts - Frontend: frontend/ai_prompts_log.md
+      - Uso de IA - Backend: backend/ai_usage.md
+      - Log de Prompts - Backend: backend/ai_prompts_log.md
