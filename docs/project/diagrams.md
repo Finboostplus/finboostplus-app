@@ -1,59 +1,75 @@
 # 📊 Diagramas do Sistema - FinBoost+
 
-Esta seção apresenta os diagramas técnicos e de processo que documentam a arquitetura e funcionamento do sistema FinBoost+.
+Esta seção apresenta os diagramas oficiais que documentam a arquitetura e funcionamento do sistema FinBoost+, baseados nos documentos originais do projeto.
 
 ---
 
-## 🏗️ **Diagrama de Arquitetura**
+## 🏗️ **Diagrama de Arquitetura do Sistema**
 
 ```mermaid
 graph TB
-    subgraph "Frontend (React)"
-        UI[Interface do Usuário]
-        Components[Componentes React]
-        State[Gerenciamento de Estado]
+    subgraph "Camada de Apresentação"
+        UI[Interface Web - React]
+        Mobile[Interface Mobile-First]
         Router[React Router]
     end
     
-    subgraph "Backend (Spring Boot)"
-        API[REST API]
-        Security[Spring Security]
-        Service[Camada de Serviço]
-        Repository[Repositórios JPA]
+    subgraph "Camada de Aplicação"
+        API[API REST - Spring Boot]
+        Auth[Spring Security + JWT]
+        Controllers[Controllers]
     end
     
-    subgraph "Database"
+    subgraph "Camada de Negócio"
+        Services[Services]
+        Business[Regras de Negócio]
+        Calculations[Cálculos de Saldos]
+    end
+    
+    subgraph "Camada de Dados"
+        JPA[JPA/Hibernate]
         PostgreSQL[(PostgreSQL)]
+        Cache[Cache - Redis*]
     end
     
     subgraph "Infraestrutura"
         Docker[Docker Containers]
         CI[GitHub Actions]
-        Docs[MkDocs]
+        Docs[MkDocs + Swagger]
     end
     
     UI --> API
-    Components --> State
-    State --> Router
-    API --> Security
-    Security --> Service
-    Service --> Repository
-    Repository --> PostgreSQL
+    Mobile --> API
+    Router --> Controllers
+    API --> Auth
+    Auth --> Services
+    Services --> Business
+    Business --> Calculations
+    Services --> JPA
+    JPA --> PostgreSQL
     
-    Docker --> Frontend
-    Docker --> Backend
+    Docker --> UI
+    Docker --> API
     CI --> Docker
     Docs --> CI
+    
+    Cache -.-> Services
+    
+    style Cache fill:#f9f9f9,stroke:#999,stroke-dasharray: 5 5
 ```
+
+*Cache Redis previsto para versões futuras
 
 ---
 
 ## 👤 **Diagrama de Casos de Uso**
 
+> **📋 Nota:** Este diagrama está baseado no arquivo oficial `Diagrama de Casos de Uso.png` localizado em `project_docs/diagramas/`
+
 ```mermaid
-graph TD
+graph LR
     User[👤 Usuário]
-    Admin[👤 Administrador]
+    Admin[👤 Administrador do Grupo]
     System[🖥️ Sistema FinBoost+]
     
     subgraph "Autenticação"
@@ -66,51 +82,53 @@ graph TD
     subgraph "Gestão de Grupos"
         UC5[Criar Grupo]
         UC6[Convidar Membros]
-        UC7[Listar Grupos]
-        UC8[Configurar Grupo]
+        UC7[Participar de Grupo]
+        UC8[Visualizar Membros]
         UC9[Sair do Grupo]
     end
     
     subgraph "Controle de Despesas"
         UC10[Registrar Despesa]
         UC11[Visualizar Despesas]
-        UC12[Editar Despesa]
-        UC13[Excluir Despesa]
-        UC14[Calcular Saldos]
+        UC12[Editar Despesa Própria]
+        UC13[Excluir Despesa Própria]
+        UC14[Dividir Despesa]
     end
     
-    subgraph "Relatórios"
-        UC15[Gerar Dashboard]
+    subgraph "Relatórios e Saldos"
+        UC15[Ver Dashboard]
         UC16[Visualizar Saldos]
-        UC17[Relatório por Período]
-        UC18[Gráficos de Gastos]
+        UC17[Calcular Débitos/Créditos]
+        UC18[Ver Histórico]
     end
     
     User --> UC1
     User --> UC2
     User --> UC3
     User --> UC4
-    User --> UC5
     User --> UC7
+    User --> UC8
     User --> UC9
     User --> UC10
     User --> UC11
     User --> UC12
     User --> UC13
+    User --> UC14
     User --> UC15
     User --> UC16
-    User --> UC17
     User --> UC18
     
+    Admin --> UC5
     Admin --> UC6
-    Admin --> UC8
     
-    System --> UC14
+    System --> UC17
 ```
 
 ---
 
 ## 🗄️ **Diagrama Entidade-Relacionamento (ER)**
+
+> **📋 Nota:** Este diagrama está baseado no arquivo oficial `diagrama_ER.png` localizado em `project_docs/diagramas/`
 
 ```mermaid
 erDiagram
@@ -154,7 +172,6 @@ erDiagram
         varchar category
         date expense_date
         text notes
-        varchar receipt_url
         timestamp created_at
         timestamp updated_at
         boolean active
@@ -180,18 +197,6 @@ erDiagram
         timestamp calculated_at
     }
     
-    SETTLEMENT {
-        bigint id PK
-        bigint group_id FK
-        bigint from_user FK
-        bigint to_user FK
-        decimal amount
-        varchar status
-        text description
-        timestamp created_at
-        timestamp confirmed_at
-    }
-    
     USER ||--o{ GROUP : creates
     USER ||--o{ GROUP_MEMBER : belongs_to
     GROUP ||--o{ GROUP_MEMBER : has
@@ -201,16 +206,117 @@ erDiagram
     USER ||--o{ EXPENSE_SPLIT : participates
     GROUP ||--o{ BALANCE : tracks
     USER ||--o{ BALANCE : has
-    GROUP ||--o{ SETTLEMENT : records
-    USER ||--o{ SETTLEMENT : pays
-    USER ||--o{ SETTLEMENT : receives
 ```
 
 ---
 
-## 🔄 **Fluxograma de Processos Principais**
+## 📱 **Diagrama de Classes - Estrutura Principal**
 
-### **Processo: Registro de Nova Despesa**
+> **📋 Nota:** Este diagrama está baseado no arquivo oficial `diagrama_classes.png` localizado em `project_docs/diagramas/`
+
+```mermaid
+classDiagram
+    class User {
+        +Long id
+        +String name
+        +String email
+        +String passwordHash
+        +String profilePicture
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+        +Boolean active
+        
+        +createGroup()
+        +joinGroup()
+        +createExpense()
+        +updateProfile()
+    }
+    
+    class Group {
+        +Long id
+        +String name
+        +String description
+        +String inviteCode
+        +Long createdBy
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+        +Boolean active
+        
+        +addMember()
+        +removeMember()
+        +generateInviteCode()
+        +calculateGroupBalance()
+    }
+    
+    class GroupMember {
+        +Long id
+        +Long groupId
+        +Long userId
+        +String role
+        +LocalDateTime joinedAt
+        +Boolean active
+        
+        +changeRole()
+        +leave()
+    }
+    
+    class Expense {
+        +Long id
+        +Long groupId
+        +Long createdBy
+        +String description
+        +BigDecimal amount
+        +String category
+        +LocalDate expenseDate
+        +String notes
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+        +Boolean active
+        
+        +splitExpense()
+        +updateSplits()
+        +calculateIndividualAmounts()
+    }
+    
+    class ExpenseSplit {
+        +Long id
+        +Long expenseId
+        +Long userId
+        +BigDecimal amount
+        +String splitType
+        +BigDecimal percentage
+        +LocalDateTime createdAt
+        
+        +calculateAmount()
+    }
+    
+    class Balance {
+        +Long id
+        +Long groupId
+        +Long userId
+        +BigDecimal totalPaid
+        +BigDecimal totalOwed
+        +BigDecimal netBalance
+        +LocalDateTime calculatedAt
+        
+        +recalculate()
+        +getDebtsAndCredits()
+    }
+    
+    User ||--o{ Group : creates
+    User ||--o{ GroupMember : participates
+    Group ||--o{ GroupMember : contains
+    Group ||--o{ Expense : has
+    User ||--o{ Expense : creates
+    Expense ||--o{ ExpenseSplit : divided_into
+    User ||--o{ ExpenseSplit : owes
+    Group ||--o{ Balance : tracks
+    User ||--o{ Balance : has
+```
+
+---
+
+## 🔄 **Fluxograma: Processo de Registro de Despesa**
 
 ```mermaid
 flowchart TD
@@ -220,258 +326,166 @@ flowchart TD
     Member -->|Não| Error[Erro: Acesso negado]
     Member -->|Sim| Form[Formulário de despesa]
     
-    Form --> Fill[Preencher dados]
+    Form --> Fill[Preencher dados obrigatórios]
     Fill --> Validate{Dados válidos?}
-    Validate -->|Não| FormError[Mostrar erros]
+    Validate -->|Não| FormError[Mostrar erros de validação]
     FormError --> Form
     
     Validate -->|Sim| Select[Selecionar participantes]
-    Select --> Split[Definir divisão]
+    Select --> Split[Definir tipo de divisão]
     Split --> Confirm[Confirmar despesa]
     
-    Confirm --> Save[Salvar no banco]
-    Save --> CalcBalance[Calcular saldos]
-    CalcBalance --> Notify[Notificar participantes]
-    Notify --> Success[Sucesso: Despesa criada]
+    Confirm --> Save[Salvar no banco de dados]
+    Save --> CalcBalance[Recalcular saldos do grupo]
+    CalcBalance --> Success[✅ Despesa registrada]
     
     Login --> Start
     Error --> End([Fim])
     Success --> End
 ```
 
-### **Processo: Convite para Grupo**
+---
+
+## 🔄 **Fluxograma: Processo de Convite para Grupo**
 
 ```mermaid
 flowchart TD
-    Start([Admin convida usuário]) --> Generate[Gerar código/link]
-    Generate --> Send[Enviar convite]
+    Start([Admin convida usuário]) --> Generate[Gerar código único]
+    Generate --> Send[Compartilhar código/link]
     Send --> Receive[Usuário recebe convite]
     
-    Receive --> Exists{Usuário existe?}
-    Exists -->|Não| Register[Registro obrigatório]
+    Receive --> UserExists{Usuário já cadastrado?}
+    UserExists -->|Não| Register[Cadastro obrigatório]
     Register --> Login[Login necessário]
-    Exists -->|Sim| Already{Já é membro?}
+    UserExists -->|Sim| AlreadyMember{Já é membro?}
     
-    Already -->|Sim| Error[Erro: Já é membro]
-    Already -->|Não| Accept[Aceitar convite]
+    AlreadyMember -->|Sim| Error[Erro: Já é membro]
+    AlreadyMember -->|Não| Accept[Aceitar convite]
     Login --> Accept
     
     Accept --> Join[Adicionar ao grupo]
-    Join --> Welcome[Mensagem de boas-vindas]
-    Welcome --> Dashboard[Redirecionar para grupo]
+    Join --> Welcome[Exibir dashboard do grupo]
     
     Error --> End([Fim])
-    Dashboard --> End
+    Welcome --> End
 ```
 
 ---
 
-## 🔐 **Diagrama de Segurança**
-
-```mermaid
-sequenceDiagram
-    participant User as 👤 Usuário
-    participant Frontend as 🎨 Frontend
-    participant Gateway as 🚪 API Gateway
-    participant Auth as 🔐 Auth Service
-    participant API as 🔧 Backend API
-    participant DB as 🗄️ Database
-    
-    User->>Frontend: 1. Login (email/senha)
-    Frontend->>Gateway: 2. POST /auth/login
-    Gateway->>Auth: 3. Validar credenciais
-    Auth->>DB: 4. Consultar usuário
-    DB-->>Auth: 5. Dados do usuário
-    Auth->>Auth: 6. Gerar JWT
-    Auth-->>Gateway: 7. Token JWT
-    Gateway-->>Frontend: 8. Response + Token
-    Frontend->>Frontend: 9. Armazenar token
-    
-    Note over User,DB: Requisições subsequentes
-    
-    User->>Frontend: 10. Ação (ex: criar despesa)
-    Frontend->>Gateway: 11. Request + JWT Header
-    Gateway->>Auth: 12. Validar token
-    Auth-->>Gateway: 13. Token válido
-    Gateway->>API: 14. Request autorizada
-    API->>DB: 15. Operação no banco
-    DB-->>API: 16. Resultado
-    API-->>Gateway: 17. Response
-    Gateway-->>Frontend: 18. Dados
-    Frontend-->>User: 19. Interface atualizada
-```
-
----
-
-## 🏃‍♂️ **Diagrama de Atividades - Dashboard**
-
-```mermaid
-graph TD
-    Start([Usuário acessa dashboard]) --> Load{Carregando dados}
-    Load --> Groups[Buscar grupos do usuário]
-    Groups --> Expenses[Buscar últimas despesas]
-    Expenses --> Balances[Calcular saldos]
-    
-    Balances --> Render{Renderizar interface}
-    Render --> ShowGroups[Exibir lista de grupos]
-    ShowGroups --> ShowExpenses[Exibir despesas recentes]
-    ShowExpenses --> ShowBalance[Exibir saldo total]
-    ShowBalance --> ShowCharts[Exibir gráficos]
-    
-    ShowCharts --> Interactive[Interface interativa]
-    Interactive --> Action{Ação do usuário}
-    
-    Action -->|Ver grupo| GroupDetail[Página do grupo]
-    Action -->|Nova despesa| ExpenseForm[Formulário de despesa]
-    Action -->|Ver relatório| Reports[Página de relatórios]
-    Action -->|Atualizar| Refresh[Recarregar dados]
-    
-    GroupDetail --> End([Fim])
-    ExpenseForm --> End
-    Reports --> End
-    Refresh --> Load
-```
-
----
-
-## 📱 **Diagrama de Componentes - Frontend**
+## 🎯 **Diagrama de Componentes - Frontend React**
 
 ```mermaid
 graph TB
-    subgraph "App"
+    subgraph "App Principal"
+        App[App.jsx]
         Router[React Router]
-        AuthContext[Context de Autenticação]
-        ThemeContext[Context de Tema]
+        AuthContext[AuthContext]
+        ThemeContext[ThemeContext]
     end
     
-    subgraph "Pages"
-        Login[LoginPage]
-        Dashboard[DashboardPage]
-        Group[GroupPage]
-        Profile[ProfilePage]
+    subgraph "Páginas"
+        Login[Login]
+        Dashboard[Dashboard]
+        Groups[Groups]
+        Profile[Profile]
     end
     
-    subgraph "Components"
+    subgraph "Componentes Principais"
         Header[Header]
-        Sidebar[Sidebar]
         ExpenseForm[ExpenseForm]
         ExpenseList[ExpenseList]
+        GroupCard[GroupCard]
         BalanceCard[BalanceCard]
-        Chart[Chart]
     end
     
-    subgraph "UI Components"
+    subgraph "Componentes UI"
         Button[Button]
         Input[Input]
         Modal[Modal]
-        Card[Card]
         Loading[Loading]
     end
     
-    subgraph "Services"
-        API[API Service]
-        AuthService[Auth Service]
-        Storage[Local Storage]
-    end
-    
-    subgraph "Hooks"
+    subgraph "Hooks Customizados"
         useAuth[useAuth]
         useGroups[useGroups]
         useExpenses[useExpenses]
     end
     
-    Router --> Pages
-    AuthContext --> Pages
-    ThemeContext --> Pages
+    subgraph "Serviços"
+        AuthService[AuthService]
+        APIService[APIService]
+        LocalStorage[LocalStorage]
+    end
     
-    Pages --> Components
-    Components --> UI
+    App --> Router
+    App --> AuthContext
+    App --> ThemeContext
+    Router --> Páginas
     
-    Components --> Services
-    Components --> Hooks
-    
-    Hooks --> Services
+    Páginas --> "Componentes Principais"
+    "Componentes Principais" --> "Componentes UI"
+    "Componentes Principais" --> "Hooks Customizados"
+    "Hooks Customizados" --> Serviços
 ```
 
 ---
 
-## 🔄 **Diagrama de Estados - Despesa**
+## � **Fluxo de Autenticação e Segurança**
 
 ```mermaid
-stateDiagram-v2
-    [*] --> Draft : Criar despesa
-    Draft --> Validating : Submeter formulário
-    Validating --> Invalid : Dados inválidos
-    Invalid --> Draft : Corrigir erros
-    Validating --> Created : Dados válidos
-    Created --> Active : Salvar no banco
-    Active --> Editing : Editar despesa
-    Editing --> Validating : Submeter alterações
-    Active --> Confirming : Solicitar exclusão
-    Confirming --> Active : Cancelar exclusão
-    Confirming --> Deleted : Confirmar exclusão
-    Deleted --> [*]
+sequenceDiagram
+    participant User as 👤 Usuário
+    participant Frontend as 🎨 React App
+    participant API as 🔧 Spring Boot API
+    participant Auth as 🔐 Spring Security
+    participant DB as 🗄️ PostgreSQL
     
-    note right of Draft
-        Usuário preenchendo
-        formulário de despesa
-    end note
+    User->>Frontend: 1. Acessa aplicação
+    Frontend->>API: 2. Verificar sessão
+    API->>Auth: 3. Validar token JWT
     
-    note right of Active
-        Despesa ativa no sistema,
-        afetando saldos do grupo
-    end note
+    alt Token inválido/expirado
+        Auth-->>Frontend: 4. Unauthorized
+        Frontend-->>User: 5. Tela de login
+        User->>Frontend: 6. Credenciais
+        Frontend->>API: 7. POST /auth/login
+        API->>Auth: 8. Validar credenciais
+        Auth->>DB: 9. Buscar usuário
+        DB-->>Auth: 10. Dados do usuário
+        Auth->>Auth: 11. Gerar JWT
+        Auth-->>API: 12. Token + dados
+        API-->>Frontend: 13. Resposta com token
+        Frontend->>Frontend: 14. Armazenar token
+    else Token válido
+        Auth-->>API: 4. Autorizado
+        API-->>Frontend: 5. Dados do usuário
+    end
     
-    note right of Deleted
-        Soft delete - mantém
-        histórico para auditoria
-    end note
+    Frontend-->>User: 15. Interface autenticada
+    
+    Note over User,DB: Requisições subsequentes incluem JWT no header
 ```
 
 ---
 
-## 📊 **Métricas e Monitoramento**
+## 📊 **Referências dos Diagramas Oficiais**
 
-```mermaid
-graph LR
-    subgraph "Coleta de Dados"
-        Frontend[Frontend Metrics]
-        Backend[Backend Metrics]
-        Database[Database Metrics]
-        Infrastructure[Infrastructure Metrics]
-    end
-    
-    subgraph "Processamento"
-        Aggregation[Agregação]
-        Analysis[Análise]
-    end
-    
-    subgraph "Visualização"
-        Dashboard[Dashboard de Métricas]
-        Alerts[Alertas]
-        Reports[Relatórios]
-    end
-    
-    Frontend --> Aggregation
-    Backend --> Aggregation
-    Database --> Aggregation
-    Infrastructure --> Aggregation
-    
-    Aggregation --> Analysis
-    Analysis --> Dashboard
-    Analysis --> Alerts
-    Analysis --> Reports
-```
+Os diagramas apresentados nesta documentação são baseados nos seguintes arquivos oficiais do projeto:
 
-### **Métricas Chave**
-- **Performance:** Response time, FCP, LCP
-- **Uso:** DAU, MAU, Session duration
-- **Business:** Grupos criados, Despesas registradas
-- **Técnicas:** Error rate, Uptime, Memory usage
+- **📁 `project_docs/diagramas/Diagrama de Casos de Uso.png`** - Casos de uso detalhados do sistema
+- **📁 `project_docs/diagramas/diagrama_ER.png`** - Modelo de dados e relacionamentos
+- **📁 `project_docs/diagramas/diagrama_classes.png`** - Estrutura de classes do domínio
+
+### **Observações Importantes:**
+
+1. **Escopo do MVP:** Os diagramas refletem apenas as funcionalidades implementadas no MVP
+2. **Versões Futuras:** Funcionalidades como cache Redis, notificações e IA estão marcadas como futuras
+3. **Simplificação:** Alguns detalhes de implementação foram simplificados para clareza
+4. **Atualização:** Esta documentação será atualizada conforme a evolução do projeto
 
 ---
 
 <div align="center">
-  <strong>📊 Diagramas técnicos e de processo</strong><br/>
-  <em>Documentação visual da arquitetura do sistema</em>
+  <strong>📊 Diagramas baseados na documentação oficial</strong><br/>
+  <em>Representação visual da arquitetura implementada</em>
 </div>

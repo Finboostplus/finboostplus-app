@@ -1,860 +1,620 @@
-# 🧪 Testes - Frontend FinBoost+
+# Testes Automatizados
 
-Esta documentação detalha a estratégia, configuração e implementação de testes automatizados no frontend, utilizando **Vitest** e **React Testing Library**.
+O FinBoost+ utiliza uma estratégia robusta de testes automatizados para garantir a qualidade e confiabilidade do código frontend. Nossa stack de testes combina **Vitest** como framework principal e **React Testing Library** para testes de componentes React.
 
----
+## Visão Geral
 
-## 📋 **Estratégia de Testes**
+### Tecnologias Utilizadas
 
-### **Pirâmide de Testes**
+| Ferramenta | Versão | Propósito |
+|-----------|---------|-----------|
+| **Vitest** | `^1.0.0` | Framework de testes principal |
+| **React Testing Library** | `^14.0.0` | Testes de componentes React |
+| **@testing-library/jest-dom** | `^6.0.0` | Matchers customizados |
+| **@testing-library/user-event** | `^14.0.0` | Simulação de interações |
+| **jsdom** | `^23.0.0` | Ambiente de DOM virtual |
+
+### Status Atual
+
+!!! success "Cobertura de Testes"
+    **✅ 19 testes passando** em 4 arquivos de teste com cobertura superior a 80%
+
 ```
-                    E2E Tests (5%)
-                   ⬆ Poucos, lentos, frágeis
-                   
-            Integration Tests (15%)
-           ⬆ Moderados, média velocidade
-           
-        Unit Tests (80%)
-       ⬆ Muitos, rápidos, confiáveis
+ ✓ components/Header.test.jsx (1 teste)
+ ✓ components/Logo.test.jsx (4 testes)  
+ ✓ components/Button.test.jsx (9 testes)
+ ✓ integration/LoginForm.test.jsx (5 testes)
 ```
 
-### **Tipos de Teste Implementados**
+## Estrutura do Projeto
 
-1. **Testes Unitários (80%)**
-   - Componentes isolados
-   - Hooks customizados
-   - Funções utilitárias
-   - Serviços/APIs
+A organização dos testes segue uma estrutura clara e escalável:
 
-2. **Testes de Integração (15%)**
-   - Fluxos completos de componentes
-   - Interação entre componentes
-   - Contextos e providers
+```
+__tests__/
+├── components/           # Testes de componentes individuais
+│   ├── Header.test.jsx   # Componente Header
+│   ├── Logo.test.jsx     # Componente LogoImage
+│   └── Button.test.jsx   # Componente ButtonUI
+├── integration/          # Testes de integração
+│   └── LoginForm.test.jsx # Formulário de login completo
+├── setup.js             # Configuração global
+└── test-utils.js        # Utilitários e helpers
+```
 
-3. **Testes E2E (5%)**
-   - Fluxos críticos do usuário
-   - Jornadas completas
-   - Testes de regressão
+### Arquivos de Configuração
 
----
+**`vite.config.js`**
+: Configuração principal do Vitest, incluindo ambiente jsdom e configurações de cobertura
 
-## ⚙️ **Configuração do Ambiente**
+**`__tests__/setup.js`**
+: Configurações globais, mocks de APIs do browser e setup de matchers customizados
 
-### **Arquivos de Configuração**
+**`__tests__/test-utils.js`**
+: Funções auxiliares, wrappers customizados e utilities para testes
 
-#### **vite.config.js**
+## Comandos Disponíveis
+
+### Execução Básica
+
+```bash
+# Executar todos os testes
+npm test
+
+# Testes com relatório de cobertura
+npm test -- --coverage
+
+# Modo watch para desenvolvimento
+npm test -- --watch
+
+# Teste específico
+npm test -- Header.test.jsx
+```
+
+### Opções Avançadas
+
+```bash
+# Testes com interface gráfica
+npm test -- --ui
+
+# Executar apenas testes alterados
+npm test -- --changed
+
+# Gerar relatório detalhado
+npm test -- --reporter=verbose
+```
+
+## Padrões de Teste
+
+### 1. Teste Básico de Renderização
+
+```jsx title="Exemplo: Teste simples de componente"
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import MeuComponente from '../../src/components/MeuComponente';
+
+describe('MeuComponente', () => {
+  it('deve renderizar corretamente', () => {
+    render(<MeuComponente />);
+    
+    expect(screen.getByText('Texto esperado')).toBeInTheDocument();
+  });
+});
+```
+
+### 2. Testes com Interações do Usuário
+
+```jsx title="Exemplo: Teste com user-event"
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi } from 'vitest';
+import Botao from '../../src/components/Botao';
+
+describe('Botão com Click', () => {
+  it('deve chamar função ao clicar', async () => {
+    const user = userEvent.setup();
+    const mockClick = vi.fn();
+    
+    render(<Botao onClick={mockClick}>Clique aqui</Botao>);
+    
+    await user.click(screen.getByRole('button'));
+    
+    expect(mockClick).toHaveBeenCalledTimes(1);
+  });
+});
+```
+
+### 3. Testes com Context API
+
+```jsx title="Exemplo: Componente com contexto"
+import { renderWithProviders } from '../test-utils';
+
+describe('Componente com Contexto', () => {
+  it('deve usar dados do contexto', () => {
+    const mockUser = { name: 'João', id: 1 };
+    
+    renderWithProviders(
+      <ComponenteComContexto />,
+      { 
+        authContext: { user: mockUser },
+        themeContext: { theme: 'dark' }
+      }
+    );
+    
+    expect(screen.getByText('Olá, João')).toBeInTheDocument();
+  });
+});
+```
+
+### 4. Testes de Hooks Customizados
+
+```jsx title="Exemplo: Teste de hook"
+import { renderHook, act } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import useContador from '../../src/hooks/useContador';
+
+describe('useContador', () => {
+  it('deve incrementar contador corretamente', () => {
+    const { result } = renderHook(() => useContador(0));
+    
+    act(() => {
+      result.current.incrementar();
+    });
+    
+    expect(result.current.contador).toBe(1);
+  });
+
+  it('deve decrementar contador corretamente', () => {
+    const { result } = renderHook(() => useContador(5));
+    
+    act(() => {
+      result.current.decrementar();
+    });
+    
+    expect(result.current.contador).toBe(4);
+  });
+});
+```
+
+## Queries e Matchers
+
+### Estratégias de Busca (Queries)
+
+A prioridade das queries segue as recomendações do Testing Library:
+
+1. **Por Papel** (Mais acessível)
+```jsx
+screen.getByRole('button', { name: /enviar/i })
+screen.getByRole('textbox', { name: /email/i })
+screen.getByRole('heading', { level: 1 })
+```
+
+2. **Por Label/Texto**
+```jsx
+screen.getByLabelText('Email')
+screen.getByPlaceholderText('Digite seu email')
+screen.getByText('Clique aqui')
+```
+
+3. **Por Test ID** (Último recurso)
+```jsx
+screen.getByTestId('custom-element')
+// Use apenas quando outras opções não são viáveis
+```
+
+### Principais Matchers
+
+#### Verificação de Presença
+| Matcher | Descrição |
+|---------|-----------|
+| `toBeInTheDocument()` | Elemento está presente no DOM |
+| `toBeVisible()` | Elemento está visível ao usuário |
+| `toBeNull()` | Valor é null |
+| `toBeTruthy()` | Valor é verdadeiro |
+
+#### Verificação de Conteúdo
+| Matcher | Exemplo |
+|---------|---------|
+| `toHaveTextContent()` | `expect(element).toHaveTextContent('Texto')` |
+| `toHaveValue()` | `expect(input).toHaveValue('valor')` |
+| `toHaveDisplayValue()` | `expect(select).toHaveDisplayValue('Opção 1')` |
+
+#### Verificação de Atributos
+| Matcher | Exemplo |
+|---------|---------|
+| `toHaveAttribute()` | `expect(link).toHaveAttribute('href', '/home')` |
+| `toHaveClass()` | `expect(button).toHaveClass('btn-primary')` |
+| `toBeDisabled()` | `expect(input).toBeDisabled()` |
+| `toBeChecked()` | `expect(checkbox).toBeChecked()` |
+
+#### Verificação de Funções Mock
+| Matcher | Descrição |
+|---------|-----------|
+| `toHaveBeenCalled()` | Função foi chamada |
+| `toHaveBeenCalledTimes(n)` | Quantidade específica de chamadas |
+| `toHaveBeenCalledWith(args)` | Chamada com argumentos específicos |
+
+## Mocks e Simulações
+
+### Mock de Funções
+
+```jsx title="Diferentes tipos de mock"
+import { vi } from 'vitest';
+
+// Mock básico
+const mockFn = vi.fn();
+
+// Mock com retorno
+const mockWithReturn = vi.fn().mockReturnValue('valor');
+
+// Mock assíncrono
+const mockAsync = vi.fn().mockResolvedValue({ data: 'response' });
+
+// Mock com erro
+const mockError = vi.fn().mockRejectedValue(new Error('Erro simulado'));
+
+// Mock condicional
+const mockConditional = vi.fn()
+  .mockReturnValueOnce('primeira chamada')
+  .mockReturnValueOnce('segunda chamada')
+  .mockReturnValue('demais chamadas');
+```
+
+### Mock de Módulos
+
+```jsx title="Mock de módulo externo"
+// Mock completo do módulo
+vi.mock('../../src/api', () => ({
+  default: {
+    fetchUser: vi.fn(),
+    createUser: vi.fn(),
+  }
+}));
+
+// Mock parcial
+vi.mock('../../src/utils', async () => {
+  const actual = await vi.importActual('../../src/utils');
+  return {
+    ...actual,
+    formatDate: vi.fn().mockReturnValue('01/01/2024'),
+  };
+});
+```
+
+### Mock de APIs do Browser
+
+```jsx title="Mock de localStorage e outras APIs"
+const localStorageMock = {
+  getItem: vi.fn(),
+  setItem: vi.fn(),
+  removeItem: vi.fn(),
+  clear: vi.fn(),
+};
+
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock,
+});
+
+// Mock do ResizeObserver (já configurado no setup.js)
+global.ResizeObserver = vi.fn().mockImplementation(() => ({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
+}));
+```
+
+## Testes de Integração
+
+### Formulários Completos
+
+```jsx title="Exemplo: Teste de formulário de login"
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
+import LoginForm from '../../src/components/LoginForm';
+
+describe('LoginForm - Integração', () => {
+  it('deve submeter formulário com dados válidos', async () => {
+    const user = userEvent.setup();
+    const mockSubmit = vi.fn().mockResolvedValue({ 
+      success: true,
+      token: 'mock-token' 
+    });
+    
+    render(<LoginForm onSubmit={mockSubmit} />);
+    
+    // Preencher formulário
+    await user.type(
+      screen.getByLabelText(/email/i), 
+      'usuario@exemplo.com'
+    );
+    await user.type(
+      screen.getByLabelText(/senha/i), 
+      'senha123'
+    );
+    
+    // Submeter
+    await user.click(
+      screen.getByRole('button', { name: /entrar/i })
+    );
+    
+    // Verificar chamada
+    expect(mockSubmit).toHaveBeenCalledWith({
+      email: 'usuario@exemplo.com',
+      password: 'senha123'
+    });
+  });
+
+  it('deve mostrar erro para dados inválidos', async () => {
+    const user = userEvent.setup();
+    const mockSubmit = vi.fn().mockRejectedValue(
+      new Error('Credenciais inválidas')
+    );
+    
+    render(<LoginForm onSubmit={mockSubmit} />);
+    
+    await user.type(screen.getByLabelText(/email/i), 'email-inválido');
+    await user.click(screen.getByRole('button', { name: /entrar/i }));
+    
+    expect(await screen.findByText(/credenciais inválidas/i))
+      .toBeInTheDocument();
+  });
+});
+```
+
+### Estados de Loading
+
+```jsx title="Exemplo: Teste de componente assíncrono"
+import { render, screen, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
+import ComponenteAssincrono from '../../src/components/ComponenteAssincrono';
+
+describe('ComponenteAssincrono', () => {
+  it('deve mostrar loading e depois o conteúdo', async () => {
+    const mockFetch = vi.fn().mockResolvedValue({
+      data: { message: 'Dados carregados!' }
+    });
+    
+    render(<ComponenteAssincrono fetchData={mockFetch} />);
+    
+    // Verificar estado de loading
+    expect(screen.getByText(/carregando/i)).toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveAttribute('aria-live', 'polite');
+    
+    // Aguardar carregamento
+    await waitFor(() => {
+      expect(screen.queryByText(/carregando/i)).not.toBeInTheDocument();
+    });
+    
+    // Verificar conteúdo carregado
+    expect(screen.getByText('Dados carregados!')).toBeInTheDocument();
+  });
+});
+```
+
+## Boas Práticas
+
+### Padrão AAA (Arrange, Act, Assert)
+
+```jsx
+it('deve calcular o total corretamente', async () => {
+  // ✅ Arrange - Preparar o cenário
+  const user = userEvent.setup();
+  const produtos = [
+    { id: 1, nome: 'Produto A', preco: 10.00 },
+    { id: 2, nome: 'Produto B', preco: 15.50 }
+  ];
+  
+  // ✅ Act - Executar a ação
+  render(<CarrinhoCompras produtos={produtos} />);
+  await user.click(screen.getByText('Calcular Total'));
+  
+  // ✅ Assert - Verificar o resultado
+  expect(screen.getByText('Total: R$ 25,50')).toBeInTheDocument();
+});
+```
+
+### Nomes Descritivos
+
+```jsx
+describe('ButtonUI', () => {
+  // ❌ Ruim - muito genérico
+  it('testa botão', () => {});
+  
+  // ❌ Ruim - testa implementação
+  it('deve ter className btn-primary', () => {});
+  
+  // ✅ Bom - descreve comportamento
+  it('deve chamar onSubmit quando formulário é submetido', () => {});
+  
+  // ✅ Bom - específico e claro
+  it('deve mostrar spinner quando loading é true', () => {});
+});
+```
+
+### Teste de Comportamento vs Implementação
+
+```jsx
+// ❌ Evitar - testa detalhes de implementação
+expect(component.state.isLoading).toBe(true);
+expect(wrapper.find('.loading-spinner')).toHaveLength(1);
+
+// ✅ Preferir - testa comportamento do usuário
+expect(screen.getByRole('status', { name: /carregando/i }))
+  .toBeInTheDocument();
+expect(screen.getByText('Aguarde...')).toBeInTheDocument();
+```
+
+### Limpeza Entre Testes
+
+```jsx title="Configuração de limpeza automática"
+import { beforeEach, afterEach, vi } from 'vitest';
+import { cleanup } from '@testing-library/react';
+
+// Limpeza automática do DOM
+afterEach(() => {
+  cleanup();
+});
+
+// Limpeza de mocks
+beforeEach(() => {
+  vi.clearAllMocks();
+});
+
+// Limpeza de timers
+afterEach(() => {
+  vi.runOnlyPendingTimers();
+  vi.useRealTimers();
+});
+```
+
+## Solução de Problemas
+
+### Problemas Comuns
+
+!!! warning "ResizeObserver Error"
+    **Erro:** `ResizeObserver loop limit exceeded`
+    
+    **Solução:** Já configurado no `setup.js` com mock apropriado.
+
+!!! warning "Elemento não encontrado"
+    **Erro:** `Unable to find element with text: "Texto"`
+    
+    **Soluções:**
+    ```jsx
+    // Use queries mais flexíveis
+    screen.getByText(/texto/i) // case insensitive
+    screen.getByText((content) => content.includes('Texto'))
+    
+    // Aguarde elementos assíncronos
+    await screen.findByText('Texto')
+    
+    // Debug do DOM atual
+    screen.debug()
+    ```
+
+!!! warning "Warning: ReactDOM.render is deprecated"
+    **Solução:** Atualize para `@testing-library/react` v13+ que usa `createRoot` automaticamente.
+
+### Performance
+
+**Testes Lentos**
+```jsx
+// ✅ Use queries síncronas quando possível
+screen.getByText('texto') // ao invés de findByText
+
+// ✅ Evite waitFor desnecessários
+// ❌ Desnecessário se o elemento já está no DOM
+await waitFor(() => expect(screen.getByText('texto')).toBeInTheDocument())
+
+// ✅ Melhor
+expect(screen.getByText('texto')).toBeInTheDocument()
+
+// ✅ Mock APIs externas
+vi.mock('axios')
+```
+
+## Cobertura de Código
+
+### Configuração
+
+A cobertura é configurada no `vite.config.js`:
+
 ```javascript
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-
 export default defineConfig({
-  plugins: [react()],
   test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: ['__tests__/setup.js'],
-    css: true,
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html'],
+      reporter: ['text', 'html', 'clover', 'json'],
       exclude: [
         'node_modules/',
-        '__tests__/',
-        '*.config.js',
-        'src/main.jsx',
-        'src/mockData/',
+        'src/setupTests.js',
+        '**/*.test.{js,jsx}',
+        '**/*.spec.{js,jsx}',
       ],
       thresholds: {
         global: {
           branches: 80,
           functions: 80,
           lines: 80,
-          statements: 80,
-        },
-      },
-    },
-  },
-})
-```
-
-#### **__tests__/setup.js**
-```javascript
-import '@testing-library/jest-dom'
-import { cleanup } from '@testing-library/react'
-import { afterEach, beforeAll, afterAll, vi } from 'vitest'
-
-// Cleanup após cada teste
-afterEach(() => {
-  cleanup()
-  vi.clearAllMocks()
-})
-
-// Mocks globais
-global.ResizeObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}))
-
-// Mock do localStorage
-const localStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
-}
-Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock,
-})
-
-// Mock do fetch
-global.fetch = vi.fn()
-
-// Mock do window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: vi.fn().mockImplementation(query => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: vi.fn(),
-    removeListener: vi.fn(),
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
-  })),
-})
-```
-
-#### **__tests__/test-utils.js**
-```javascript
-import { render } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
-import { AuthProvider } from '../src/context/AuthContext'
-import { ThemeProvider } from '../src/context/ThemeContext'
-
-// Provider customizado para testes
-const AllTheProviders = ({ children, initialEntries = ['/'] }) => {
-  return (
-    <BrowserRouter>
-      <ThemeProvider>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
-      </ThemeProvider>
-    </BrowserRouter>
-  )
-}
-
-// Função de render customizada
-const customRender = (ui, options) =>
-  render(ui, { wrapper: AllTheProviders, ...options })
-
-// Utilitários para mocks
-export const createMockUser = (overrides = {}) => ({
-  id: '1',
-  name: 'John Doe',
-  email: 'john@example.com',
-  avatar: null,
-  ...overrides,
-})
-
-export const createMockGroup = (overrides = {}) => ({
-  id: '1',
-  name: 'Test Group',
-  description: 'Test Description',
-  members: [createMockUser()],
-  createdBy: '1',
-  ...overrides,
-})
-
-export const createMockExpense = (overrides = {}) => ({
-  id: '1',
-  description: 'Test Expense',
-  amount: 100.00,
-  category: 'Food',
-  date: '2024-01-01',
-  createdBy: '1',
-  splits: [],
-  ...overrides,
-})
-
-// Re-export tudo
-export * from '@testing-library/react'
-export { customRender as render }
-```
-
----
-
-## 🧩 **Testes de Componentes**
-
-### **Componente Básico - Button**
-
-#### **Button.test.jsx**
-```javascript
-import { render, screen, fireEvent } from '../test-utils'
-import { describe, it, expect, vi } from 'vitest'
-import Button from '../../src/components/ui/Button'
-
-describe('Button Component', () => {
-  it('deve renderizar com texto correto', () => {
-    render(<Button>Click me</Button>)
-    
-    expect(screen.getByRole('button', { name: 'Click me' })).toBeInTheDocument()
-  })
-
-  it('deve chamar onClick quando clicado', () => {
-    const handleClick = vi.fn()
-    render(<Button onClick={handleClick}>Click me</Button>)
-    
-    fireEvent.click(screen.getByRole('button'))
-    
-    expect(handleClick).toHaveBeenCalledTimes(1)
-  })
-
-  it('deve estar desabilitado quando disabled=true', () => {
-    render(<Button disabled>Disabled Button</Button>)
-    
-    const button = screen.getByRole('button')
-    expect(button).toBeDisabled()
-  })
-
-  it('deve aplicar variante correta', () => {
-    render(<Button variant="danger">Delete</Button>)
-    
-    const button = screen.getByRole('button')
-    expect(button).toHaveClass('btn-danger')
-  })
-
-  it('deve mostrar loading quando isLoading=true', () => {
-    render(<Button isLoading>Loading</Button>)
-    
-    expect(screen.getByTestId('loading-spinner')).toBeInTheDocument()
-    expect(screen.getByRole('button')).toBeDisabled()
-  })
-})
-```
-
-### **Componente Complexo - ExpenseForm**
-
-#### **ExpenseForm.test.jsx**
-```javascript
-import { render, screen, fireEvent, waitFor } from '../test-utils'
-import userEvent from '@testing-library/user-event'
-import { describe, it, expect, vi } from 'vitest'
-import ExpenseForm from '../../src/components/forms/ExpenseForm'
-import { createMockGroup } from '../test-utils'
-
-describe('ExpenseForm Component', () => {
-  const mockGroup = createMockGroup()
-  const mockOnSubmit = vi.fn()
-
-  beforeEach(() => {
-    mockOnSubmit.mockClear()
-  })
-
-  it('deve renderizar formulário completo', () => {
-    render(<ExpenseForm group={mockGroup} onSubmit={mockOnSubmit} />)
-    
-    expect(screen.getByLabelText(/descrição/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/valor/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/categoria/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/data/i)).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /salvar/i })).toBeInTheDocument()
-  })
-
-  it('deve submeter dados válidos', async () => {
-    const user = userEvent.setup()
-    render(<ExpenseForm group={mockGroup} onSubmit={mockOnSubmit} />)
-    
-    await user.type(screen.getByLabelText(/descrição/i), 'Jantar restaurante')
-    await user.type(screen.getByLabelText(/valor/i), '150.00')
-    await user.selectOptions(screen.getByLabelText(/categoria/i), 'food')
-    await user.click(screen.getByRole('button', { name: /salvar/i }))
-    
-    await waitFor(() => {
-      expect(mockOnSubmit).toHaveBeenCalledWith({
-        description: 'Jantar restaurante',
-        amount: 150.00,
-        category: 'food',
-        date: expect.any(String),
-        participants: expect.any(Array),
-      })
-    })
-  })
-
-  it('deve mostrar erros de validação', async () => {
-    const user = userEvent.setup()
-    render(<ExpenseForm group={mockGroup} onSubmit={mockOnSubmit} />)
-    
-    await user.click(screen.getByRole('button', { name: /salvar/i }))
-    
-    expect(screen.getByText(/descrição é obrigatória/i)).toBeInTheDocument()
-    expect(screen.getByText(/valor deve ser maior que zero/i)).toBeInTheDocument()
-  })
-
-  it('deve permitir seleção de participantes', async () => {
-    const user = userEvent.setup()
-    const groupWithMembers = {
-      ...mockGroup,
-      members: [
-        { id: '1', name: 'John' },
-        { id: '2', name: 'Jane' },
-        { id: '3', name: 'Bob' },
-      ]
-    }
-    
-    render(<ExpenseForm group={groupWithMembers} onSubmit={mockOnSubmit} />)
-    
-    // Por padrão, todos devem estar selecionados
-    expect(screen.getByDisplayValue('John')).toBeChecked()
-    expect(screen.getByDisplayValue('Jane')).toBeChecked()
-    expect(screen.getByDisplayValue('Bob')).toBeChecked()
-    
-    // Desmarcar um participante
-    await user.click(screen.getByDisplayValue('Bob'))
-    expect(screen.getByDisplayValue('Bob')).not.toBeChecked()
-  })
-})
-```
-
----
-
-## 🎣 **Testes de Hooks**
-
-### **useAuth Hook**
-
-#### **useAuth.test.js**
-```javascript
-import { renderHook, act, waitFor } from '@testing-library/react'
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useAuth, AuthProvider } from '../../src/hooks/useAuth'
-import * as authService from '../../src/services/auth'
-
-// Mock do serviço de autenticação
-vi.mock('../../src/services/auth')
-
-describe('useAuth Hook', () => {
-  const wrapper = ({ children }) => <AuthProvider>{children}</AuthProvider>
-
-  beforeEach(() => {
-    vi.clearAllMocks()
-    localStorage.clear()
-  })
-
-  it('deve inicializar com estado não autenticado', () => {
-    const { result } = renderHook(() => useAuth(), { wrapper })
-    
-    expect(result.current.user).toBeNull()
-    expect(result.current.isAuthenticated).toBe(false)
-    expect(result.current.loading).toBe(false)
-  })
-
-  it('deve fazer login com sucesso', async () => {
-    const mockUser = { id: '1', name: 'John', email: 'john@test.com' }
-    const mockToken = 'mock-jwt-token'
-    
-    authService.login.mockResolvedValue({ user: mockUser, token: mockToken })
-    
-    const { result } = renderHook(() => useAuth(), { wrapper })
-    
-    await act(async () => {
-      await result.current.login({ email: 'john@test.com', password: 'password' })
-    })
-    
-    expect(result.current.user).toEqual(mockUser)
-    expect(result.current.isAuthenticated).toBe(true)
-    expect(authService.login).toHaveBeenCalledWith({
-      email: 'john@test.com',
-      password: 'password'
-    })
-  })
-
-  it('deve lidar com erro de login', async () => {
-    authService.login.mockRejectedValue(new Error('Credenciais inválidas'))
-    
-    const { result } = renderHook(() => useAuth(), { wrapper })
-    
-    await act(async () => {
-      try {
-        await result.current.login({ email: 'wrong@test.com', password: 'wrong' })
-      } catch (error) {
-        expect(error.message).toBe('Credenciais inválidas')
+          statements: 80
+        }
       }
-    })
-    
-    expect(result.current.user).toBeNull()
-    expect(result.current.isAuthenticated).toBe(false)
-  })
-
-  it('deve fazer logout corretamente', async () => {
-    const { result } = renderHook(() => useAuth(), { wrapper })
-    
-    // Simular usuário logado
-    act(() => {
-      result.current.login({ email: 'john@test.com', password: 'password' })
-    })
-    
-    act(() => {
-      result.current.logout()
-    })
-    
-    expect(result.current.user).toBeNull()
-    expect(result.current.isAuthenticated).toBe(false)
-  })
-})
-```
-
-### **useExpenses Hook**
-
-#### **useExpenses.test.js**
-```javascript
-import { renderHook, act, waitFor } from '@testing-library/react'
-import { describe, it, expect, vi } from 'vitest'
-import { useExpenses } from '../../src/hooks/useExpenses'
-import * as expensesService from '../../src/services/expenses'
-import { createMockExpense } from '../test-utils'
-
-vi.mock('../../src/services/expenses')
-
-describe('useExpenses Hook', () => {
-  const mockGroupId = 'group-1'
-  const mockExpenses = [
-    createMockExpense({ id: '1', description: 'Expense 1' }),
-    createMockExpense({ id: '2', description: 'Expense 2' }),
-  ]
-
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
-
-  it('deve carregar despesas inicialmente', async () => {
-    expensesService.getExpenses.mockResolvedValue({ 
-      expenses: mockExpenses,
-      total: 2 
-    })
-    
-    const { result } = renderHook(() => useExpenses(mockGroupId))
-    
-    expect(result.current.loading).toBe(true)
-    
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false)
-    })
-    
-    expect(result.current.expenses).toEqual(mockExpenses)
-    expect(expensesService.getExpenses).toHaveBeenCalledWith(mockGroupId, {})
-  })
-
-  it('deve adicionar nova despesa', async () => {
-    const newExpense = createMockExpense({ id: '3', description: 'New Expense' })
-    
-    expensesService.getExpenses.mockResolvedValue({ 
-      expenses: mockExpenses,
-      total: 2 
-    })
-    expensesService.createExpense.mockResolvedValue(newExpense)
-    
-    const { result } = renderHook(() => useExpenses(mockGroupId))
-    
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false)
-    })
-    
-    await act(async () => {
-      await result.current.addExpense({
-        description: 'New Expense',
-        amount: 50,
-        category: 'food'
-      })
-    })
-    
-    expect(expensesService.createExpense).toHaveBeenCalled()
-    expect(result.current.expenses).toContainEqual(newExpense)
-  })
-
-  it('deve filtrar despesas', async () => {
-    expensesService.getExpenses.mockResolvedValue({ 
-      expenses: mockExpenses,
-      total: 2 
-    })
-    
-    const { result } = renderHook(() => useExpenses(mockGroupId))
-    
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false)
-    })
-    
-    act(() => {
-      result.current.setFilters({ category: 'food' })
-    })
-    
-    await waitFor(() => {
-      expect(expensesService.getExpenses).toHaveBeenCalledWith(
-        mockGroupId, 
-        { category: 'food' }
-      )
-    })
-  })
-})
-```
-
----
-
-## 🔄 **Testes de Integração**
-
-### **Login Flow**
-
-#### **LoginFlow.test.jsx**
-```javascript
-import { render, screen, waitFor } from '../test-utils'
-import userEvent from '@testing-library/user-event'
-import { describe, it, expect, vi } from 'vitest'
-import App from '../../src/App'
-import * as authService from '../../src/services/auth'
-
-vi.mock('../../src/services/auth')
-
-describe('Login Flow Integration', () => {
-  it('deve completar fluxo de login com sucesso', async () => {
-    const user = userEvent.setup()
-    const mockUser = { id: '1', name: 'John', email: 'john@test.com' }
-    
-    authService.login.mockResolvedValue({
-      user: mockUser,
-      token: 'mock-token'
-    })
-    authService.isAuthenticated.mockReturnValue(false)
-    
-    render(<App />)
-    
-    // Usuário não autenticado deve ver tela de login
-    expect(screen.getByText(/entrar/i)).toBeInTheDocument()
-    
-    // Preencher formulário
-    await user.type(screen.getByLabelText(/email/i), 'john@test.com')
-    await user.type(screen.getByLabelText(/senha/i), 'password123')
-    await user.click(screen.getByRole('button', { name: /entrar/i }))
-    
-    // Deve redirecionar para dashboard
-    await waitFor(() => {
-      expect(screen.getByText(/dashboard/i)).toBeInTheDocument()
-    })
-    
-    // Deve mostrar nome do usuário
-    expect(screen.getByText(mockUser.name)).toBeInTheDocument()
-  })
-
-  it('deve mostrar erro para credenciais inválidas', async () => {
-    const user = userEvent.setup()
-    
-    authService.login.mockRejectedValue(new Error('Credenciais inválidas'))
-    authService.isAuthenticated.mockReturnValue(false)
-    
-    render(<App />)
-    
-    await user.type(screen.getByLabelText(/email/i), 'wrong@test.com')
-    await user.type(screen.getByLabelText(/senha/i), 'wrongpassword')
-    await user.click(screen.getByRole('button', { name: /entrar/i }))
-    
-    await waitFor(() => {
-      expect(screen.getByText(/credenciais inválidas/i)).toBeInTheDocument()
-    })
-  })
-})
-```
-
-### **Expense Management Flow**
-
-#### **ExpenseManagement.test.jsx**
-```javascript
-import { render, screen, waitFor } from '../test-utils'
-import userEvent from '@testing-library/user-event'
-import { describe, it, expect, vi } from 'vitest'
-import GroupPage from '../../src/pages/Groups/GroupPage'
-import * as expensesService from '../../src/services/expenses'
-import * as groupsService from '../../src/services/groups'
-import { createMockGroup, createMockExpense } from '../test-utils'
-
-vi.mock('../../src/services/expenses')
-vi.mock('../../src/services/groups')
-
-describe('Expense Management Flow', () => {
-  const mockGroup = createMockGroup()
-  const mockExpenses = [
-    createMockExpense({ description: 'Jantar', amount: 100 }),
-    createMockExpense({ description: 'Cinema', amount: 50 }),
-  ]
-
-  beforeEach(() => {
-    groupsService.getGroup.mockResolvedValue(mockGroup)
-    expensesService.getExpenses.mockResolvedValue({
-      expenses: mockExpenses,
-      total: 2
-    })
-  })
-
-  it('deve listar despesas do grupo', async () => {
-    render(<GroupPage groupId={mockGroup.id} />)
-    
-    await waitFor(() => {
-      expect(screen.getByText('Jantar')).toBeInTheDocument()
-      expect(screen.getByText('Cinema')).toBeInTheDocument()
-    })
-  })
-
-  it('deve criar nova despesa', async () => {
-    const user = userEvent.setup()
-    const newExpense = createMockExpense({ 
-      description: 'Uber', 
-      amount: 25 
-    })
-    
-    expensesService.createExpense.mockResolvedValue(newExpense)
-    
-    render(<GroupPage groupId={mockGroup.id} />)
-    
-    // Abrir modal de nova despesa
-    await user.click(screen.getByRole('button', { name: /nova despesa/i }))
-    
-    // Preencher formulário
-    await user.type(screen.getByLabelText(/descrição/i), 'Uber')
-    await user.type(screen.getByLabelText(/valor/i), '25.00')
-    await user.click(screen.getByRole('button', { name: /salvar/i }))
-    
-    await waitFor(() => {
-      expect(expensesService.createExpense).toHaveBeenCalledWith(
-        mockGroup.id,
-        expect.objectContaining({
-          description: 'Uber',
-          amount: 25.00
-        })
-      )
-    })
-  })
-
-  it('deve filtrar despesas por categoria', async () => {
-    const user = userEvent.setup()
-    
-    render(<GroupPage groupId={mockGroup.id} />)
-    
-    await waitFor(() => {
-      expect(screen.getByText('Jantar')).toBeInTheDocument()
-    })
-    
-    // Aplicar filtro
-    await user.selectOptions(
-      screen.getByLabelText(/categoria/i), 
-      'transport'
-    )
-    
-    await waitFor(() => {
-      expect(expensesService.getExpenses).toHaveBeenCalledWith(
-        mockGroup.id,
-        { category: 'transport' }
-      )
-    })
-  })
-})
-```
-
----
-
-## 📊 **Testes de Performance**
-
-### **Performance de Componentes**
-
-#### **PerformanceTests.test.jsx**
-```javascript
-import { render, screen } from '../test-utils'
-import { describe, it, expect, vi } from 'vitest'
-import ExpenseList from '../../src/components/expenses/ExpenseList'
-import { createMockExpense } from '../test-utils'
-
-describe('Performance Tests', () => {
-  it('deve renderizar lista grande de despesas em tempo adequado', () => {
-    const largeExpenseList = Array.from({ length: 1000 }, (_, i) => 
-      createMockExpense({ 
-        id: i.toString(), 
-        description: `Expense ${i}` 
-      })
-    )
-    
-    const startTime = performance.now()
-    
-    render(<ExpenseList expenses={largeExpenseList} />)
-    
-    const endTime = performance.now()
-    const renderTime = endTime - startTime
-    
-    // Deve renderizar em menos de 100ms
-    expect(renderTime).toBeLessThan(100)
-    
-    // Deve mostrar primeira e última despesa
-    expect(screen.getByText('Expense 0')).toBeInTheDocument()
-    expect(screen.getByText('Expense 999')).toBeInTheDocument()
-  })
-
-  it('deve fazer debounce de busca corretamente', async () => {
-    const mockOnSearch = vi.fn()
-    const user = userEvent.setup()
-    
-    render(<SearchInput onSearch={mockOnSearch} debounceMs={300} />)
-    
-    const input = screen.getByRole('textbox')
-    
-    // Digitar rapidamente
-    await user.type(input, 'test search')
-    
-    // Não deve chamar imediatamente
-    expect(mockOnSearch).not.toHaveBeenCalled()
-    
-    // Esperar debounce
-    await waitFor(() => {
-      expect(mockOnSearch).toHaveBeenCalledWith('test search')
-    }, { timeout: 400 })
-    
-    // Deve chamar apenas uma vez
-    expect(mockOnSearch).toHaveBeenCalledTimes(1)
-  })
-})
-```
-
----
-
-## 📈 **Relatórios e Coverage**
-
-### **Scripts de Teste**
-```json
-{
-  "scripts": {
-    "test": "vitest",
-    "test:watch": "vitest --watch",
-    "test:coverage": "vitest --coverage",
-    "test:ui": "vitest --ui",
-    "test:run": "vitest run",
-    "test:silent": "vitest --run --reporter=silent",
-    "test:performance": "vitest run --config vitest.performance.config.js"
+    }
   }
-}
-```
-
-### **Metas de Coverage**
-```javascript
-// vitest.config.js
-export default defineConfig({
-  test: {
-    coverage: {
-      thresholds: {
-        global: {
-          branches: 80,
-          functions: 80,
-          lines: 80,
-          statements: 80,
-        },
-        // Thresholds específicos por arquivo
-        'src/components/': {
-          branches: 85,
-          functions: 85,
-          lines: 85,
-          statements: 85,
-        },
-        'src/hooks/': {
-          branches: 90,
-          functions: 90,
-          lines: 90,
-          statements: 90,
-        },
-      },
-    },
-  },
 })
 ```
 
-### **Relatório de Coverage**
-```bash
-# Gerar relatório HTML
-npm run test:coverage
+### Relatórios
 
-# Ver relatório no navegador
-npx vite preview --outDir coverage
+```bash
+# Gerar relatório de cobertura
+npm test -- --coverage
+
+# Abrir relatório HTML
+open coverage/index.html
 ```
 
----
+### Metas de Cobertura
 
-## 🚀 **CI/CD Integration**
+| Métrica | Meta Atual | Meta Ideal |
+|---------|------------|------------|
+| **Linhas** | 80% | 90% |
+| **Funções** | 80% | 85% |
+| **Branches** | 80% | 85% |
+| **Statements** | 80% | 90% |
 
-### **GitHub Actions**
-```yaml
-# .github/workflows/frontend-tests.yml
-name: Frontend Tests
+## Continuous Integration
 
-on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
+### GitHub Actions
+
+```yaml title=".github/workflows/test.yml"
+name: Tests
+
+on: [push, pull_request]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'npm'
-        cache-dependency-path: frontend/package-lock.json
-    
-    - name: Install dependencies
-      working-directory: ./frontend
-      run: npm ci
-    
-    - name: Run tests
-      working-directory: ./frontend
-      run: npm run test:run
-    
-    - name: Run coverage
-      working-directory: ./frontend
-      run: npm run test:coverage
-    
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./frontend/coverage/lcov.info
-        flags: frontend
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - run: npm ci
+      - run: npm test -- --coverage
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
 ```
 
+## Recursos Adicionais
+
+### Documentação Oficial
+
+- [Vitest Documentation](https://vitest.dev/)
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
+- [Jest DOM Matchers](https://github.com/testing-library/jest-dom)
+
+### Ferramentas Recomendadas
+
+- **VS Code Extensions:**
+  - Vitest Runner
+  - Testing Library Snippets
+  - Jest Snippets
+
+### Exemplos Avançados
+
+Para exemplos mais complexos e casos específicos, consulte os arquivos de teste existentes:
+
+- `__tests__/components/Button.test.jsx` - Testes completos de componente
+- `__tests__/integration/LoginForm.test.jsx` - Teste de integração
+- `__tests__/test-utils.js` - Utilities e helpers personalizados
+
 ---
 
-## 🎯 **Boas Práticas**
-
-### **✅ Fazer**
-- Testar comportamento, não implementação
-- Usar queries semânticas (getByRole, getByLabelText)
-- Isolar componentes com mocks apropriados
-- Manter testes simples e legíveis
-- Seguir padrão AAA (Arrange, Act, Assert)
-
-### **❌ Evitar**
-- Testar detalhes de implementação
-- Usar queries frágeis (getByTestId em excesso)
-- Testes muito complexos ou longos
-- Dependências entre testes
-- Mocks desnecessários
-
-### **🎯 Princípios**
-- **F.I.R.S.T**: Fast, Independent, Repeatable, Self-validating, Timely
-- **DRY**: Don't Repeat Yourself nos setups
-- **KISS**: Keep It Simple and Stupid
-- **AAA**: Arrange, Act, Assert
-
----
-
-<div align="center">
-  <strong>🧪 Testes abrangentes e confiáveis</strong><br/>
-  <em>Garantindo qualidade e confiabilidade do código</em>
-</div>
+!!! tip "Dica Final"
+    Lembre-se: **teste comportamentos, não implementação**. Seus testes devem ser resilientes a refatorações e mudanças internas, focando na experiência do usuário final.
