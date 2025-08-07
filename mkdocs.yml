@@ -1,7 +1,7 @@
 site_name: FinBoost+ Documentation
 site_description: Documentação completa da aplicação FinBoost+ (Frontend e Backend)
 site_author: Equipe FinBoost+
-repo_url: https://github.com/seu-usuario/finboostplus-app
+repo_url: https://github.com/Finboostplus/finboostplus-app
 repo_name: finboostplus-app
 docs_dir: docs
 site_dir: site

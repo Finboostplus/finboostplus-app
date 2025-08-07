@@ -1,6 +1,12 @@
-# Testes - Frontend FinBoostPlus
+# 🧪 Testes - Frontend FinBoost+
 
-Este diretório contém todos os testes automatizados do frontend da aplicação FinBoostPlus.
+<div align="center">
+  <img src="https://img.shields.io/badge/Framework-Vitest-yellow" alt="Vitest">
+  <img src="https://img.shields.io/badge/Library-React_Testing_Library-red" alt="RTL">
+  <img src="https://img.shields.io/badge/Coverage-80%+-green" alt="Coverage">
+</div>
+
+Este diretório contém todos os **testes automatizados** do frontend FinBoost+, seguindo as melhores práticas da indústria com **Vitest** e **React Testing Library**.
 
 ## 🧪 Status Atual
 
@@ -111,3 +117,10 @@ it('deve submeter o formulário com dados válidos', async () => {
 ---
 
 **💡 Dica:** Consulte o [TESTING_GUIDE.md](../TESTING_GUIDE.md) para exemplos detalhados e boas práticas!
+
+---
+
+<div align="center">
+  <strong>🧪 Testes automatizados - FinBoost+</strong><br/>
+  <em>Qualidade e confiabilidade garantidas</em>
+</div>

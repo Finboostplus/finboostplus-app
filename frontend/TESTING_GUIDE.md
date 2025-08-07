@@ -1,5 +1,10 @@
 # Guia de Testes com Vitest e React Testing Library
 
+<div align="center">
+  <img src="https://img.shields.io/badge/Framework-Vitest-yellow" alt="Vitest">
+  <img src="https://img.shields.io/badge/Library-React_Testing_Library-red" alt="RTL">
+</div>
+
 ## Configuração do Projeto
 
 O projeto já está configurado com:
@@ -312,3 +317,10 @@ npm test -- --watch
 # Executar teste específico
 npm test -- Logo.test.jsx
 ```
+
+---
+
+<div align="center">
+  <strong>🧪 Testes automatizados - FinBoost+</strong><br/>
+  <em>Qualidade e confiabilidade garantidas</em>
+</div>

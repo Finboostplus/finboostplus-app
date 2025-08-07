@@ -1,4 +1,14 @@
-# Estrutura de Pastas - Frontend FinBoostPlus
+# 📁 Estrutura de Pastas - Frontend FinBoost+
+
+<div align="center">
+  <img src="https://img.shields.io/badge/Padrão-Feature_First-blue" alt="Feature First">
+  <img src="https://img.shields.io/badge/Design-Atomic_Design-green" alt="Atomic Design">
+  <img src="https://img.shields.io/badge/Organização-Separation_of_Concerns-orange" alt="SoC">
+</div>  
+
+**Estrutura baseada em padrões da indústria** usados por Meta, Airbnb e Netflix para projetos React escaláveis.
+
+---
 
 ## 📁 Estrutura Atual
 
@@ -67,12 +77,9 @@ frontend/
 └── TESTING_GUIDE.md     # Guia de testes
 ```
 
-## 🏢 Motivos de Uso
+---
 
-- **Foco:** Simplicidade, produtividade, escalabilidade e manutenibilidade
-- **Características:** Separação clara, fácil de navegar e modularização de componentes 
-
-### 📊 **Comparação com Padrões**
+## 📊 **Comparação com Padrões**
 
 | Aspecto | FinBoostPlus | Meta/Facebook | Airbnb | Netflix |
 |---------|--------------|---------------|---------|---------|
@@ -82,6 +89,11 @@ frontend/
 | Context API | ✅ | ✅ | ✅ | ✅ |
 | Testes Co-located | ✅ | ✅ | Parcial | ✅ |
 | Services Layer | ✅ | ✅ | ✅ | ✅ |
+
+- **Foco:** Simplicidade, produtividade, escalabilidade e manutenibilidade
+- **Características:** Separação clara, fácil de navegar e modularização de componentes 
+
+---
 
 ## 🎯 Princípios Aplicados
 
@@ -117,6 +129,49 @@ ui/ (Atoms) → Layout/ (Molecules) → pages/ (Organisms)
 - **Testes:** Organização clara dos testes
 - **CI/CD:** Build e deploy eficientes
 
+---
+
+## 🎨 **Exemplos de Uso**
+
+### **Adicionando Nova Feature**
+```bash
+# 1. Criar componente específico
+src/components/reports/
+├── ReportChart.jsx
+├── ReportFilters.jsx
+└── index.js
+
+# 2. Criar página
+src/pages/Reports/
+├── index.jsx
+└── ReportsActions.jsx
+
+# 3. Adicionar serviço
+src/services/reports.js
+
+# 4. Criar hook customizado
+src/hooks/useReports.js
+
+# 5. Adicionar testes
+__tests__/components/reports/
+__tests__/pages/Reports/
+```
+
+### **Importações Organizadas**
+```jsx
+// ✅ Padrão seguido no projeto
+import { useState, useEffect } from 'react'
+import { useAuth } from '../hooks/useAuth'
+import { Button } from '../components/ui/Button'
+import { expensesApi } from '../services/expenses'
+
+// Components ficam próximos da funcionalidade
+import ExpenseForm from './ExpenseForm'
+import ExpensesList from './ExpensesList'
+```
+
+---
+
 ## 📋 Checklist de Qualidade
 
 ### ✅ **Estrutura**
@@ -144,3 +199,10 @@ ui/ (Atoms) → Layout/ (Molecules) → pages/ (Organisms)
 ✅ **Usado por empresas de grande porte**
 ✅ **Escalável e manutenível**
 ✅ **Facilita desenvolvimento em equipe**
+
+---
+
+<div align="center">
+  <strong>📁 Estrutura moderna e profissional - FinBoost+</strong><br/>
+  <em>Baseada nas melhores práticas da indústria tech</em>
+</div>
