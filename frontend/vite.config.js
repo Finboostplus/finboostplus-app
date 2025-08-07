@@ -9,5 +9,18 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './__tests__/setup.js', // <- descomente e ajuste o caminho
     include: ['**/*.{test,spec}.{js,jsx}'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html', 'lcov'],
+      reportsDirectory: './coverage',
+      exclude: [
+        'node_modules/',
+        '__tests__/',
+        '**/*.config.js',
+        '**/*.config.ts',
+        'dist/',
+        'build/',
+      ],
+    },
   },
 });
