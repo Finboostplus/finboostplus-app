@@ -8,6 +8,8 @@ import java.util.Set;
 
 import com.finboostplus.DTO.UserRequestDTO;
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import lombok.AllArgsConstructor;
