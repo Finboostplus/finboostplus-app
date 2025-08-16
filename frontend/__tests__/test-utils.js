@@ -1,8 +1,11 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { vi, beforeEach, afterEach } from 'vitest';
 import { AuthContext } from '../src/context/AuthContext';
 import { ThemeContext } from '../src/context/ThemeContext';
 import { GroupContext } from '../src/context/GroupContext';
+
+// Salva fetch original para restauração
+const originalFetch = globalThis.fetch;
 
 // Utilitários para mocks
 export const createMockAuthContext = (user = null, isLoading = false) => ({
@@ -13,13 +16,14 @@ export const createMockAuthContext = (user = null, isLoading = false) => ({
   register: vi.fn(),
 });
 
-export const createMockThemeContext = (theme = 'light') => ({
+export const createMockThemeContext = (theme = 'light', overrides = {}) => ({
   theme,
   toggleTheme: vi.fn(),
   setTheme: vi.fn(),
+  ...overrides,
 });
 
-export const createMockGroupContext = (groups = [], currentGroup = null) => ({
+export const createMockGroupContext = (groups = [], currentGroup = null, overrides = {}) => ({
   groups,
   currentGroup,
   loading: false,
@@ -28,6 +32,7 @@ export const createMockGroupContext = (groups = [], currentGroup = null) => ({
   updateGroup: vi.fn(),
   deleteGroup: vi.fn(),
   setCurrentGroup: vi.fn(),
+  ...overrides,
 });
 
 // Função para renderizar com contextos
@@ -61,11 +66,19 @@ export const mockLocation = {
   state: null,
 };
 
-vi.mock('react-router', () => ({
-  useNavigate: () => mockNavigate,
-  useLocation: () => mockLocation,
-  useParams: () => ({}),
-}));
+export const resetRouterMocks = () => {
+  mockNavigate.mockClear();
+};
+
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+    useLocation: () => mockLocation,
+    useParams: () => ({}),
+  };
+});
 
 // Mocks para APIs
 export const mockApiResponse = (data, status = 200) => ({
@@ -77,6 +90,9 @@ export const mockApiResponse = (data, status = 200) => ({
 
 export const mockFetch = response => {
   globalThis.fetch = vi.fn().mockResolvedValue(response);
+};
+export const restoreFetch = () => {
+  globalThis.fetch = originalFetch;
 };
 
 // Utilitários para aguardar elementos assíncronos
@@ -142,3 +158,7 @@ export const suppressConsoleError = () => {
     console.error = originalError;
   });
 };
+
+beforeEach(() => {
+  resetRouterMocks();
+});

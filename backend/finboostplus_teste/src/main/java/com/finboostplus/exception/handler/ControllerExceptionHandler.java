@@ -3,6 +3,7 @@ package com.finboostplus.exception.handler;
 import com.finboostplus.exception.DatabaseException;
 import com.finboostplus.exception.EmailAlreadyRegisteredException;
 import com.finboostplus.exception.ResourceNotFoundException;
+import com.finboostplus.exception.UserNotFoundException;
 import com.finboostplus.exception.error.CustomError;
 import com.finboostplus.exception.error.ValidationError;
 import org.springframework.http.HttpStatus;
@@ -45,6 +46,13 @@ public class ControllerExceptionHandler {
     public ResponseEntity<?> emailAlreadyRegisteredException(EmailAlreadyRegisteredException e){
         HttpStatus status = HttpStatus.BAD_REQUEST;
         CustomError error = new CustomError(Instant.now(), "Internal Server Error", status.value(), e.getMessage());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?> userNotFoundException(UserNotFoundException e){
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        CustomError error = new CustomError(Instant.now(), "User Not Found", status.value(), e.getMessage());
         return ResponseEntity.status(status).body(error);
     }
 }

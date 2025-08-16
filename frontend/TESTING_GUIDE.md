@@ -5,6 +5,26 @@
   <img src="https://img.shields.io/badge/Library-React_Testing_Library-red" alt="RTL">
 </div>
 
+<details>
+<summary><strong>📚 Sumário</strong></summary>
+
+- [Configuração do Projeto](#configuração-do-projeto)
+- [Comandos Disponíveis](#comandos-disponíveis)
+- [Estrutura de Testes](#estrutura-de-testes)
+  - [Teste Básico de Componente](#1-teste-básico-de-componente)
+  - [Teste com Interações do Usuário](#2-teste-com-interações-do-usuário)
+  - [Teste com Contexto](#3-teste-com-contexto)
+  - [Teste de Hook Customizado](#4-teste-de-hook-customizado)
+- [Principais Matchers](#principais-matchers)
+- [Estratégias de Busca (Queries)](#estratégias-de-busca-queries)
+- [Mocks Comuns](#mocks-comuns)
+- [Dicas e Boas Práticas](#dicas-e-boas-práticas)
+- [Exemplos de Teste por Tipo](#exemplos-de-teste-por-tipo)
+- [Solução de Problemas Comuns](#solução-de-problemas-comuns)
+- [Executando os Testes](#executando-os-testes)
+
+</details>
+
 ## Configuração do Projeto
 
 O projeto já está configurado com:

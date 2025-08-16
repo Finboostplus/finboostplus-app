@@ -1,38 +1,42 @@
 services:
-    server:
-        # Usa o Dockerfile específico para desenvolvimento
-        build:
-            context: .
-            dockerfile: Dockerfile.dev
-        ports:
-            - 8080:8080
-        depends_on:
-            db:
-                condition: service_healthy
-        volumes:
-            # Mapeia o diretório local para o diretório de trabalho
-            - .:/build
-        environment:
-            - POSTGRES_URL=jdbc:postgresql://db:5432/finboostplus
-            - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/finboostplus
-            - SPRING_DATASOURCE_USERNAME=postgres
-            - SPRING_DATASOURCE_PASSWORD=1234
-    db:
-        # ... (aqui o serviço do banco de dados continua o mesmo) ...
-        image: postgres
-        restart: always
-        volumes:
-            - db-data:/var/lib/postgresql/data
-        environment:
-            - POSTGRES_DB=finboostplus
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=1234
-        ports:
-            - 5432:5432
-        healthcheck:
-            test: ['CMD', 'pg_isready', '-U', 'postgres']
-            interval: 10s
-            timeout: 5s
-            retries: 5
+  server:
+    # Ambiente de desenvolvimento (hot reload via volume + DevTools)
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - 8080:8080
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/build               # Código fonte montado (hot reload)
+      - maven-repo:/root/.m2    # Cache de dependências Maven
+    environment:
+      # Variáveis de conexão (application.properties usa placeholders)
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/finboostplus
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=1234
+      # Ajuste CORS adicional se necessário
+      - CORS_ORIGINS=http://localhost:3000,http://localhost:5173
+    # Opcional: definir perfil
+    # command: ["./mvnw","spring-boot:run","-Dspring-boot.run.profiles=dev"]
+  db:
+    image: postgres:15
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=finboostplus
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ['CMD','pg_isready','-U','postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
 volumes:
-    db-data:
+  db-data:
+  maven-repo:

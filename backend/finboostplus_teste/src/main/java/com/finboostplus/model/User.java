@@ -6,10 +6,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import com.finboostplus.DTO.UserRequestDTO;
+import com.finboostplus.DTO.UserCreateDTO;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import lombok.AllArgsConstructor;
@@ -50,10 +48,6 @@ public class User implements UserDetails {
 			inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-//
-//    @OneToMany(mappedBy = "user", cascade =  CascadeType.ALL,orphanRemoval = true)
-//    private Set<MemberGroup> memberGroups = new HashSet<>();
-
 	public User(String name, String email, String password, String colorTheme) {
 		this.name = name;
 		this.email = email;
@@ -62,16 +56,8 @@ public class User implements UserDetails {
 		this.createdAt = Instant.now();
 	}
 
-//    public Set<MemberGroup> getMemberGroups() {
-//        return memberGroups;
-//    }
-//
-//    public void setMemberGroups(HashSet<MemberGroup> memberGroups) {
-//        this.memberGroups = memberGroups;
-//    }
-
-    public static User dtoToUser(UserRequestDTO dto){
-		return new User(dto.name(), dto.email(), dto.password(), dto.colorTheme());
+  public static User dtoToUser(UserCreateDTO dto){
+	  return new User(dto.name(), dto.email(), dto.password(), dto.colorTheme());
 	}
 
 	public void addRole(Role role) {

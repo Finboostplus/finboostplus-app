@@ -1,17 +1,44 @@
 # 💸 FinBoost+ - Controle Financeiro Pessoal e Compartilhado
 
-<div align="left">
+<div align="center">
   <img src="https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow" alt="Status">
   <img src="https://img.shields.io/badge/Java-21+-orange" alt="Java">
   <img src="https://img.shields.io/badge/React-19+-61dafb" alt="React">
   <img src="https://img.shields.io/badge/Spring_Boot-3.5+-6db33f" alt="Spring Boot">
   <img src="https://img.shields.io/badge/PostgreSQL-15+-336791" alt="PostgreSQL">
-  <img src="https://img.shields.io/badge/Licença-Educacional-blue" alt="Licença">
+  <img src="https://img.shields.io/badge/License-MPL_2.0-blue.svg" alt="License">
 </div>
 
 **Sistema fullstack para gerenciamento de finanças pessoais e compartilhadas**. Permite registro e divisão de despesas, acompanhamento de saldos individuais, geração de relatórios e sugestões inteligentes com IA.
 
 > 🎓 **Projeto Final** do curso Desenvolvimento Full-Stack Jr – +Prati & Codifica
+
+---
+
+## 📚 Sumário
+
+<details>
+<summary><strong>Clique aqui para visualizar</strong></summary>
+  
+- [💸 FinBoost+ - Controle Financeiro Pessoal e Compartilhado](#-finboost---controle-financeiro-pessoal-e-compartilhado)
+  - [📚 Sumário](#-sumário)
+  - [🚀 **Demo ao Vivo**](#-demo-ao-vivo)
+  - [🎯 **O que o FinBoost+ faz?**](#-o-que-o-finboost-faz)
+    - [✅ **Funcionalidades Principais**](#-funcionalidades-principais)
+  - [🛠️ **Tecnologias**](#️-tecnologias)
+  - [📁 **Estrutura do Projeto**](#-estrutura-do-projeto)
+  - [🚀 **Como Executar**](#-como-executar)
+    - [📋 **Pré-requisitos**](#-pré-requisitos)
+    - [⚡ **Execução Rápida (Recomendado)**](#-execução-rápida-recomendado)
+    - [🔧 **Execução Manual**](#-execução-manual)
+  - [🧪 **Testes**](#-testes)
+  - [👥 **Nossa Equipe**](#-nossa-equipe)
+  - [🤝 **Como Contribuir**](#-como-contribuir)
+  - [🎓 **Sobre o Projeto**](#-sobre-o-projeto)
+  - [📞 **Suporte**](#-suporte)
+  - [📄 **Licença**](#-licença)
+
+</details>
 
 ---
 
@@ -206,7 +233,7 @@ O **FinBoost+** foi desenvolvido como projeto final do curso **Desenvolvimento F
 
 ## 📄 **Licença**
 
-Projeto de **uso educacional** desenvolvido no curso **Desenvolvimento Full-Stack Jr – +Prati & Codifica**.
+Distribuído sob a **MPL-2.0**. Veja o arquivo [LICENSE](./LICENSE) para mais detalhes.
 
 ---
 

@@ -10,6 +10,29 @@ Obrigado por considerar contribuir para o **FinBoost+**! Este guia ajudará voc�
 
 ---
 
+## 📚 Sumário
+
+<details>
+<summary><strong>Clique aqui para visualizar</strong></summary>
+
+- [Como Contribuir](#-como-contribuir)
+- [Padrões de Desenvolvimento](#-padrões-de-desenvolvimento)
+  - [Convenções de Commit](#️-convenções-de-commit)
+  - [Estratégia de Branches](#-estratégia-de-branches)
+  - [Padrões de Código](#-padrões-de-código)
+- [Testes](#-testes)
+- [Estrutura de Arquivos](#-estrutura-de-arquivos)
+- [Code Review](#-code-review)
+- [Setup de Desenvolvimento](#-setup-de-desenvolvimento)
+- [Recursos](#-recursos)
+- [FAQ](#-faq)
+- [Equipe e Contato](#-equipe-e-contato)
+- [Licença](#-licença)
+
+</details>
+
+---
+
 ## 🎯 **Como Contribuir**
 
 ### **Pull Requests**
@@ -45,6 +68,7 @@ chore:    # Tarefas de manutenção
 ```
 
 **Exemplos:**
+
 ```bash
 feat(auth): adiciona autenticação JWT
 fix(expenses): corrige cálculo de divisão de despesas
@@ -55,11 +79,11 @@ test(button): adiciona testes para componente Button
 ### **🌿 Estratégia de Branches**
 
 ```
-main                    # Produção - sempre estável
+main                   # Produção - sempre estável
 ├── develop            # Desenvolvimento - integração
 ├── feature/nome       # Novas funcionalidades
-├── fix/nome          # Correções
-└── docs/nome         # Documentação
+├── fix/nome           # Correções
+└── docs/nome          # Documentação
 ```
 
 **Nomenclatura:**
@@ -70,6 +94,7 @@ main                    # Produção - sempre estável
 ### **📝 Padrões de Código**
 
 #### **Frontend (React)**
+
 ```javascript
 // ✅ Bom
 import { useState, useEffect } from 'react'
@@ -98,6 +123,7 @@ export default UserProfile
 ```
 
 #### **Backend (Java/Spring)**
+
 ```java
 // ✅ Bom
 @RestController
@@ -123,23 +149,18 @@ public class ExpenseController {
 ## 🧪 **Testes**
 
 ### **Cobertura Mínima**
-- **Frontend:** 80%+
-- **Backend:** 85%+
+
+- **Frontend:** 70%
+- **Backend:** 70%
 
 ### **Tipos de Teste**
 
 #### **Frontend**
+
 ```bash
-# Executar todos os testes
 npm test
-
-# Testes em modo watch
 npm test -- --watch
-
-# Cobertura
 npm test -- --coverage
-
-# Teste específico
 npm test -- Button.test.jsx
 ```
 
@@ -165,14 +186,10 @@ describe('Button', () => {
 ```
 
 #### **Backend**
+
 ```bash
-# Executar todos os testes
 ./mvnw test
-
-# Testes com cobertura
 ./mvnw test jacoco:report
-
-# Ver relatório
 open target/site/jacoco/index.html
 ```
 
@@ -209,30 +226,22 @@ class ExpenseServiceTest {
 ```bash
 # Frontend
 src/
-├── components/
-│   └── expenses/           # Nova feature
-│       ├── ExpenseForm.jsx
-│       ├── ExpenseList.jsx
-│       └── index.js
-├── pages/
-│   └── Expenses/           # Nova página
-│       ├── index.jsx
-│       └── ExpensesActions.jsx
-├── hooks/
-│   └── useExpenses.js      # Hook customizado
-└── services/
-    └── expenses.js         # API calls
+├── components/expenses/
+│   ├── ExpenseForm.jsx
+│   ├── ExpenseList.jsx
+│   └── index.js
+├── pages/Expenses/
+│   ├── index.jsx
+│   └── ExpensesActions.jsx
+├── hooks/useExpenses.js
+└── services/expenses.js
 
 # Backend
 src/main/java/com/finboost/
-├── controller/
-│   └── ExpenseController.java
-├── service/
-│   └── ExpenseService.java
-├── model/
-│   └── Expense.java
-├── repository/
-│   └── ExpenseRepository.java
+├── controller/ExpenseController.java
+├── service/ExpenseService.java
+├── model/Expense.java
+├── repository/ExpenseRepository.java
 └── dto/
     ├── ExpenseDto.java
     └── CreateExpenseRequest.java
@@ -242,9 +251,8 @@ src/main/java/com/finboost/
 
 ## 🔍 **Code Review**
 
-### **Checklist do Reviewer**
+### **Checklist do Reviewer - Frontend**
 
-#### **Frontend**
 - [ ] Componentes seguem padrões do projeto
 - [ ] Props têm PropTypes ou TypeScript
 - [ ] Testes cobrem funcionalidades principais
@@ -252,7 +260,8 @@ src/main/java/com/finboost/
 - [ ] Não há console.logs esquecidos
 - [ ] Imports estão organizados
 
-#### **Backend**
+### **Checklist do Reviewer - Backend**
+
 - [ ] Endpoints seguem REST conventions
 - [ ] Validação de entrada adequada
 - [ ] Tratamento de erros consistente
@@ -261,8 +270,6 @@ src/main/java/com/finboost/
 - [ ] Segurança considerada
 
 ### **Checklist do Autor**
-
-Antes de abrir um PR, verifique:
 
 - [ ] **Funciona:** Testei localmente
 - [ ] **Testes:** Adicionei/atualizei testes
@@ -278,63 +285,38 @@ Antes de abrir um PR, verifique:
 ### **Primeira Configuração**
 
 ```bash
-# 1. Clone e setup
 git clone https://github.com/Finboostplus/finboostplus-app.git
 cd finboostplus-app
 
-# 2. Backend
+# Backend
 cd backend/finboostplus_teste
 ./mvnw clean install
 ./mvnw spring-boot:run
 
-# 3. Frontend (novo terminal)
+# Frontend
 cd ../../frontend
 npm install
 npm run dev
-
-# 4. Teste se está funcionando
-curl http://localhost:8080/actuator/health
-curl http://localhost:5173
-```
-
-### **Banco de Dados de Desenvolvimento**
-
-```bash
-# Docker (Recomendado)
-docker run --name postgres-finboost-dev \
-  -e POSTGRES_DB=finboost_dev \
-  -e POSTGRES_USER=finboost \
-  -e POSTGRES_PASSWORD=dev123 \
-  -p 5432:5432 -d postgres:15
-
-# Configurar backend/src/main/resources/application-dev.yml
 ```
 
 ### **Ferramentas Recomendadas**
 
-#### **VS Code Extensions**
-- ES7+ React/Redux/React-Native snippets
-- Tailwind CSS IntelliSense
-- Extension Pack for Java
-- GitLens
-- Prettier - Code formatter
-
-#### **IntelliJ IDEA Plugins**
-- Spring Boot
-- Database Navigator
-- GitToolBox
+- **VS Code Extensions:** ES7+ Snippets, Tailwind IntelliSense, GitLens, Prettier
+- **IntelliJ IDEA Plugins:** Spring Boot, Database Navigator, GitToolBox
 
 ---
 
 ## 📚 **Recursos**
 
 ### **Documentação Técnica**
+
 - [Documentação Completa](https://finboostplus.github.io/finboostplus-app/)
 - [Frontend Guide](./frontend/README.md)
 - [Backend Guide](./backend/README.md)
-- [Testing Guide](./frontend/TESTING_GUIDE.md)
+- [Frontend Testing Guide](./frontend/TESTING_GUIDE.md)
 
 ### **Referências Externas**
+
 - [React Docs](https://react.dev/)
 - [Spring Boot Docs](https://spring.io/projects/spring-boot)
 - [TailwindCSS Docs](https://tailwindcss.com/)
@@ -351,7 +333,7 @@ A: Comece com issues marcadas como `good first issue` ou `help wanted`. São pro
 A: Sim! Documentação é fundamental. Issues com label `documentation` são uma ótima forma de começar.
 
 ### **Q: Como reportar um bug de segurança?**
-A: Para vulnerabilidades de segurança, envie email para: **finboostplus.security@gmail.com**
+A: Para vulnerabilidades de segurança, envie email para: **finboostplus@gmail.com**
 
 ### **Q: Posso usar bibliotecas externas?**
 A: Sim, mas discuta primeiro abrindo uma issue. Preferimos soluções que não aumentem muito o bundle size.
@@ -364,11 +346,13 @@ A: Releases são feitas a partir da branch `main` após aprovação da equipe. T
 ## 👥 **Equipe e Contato**
 
 ### **Core Team**
+
 - **🏆 Product Owner:** Alan Oliveira
 - **🔙 Backend Lead:** Bruno Henrique
 - **🎨 Frontend Lead:** Cleiton
-- 
+
 ### **Como Nos Encontrar**
+
 - 📧 **Email:** finboostplus@gmail.com
 - 🐛 **Issues:** [GitHub Issues](https://github.com/Finboostplus/finboostplus-app/issues)
 

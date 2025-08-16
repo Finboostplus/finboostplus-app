@@ -15,7 +15,11 @@
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
-		<license/>
+		<license>
+			<name>Mozilla Public License 2.0</name>
+			<url>https://www.mozilla.org/MPL/2.0/</url>
+			<distribution>repo</distribution>
+		</license>
 	</licenses>
 	<developers>
 		<developer/>

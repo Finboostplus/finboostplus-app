@@ -9,6 +9,23 @@
 
 **API REST** desenvolvida em **Spring Boot** para o FinBoost+. Fornece endpoints seguros para autenticação, gestão de grupos financeiros e controle de despesas compartilhadas.
 
+<details>
+<summary><strong>📚 Sumário</strong></summary>
+
+- [🚀 Funcionalidades Principais](#-funcionalidades-principais)
+- [🛠️ Tecnologias](#️-tecnologias)
+- [📁 Estrutura Resumida](#-estrutura-resumida)
+- [📘 Documentação da API (OpenAPI / Scalar)](#-documentação-da-api-openapi--scalar)
+- [⚡ Execução Rápida](#-execução-rápida)
+- [🧪 Testes](#-testes)
+- [📡 Endpoints Principais](#-endpoints-principais)
+- [🐳 Docker & Containerização](#-docker--containerização)
+- [🔧 Variáveis de Ambiente](#-variáveis-de-ambiente)
+- [🤝 Contribuindo](#-contribuindo)
+- [📞 Suporte](#-suporte)
+
+</details>
+
 ---
 
 ## 🚀 **Funcionalidades Principais**
@@ -56,6 +73,61 @@ backend/
 ```
 
 > 📖 **Documentação completa:** Veja nossa [documentação técnica](https://finboostplus.github.io/finboostplus-app/) para detalhes de arquitetura, APIs e guias avançados.
+
+---
+
+## 📘 **Documentação da API (OpenAPI / Scalar)**
+
+URLs após subir a aplicação:
+- 🎯 **Scalar (Recomendado)**: `http://localhost:8080/docs/scalar`
+- 📚 **Swagger UI**: `http://localhost:8080/swagger-ui.html`
+- 🔧 **OpenAPI JSON**: `http://localhost:8080/v3/api-docs`
+
+Autenticação JWT no Scalar:
+1. Obtenha um token via `POST /api/auth/login`
+2. Clique em Authorize
+3. Informe: `Bearer <seu_token>`
+4. Teste endpoints protegidos normalmente
+
+Anotações para documentar endpoints:
+```java
+@Tag(name = "Usuários", description = "Operações de usuário")
+@Operation(summary = "Cria usuário", description = "Registra um novo usuário")
+@ApiResponses({
+  @ApiResponse(responseCode = "201", description = "Criado"),
+  @ApiResponse(responseCode = "400", description = "Dados inválidos"),
+  @ApiResponse(responseCode = "401", description = "Não autorizado")
+})
+```
+
+Vantagens rápidas do Scalar:
+- UI moderna + dark mode nativo
+- Busca global (Ctrl+K) e exemplos interativos
+- Melhor UX para leitura de modelos e testes
+
+Dependências (pom.xml):
+```xml
+<dependency>
+  <groupId>org.springdoc</groupId>
+  <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+  <version>2.7.0</version>
+</dependency>
+<dependency>
+  <groupId>org.springdoc</groupId>
+  <artifactId>springdoc-openapi-starter-common</artifactId>
+  <version>2.7.0</version>
+</dependency>
+```
+
+Propriedades relevantes:
+```properties
+springdoc.api-docs.path=/v3/api-docs
+springdoc.swagger-ui.path=/swagger-ui.html
+springdoc.swagger-ui.enabled=true
+springdoc.swagger-ui.disable-swagger-default-url=true
+springdoc.swagger-ui.config-url=/v3/api-docs/swagger-config
+springdoc.swagger-ui.url=/v3/api-docs
+```
 
 ---
 
@@ -133,18 +205,42 @@ POST /api/expenses        # Criar despesa
 GET  /actuator/health     # Status da API
 ```
 
-> 📋 **Documentação da API:** Acesse `/swagger-ui.html` quando a aplicação estiver rodando ou veja nossa [documentação completa](../docs/api).
+> 📋 **Documentação da API:** Veja `/docs/scalar` (UI moderna) ou `/swagger-ui.html`.
 
 ---
 
-## 🐳 **Docker (Opcional)**
+## 🐳 **Docker & Containerização**
 
+Compose (app + banco):
 ```bash
-# Executar backend + PostgreSQL
+docker compose up --build
+# ou
 docker-compose up -d
-
-# Verificar se subiu
+```
+Verificar:
+```bash
 curl http://localhost:8080/actuator/health
+```
+
+Build da imagem isolada:
+```bash
+# Build local
+docker build -t finboostplus/backend .
+
+# Build para arquitetura específica (ex: deploy amd64 a partir de Mac ARM)
+docker build --platform=linux/amd64 -t finboostplus/backend:amd64 .
+```
+
+Push (exemplo):
+```bash
+# Ajuste o registry
+docker tag finboostplus/backend ghcr.io/finboostplus/backend:latest
+docker push ghcr.io/finboostplus/backend:latest
+```
+
+Multi-arch com buildx (opcional):
+```bash
+docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/finboostplus/backend:latest --push .
 ```
 
 ---
@@ -184,6 +280,8 @@ JWT_EXPIRATION=86400000
 - 💬 **Discord:** [Nosso servidor](link-discord)
 
 ---
+
+> Arquivos README.Docker.md e README-SCALAR.md foram consolidados aqui para reduzir duplicação.
 
 <div align="center">
   <strong>🔧 API Spring Boot - FinBoost+</strong><br/>

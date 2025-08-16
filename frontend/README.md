@@ -4,238 +4,218 @@
   <img src="https://img.shields.io/badge/React-19+-61dafb" alt="React">
   <img src="https://img.shields.io/badge/Vite-7+-646cff" alt="Vite">  
   <img src="https://img.shields.io/badge/TailwindCSS-4+-38bdf8" alt="Tailwind">
+  <img src="https://img.shields.io/badge/Node-18+-339933" alt="Node.js">
+  <img src="https://img.shields.io/badge/PWA-Enabled-brightgreen" alt="PWA">
   <img src="https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow" alt="Status">
 </div>
 
-**Interface web moderna** do FinBoost+ desenvolvida em **React**. Oferece experiência fluida para gerenciamento de finanças compartilhadas, com design responsivo e componentes acessíveis.
+Interface web moderna do FinBoost+ em React. Foco em UX responsiva, acessibilidade, PWA e arquitetura escalável.
 
 ---
 
-## 🚀 **Funcionalidades Principais**
+## 📚 Sumário
 
-- 🎨 **Interface Moderna** - Design responsivo e intuitivo
-- 🔐 **Autenticação Segura** - Login e registro integrados
-- 👥 **Gestão de Grupos** - Interface para grupos financeiros
-- 📊 **Dashboard Interativo** - Gráficos e estatísticas em tempo real
-- 🌙 **Dark/Light Mode** - Alternância de temas
-- 📱 **Responsivo** - Funciona em todos os dispositivos
+<details>
+<summary><strong>Clique para expandir</strong></summary>
 
----
-
-## 🛠️ **Tecnologias**
-
-### **Core**
-- **React 19+** - Biblioteca de interface
-- **Vite 7+** - Build tool e dev server
-- **TailwindCSS 4+** - Framework CSS utilitário
-- **JavaScript** - Linguagem principal
-
-### **Bibliotecas**
-- **React Router** - Roteamento de páginas
-- **Axios** - Requisições HTTP
-- **Recharts** - Gráficos e visualizações
-- **Headless UI** - Componentes acessíveis
-
-### **Desenvolvimento**
-- **Vitest** - Framework de testes
-- **ESLint + Prettier** - Padronização de código
-- **React Testing Library** - Testes de componentes
+- [🎨 Frontend - FinBoost+](#-frontend---finboost)
+  - [📚 Sumário](#-sumário)
+  - [🚀 Visão Geral](#-visão-geral)
+  - [✅ Funcionalidades Principais](#-funcionalidades-principais)
+  - [🛠️ Tecnologias](#️-tecnologias)
+  - [📁 Arquitetura & Estrutura](#-arquitetura--estrutura)
+    - [Princípios](#princípios)
+  - [📱 PWA (Progressive Web App)](#-pwa-progressive-web-app)
+    - [Instalação](#instalação)
+    - [Recursos Implementados](#recursos-implementados)
+  - [⚡ Execução Rápida](#-execução-rápida)
+  - [🔧 Configuração / Ambiente](#-configuração--ambiente)
+  - [🧪 Testes](#-testes)
+  - [🎨 Tema & Estilo](#-tema--estilo)
+  - [🤝 Padrões de Desenvolvimento](#-padrões-de-desenvolvimento)
+  - [🚀 Performance](#-performance)
+  - [🔧 Troubleshooting](#-troubleshooting)
+  - [📞 Suporte](#-suporte)
+</details>
 
 ---
 
-## 📁 **Estrutura Resumida**
+## 🚀 Visão Geral
+Camada de interface que consome a API Spring Boot. Estrutura orientada a escalabilidade (Feature + Atomic Design) e experiência rica (dashboard, gráficos, tema dinâmico, offline básico via PWA).
+
+## ✅ Funcionalidades Principais
+- 🎨 UI Responsiva & Dark/Light Mode
+- 🔐 Autenticação e proteção de rotas
+- 👥 Gestão de grupos e despesas
+- 📊 Dashboard com gráficos (Recharts)
+- 📱 PWA instalável e uso offline básico
+- ♻️ Hooks e Context para estado global
+
+---
+
+## 🛠️ Tecnologias
+
+**Core:** React 19, Vite, TailwindCSS, JavaScript (ES202x)
+**UI/Data:** React Router, Recharts, Headless UI, Axios
+**Qualidade:** ESLint, Prettier, Vitest, React Testing Library
+**PWA:** Vite Plugin PWA (Service Worker + Manifest)
+
+---
+
+## 📁 Arquitetura & Estrutura
 
 ```
 frontend/
-├── 📁 src/
-│   ├── 🧩 components/       # Componentes reutilizáveis
-│   │   ├── 📋 forms/        # Formulários (Login, Despesas, etc.)
-│   │   ├── 📊 charts/       # Gráficos (Balance, Expenses)
-│   │   ├── 🎛️ layout/       # Layout (Header, Sidebar, etc.)
-│   │   └── 🔧 ui/          # Componentes básicos (Button, Input)
-│   ├── 📄 pages/           # Páginas principais
-│   │   ├── Dashboard/      # Página inicial
-│   │   ├── Groups/         # Gestão de grupos
-│   │   ├── Expenses/       # Controle de despesas
-│   │   └── Profile/        # Perfil do usuário
-│   ├── 🔗 services/        # Requisições API
-│   ├── 🎣 hooks/           # Custom hooks
-│   ├── 📡 context/         # Context API (Auth, Theme)
-│   └── 🛣️ routes/          # Rotas e proteção
-├── 📁 __tests__/           # Testes automatizados
-└── 📁 public/             # Arquivos estáticos
+├── src/
+│   ├── components/      # UI (atoms/ui, layout, forms, feature widgets)
+│   ├── pages/           # Páginas (rotas)
+│   ├── hooks/           # Hooks reutilizáveis
+│   ├── context/         # Providers globais (Auth, Theme, Group)
+│   ├── services/        # Acesso HTTP / integração API
+│   ├── routes/          # Definição e proteção de rotas
+│   ├── schemas/         # Validação (ex: Zod/Yup)
+│   ├── utils/           # Helpers puros
+│   ├── styles/          # Estilos globais / tokens
+│   └── mockData/        # Dados mock para dev
+├── __tests__/           # Testes (componentes, integração, setup)
+└── public/              # Manifest, ícones, assets estáticos
 ```
 
-> 📖 **Documentação completa:** Veja nossa [documentação técnica](https://finboostplus.github.io/finboostplus-app/) para leitura sobre desenvolvimento e arquitetura.
+### Princípios
+- Separation of Concerns: cada pasta com responsabilidade clara
+- Atomic + Feature-First: facilita evolução incremental
+- Reutilização e composição de componentes
+- Testabilidade (camadas desacopladas)
 
 ---
 
-## ⚡ **Execução Rápida**
+## 📱 PWA (Progressive Web App)
+Aplicação instalável em desktop e mobile com cache e atualização automática.
 
-### **Pré-requisitos**
-- Node.js 18+
-- npm ou yarn
-- Git
+### Instalação
+- Desktop (Chrome/Edge): Ícone de instalar na barra ou menu do navegador
+- Android: Menu → Adicionar à tela inicial
+- iOS Safari: Share → Adicionar à Tela de Início
 
-### **Verificar Instalação**
+### Recursos Implementados
+- 📄 Manifest configurado (nome, cores, display standalone)
+- 🧩 Service Worker (cache estático + atualização automática)
+- 🖼 Ícones multi-resolução (+ Apple Touch)
+- 🌐 Estratégias: Cache-first (assets) / Network-first (dados dinâmicos)
+- 🔄 Auto-update com prompt (reload após nova versão)
+
+> Ver detalhes técnicos (estratégias, troubleshooting) antes em `PWA_README.md` agora consolidados aqui.
+
+---
+
+## ⚡ Execução Rápida
+
+Pré-requisitos: Node 18+, npm.
+
 ```bash
-node -v    # v18+
-npm -v     # 8+  
-git --version
-```
-
-### **1. Instalar e Executar**
-```bash
-# Se já clonou o repo, entre na pasta frontend
 cd frontend
-
-# Instalar dependências
 npm install
-
-# Executar em modo desenvolvimento  
 npm run dev
-
-# ✅ Aplicação rodando em: http://localhost:5173
+# http://localhost:5173
 ```
 
-### **2. Builds e Deploy**
+Build & Preview:
 ```bash
-# Build para produção
 npm run build
-
-# Preview do build
 npm run preview
+```
 
-# Analisar bundle
+Bundle analyze:
+```bash
 npm run build -- --analyze
 ```
 
 ---
 
-## 🧪 **Testes**
-
-```bash
-# Executar todos os testes
-npm test
-
-# Testes em modo watch
-npm run test:watch  
-
-# Cobertura de testes
-npm run test:coverage
-
-# Ver relatório de cobertura
-open coverage/index.html
-```
-
----
-
-## 🔧 **Configurações**
-
-### **Variáveis de Ambiente**
-Crie um arquivo `.env.local`:
-
+## 🔧 Configuração / Ambiente
+Arquivo `.env.local`:
 ```env
-# URL da API Backend
 VITE_API_BASE_URL=http://localhost:8080/api
-
-# Nome da aplicação
 VITE_APP_NAME=FinBoost+
-
-# Ambiente
 VITE_NODE_ENV=development
 ```
-
-### **Integração com Backend**
-```javascript
-// src/services/api.js
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api'
-
-// Certifique-se que o backend esteja rodando em :8080
+Uso:
+```js
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 ```
 
 ---
 
-## 📱 **Páginas Principais**
+## 🧪 Testes
+Scripts principais:
+```bash
+npm test                # todos
+npm run test:watch      # modo watch
+npm run test:coverage   # relatório cobertura
+```
+Cobertura alvo: ≥80% linhas principais (componentes críticos, hooks e serviços). 
+Guia completo, exemplos e boas práticas em: `TESTING_GUIDE.md` (único guia oficial). 
 
-| Rota | Componente | Descrição |
-|------|------------|-----------|
-| `/` | Dashboard | Visão geral e estatísticas |
-| `/groups` | Groups | Gestão de grupos financeiros |
-| `/expenses` | Expenses | Registro de despesas |
-| `/profile` | Profile | Perfil e configurações |
-| `/login` | Login | Autenticação |
+Estrutura:
+```
+__tests__/
+  components/   # testes unitários de UI
+  integration/  # fluxos completos (ex: formulários)
+  setup.js      # configuração global (jest-dom, mocks)
+  test-utils.js # render helpers + providers
+```
 
 ---
 
-## 🎨 **Customização de Tema**
-
-```javascript
+## 🎨 Tema & Estilo
+Tailwind + classes utilitárias. Paleta central adaptável.
+Exemplo (extensão):
+```js
 // tailwind.config.js
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        primary: {
-          50: '#eff6ff',
-          500: '#3b82f6',
-          900: '#1e3a8a',
-        }
-      }
-    }
-  }
-}
+export default { theme: { extend: { colors: { primary: { 50:'#eff6ff',500:'#3b82f6',900:'#1e3a8a' }}}}}
 ```
 
 ---
 
-## 🤝 **Padrões de Desenvolvimento**
+## 🤝 Padrões de Desenvolvimento
+- Componentes: PascalCase (`UserProfile.jsx`)
+- Hooks: `useCamelCase`
+- Funções/util: camelCase
+- Constantes: UPPER_SNAKE_CASE
+- Commits: `feat:`, `fix:`, `style:`, `refactor:`, `test:`, `docs:`
+- Organização de imports: React/libs → internos → estilos
 
-### **Nomenclatura**
-- **Componentes:** PascalCase (`UserProfile.jsx`)
-- **Funções:** camelCase (`getUserData`)
-- **Constantes:** UPPER_SNAKE_CASE (`API_BASE_URL`)
-
-### **Estrutura de Componente**
+Exemplo componente:
 ```jsx
-// Exemplo: components/ui/Button.jsx
 import { forwardRef } from 'react'
 
-const Button = forwardRef(({ className, variant = 'primary', ...props }, ref) => {
-  return (
-    <button
-      className={`btn btn-${variant} ${className}`}
-      ref={ref}
-      {...props}
-    />
-  )
-})
-
+const Button = forwardRef(({ variant='primary', className='', ...props }, ref) => (
+  <button ref={ref} className={`btn btn-${variant} ${className}`} {...props} />
+))
 export default Button
 ```
 
-### **Commits**
-- `feat:` Nova funcionalidade UI
-- `fix:` Correção visual/funcional
-- `style:` Ajustes de CSS/styling
-- `refactor:` Refatoração de componentes
+---
+
+## 🚀 Performance
+- Lighthouse alvo: PWA & Performance > 90
+- Bundle inicial < 500KB (gzip) 
+- Estratégias: Code splitting por rota, cache SW, imagens otimizadas
 
 ---
 
-## 📞 **Suporte**
+## 🔧 Troubleshooting
 
-- 🐛 **Issues:** [GitHub Issues](../../issues)
-- 📖 **Docs:** [Guia de Componentes](../docs/frontend)
-- 💬 **Discord:** [Nosso servidor](link-discord)
-- 🎨 **Figma:** [Design System](link-figma)
+### Problemas Comuns
+- **PWA não instala**: Verificar HTTPS em produção
+- **Build falha**: Limpar cache com `rm -rf node_modules package-lock.json && npm install`
+- **Testes quebram**: Verificar versão do Node (18+)
 
 ---
 
-## 🚀 **Performance**
-
-- **Lighthouse Score:** 90+ ⚡
-- **Bundle Size:** < 500KB 📦
-- **First Paint:** < 1.5s ⏱️
+## 📞 Suporte
+- Issues: https://github.com/Finboostplus/finboostplus-app/issues
+- Docs completas: https://finboostplus.github.io/finboostplus-app/
 
 ---
 

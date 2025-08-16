@@ -1,7 +1,9 @@
 package com.finboostplus.service;
 
-import com.finboostplus.DTO.UserRequestDTO;
+import com.finboostplus.DTO.UserCreateDTO;
+import com.finboostplus.DTO.UserUpdateDTO;
 import com.finboostplus.exception.EmailAlreadyRegisteredException;
+import com.finboostplus.exception.UserNotFoundException;
 import com.finboostplus.model.Role;
 import com.finboostplus.projection.UserDetailsProjection;
 import com.finboostplus.repository.RoleRepository;
@@ -51,7 +53,7 @@ public class UserService implements UserDetailsService {
 		return user;
 	}
 
-	public boolean saveUser(UserRequestDTO dto){
+	public boolean saveUser(UserCreateDTO dto){
 		Optional<User> userEmailExists = userRepository.findByEmailIgnoreCase(dto.email());
 		if(userEmailExists.isPresent()){
 			throw new EmailAlreadyRegisteredException("E-mail já cadastrado");
@@ -66,6 +68,26 @@ public class UserService implements UserDetailsService {
 		User userSaved = userRepository.save(user);
 		return userSaved.getId() != null;
 	}
+
+	public boolean updateUser(String email, UserUpdateDTO dto){
+		Optional<User> userOptional = userRepository.findByEmailIgnoreCase(email);
+		if(userOptional.isEmpty()){
+			throw new UserNotFoundException("Usuário nao encontrado");
+		}
+		User user = userOptional.get();
+		if(!dto.name().equals(user.getName())){
+			user.setName(dto.name());
+		}if(!dto.email().equals(user.getEmail())){
+			user.setEmail(dto.email());
+		}if(!dto.colorTheme().equals(user.getColorTheme()) && dto.colorTheme()!=null){
+			user.setColorTheme(dto.colorTheme());
+		}
+		User userUpdated = userRepository.save(user);
+		return userUpdated.getId() != null;
+	}
+
+
+
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
