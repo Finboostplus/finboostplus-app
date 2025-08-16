@@ -1,6 +1,6 @@
 package com.finboostplus.service;
 
-import com.finboostplus.DTO.UserRequestDTO;
+import com.finboostplus.DTO.UserCreateDTO;
 import com.finboostplus.exception.EmailAlreadyRegisteredException;
 import com.finboostplus.model.Role;
 import com.finboostplus.model.User;
@@ -74,11 +74,12 @@ class UserServiceTest {
     }
 
     @Test
-    void saveUser_emailAlreadyExists() {
+    void saveUser_emailAlreadyExists_shouldThrowException() {
         // Arrange
         when(userRepository.findByEmailIgnoreCase("existing@test.com"))
                 .thenReturn(Optional.of(new User()));
-        UserRequestDTO dto = new UserRequestDTO("Test User", "existing@test.com", "password123", "dark");
+
+        UserCreateDTO dto = new UserCreateDTO("Test User", "existing@test.com", "password123", "dark");
 
         // Act & Assert
         assertThrows(EmailAlreadyRegisteredException.class,
@@ -98,7 +99,7 @@ class UserServiceTest {
         savedUser.setId(10L);
         when(userRepository.save(any(User.class))).thenReturn(savedUser);
 
-        UserRequestDTO dto = new UserRequestDTO("Test User", "new@test.com", "password123", "dark");
+        UserCreateDTO dto = new UserCreateDTO("Test User", "new@test.com", "password123", "dark");
 
         // Act
         boolean result = userService.saveUser(dto);

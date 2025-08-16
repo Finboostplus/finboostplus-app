@@ -1,6 +1,6 @@
 package com.finboostplus.model;
 
-import com.finboostplus.DTO.UserRequestDTO;
+import com.finboostplus.DTO.UserCreateDTO;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,7 +10,7 @@ class UserTest {
     @Test
     void dtoToUser_shouldConvertCorrectly() {
         // Arrange
-        UserRequestDTO dto = new UserRequestDTO("Alice", "alice@example.com", "12345", "dark");
+        UserCreateDTO dto = new UserCreateDTO("Alice", "alice@example.com", "12345", "dark");
 
         // Act
         User user = User.dtoToUser(dto);

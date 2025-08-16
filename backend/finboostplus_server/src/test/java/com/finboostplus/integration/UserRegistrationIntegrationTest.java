@@ -1,7 +1,7 @@
 package com.finboostplus.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.finboostplus.DTO.UserRequestDTO;
+import com.finboostplus.DTO.UserCreateDTO;
 import com.finboostplus.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +41,7 @@ class UserRegistrationIntegrationTest {
     @Test
     void registerUser_completeFlow_shouldCreateUserSuccessfully() throws Exception {
         // Arrange
-        UserRequestDTO userRequest = new UserRequestDTO(
+        UserCreateDTO userRequest = new UserCreateDTO(
                 "Integration Test User",
                 "integration@test.com",
                 "password123",
@@ -61,14 +61,14 @@ class UserRegistrationIntegrationTest {
     @Test
     void registerUser_duplicateEmail_shouldReturnConflict() throws Exception {
         // Arrange
-        UserRequestDTO firstUser = new UserRequestDTO(
+        UserCreateDTO firstUser = new UserCreateDTO(
                 "First User",
                 "duplicate@test.com",
                 "password123",
                 "dark"
         );
 
-        UserRequestDTO duplicateUser = new UserRequestDTO(
+        UserCreateDTO duplicateUser = new UserCreateDTO(
                 "Duplicate User",
                 "duplicate@test.com",
                 "password456",
@@ -94,7 +94,7 @@ class UserRegistrationIntegrationTest {
     @Test
     void registerUser_invalidData_shouldReturnBadRequest() throws Exception {
         // Arrange
-        UserRequestDTO invalidUser = new UserRequestDTO(
+        UserCreateDTO invalidUser = new UserCreateDTO(
                 "", // empty name
                 "invalid-email", // invalid email format
                 "", // empty password

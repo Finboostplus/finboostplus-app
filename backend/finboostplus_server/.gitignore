@@ -1,10 +1,24 @@
+# Projeto FinBoostPlus Server - .gitignore
+
+# Arquivos auxiliares de IDE e build
 HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
+
+# Output de build Maven
+/target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+# Wrapper Maven (DEVE ser commitado: mvnw, mvnw.cmd, maven-wrapper.properties, maven-wrapper.jar)
+# Não ignorar o jar do wrapper
+
+# Logs e dumps
+*.log
+hs_err_pid*.log
+replay_pid*.log
+*.hprof
+*.dump
+
+# IDEs
 .apt_generated
 .classpath
 .factorypath
@@ -12,22 +26,39 @@ target/
 .settings
 .springBeans
 .sts4-cache
-
-### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+# NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
+
+# Gradle (caso venha a coexistir)
+/build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
+# VS Code
 .vscode/
+
+# SO / Diversos
+.DS_Store
+Thumbs.db
+
+# Arquivos temporários
+.tmp
+~$*
+*.swp
+
+# Cobertura (mantida dentro de target já ignorado)
+# jacoco.exec fica em target
+
+# Ambiente / segredos (caso venha a existir)
+*.env
+.env.local
+.env.*.local

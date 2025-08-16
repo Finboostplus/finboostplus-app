@@ -1,7 +1,8 @@
 package com.finboostplus.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.finboostplus.DTO.UserRequestDTO;
+import com.finboostplus.DTO.UserCreateDTO;
+import com.finboostplus.config.TestConfig;
 import com.finboostplus.model.Role;
 import com.finboostplus.model.User;
 import com.finboostplus.repository.RoleRepository;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -33,6 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @Transactional
+@Import(TestConfig.class)
 class UserControllerIntegrationTest {
 
     @Autowired
@@ -48,7 +51,7 @@ class UserControllerIntegrationTest {
     private ObjectMapper objectMapper;
 
     private Role userRole;
-    private UserRequestDTO validUserDto;
+    private UserCreateDTO validUserDto;
 
     @BeforeEach
     void setUp() {
@@ -61,7 +64,7 @@ class UserControllerIntegrationTest {
         userRole = roleRepository.save(userRole);
 
         // Create valid user DTO for tests
-        validUserDto = new UserRequestDTO(
+        validUserDto = new UserCreateDTO(
                 "Integration Test User",
                 "integration@example.com",
                 "password123",
