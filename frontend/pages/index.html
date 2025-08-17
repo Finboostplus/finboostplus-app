@@ -1,119 +1,229 @@
 
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação completa da aplicação FinBoost+">
+      
+      
+        <meta name="author" content="Equipe FinBoost+">
+      
+      
+      
+        <link rel="prev" href="../components/">
+      
+      
+        <link rel="next" href="../hooks/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Páginas - FinBoost+ Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
 
-<html class="no-js" lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="Documentação completa da aplicação FinBoost+ (Frontend e Backend)" name="description"/>
-<meta content="Equipe FinBoost+" name="author"/>
-<link href="../components/" rel="prev"/>
-<link href="../hooks/" rel="next"/>
-<link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.6.1, mkdocs-material-9.6.14" name="generator"/>
-<title>Páginas - FinBoost+ Documentation</title>
-<link href="../../assets/stylesheets/main.342714a4.min.css" rel="stylesheet"/>
-<link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
-<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-</head>
-<body data-md-color-accent="blue" data-md-color-primary="blue" data-md-color-scheme="default" dir="ltr">
-<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
-<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
-<label class="md-overlay" for="__drawer"></label>
-<div data-md-component="skip">
-<a class="md-skip" href="#paginas-frontend-finboost">
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#paginas-frontend-finboost" class="md-skip">
           Skip to content
         </a>
-</div>
-<div data-md-component="announce">
-</div>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
 <header class="md-header" data-md-component="header">
-<nav aria-label="Header" class="md-header__inner md-grid">
-<a aria-label="FinBoost+ Documentation" class="md-header__button md-logo" data-md-component="logo" href="../.." title="FinBoost+ Documentation">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
-</a>
-<label class="md-header__button md-icon" for="__drawer">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
-</label>
-<div class="md-header__title" data-md-component="header-title">
-<div class="md-header__ellipsis">
-<div class="md-header__topic">
-<span class="md-ellipsis">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FinBoost+ Documentation" class="md-header__button md-logo" aria-label="FinBoost+ Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
             FinBoost+ Documentation
           </span>
-</div>
-<div class="md-header__topic" data-md-component="header-topic">
-<span class="md-ellipsis">
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
             
               Páginas
             
           </span>
-</div>
-</div>
-</div>
-<form class="md-header__option" data-md-component="palette">
-<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="blue" data-md-color-media="" data-md-color-primary="blue" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
-<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
-</label>
-<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="blue" data-md-color-media="" data-md-color-primary="blue" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
-<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
-</label>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
 </form>
-<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
-<label class="md-header__button md-icon" for="__search">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
-</label>
-<div class="md-search" data-md-component="search" role="dialog">
-<label class="md-search__overlay" for="__search"></label>
-<div class="md-search__inner" role="search">
-<form class="md-search__form" name="search">
-<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
-<label class="md-search__icon md-icon" for="__search">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
-</label>
-<nav aria-label="Search" class="md-search__options">
-<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
-</button>
-</nav>
-<div class="md-search__suggest" data-md-component="search-suggest"></div>
-</form>
-<div class="md-search__output">
-<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
-<div class="md-search-result" data-md-component="search-result">
-<div class="md-search-result__meta">
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
             Initializing search
           </div>
-<ol class="md-search-result__list" role="presentation"></ol>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="md-header__source">
-<a class="md-source" data-md-component="source" href="https://github.com/Finboostplus/finboostplus-app" title="Go to repository">
-<div class="md-source__icon md-icon">
-<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
-</div>
-<div class="md-source__repository">
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Finboostplus/finboostplus-app" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
     finboostplus-app
   </div>
 </a>
-</div>
-</nav>
+      </div>
+    
+  </nav>
+  
 </header>
-<div class="md-container" data-md-component="container">
-<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
-<div class="md-grid">
-<ul class="md-tabs__list">
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../..">
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -122,1822 +232,1597 @@
   Home
 
       </a>
-</li>
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../../project/overview/">
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../project/overview/" class="md-tabs__link">
           
   
   
   Projeto
 
         </a>
-</li>
-<li class="md-tabs__item md-tabs__item--active">
-<a class="md-tabs__link" href="../">
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
   
   Frontend
 
         </a>
-</li>
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../../backend/index.md">
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../backend/ai_usage/" class="md-tabs__link">
           
   
   
   Backend
 
         </a>
-</li>
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../../development/">
-          
+      </li>
+    
   
-  
-  Desenvolvimento
 
-        </a>
-</li>
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../../wiki/Home/">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../wiki/Home/" class="md-tabs__link">
           
   
   
   Wiki
 
         </a>
-</li>
-</ul>
-</div>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
 </nav>
-<main class="md-main" data-md-component="main">
-<div class="md-main__inner md-grid">
-<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
-<label class="md-nav__title" for="__drawer">
-<a aria-label="FinBoost+ Documentation" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="FinBoost+ Documentation">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
-</a>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FinBoost+ Documentation" class="md-nav__button md-logo" aria-label="FinBoost+ Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
     FinBoost+ Documentation
   </label>
-<div class="md-nav__source">
-<a class="md-source" data-md-component="source" href="https://github.com/Finboostplus/finboostplus-app" title="Go to repository">
-<div class="md-source__icon md-icon">
-<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
-</div>
-<div class="md-source__repository">
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Finboostplus/finboostplus-app" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
     finboostplus-app
   </div>
 </a>
-</div>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../..">
-<span class="md-ellipsis">
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Home
     
   </span>
-</a>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
-<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
     Projeto
     
   </span>
-<span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_2">
-<span class="md-nav__icon md-icon"></span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
             Projeto
           </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../project/overview/">
-<span class="md-ellipsis">
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Visão Geral
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../project/architecture/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/ai-development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Uso de IA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Arquitetura
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../project/requirements/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Requisitos
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../project/diagrams/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/diagrams/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Diagramas
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../project/api-contract/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/api-contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     API Contract
     
   </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
-<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
     Frontend
     
   </span>
-<span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-expanded="true" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_3">
-<span class="md-nav__icon md-icon"></span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
             Frontend
           </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../">
-<span class="md-ellipsis">
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Visão Geral
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../getting-started/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Getting Started
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../architecture/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Arquitetura
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../components/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Componentes
     
   </span>
-</a>
-</li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
-<label class="md-nav__link md-nav__link--active" for="__toc">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
     Páginas
     
   </span>
-<span class="md-nav__icon md-icon"></span>
-</label>
-<a class="md-nav__link md-nav__link--active" href="./">
-<span class="md-ellipsis">
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
     Páginas
     
   </span>
-</a>
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#visao-geral">
-<span class="md-ellipsis">
-      📋 Visão Geral
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#visao-geral" class="md-nav__link">
+    <span class="md-ellipsis">
+      Visão Geral
     </span>
-</a>
+  </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#mapa-de-navegacao">
-<span class="md-ellipsis">
-      🗺️ Mapa de Navegação
+      
+        <li class="md-nav__item">
+  <a href="#mapa-de-navegacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mapa de Navegação
     </span>
-</a>
+  </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#paginas-de-autenticacao">
-<span class="md-ellipsis">
-      🔐 Páginas de Autenticação
+      
+        <li class="md-nav__item">
+  <a href="#paginas-de-autenticacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Páginas de Autenticação
     </span>
-</a>
-<nav aria-label="🔐 Páginas de Autenticação" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#login-login">
-<span class="md-ellipsis">
-      🚪 Login (/login)
+  </a>
+  
+    <nav class="md-nav" aria-label="Páginas de Autenticação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#login-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      Login (/login)
     </span>
-</a>
-<nav aria-label="🚪 Login (/login)" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#componentes-utilizados">
-<span class="md-ellipsis">
-      Componentes Utilizados
-    </span>
-</a>
+  </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#funcionalidades">
-<span class="md-ellipsis">
-      Funcionalidades
+        
+          <li class="md-nav__item">
+  <a href="#register-register" class="md-nav__link">
+    <span class="md-ellipsis">
+      Register (/register)
     </span>
-</a>
+  </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#layout-e-design">
-<span class="md-ellipsis">
-      Layout e Design
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paginas-da-area-logada" class="md-nav__link">
+    <span class="md-ellipsis">
+      Páginas da Área Logada
     </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#fluxo-de-autenticacao">
-<span class="md-ellipsis">
-      Fluxo de Autenticação
+  </a>
+  
+    <nav class="md-nav" aria-label="Páginas da Área Logada">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dashboard (/dashboard)
     </span>
-</a>
+  </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#estados-da-pagina">
-<span class="md-ellipsis">
-      Estados da Página
+        
+          <li class="md-nav__item">
+  <a href="#expenses-expenses" class="md-nav__link">
+    <span class="md-ellipsis">
+      Expenses (/expenses)
     </span>
-</a>
+  </a>
+  
 </li>
-</ul>
+        
+          <li class="md-nav__item">
+  <a href="#groups-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Groups (/groups)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profile-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Profile (/profile)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paginas-de-erro" class="md-nav__link">
+    <span class="md-ellipsis">
+      Páginas de Erro
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Páginas de Erro">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pagina-nao-encontrada-404" class="md-nav__link">
+    <span class="md-ellipsis">
+      Página Não Encontrada (/404)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#register-register">
-<span class="md-ellipsis">
-      📝 Register (/register)
-    </span>
-</a>
-<nav aria-label="📝 Register (/register)" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#campos-do-formulario">
-<span class="md-ellipsis">
-      Campos do Formulário
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#validacoes-implementadas">
-<span class="md-ellipsis">
-      Validações Implementadas
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#fluxo-de-cadastro">
-<span class="md-ellipsis">
-      Fluxo de Cadastro
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#paginas-da-area-logada">
-<span class="md-ellipsis">
-      📊 Páginas da Área Logada
-    </span>
-</a>
-<nav aria-label="📊 Páginas da Área Logada" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#dashboard-dashboard">
-<span class="md-ellipsis">
-      🏠 Dashboard (/dashboard)
-    </span>
-</a>
-<nav aria-label="🏠 Dashboard (/dashboard)" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#secoes-principais">
-<span class="md-ellipsis">
-      Seções Principais
-    </span>
-</a>
-<nav aria-label="Seções Principais" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#summarycards">
-<span class="md-ellipsis">
-      📋 SummaryCards
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#chartswitcher">
-<span class="md-ellipsis">
-      📊 ChartSwitcher
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#latestexpenses">
-<span class="md-ellipsis">
-      📝 LatestExpenses
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#hooks-utilizados">
-<span class="md-ellipsis">
-      Hooks Utilizados
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#estados-de-loading">
-<span class="md-ellipsis">
-      Estados de Loading
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#expenses-expenses">
-<span class="md-ellipsis">
-      💰 Expenses (/expenses)
-    </span>
-</a>
-<nav aria-label="💰 Expenses (/expenses)" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#funcionalidades-principais">
-<span class="md-ellipsis">
-      Funcionalidades Principais
-    </span>
-</a>
-<nav aria-label="Funcionalidades Principais" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#lista-de-despesas">
-<span class="md-ellipsis">
-      📋 Lista de Despesas
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#adicao-de-despesas">
-<span class="md-ellipsis">
-      ➕ Adição de Despesas
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#edicao-e-exclusao">
-<span class="md-ellipsis">
-      ✏️ Edição e Exclusão
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#estrutura-de-dados">
-<span class="md-ellipsis">
-      Estrutura de Dados
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#filtros-disponiveis">
-<span class="md-ellipsis">
-      Filtros Disponíveis
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#groups-groups">
-<span class="md-ellipsis">
-      👥 Groups (/groups)
-    </span>
-</a>
-<nav aria-label="👥 Groups (/groups)" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#funcionalidades_1">
-<span class="md-ellipsis">
-      Funcionalidades
-    </span>
-</a>
-<nav aria-label="Funcionalidades" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#criacao-de-grupos">
-<span class="md-ellipsis">
-      🏗️ Criação de Grupos
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#visualizacao-de-grupos">
-<span class="md-ellipsis">
-      📊 Visualização de Grupos
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#gestao-de-despesas-do-grupo">
-<span class="md-ellipsis">
-      💸 Gestão de Despesas do Grupo
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#estados-do-grupo">
-<span class="md-ellipsis">
-      Estados do Grupo
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#permissoes">
-<span class="md-ellipsis">
-      Permissões
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#profile-profile">
-<span class="md-ellipsis">
-      👤 Profile (/profile)
-    </span>
-</a>
-<nav aria-label="👤 Profile (/profile)" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#secoes-da-pagina">
-<span class="md-ellipsis">
-      Seções da Página
-    </span>
-</a>
-<nav aria-label="Seções da Página" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#informacoes-pessoais">
-<span class="md-ellipsis">
-      📷 Informações Pessoais
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#seguranca">
-<span class="md-ellipsis">
-      🔒 Segurança
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#preferencias">
-<span class="md-ellipsis">
-      ⚙️ Preferências
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#dados-e-privacidade">
-<span class="md-ellipsis">
-      📊 Dados e Privacidade
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#paginas-de-erro">
-<span class="md-ellipsis">
-      🚫 Páginas de Erro
-    </span>
-</a>
-<nav aria-label="🚫 Páginas de Erro" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#404-not-found-404">
-<span class="md-ellipsis">
-      404 Not Found (/404)
-    </span>
-</a>
-<nav aria-label="404 Not Found (/404)" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#elementos">
-<span class="md-ellipsis">
-      Elementos
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#fluxos-de-navegacao">
-<span class="md-ellipsis">
-      🔄 Fluxos de Navegação
-    </span>
-</a>
-<nav aria-label="🔄 Fluxos de Navegação" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#fluxo-principal-do-usuario">
-<span class="md-ellipsis">
-      Fluxo Principal do Usuário
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#protecao-de-rotas">
-<span class="md-ellipsis">
-      Proteção de Rotas
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#responsividade-das-paginas">
-<span class="md-ellipsis">
-      📱 Responsividade das Páginas
-    </span>
-</a>
-<nav aria-label="📱 Responsividade das Páginas" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#breakpoints-e-adaptacoes">
-<span class="md-ellipsis">
-      Breakpoints e Adaptações
-    </span>
-</a>
-<nav aria-label="Breakpoints e Adaptações" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#mobile-640px">
-<span class="md-ellipsis">
-      Mobile (&lt; 640px)
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#tablet-640px-1024px">
-<span class="md-ellipsis">
-      Tablet (640px - 1024px)
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#desktop-1024px">
-<span class="md-ellipsis">
-      Desktop (&gt; 1024px)
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#otimizacoes-de-performance">
-<span class="md-ellipsis">
-      ⚡ Otimizações de Performance
-    </span>
-</a>
-<nav aria-label="⚡ Otimizações de Performance" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#lazy-loading">
-<span class="md-ellipsis">
-      Lazy Loading
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#memoizacao">
-<span class="md-ellipsis">
-      Memoização
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#code-splitting">
-<span class="md-ellipsis">
-      Code Splitting
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../hooks/">
-<span class="md-ellipsis">
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Hooks
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../styling/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../styling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Styling
     
   </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
-<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-<span class="md-ellipsis">
-    Backend
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Testes
     
   </span>
-<span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_4">
-<span class="md-nav__icon md-icon"></span>
-            Backend
-          </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../backend/index.md">
-<span class="md-ellipsis">
-    Visão Geral
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../backend/getting-started.md">
-<span class="md-ellipsis">
-    Getting Started
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../backend/architecture.md">
-<span class="md-ellipsis">
-    Arquitetura
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../backend/api-endpoints.md">
-<span class="md-ellipsis">
-    API Endpoints
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../backend/database.md">
-<span class="md-ellipsis">
-    Database
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../backend/authentication.md">
-<span class="md-ellipsis">
-    Autenticação
-    
-  </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
-<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-<span class="md-ellipsis">
-    Desenvolvimento
-    
-  </span>
-<span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_5">
-<span class="md-nav__icon md-icon"></span>
-            Desenvolvimento
-          </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../development/">
-<span class="md-ellipsis">
-    Visão Geral
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../ai_usage/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Uso de IA - Frontend
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../ai_prompts_log/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai_prompts_log/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Log de Prompts - Frontend
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../backend/ai_usage/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Backend
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Backend
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backend/ai_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Uso de IA - Backend
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../backend/ai_prompts_log/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backend/ai_prompts_log/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Log de Prompts - Backend
     
   </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
-<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
     Wiki
     
   </span>
-<span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_6">
-<span class="md-nav__icon md-icon"></span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
             Wiki
           </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../wiki/Home/">
-<span class="md-ellipsis">
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wiki/Home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Home
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../wiki/Sobre-o-Projeto/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wiki/Sobre-o-Projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Sobre o Projeto
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../wiki/Roadmap/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wiki/Roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Roadmap
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../wiki/Como-Rodar-o-Projeto/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wiki/Como-Rodar-o-Projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Como Rodar o Projeto
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../wiki/Estrutura-do-Repositorio/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wiki/Estrutura-do-Repositorio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Estrutura do Repositório
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../wiki/Fluxo-de-Git-e-Branches/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wiki/Fluxo-de-Git-e-Branches/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Fluxo de Git e Branches
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../wiki/Boas-Praticas-de-Desenvolvimento/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wiki/Boas-Praticas-de-Desenvolvimento/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Boas Práticas de Desenvolvimento
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../wiki/Padroes-de-Codigo/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wiki/Padroes-de-Codigo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Padrões de Código
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../wiki/Guia-de-Testes/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wiki/Guia-de-Testes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Guia de Testes
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../wiki/Revisao-de-Codigo/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wiki/Revisao-de-Codigo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Revisão de Código
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../wiki/Guia-de-Deploy/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wiki/Guia-de-Deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Guia de Deploy
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../wiki/Configuracao-de-Ambiente/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wiki/Configuracao-de-Ambiente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     Configuração de Ambiente
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../wiki/API%E2%80%90Guia-Rapido/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wiki/API%E2%80%90Guia-Rapido/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     API - Guia Rápido
     
   </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../wiki/API%E2%80%90Documentacao/">
-<span class="md-ellipsis">
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wiki/API%E2%80%90Documentacao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     API - Documentação
     
   </span>
-</a>
-</li>
-</ul>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
 </nav>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#visao-geral">
-<span class="md-ellipsis">
-      📋 Visão Geral
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#visao-geral" class="md-nav__link">
+    <span class="md-ellipsis">
+      Visão Geral
     </span>
-</a>
+  </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#mapa-de-navegacao">
-<span class="md-ellipsis">
-      🗺️ Mapa de Navegação
+      
+        <li class="md-nav__item">
+  <a href="#mapa-de-navegacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mapa de Navegação
     </span>
-</a>
+  </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#paginas-de-autenticacao">
-<span class="md-ellipsis">
-      🔐 Páginas de Autenticação
+      
+        <li class="md-nav__item">
+  <a href="#paginas-de-autenticacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Páginas de Autenticação
     </span>
-</a>
-<nav aria-label="🔐 Páginas de Autenticação" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#login-login">
-<span class="md-ellipsis">
-      🚪 Login (/login)
+  </a>
+  
+    <nav class="md-nav" aria-label="Páginas de Autenticação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#login-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      Login (/login)
     </span>
-</a>
-<nav aria-label="🚪 Login (/login)" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#componentes-utilizados">
-<span class="md-ellipsis">
-      Componentes Utilizados
-    </span>
-</a>
+  </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#funcionalidades">
-<span class="md-ellipsis">
-      Funcionalidades
+        
+          <li class="md-nav__item">
+  <a href="#register-register" class="md-nav__link">
+    <span class="md-ellipsis">
+      Register (/register)
     </span>
-</a>
+  </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#layout-e-design">
-<span class="md-ellipsis">
-      Layout e Design
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paginas-da-area-logada" class="md-nav__link">
+    <span class="md-ellipsis">
+      Páginas da Área Logada
     </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#fluxo-de-autenticacao">
-<span class="md-ellipsis">
-      Fluxo de Autenticação
+  </a>
+  
+    <nav class="md-nav" aria-label="Páginas da Área Logada">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dashboard (/dashboard)
     </span>
-</a>
+  </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#estados-da-pagina">
-<span class="md-ellipsis">
-      Estados da Página
+        
+          <li class="md-nav__item">
+  <a href="#expenses-expenses" class="md-nav__link">
+    <span class="md-ellipsis">
+      Expenses (/expenses)
     </span>
-</a>
+  </a>
+  
 </li>
-</ul>
+        
+          <li class="md-nav__item">
+  <a href="#groups-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Groups (/groups)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profile-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Profile (/profile)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paginas-de-erro" class="md-nav__link">
+    <span class="md-ellipsis">
+      Páginas de Erro
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Páginas de Erro">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pagina-nao-encontrada-404" class="md-nav__link">
+    <span class="md-ellipsis">
+      Página Não Encontrada (/404)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#register-register">
-<span class="md-ellipsis">
-      📝 Register (/register)
-    </span>
-</a>
-<nav aria-label="📝 Register (/register)" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#campos-do-formulario">
-<span class="md-ellipsis">
-      Campos do Formulário
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#validacoes-implementadas">
-<span class="md-ellipsis">
-      Validações Implementadas
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#fluxo-de-cadastro">
-<span class="md-ellipsis">
-      Fluxo de Cadastro
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#paginas-da-area-logada">
-<span class="md-ellipsis">
-      📊 Páginas da Área Logada
-    </span>
-</a>
-<nav aria-label="📊 Páginas da Área Logada" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#dashboard-dashboard">
-<span class="md-ellipsis">
-      🏠 Dashboard (/dashboard)
-    </span>
-</a>
-<nav aria-label="🏠 Dashboard (/dashboard)" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#secoes-principais">
-<span class="md-ellipsis">
-      Seções Principais
-    </span>
-</a>
-<nav aria-label="Seções Principais" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#summarycards">
-<span class="md-ellipsis">
-      📋 SummaryCards
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#chartswitcher">
-<span class="md-ellipsis">
-      📊 ChartSwitcher
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#latestexpenses">
-<span class="md-ellipsis">
-      📝 LatestExpenses
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#hooks-utilizados">
-<span class="md-ellipsis">
-      Hooks Utilizados
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#estados-de-loading">
-<span class="md-ellipsis">
-      Estados de Loading
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#expenses-expenses">
-<span class="md-ellipsis">
-      💰 Expenses (/expenses)
-    </span>
-</a>
-<nav aria-label="💰 Expenses (/expenses)" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#funcionalidades-principais">
-<span class="md-ellipsis">
-      Funcionalidades Principais
-    </span>
-</a>
-<nav aria-label="Funcionalidades Principais" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#lista-de-despesas">
-<span class="md-ellipsis">
-      📋 Lista de Despesas
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#adicao-de-despesas">
-<span class="md-ellipsis">
-      ➕ Adição de Despesas
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#edicao-e-exclusao">
-<span class="md-ellipsis">
-      ✏️ Edição e Exclusão
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#estrutura-de-dados">
-<span class="md-ellipsis">
-      Estrutura de Dados
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#filtros-disponiveis">
-<span class="md-ellipsis">
-      Filtros Disponíveis
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#groups-groups">
-<span class="md-ellipsis">
-      👥 Groups (/groups)
-    </span>
-</a>
-<nav aria-label="👥 Groups (/groups)" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#funcionalidades_1">
-<span class="md-ellipsis">
-      Funcionalidades
-    </span>
-</a>
-<nav aria-label="Funcionalidades" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#criacao-de-grupos">
-<span class="md-ellipsis">
-      🏗️ Criação de Grupos
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#visualizacao-de-grupos">
-<span class="md-ellipsis">
-      📊 Visualização de Grupos
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#gestao-de-despesas-do-grupo">
-<span class="md-ellipsis">
-      💸 Gestão de Despesas do Grupo
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#estados-do-grupo">
-<span class="md-ellipsis">
-      Estados do Grupo
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#permissoes">
-<span class="md-ellipsis">
-      Permissões
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#profile-profile">
-<span class="md-ellipsis">
-      👤 Profile (/profile)
-    </span>
-</a>
-<nav aria-label="👤 Profile (/profile)" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#secoes-da-pagina">
-<span class="md-ellipsis">
-      Seções da Página
-    </span>
-</a>
-<nav aria-label="Seções da Página" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#informacoes-pessoais">
-<span class="md-ellipsis">
-      📷 Informações Pessoais
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#seguranca">
-<span class="md-ellipsis">
-      🔒 Segurança
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#preferencias">
-<span class="md-ellipsis">
-      ⚙️ Preferências
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#dados-e-privacidade">
-<span class="md-ellipsis">
-      📊 Dados e Privacidade
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#paginas-de-erro">
-<span class="md-ellipsis">
-      🚫 Páginas de Erro
-    </span>
-</a>
-<nav aria-label="🚫 Páginas de Erro" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#404-not-found-404">
-<span class="md-ellipsis">
-      404 Not Found (/404)
-    </span>
-</a>
-<nav aria-label="404 Not Found (/404)" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#elementos">
-<span class="md-ellipsis">
-      Elementos
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#fluxos-de-navegacao">
-<span class="md-ellipsis">
-      🔄 Fluxos de Navegação
-    </span>
-</a>
-<nav aria-label="🔄 Fluxos de Navegação" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#fluxo-principal-do-usuario">
-<span class="md-ellipsis">
-      Fluxo Principal do Usuário
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#protecao-de-rotas">
-<span class="md-ellipsis">
-      Proteção de Rotas
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#responsividade-das-paginas">
-<span class="md-ellipsis">
-      📱 Responsividade das Páginas
-    </span>
-</a>
-<nav aria-label="📱 Responsividade das Páginas" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#breakpoints-e-adaptacoes">
-<span class="md-ellipsis">
-      Breakpoints e Adaptações
-    </span>
-</a>
-<nav aria-label="Breakpoints e Adaptações" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#mobile-640px">
-<span class="md-ellipsis">
-      Mobile (&lt; 640px)
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#tablet-640px-1024px">
-<span class="md-ellipsis">
-      Tablet (640px - 1024px)
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#desktop-1024px">
-<span class="md-ellipsis">
-      Desktop (&gt; 1024px)
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#otimizacoes-de-performance">
-<span class="md-ellipsis">
-      ⚡ Otimizações de Performance
-    </span>
-</a>
-<nav aria-label="⚡ Otimizações de Performance" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#lazy-loading">
-<span class="md-ellipsis">
-      Lazy Loading
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#memoizacao">
-<span class="md-ellipsis">
-      Memoização
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#code-splitting">
-<span class="md-ellipsis">
-      Code Splitting
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-<div class="md-content" data-md-component="content">
-<article class="md-content__inner md-typeset">
-<h1 id="paginas-frontend-finboost">📄 Páginas - Frontend FinBoost+</h1>
-<h2 id="visao-geral">📋 Visão Geral</h2>
-<p>O <strong>FinBoost+</strong> é organizado em páginas específicas que cobrem todo o fluxo de uso da aplicação, desde a autenticação até o gerenciamento financeiro avançado. Cada página é desenvolvida como um componente container que integra múltiplos componentes menores e gerencia o estado local necessário.</p>
-<h2 id="mapa-de-navegacao">🗺️ Mapa de Navegação</h2>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>🏠 Aplicação FinBoost+
-<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>├── 🔐 Autenticação
-<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>│   ├── /login - Página de Login
-<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>│   └── /register - Página de Cadastro
-<a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a>├── 📊 Área Logada
-<a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a>│   ├── /dashboard - Dashboard Principal
-<a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a>│   ├── /expenses - Gestão de Despesas
-<a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a>│   ├── /groups - Gestão de Grupos
-<a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a>│   └── /profile - Perfil do Usuário
-<a href="#__codelineno-0-10" id="__codelineno-0-10" name="__codelineno-0-10"></a>└── 🚫 Páginas de Erro
-<a href="#__codelineno-0-11" id="__codelineno-0-11" name="__codelineno-0-11"></a>    └── /404 - Página Não Encontrada
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="paginas-frontend-finboost">Páginas - Frontend FinBoost+</h1>
+<h2 id="visao-geral">Visão Geral</h2>
+<p>O FinBoost+ é organizado em páginas que cobrem todo o fluxo de uso da aplicação, desde autenticação até o gerenciamento financeiro. Cada página é um componente container que integra múltiplos componentes menores e gerencia o estado local necessário.</p>
+<h2 id="mapa-de-navegacao">Mapa de Navegação</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Aplicação FinBoost+
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── Autenticação
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   ├── /login - Login
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│   └── /register - Cadastro
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>├── Área Logada
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   ├── /dashboard - Dashboard Principal
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   ├── /expenses - Gestão de Despesas
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   ├── /groups - Gestão de Grupos
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│   └── /profile - Perfil do Usuário
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>└── Páginas de Erro
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    └── /404 - Página Não Encontrada
 </code></pre></div>
-<h2 id="paginas-de-autenticacao">🔐 Páginas de Autenticação</h2>
-<h3 id="login-login">🚪 Login (<code>/login</code>)</h3>
-<p><strong>Localização</strong>: <code>src/pages/Login/index.jsx</code></p>
-<p><strong>Objetivo</strong>: Autenticar usuários existentes no sistema.</p>
-<h4 id="componentes-utilizados">Componentes Utilizados</h4>
-<ul>
-<li><code>LoginForm</code> - Formulário principal de login</li>
-<li><code>Logo</code> - Marca da aplicação</li>
-<li><code>Button</code> - Botões de ação</li>
-<li><code>Input</code> - Campos de email e senha</li>
-</ul>
-<h4 id="funcionalidades">Funcionalidades</h4>
-<ul>
-<li><strong>Validação em Tempo Real</strong>: Email e senha validados durante digitação</li>
-<li><strong>Estados de Loading</strong>: Indicador visual durante autenticação</li>
-<li><strong>Mensagens de Erro</strong>: Feedback claro para credenciais inválidas</li>
-<li><strong>Lembrar-me</strong>: Opção de manter sessão ativa</li>
-<li><strong>Redirecionamento</strong>: Automático para dashboard após login bem-sucedido</li>
-</ul>
-<h4 id="layout-e-design">Layout e Design</h4>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="p">&lt;</span><span class="nt">div</span><span class="w"> </span><span class="na">className</span><span class="o">=</span><span class="s">"min-h-screen flex items-center justify-center bg-background"</span><span class="p">&gt;</span>
-<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">div</span><span class="w"> </span><span class="na">className</span><span class="o">=</span><span class="s">"w-full max-w-md"</span><span class="p">&gt;</span>
-<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">    </span><span class="p">&lt;</span><span class="nt">Logo</span><span class="w"> </span><span class="na">size</span><span class="o">=</span><span class="s">"lg"</span><span class="w"> </span><span class="p">/&gt;</span>
-<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">    </span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="nx">Bem</span><span class="o">-</span><span class="nx">vindo</span><span class="w"> </span><span class="nx">de</span><span class="w"> </span><span class="nx">volta</span><span class="o">!</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
-<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="w">    </span><span class="p">&lt;</span><span class="nt">LoginForm</span><span class="w"> </span><span class="p">/&gt;</span>
-<a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">    </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Não</span><span class="w"> </span><span class="nx">tem</span><span class="w"> </span><span class="nx">conta</span><span class="o">?</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Link</span><span class="w"> </span><span class="na">to</span><span class="o">=</span><span class="s">"/register"</span><span class="p">&gt;</span><span class="nx">Cadastre</span><span class="o">-</span><span class="nx">se</span><span class="p">&lt;/</span><span class="nt">Link</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
-<a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">  </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-<a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-</code></pre></div>
-<h4 id="fluxo-de-autenticacao">Fluxo de Autenticação</h4>
-<ol>
-<li><strong>Input de Credenciais</strong>: Usuário insere email/senha</li>
-<li><strong>Validação Client-side</strong>: Verificação de formato</li>
-<li><strong>Envio para API</strong>: Requisição segura ao backend</li>
-<li><strong>Tratamento de Resposta</strong>: Token JWT ou erro</li>
-<li><strong>Redirecionamento</strong>: Para dashboard ou exibição de erro</li>
-</ol>
-<h4 id="estados-da-pagina">Estados da Página</h4>
-<ul>
-<li><strong>Idle</strong>: Aguardando input do usuário</li>
-<li><strong>Loading</strong>: Processando autenticação</li>
-<li><strong>Error</strong>: Exibindo mensagem de erro</li>
-<li><strong>Success</strong>: Redirecionando para dashboard</li>
-</ul>
-<h3 id="register-register">📝 Register (<code>/register</code>)</h3>
-<p><strong>Localização</strong>: <code>src/pages/Register/index.jsx</code></p>
-<p><strong>Objetivo</strong>: Permitir cadastro de novos usuários.</p>
-<h4 id="campos-do-formulario">Campos do Formulário</h4>
-<ul>
-<li><strong>Nome Completo</strong>: Input de texto obrigatório</li>
-<li><strong>Email</strong>: Input com validação de formato</li>
-<li><strong>Senha</strong>: Campo password com requisitos de segurança</li>
-<li><strong>Confirmar Senha</strong>: Validação de igualdade</li>
-<li><strong>Termos de Uso</strong>: Checkbox obrigatório</li>
-</ul>
-<h4 id="validacoes-implementadas">Validações Implementadas</h4>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">validations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">    </span><span class="nx">required</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">    </span><span class="nx">minLength</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span>
-<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">    </span><span class="nx">pattern</span><span class="o">:</span><span class="w"> </span><span class="sr">/^[a-zA-ZÀ-ÿ\s]+$/</span>
-<a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">  </span><span class="p">},</span>
-<a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">  </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-<a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">    </span><span class="nx">required</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a href="#__codelineno-2-9" id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">    </span><span class="nx">pattern</span><span class="o">:</span><span class="w"> </span><span class="sr">/^[^\s@]+@[^\s@]+\.[^\s@]+$/</span>
-<a href="#__codelineno-2-10" id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="w">  </span><span class="p">},</span>
-<a href="#__codelineno-2-11" id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="w">  </span><span class="nx">password</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-<a href="#__codelineno-2-12" id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="w">    </span><span class="nx">required</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a href="#__codelineno-2-13" id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="w">    </span><span class="nx">minLength</span><span class="o">:</span><span class="w"> </span><span class="mf">8</span><span class="p">,</span>
-<a href="#__codelineno-2-14" id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="w">    </span><span class="nx">hasUppercase</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a href="#__codelineno-2-15" id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="w">    </span><span class="nx">hasNumber</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a href="#__codelineno-2-16" id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="w">    </span><span class="nx">hasSpecialChar</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
-<a href="#__codelineno-2-17" id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="w">  </span><span class="p">}</span>
-<a href="#__codelineno-2-18" id="__codelineno-2-18" name="__codelineno-2-18"></a><span class="p">};</span>
-</code></pre></div>
-<h4 id="fluxo-de-cadastro">Fluxo de Cadastro</h4>
-<ol>
-<li><strong>Preenchimento</strong>: Dados pessoais e credenciais</li>
-<li><strong>Validação</strong>: Regras de negócio client-side</li>
-<li><strong>Verificação de Email</strong>: Checagem se email já existe</li>
-<li><strong>Criação de Conta</strong>: Requisição para API</li>
-<li><strong>Confirmação</strong>: Email de verificação (se configurado)</li>
-<li><strong>Login Automático</strong>: Redirecionamento para dashboard</li>
-</ol>
-<h2 id="paginas-da-area-logada">📊 Páginas da Área Logada</h2>
-<h3 id="dashboard-dashboard">🏠 Dashboard (<code>/dashboard</code>)</h3>
-<p><strong>Localização</strong>: <code>src/pages/Dashboard/index.jsx</code></p>
-<p><strong>Objetivo</strong>: Visão geral financeira e navegação principal.</p>
-<h4 id="secoes-principais">Seções Principais</h4>
-<h5 id="summarycards">📋 SummaryCards</h5>
-<p>Grid com métricas financeiras principais:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="p">&lt;</span><span class="nt">div</span><span class="w"> </span><span class="na">className</span><span class="o">=</span><span class="s">"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"</span><span class="p">&gt;</span>
-<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">SummaryCard</span><span class="w"> </span>
-<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">    </span><span class="na">title</span><span class="o">=</span><span class="s">"Saldo Total"</span>
-<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">    </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">totalBalance</span><span class="p">}</span>
-<a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">    </span><span class="na">icon</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">FaWallet</span><span class="w"> </span><span class="p">/&gt;}</span>
-<a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">    </span><span class="na">trend</span><span class="o">=</span><span class="s">"positive"</span>
-<a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="w">  </span><span class="p">/&gt;</span>
-<a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">SummaryCard</span><span class="w"> </span>
-<a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="w">    </span><span class="na">title</span><span class="o">=</span><span class="s">"Gastos do Mês"</span>
-<a href="#__codelineno-3-10" id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="w">    </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">monthlyExpenses</span><span class="p">}</span>
-<a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="w">    </span><span class="na">icon</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">FaArrowDown</span><span class="w"> </span><span class="p">/&gt;}</span>
-<a href="#__codelineno-3-12" id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="w">    </span><span class="na">trend</span><span class="o">=</span><span class="s">"negative"</span>
-<a href="#__codelineno-3-13" id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="w">  </span><span class="p">/&gt;</span>
-<a href="#__codelineno-3-14" id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">SummaryCard</span><span class="w"> </span>
-<a href="#__codelineno-3-15" id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="w">    </span><span class="na">title</span><span class="o">=</span><span class="s">"Receitas do Mês"</span>
-<a href="#__codelineno-3-16" id="__codelineno-3-16" name="__codelineno-3-16"></a><span class="w">    </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">monthlyIncome</span><span class="p">}</span>
-<a href="#__codelineno-3-17" id="__codelineno-3-17" name="__codelineno-3-17"></a><span class="w">    </span><span class="na">icon</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">FaArrowUp</span><span class="w"> </span><span class="p">/&gt;}</span>
-<a href="#__codelineno-3-18" id="__codelineno-3-18" name="__codelineno-3-18"></a><span class="w">    </span><span class="na">trend</span><span class="o">=</span><span class="s">"positive"</span>
-<a href="#__codelineno-3-19" id="__codelineno-3-19" name="__codelineno-3-19"></a><span class="w">  </span><span class="p">/&gt;</span>
-<a href="#__codelineno-3-20" id="__codelineno-3-20" name="__codelineno-3-20"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">SummaryCard</span><span class="w"> </span>
-<a href="#__codelineno-3-21" id="__codelineno-3-21" name="__codelineno-3-21"></a><span class="w">    </span><span class="na">title</span><span class="o">=</span><span class="s">"Economia"</span>
-<a href="#__codelineno-3-22" id="__codelineno-3-22" name="__codelineno-3-22"></a><span class="w">    </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">savings</span><span class="p">}</span>
-<a href="#__codelineno-3-23" id="__codelineno-3-23" name="__codelineno-3-23"></a><span class="w">    </span><span class="na">icon</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">FaPiggyBank</span><span class="w"> </span><span class="p">/&gt;}</span>
-<a href="#__codelineno-3-24" id="__codelineno-3-24" name="__codelineno-3-24"></a><span class="w">    </span><span class="na">trend</span><span class="o">=</span><span class="p">{</span><span class="nx">savings</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s2">"positive"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">"negative"</span><span class="p">}</span>
-<a href="#__codelineno-3-25" id="__codelineno-3-25" name="__codelineno-3-25"></a><span class="w">  </span><span class="p">/&gt;</span>
-<a href="#__codelineno-3-26" id="__codelineno-3-26" name="__codelineno-3-26"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-</code></pre></div>
-<h5 id="chartswitcher">📊 ChartSwitcher</h5>
-<p>Visualizações gráficas alternadas:
-- <strong>BalanceChart</strong>: Evolução do saldo ao longo do tempo
-- <strong>ExpenseChart</strong>: Distribuição de gastos por categoria</p>
-<h5 id="latestexpenses">📝 LatestExpenses</h5>
-<p>Lista das últimas transações:
-- Últimas 5-10 despesas
-- Informações resumidas (data, valor, categoria)
-- Links para detalhes e edição</p>
-<h4 id="hooks-utilizados">Hooks Utilizados</h4>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">user</span><span class="p">,</span><span class="w"> </span><span class="nx">isAuthenticated</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useAuth</span><span class="p">();</span>
-<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">expenses</span><span class="p">,</span><span class="w"> </span><span class="nx">loading</span><span class="o">:</span><span class="w"> </span><span class="nx">expensesLoading</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useExpenses</span><span class="p">();</span>
-<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">groups</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useGroups</span><span class="p">();</span>
-<a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">theme</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useTheme</span><span class="p">();</span>
-</code></pre></div>
-<h4 id="estados-de-loading">Estados de Loading</h4>
-<ul>
-<li><strong>Skeleton Cards</strong>: Placeholders durante carregamento</li>
-<li><strong>Chart Loading</strong>: Spinner para gráficos</li>
-<li><strong>Progressive Loading</strong>: Carrega seções independentemente</li>
-</ul>
-<h3 id="expenses-expenses">💰 Expenses (<code>/expenses</code>)</h3>
-<p><strong>Localização</strong>: <code>src/pages/Expenses/index.jsx</code></p>
-<p><strong>Objetivo</strong>: Gerenciamento completo de despesas e receitas.</p>
-<h4 id="funcionalidades-principais">Funcionalidades Principais</h4>
-<h5 id="lista-de-despesas">📋 Lista de Despesas</h5>
-<ul>
-<li><strong>Filtros</strong>: Por categoria, data, grupo, valor</li>
-<li><strong>Ordenação</strong>: Data, valor, categoria</li>
-<li><strong>Busca</strong>: Texto livre na descrição</li>
-<li><strong>Paginação</strong>: 20 itens por página</li>
-</ul>
-<h5 id="adicao-de-despesas">➕ Adição de Despesas</h5>
-<ul>
-<li><strong>Formulário Modal</strong>: ExpenseForm em modal</li>
-<li><strong>Validação</strong>: Campos obrigatórios e regras de negócio</li>
-<li><strong>Upload</strong>: Comprovantes opcionais</li>
-<li><strong>Categorização</strong>: Seleção de categoria predefinida</li>
-</ul>
-<h5 id="edicao-e-exclusao">✏️ Edição e Exclusão</h5>
-<ul>
-<li><strong>Edição Inline</strong>: Campos editáveis diretamente na lista</li>
-<li><strong>Modal de Edição</strong>: Formulário completo para mudanças maiores</li>
-<li><strong>Confirmação de Exclusão</strong>: Modal de confirmação</li>
-</ul>
-<h4 id="estrutura-de-dados">Estrutura de Dados</h4>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">expense</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span>
-<a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">  </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span>
-<a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">  </span><span class="nx">amount</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="p">,</span>
-<a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="w">  </span><span class="nx">category</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span>
-<a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="w">  </span><span class="nx">date</span><span class="o">:</span><span class="w"> </span><span class="nb">Date</span><span class="p">,</span>
-<a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="w">  </span><span class="nx">groupId</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span>
-<a href="#__codelineno-5-8" id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="w">  </span><span class="nx">userId</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span>
-<a href="#__codelineno-5-9" id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="w">  </span><span class="nx">receipt</span><span class="o">:</span><span class="w"> </span><span class="nx">File</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<a href="#__codelineno-5-10" id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="w">  </span><span class="nx">tags</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">[],</span>
-<a href="#__codelineno-5-11" id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="w">  </span><span class="nx">createdAt</span><span class="o">:</span><span class="w"> </span><span class="nb">Date</span><span class="p">,</span>
-<a href="#__codelineno-5-12" id="__codelineno-5-12" name="__codelineno-5-12"></a><span class="w">  </span><span class="nx">updatedAt</span><span class="o">:</span><span class="w"> </span><span class="nb">Date</span>
-<a href="#__codelineno-5-13" id="__codelineno-5-13" name="__codelineno-5-13"></a><span class="p">};</span>
-</code></pre></div>
-<h4 id="filtros-disponiveis">Filtros Disponíveis</h4>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="p">&lt;</span><span class="nt">div</span><span class="w"> </span><span class="na">className</span><span class="o">=</span><span class="s">"filters-section"</span><span class="p">&gt;</span>
-<a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">DateRangePicker</span><span class="w"> </span><span class="p">/&gt;</span>
-<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">CategoryFilter</span><span class="w"> </span><span class="na">categories</span><span class="o">=</span><span class="p">{</span><span class="nx">categories</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
-<a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">AmountRangeFilter</span><span class="w"> </span><span class="p">/&gt;</span>
-<a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">GroupFilter</span><span class="w"> </span><span class="na">groups</span><span class="o">=</span><span class="p">{</span><span class="nx">userGroups</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
-<a href="#__codelineno-6-6" id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">SearchInput</span><span class="w"> </span><span class="na">placeholder</span><span class="o">=</span><span class="s">"Buscar despesas..."</span><span class="w"> </span><span class="p">/&gt;</span>
-<a href="#__codelineno-6-7" id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-</code></pre></div>
-<h3 id="groups-groups">👥 Groups (<code>/groups</code>)</h3>
-<p><strong>Localização</strong>: <code>src/pages/Groups/index.jsx</code></p>
-<p><strong>Objetivo</strong>: Criação e gestão de grupos para despesas compartilhadas.</p>
-<h4 id="funcionalidades_1">Funcionalidades</h4>
-<h5 id="criacao-de-grupos">🏗️ Criação de Grupos</h5>
-<ul>
-<li><strong>GroupForm</strong>: Formulário de criação</li>
-<li><strong>Convites</strong>: Sistema de convite por email</li>
-<li><strong>Configurações</strong>: Regras de divisão de gastos</li>
-</ul>
-<h5 id="visualizacao-de-grupos">📊 Visualização de Grupos</h5>
-<ul>
-<li><strong>Cards de Grupos</strong>: Grid com grupos do usuário</li>
-<li><strong>Resumo Financeiro</strong>: Saldo por grupo</li>
-<li><strong>Membros</strong>: Lista de participantes</li>
-</ul>
-<h5 id="gestao-de-despesas-do-grupo">💸 Gestão de Despesas do Grupo</h5>
-<ul>
-<li><strong>Despesas Compartilhadas</strong>: Gastos divididos automaticamente</li>
-<li><strong>Liquidação</strong>: Sistema de acerto de contas</li>
-<li><strong>Relatórios</strong>: Resumos por período</li>
-</ul>
-<h4 id="estados-do-grupo">Estados do Grupo</h4>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">groupStates</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="w">  </span><span class="nx">ACTIVE</span><span class="o">:</span><span class="w"> </span><span class="s1">'Ativo'</span><span class="p">,</span>
-<a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="w">  </span><span class="nx">PENDING</span><span class="o">:</span><span class="w"> </span><span class="s1">'Pendente'</span><span class="p">,</span>
-<a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="w">  </span><span class="nx">ARCHIVED</span><span class="o">:</span><span class="w"> </span><span class="s1">'Arquivado'</span><span class="p">,</span>
-<a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="w">  </span><span class="nx">DISSOLVED</span><span class="o">:</span><span class="w"> </span><span class="s1">'Dissolvido'</span>
-<a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="p">};</span>
-</code></pre></div>
-<h4 id="permissoes">Permissões</h4>
-<ul>
-<li><strong>Admin</strong>: Criador do grupo (todas as permissões)</li>
-<li><strong>Member</strong>: Membro padrão (adicionar despesas, ver relatórios)</li>
-<li><strong>Viewer</strong>: Apenas visualização</li>
-</ul>
-<h3 id="profile-profile">👤 Profile (<code>/profile</code>)</h3>
-<p><strong>Localização</strong>: <code>src/pages/Profile/index.jsx</code></p>
-<p><strong>Objetivo</strong>: Gestão de perfil e configurações do usuário.</p>
-<h4 id="secoes-da-pagina">Seções da Página</h4>
-<h5 id="informacoes-pessoais">📷 Informações Pessoais</h5>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="p">&lt;</span><span class="nt">ProfileSection</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"Informações Pessoais"</span><span class="p">&gt;</span>
-<a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">AvatarUpload</span><span class="w"> </span><span class="na">currentAvatar</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">avatar</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
-<a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">Input</span><span class="w"> </span><span class="na">name</span><span class="o">=</span><span class="s">"name"</span><span class="w"> </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
-<a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">Input</span><span class="w"> </span><span class="na">name</span><span class="o">=</span><span class="s">"email"</span><span class="w"> </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
-<a href="#__codelineno-8-5" id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">Input</span><span class="w"> </span><span class="na">name</span><span class="o">=</span><span class="s">"phone"</span><span class="w"> </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">phone</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
-<a href="#__codelineno-8-6" id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="p">&lt;/</span><span class="nt">ProfileSection</span><span class="p">&gt;</span>
-</code></pre></div>
-<h5 id="seguranca">🔒 Segurança</h5>
-<ul>
-<li><strong>Alterar Senha</strong>: Formulário com senha atual e nova</li>
-<li><strong>Autenticação 2FA</strong>: Configuração de dois fatores</li>
-<li><strong>Sessões Ativas</strong>: Lista de dispositivos logados</li>
-</ul>
-<h5 id="preferencias">⚙️ Preferências</h5>
-<ul>
-<li><strong>Tema</strong>: Seletor claro/escuro</li>
-<li><strong>Idioma</strong>: Seleção de idioma (se aplicável)</li>
-<li><strong>Notificações</strong>: Configurações de email/push</li>
-<li><strong>Moeda</strong>: Moeda padrão para exibição</li>
-</ul>
-<h5 id="dados-e-privacidade">📊 Dados e Privacidade</h5>
-<ul>
-<li><strong>Exportar Dados</strong>: Download de informações pessoais</li>
-<li><strong>Excluir Conta</strong>: Processo de exclusão com confirmação</li>
-<li><strong>Histórico de Atividades</strong>: Log de ações do usuário</li>
-</ul>
-<h2 id="paginas-de-erro">🚫 Páginas de Erro</h2>
-<h3 id="404-not-found-404">404 Not Found (<code>/404</code>)</h3>
-<p><strong>Localização</strong>: <code>src/pages/Notfound/index.jsx</code></p>
-<p><strong>Objetivo</strong>: Página amigável para rotas não encontradas.</p>
-<h4 id="elementos">Elementos</h4>
-<ul>
-<li><strong>Ilustração 404</strong>: SVG ou imagem temática</li>
-<li><strong>Mensagem Amigável</strong>: Texto explicativo</li>
-<li><strong>Navegação</strong>: Links para páginas principais</li>
-<li><strong>Busca</strong>: Campo de busca (opcional)</li>
-</ul>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="p">&lt;</span><span class="nt">div</span><span class="w"> </span><span class="na">className</span><span class="o">=</span><span class="s">"error-page"</span><span class="p">&gt;</span>
-<a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">img</span><span class="w"> </span><span class="na">src</span><span class="o">=</span><span class="s">"/404-illustration.svg"</span><span class="w"> </span><span class="na">alt</span><span class="o">=</span><span class="s">"Página não encontrada"</span><span class="w"> </span><span class="p">/&gt;</span>
-<a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="nx">Oops</span><span class="o">!</span><span class="w"> </span><span class="nx">Página</span><span class="w"> </span><span class="nx">não</span><span class="w"> </span><span class="nx">encontrada</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
-<a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">A</span><span class="w"> </span><span class="nx">página</span><span class="w"> </span><span class="nx">que</span><span class="w"> </span><span class="nx">você</span><span class="w"> </span><span class="nx">está</span><span class="w"> </span><span class="nx">procurando</span><span class="w"> </span><span class="nx">não</span><span class="w"> </span><span class="nx">existe</span><span class="w"> </span><span class="nx">ou</span><span class="w"> </span><span class="nx">foi</span><span class="w"> </span><span class="nx">movida</span><span class="p">.&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
-<a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="w">  </span><span class="p">&lt;</span><span class="nt">div</span><span class="w"> </span><span class="na">className</span><span class="o">=</span><span class="s">"actions"</span><span class="p">&gt;</span>
-<a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="w">    </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">onClick</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">navigate</span><span class="p">(</span><span class="s1">'/dashboard'</span><span class="p">)}&gt;</span>
-<a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="w">      </span><span class="nx">Voltar</span><span class="w"> </span><span class="nx">ao</span><span class="w"> </span><span class="nx">Dashboard</span>
-<a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="w">    </span><span class="p">&lt;/</span><span class="nt">Button</span><span class="p">&gt;</span>
-<a href="#__codelineno-9-9" id="__codelineno-9-9" name="__codelineno-9-9"></a><span class="w">    </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">variant</span><span class="o">=</span><span class="s">"outline"</span><span class="w"> </span><span class="na">onClick</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">navigate</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)}&gt;</span>
-<a href="#__codelineno-9-10" id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="w">      </span><span class="nx">Página</span><span class="w"> </span><span class="nx">Anterior</span>
-<a href="#__codelineno-9-11" id="__codelineno-9-11" name="__codelineno-9-11"></a><span class="w">    </span><span class="p">&lt;/</span><span class="nt">Button</span><span class="p">&gt;</span>
-<a href="#__codelineno-9-12" id="__codelineno-9-12" name="__codelineno-9-12"></a><span class="w">  </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-<a href="#__codelineno-9-13" id="__codelineno-9-13" name="__codelineno-9-13"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-</code></pre></div>
-<h2 id="fluxos-de-navegacao">🔄 Fluxos de Navegação</h2>
-<h3 id="fluxo-principal-do-usuario">Fluxo Principal do Usuário</h3>
-<pre class="mermaid"><code>graph TD
-    A[Login] --&gt; B[Dashboard]
-    B --&gt; C[Expenses]
-    B --&gt; D[Groups]
-    B --&gt; E[Profile]
-    C --&gt; F[Add Expense]
-    C --&gt; G[Edit Expense]
-    D --&gt; H[Create Group]
-    D --&gt; I[Manage Group]
-    E --&gt; J[Update Profile]
-    E --&gt; K[Change Password]</code></pre>
-<h3 id="protecao-de-rotas">Proteção de Rotas</h3>
-<ul>
-<li><strong>Rotas Públicas</strong>: <code>/login</code>, <code>/register</code>, <code>/404</code></li>
-<li><strong>Rotas Protegidas</strong>: Todas as outras requerem autenticação</li>
-<li><strong>Redirecionamento</strong>: Usuários não autenticados → <code>/login</code></li>
-</ul>
-<h2 id="responsividade-das-paginas">📱 Responsividade das Páginas</h2>
-<h3 id="breakpoints-e-adaptacoes">Breakpoints e Adaptações</h3>
-<h4 id="mobile-640px">Mobile (&lt; 640px)</h4>
-<ul>
-<li><strong>Navigation</strong>: Menu hamburger</li>
-<li><strong>Cards</strong>: Stack vertical</li>
-<li><strong>Forms</strong>: Full-width inputs</li>
-<li><strong>Tables</strong>: Scroll horizontal ou cards</li>
-</ul>
-<h4 id="tablet-640px-1024px">Tablet (640px - 1024px)</h4>
-<ul>
-<li><strong>Grid</strong>: 2 colunas para cards</li>
-<li><strong>Sidebar</strong>: Collapsible</li>
-<li><strong>Charts</strong>: Tamanho médio</li>
-</ul>
-<h4 id="desktop-1024px">Desktop (&gt; 1024px)</h4>
-<ul>
-<li><strong>Layout</strong>: Full sidebar + main content</li>
-<li><strong>Grid</strong>: 3-4 colunas</li>
-<li><strong>Charts</strong>: Tamanho completo</li>
-<li><strong>Tables</strong>: Visualização completa</li>
-</ul>
-<h2 id="otimizacoes-de-performance">⚡ Otimizações de Performance</h2>
-<h3 id="lazy-loading">Lazy Loading</h3>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="c1">// Carregamento sob demanda das páginas</span>
-<a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">Dashboard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">lazy</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">import</span><span class="p">(</span><span class="s1">'./pages/Dashboard'</span><span class="p">));</span>
-<a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="kd">const</span><span class="w"> </span><span class="nx">Expenses</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">lazy</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">import</span><span class="p">(</span><span class="s1">'./pages/Expenses'</span><span class="p">));</span>
-<a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="kd">const</span><span class="w"> </span><span class="nx">Groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">lazy</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">import</span><span class="p">(</span><span class="s1">'./pages/Groups'</span><span class="p">));</span>
-</code></pre></div>
-<h3 id="memoizacao">Memoização</h3>
-<ul>
-<li><strong>React.memo</strong>: Componentes que não mudam frequentemente</li>
-<li><strong>useMemo</strong>: Cálculos complexos (totais, gráficos)</li>
-<li><strong>useCallback</strong>: Funções de callback estáveis</li>
-</ul>
-<h3 id="code-splitting">Code Splitting</h3>
-<ul>
-<li><strong>Por Rota</strong>: Cada página em bundle separado</li>
-<li><strong>Por Feature</strong>: Funcionalidades opcionais separadas</li>
-<li><strong>Vendor Splitting</strong>: Bibliotecas em chunks específicos</li>
-</ul>
-<hr/>
-<p><strong>🎯 Cada página do FinBoost+ é otimizada para proporcionar a melhor experiência do usuário, com foco em usabilidade, performance e acessibilidade em todos os dispositivos.</strong></p>
-</article>
-</div>
+<h2 id="paginas-de-autenticacao">Páginas de Autenticação</h2>
+<h3 id="login-login">Login (<code>/login</code>)</h3>
+<p><strong>Localização:</strong> <code>src/pages/Login/index.jsx</code></p>
+<p><strong>Objetivo:</strong> Autenticar usuários existentes no sistema.</p>
+<p><strong>Componentes Utilizados:</strong>
+- LoginForm
+- Logo
+- Button
+- Input</p>
+<p><strong>Funcionalidades:</strong>
+- Validação em tempo real (email e senha)
+- Estados de loading
+- Mensagens de erro
+- Lembrar-me
+- Redirecionamento automático após login</p>
+<p><strong>Fluxo:</strong>
+1. Input de credenciais
+2. Validação client-side
+3. Envio para API
+4. Tratamento de resposta (token JWT ou erro)
+5. Redirecionamento para dashboard</p>
+<h3 id="register-register">Register (<code>/register</code>)</h3>
+<p><strong>Localização:</strong> <code>src/pages/Register/index.jsx</code></p>
+<p><strong>Objetivo:</strong> Permitir cadastro de novos usuários.</p>
+<p><strong>Campos:</strong>
+- Nome completo
+- Email
+- Senha
+- Confirmar senha
+- Termos de uso</p>
+<p><strong>Validações:</strong>
+- Nome: obrigatório, mínimo 2 caracteres
+- Email: formato válido
+- Senha: mínimo 8 caracteres, maiúscula, número, caractere especial
+- Confirmação de senha</p>
+<p><strong>Fluxo:</strong>
+1. Preenchimento dos dados
+2. Validação client-side
+3. Verificação de email existente
+4. Criação de conta via API
+5. Confirmação (opcional)
+6. Login automático</p>
+<h2 id="paginas-da-area-logada">Páginas da Área Logada</h2>
+<h3 id="dashboard-dashboard">Dashboard (<code>/dashboard</code>)</h3>
+<p><strong>Localização:</strong> <code>src/pages/Dashboard/index.jsx</code></p>
+<p><strong>Objetivo:</strong> Visão geral financeira e navegação principal.</p>
+<p><strong>Seções Principais:</strong>
+- SummaryCards: métricas financeiras principais
+- Gráficos: evolução de saldo, distribuição de gastos
+- UserGreeting: saudação personalizada
+- Acesso rápido para grupos, despesas e perfil</p>
+<h3 id="expenses-expenses">Expenses (<code>/expenses</code>)</h3>
+<p><strong>Objetivo:</strong> Gestão de despesas do usuário e dos grupos.</p>
+<p><strong>Funcionalidades:</strong>
+- Listagem de despesas
+- Filtros por data, categoria e grupo
+- Criação, edição e exclusão de despesas
+- Visualização detalhada</p>
+<h3 id="groups-groups">Groups (<code>/groups</code>)</h3>
+<p><strong>Objetivo:</strong> Gestão de grupos de despesas.</p>
+<p><strong>Funcionalidades:</strong>
+- Listagem de grupos
+- Criação e edição de grupos
+- Convite de membros
+- Visualização de membros e despesas do grupo</p>
+<h3 id="profile-profile">Profile (<code>/profile</code>)</h3>
+<p><strong>Objetivo:</strong> Gerenciamento do perfil do usuário.</p>
+<p><strong>Funcionalidades:</strong>
+- Visualização e edição de dados pessoais
+- Alteração de senha
+- Preferências de tema
+- Logout</p>
+<h2 id="paginas-de-erro">Páginas de Erro</h2>
+<h3 id="pagina-nao-encontrada-404">Página Não Encontrada (<code>/404</code>)</h3>
+<p>Exibe mensagem de erro e opção de retornar à página inicial.</p>
+<hr />
+<p>Todas as páginas seguem o padrão de responsividade, acessibilidade e integração com o backend, garantindo uma experiência consistente em todo o sistema.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
-</div>
-<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
   Back to top
 </button>
-</main>
-<footer class="md-footer">
-<div class="md-footer-meta md-typeset">
-<div class="md-footer-meta__inner md-grid">
-<div class="md-copyright">
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
   
   
     Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
       Material for MkDocs
     </a>
+  
 </div>
-</div>
-</div>
+      
+    </div>
+  </div>
 </footer>
-</div>
-<div class="md-dialog" data-md-component="dialog">
-<div class="md-dialog__inner md-typeset"></div>
-</div>
-<script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
-<script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
-</body>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
 </html>

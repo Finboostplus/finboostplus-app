@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="Documentação completa da aplicação FinBoost+ (Frontend e Backend)" name="description"/>
+<meta content="Documentação completa da aplicação FinBoost+" name="description"/>
 <meta content="Equipe FinBoost+" name="author"/>
 <link href="../getting-started/" rel="prev"/>
 <link href="../components/" rel="next"/>
@@ -142,20 +142,11 @@
         </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../../backend/index.md">
+<a class="md-tabs__link" href="../../backend/ai_usage/">
           
   
   
   Backend
-
-        </a>
-</li>
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../../development/">
-          
-  
-  
-  Desenvolvimento
 
         </a>
 </li>
@@ -221,6 +212,14 @@
 <a class="md-nav__link" href="../../project/overview/">
 <span class="md-ellipsis">
     Visão Geral
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../project/ai-development/">
+<span class="md-ellipsis">
+    Uso de IA
     
   </span>
 </a>
@@ -313,45 +312,45 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#visao-geral-da-arquitetura">
+<a class="md-nav__link" href="#visao-geral">
 <span class="md-ellipsis">
-      📋 Visão Geral da Arquitetura
+      Visão Geral
     </span>
 </a>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#principios-arquiteturais">
 <span class="md-ellipsis">
-      🎯 Princípios Arquiteturais
+      Princípios Arquiteturais
     </span>
 </a>
-<nav aria-label="🎯 Princípios Arquiteturais" class="md-nav">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#padroes-de-design">
+<span class="md-ellipsis">
+      Padrões de Design
+    </span>
+</a>
+<nav aria-label="Padrões de Design" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#1-single-responsibility-principle-srp">
+<a class="md-nav__link" href="#containerpresentational-pattern">
 <span class="md-ellipsis">
-      1. Single Responsibility Principle (SRP)
+      Container/Presentational Pattern
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#2-composition-over-inheritance">
+<a class="md-nav__link" href="#custom-hooks-pattern">
 <span class="md-ellipsis">
-      2. Composition over Inheritance
+      Custom Hooks Pattern
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#3-unidirectional-data-flow">
+<a class="md-nav__link" href="#provider-pattern">
 <span class="md-ellipsis">
-      3. Unidirectional Data Flow
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#4-separation-of-concerns">
-<span class="md-ellipsis">
-      4. Separation of Concerns
+      Provider Pattern
     </span>
 </a>
 </li>
@@ -359,88 +358,38 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#padroes-de-design-implementados">
+<a class="md-nav__link" href="#estrutura-de-pastas">
 <span class="md-ellipsis">
-      🧩 Padrões de Design Implementados
+      Estrutura de Pastas
     </span>
 </a>
-<nav aria-label="🧩 Padrões de Design Implementados" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#1-containerpresentational-pattern">
-<span class="md-ellipsis">
-      1. Container/Presentational Pattern
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#2-custom-hooks-pattern">
-<span class="md-ellipsis">
-      2. Custom Hooks Pattern
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#3-provider-pattern">
-<span class="md-ellipsis">
-      3. Provider Pattern
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#arquitetura-de-pastas">
-<span class="md-ellipsis">
-      📁 Arquitetura de Pastas
-    </span>
-</a>
-<nav aria-label="📁 Arquitetura de Pastas" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#estrutura-hierarquica-por-funcao">
-<span class="md-ellipsis">
-      Estrutura Hierárquica por Função
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#vantagens-desta-organizacao">
-<span class="md-ellipsis">
-      Vantagens desta Organização
-    </span>
-</a>
-</li>
-</ul>
-</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#fluxo-de-dados">
 <span class="md-ellipsis">
-      🔄 Fluxo de Dados
+      Fluxo de Dados
     </span>
 </a>
-<nav aria-label="🔄 Fluxo de Dados" class="md-nav">
+<nav aria-label="Fluxo de Dados" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#1-estado-global-context-api">
+<a class="md-nav__link" href="#estado-global-context-api">
 <span class="md-ellipsis">
-      1. Estado Global (Context API)
+      Estado Global (Context API)
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#2-comunicacao-com-api">
+<a class="md-nav__link" href="#comunicacao-com-api">
 <span class="md-ellipsis">
-      2. Comunicação com API
+      Comunicação com API
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#3-estado-local-vs-global">
+<a class="md-nav__link" href="#estado-local-vs-global">
 <span class="md-ellipsis">
-      3. Estado Local vs Global
+      Estado Local vs Global
     </span>
 </a>
 </li>
@@ -448,12 +397,12 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#arquitetura-de-estilizacao">
+<a class="md-nav__link" href="#estilizacao">
 <span class="md-ellipsis">
-      🎨 Arquitetura de Estilização
+      Estilização
     </span>
 </a>
-<nav aria-label="🎨 Arquitetura de Estilização" class="md-nav">
+<nav aria-label="Estilização" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
 <a class="md-nav__link" href="#design-system-com-tailwindcss">
@@ -475,108 +424,22 @@
 <li class="md-nav__item">
 <a class="md-nav__link" href="#gerenciamento-de-estado">
 <span class="md-ellipsis">
-      🧠 Gerenciamento de Estado
+      Gerenciamento de Estado
     </span>
 </a>
-<nav aria-label="🧠 Gerenciamento de Estado" class="md-nav">
+<nav aria-label="Gerenciamento de Estado" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#arquitetura-de-estado-multi-camada">
+<a class="md-nav__link" href="#arquitetura-multi-camada">
 <span class="md-ellipsis">
-      Arquitetura de Estado Multi-Camada
+      Arquitetura Multi-Camada
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#context-api-strategy">
+<a class="md-nav__link" href="#exemplo-de-context-provider">
 <span class="md-ellipsis">
-      Context API Strategy
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#arquitetura-de-roteamento">
-<span class="md-ellipsis">
-      🌐 Arquitetura de Roteamento
-    </span>
-</a>
-<nav aria-label="🌐 Arquitetura de Roteamento" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#estrutura-de-rotas">
-<span class="md-ellipsis">
-      Estrutura de Rotas
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#protecao-de-rotas">
-<span class="md-ellipsis">
-      Proteção de Rotas
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#arquitetura-de-services">
-<span class="md-ellipsis">
-      🔌 Arquitetura de Services
-    </span>
-</a>
-<nav aria-label="🔌 Arquitetura de Services" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#camada-de-comunicacao-com-api">
-<span class="md-ellipsis">
-      Camada de Comunicação com API
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#ferramentas-de-teste">
-<span class="md-ellipsis">
-      Ferramentas de Teste
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#otimizacoes-de-performance">
-<span class="md-ellipsis">
-      ⚡ Otimizações de Performance
-    </span>
-</a>
-<nav aria-label="⚡ Otimizações de Performance" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#estrategias-implementadas">
-<span class="md-ellipsis">
-      Estratégias Implementadas
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#arquitetura-de-seguranca">
-<span class="md-ellipsis">
-      🔒 Arquitetura de Segurança
-    </span>
-</a>
-<nav aria-label="🔒 Arquitetura de Segurança" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#medidas-de-seguranca-frontend">
-<span class="md-ellipsis">
-      Medidas de Segurança Frontend
+      Exemplo de Context Provider
     </span>
 </a>
 </li>
@@ -618,94 +481,10 @@
   </span>
 </a>
 </li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
-<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-<span class="md-ellipsis">
-    Backend
-    
-  </span>
-<span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_4">
-<span class="md-nav__icon md-icon"></span>
-            Backend
-          </label>
-<ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../backend/index.md">
+<a class="md-nav__link" href="../testing/">
 <span class="md-ellipsis">
-    Visão Geral
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../backend/getting-started.md">
-<span class="md-ellipsis">
-    Getting Started
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../backend/architecture.md">
-<span class="md-ellipsis">
-    Arquitetura
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../backend/api-endpoints.md">
-<span class="md-ellipsis">
-    API Endpoints
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../backend/database.md">
-<span class="md-ellipsis">
-    Database
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../backend/authentication.md">
-<span class="md-ellipsis">
-    Autenticação
-    
-  </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
-<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-<span class="md-ellipsis">
-    Desenvolvimento
-    
-  </span>
-<span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_5">
-<span class="md-nav__icon md-icon"></span>
-            Desenvolvimento
-          </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../development/">
-<span class="md-ellipsis">
-    Visão Geral
+    Testes
     
   </span>
 </a>
@@ -726,6 +505,24 @@
   </span>
 </a>
 </li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
+    Backend
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            Backend
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
 <a class="md-nav__link" href="../../backend/ai_usage/">
 <span class="md-ellipsis">
@@ -746,16 +543,16 @@
 </nav>
 </li>
 <li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
-<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
 <span class="md-ellipsis">
     Wiki
     
   </span>
 <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_6">
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
 <span class="md-nav__icon md-icon"></span>
             Wiki
           </label>
@@ -890,45 +687,45 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#visao-geral-da-arquitetura">
+<a class="md-nav__link" href="#visao-geral">
 <span class="md-ellipsis">
-      📋 Visão Geral da Arquitetura
+      Visão Geral
     </span>
 </a>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#principios-arquiteturais">
 <span class="md-ellipsis">
-      🎯 Princípios Arquiteturais
+      Princípios Arquiteturais
     </span>
 </a>
-<nav aria-label="🎯 Princípios Arquiteturais" class="md-nav">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#padroes-de-design">
+<span class="md-ellipsis">
+      Padrões de Design
+    </span>
+</a>
+<nav aria-label="Padrões de Design" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#1-single-responsibility-principle-srp">
+<a class="md-nav__link" href="#containerpresentational-pattern">
 <span class="md-ellipsis">
-      1. Single Responsibility Principle (SRP)
+      Container/Presentational Pattern
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#2-composition-over-inheritance">
+<a class="md-nav__link" href="#custom-hooks-pattern">
 <span class="md-ellipsis">
-      2. Composition over Inheritance
+      Custom Hooks Pattern
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#3-unidirectional-data-flow">
+<a class="md-nav__link" href="#provider-pattern">
 <span class="md-ellipsis">
-      3. Unidirectional Data Flow
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#4-separation-of-concerns">
-<span class="md-ellipsis">
-      4. Separation of Concerns
+      Provider Pattern
     </span>
 </a>
 </li>
@@ -936,88 +733,38 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#padroes-de-design-implementados">
+<a class="md-nav__link" href="#estrutura-de-pastas">
 <span class="md-ellipsis">
-      🧩 Padrões de Design Implementados
+      Estrutura de Pastas
     </span>
 </a>
-<nav aria-label="🧩 Padrões de Design Implementados" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#1-containerpresentational-pattern">
-<span class="md-ellipsis">
-      1. Container/Presentational Pattern
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#2-custom-hooks-pattern">
-<span class="md-ellipsis">
-      2. Custom Hooks Pattern
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#3-provider-pattern">
-<span class="md-ellipsis">
-      3. Provider Pattern
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#arquitetura-de-pastas">
-<span class="md-ellipsis">
-      📁 Arquitetura de Pastas
-    </span>
-</a>
-<nav aria-label="📁 Arquitetura de Pastas" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#estrutura-hierarquica-por-funcao">
-<span class="md-ellipsis">
-      Estrutura Hierárquica por Função
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#vantagens-desta-organizacao">
-<span class="md-ellipsis">
-      Vantagens desta Organização
-    </span>
-</a>
-</li>
-</ul>
-</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#fluxo-de-dados">
 <span class="md-ellipsis">
-      🔄 Fluxo de Dados
+      Fluxo de Dados
     </span>
 </a>
-<nav aria-label="🔄 Fluxo de Dados" class="md-nav">
+<nav aria-label="Fluxo de Dados" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#1-estado-global-context-api">
+<a class="md-nav__link" href="#estado-global-context-api">
 <span class="md-ellipsis">
-      1. Estado Global (Context API)
+      Estado Global (Context API)
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#2-comunicacao-com-api">
+<a class="md-nav__link" href="#comunicacao-com-api">
 <span class="md-ellipsis">
-      2. Comunicação com API
+      Comunicação com API
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#3-estado-local-vs-global">
+<a class="md-nav__link" href="#estado-local-vs-global">
 <span class="md-ellipsis">
-      3. Estado Local vs Global
+      Estado Local vs Global
     </span>
 </a>
 </li>
@@ -1025,12 +772,12 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#arquitetura-de-estilizacao">
+<a class="md-nav__link" href="#estilizacao">
 <span class="md-ellipsis">
-      🎨 Arquitetura de Estilização
+      Estilização
     </span>
 </a>
-<nav aria-label="🎨 Arquitetura de Estilização" class="md-nav">
+<nav aria-label="Estilização" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
 <a class="md-nav__link" href="#design-system-com-tailwindcss">
@@ -1052,108 +799,22 @@
 <li class="md-nav__item">
 <a class="md-nav__link" href="#gerenciamento-de-estado">
 <span class="md-ellipsis">
-      🧠 Gerenciamento de Estado
+      Gerenciamento de Estado
     </span>
 </a>
-<nav aria-label="🧠 Gerenciamento de Estado" class="md-nav">
+<nav aria-label="Gerenciamento de Estado" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#arquitetura-de-estado-multi-camada">
+<a class="md-nav__link" href="#arquitetura-multi-camada">
 <span class="md-ellipsis">
-      Arquitetura de Estado Multi-Camada
+      Arquitetura Multi-Camada
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#context-api-strategy">
+<a class="md-nav__link" href="#exemplo-de-context-provider">
 <span class="md-ellipsis">
-      Context API Strategy
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#arquitetura-de-roteamento">
-<span class="md-ellipsis">
-      🌐 Arquitetura de Roteamento
-    </span>
-</a>
-<nav aria-label="🌐 Arquitetura de Roteamento" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#estrutura-de-rotas">
-<span class="md-ellipsis">
-      Estrutura de Rotas
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#protecao-de-rotas">
-<span class="md-ellipsis">
-      Proteção de Rotas
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#arquitetura-de-services">
-<span class="md-ellipsis">
-      🔌 Arquitetura de Services
-    </span>
-</a>
-<nav aria-label="🔌 Arquitetura de Services" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#camada-de-comunicacao-com-api">
-<span class="md-ellipsis">
-      Camada de Comunicação com API
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#ferramentas-de-teste">
-<span class="md-ellipsis">
-      Ferramentas de Teste
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#otimizacoes-de-performance">
-<span class="md-ellipsis">
-      ⚡ Otimizações de Performance
-    </span>
-</a>
-<nav aria-label="⚡ Otimizações de Performance" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#estrategias-implementadas">
-<span class="md-ellipsis">
-      Estratégias Implementadas
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#arquitetura-de-seguranca">
-<span class="md-ellipsis">
-      🔒 Arquitetura de Segurança
-    </span>
-</a>
-<nav aria-label="🔒 Arquitetura de Segurança" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#medidas-de-seguranca-frontend">
-<span class="md-ellipsis">
-      Medidas de Segurança Frontend
+      Exemplo de Context Provider
     </span>
 </a>
 </li>
@@ -1167,54 +828,45 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="arquitetura-frontend-finboost">🏗️ Arquitetura - Frontend FinBoost+</h1>
-<h2 id="visao-geral-da-arquitetura">📋 Visão Geral da Arquitetura</h2>
-<p>O frontend do <strong>FinBoost+</strong> segue uma arquitetura <strong>Component-Based</strong> moderna, construída com React e organizada de forma modular e escalável. A aplicação adota padrões de desenvolvimento que promovem <strong>reutilização</strong>, <strong>manutenibilidade</strong> e <strong>testabilidade</strong>.</p>
-<h2 id="principios-arquiteturais">🎯 Princípios Arquiteturais</h2>
-<h3 id="1-single-responsibility-principle-srp">1. <strong>Single Responsibility Principle (SRP)</strong></h3>
-<ul>
-<li>Cada componente tem uma responsabilidade específica e bem definida</li>
-<li>Separação clara entre lógica de negócio, apresentação e estado</li>
-</ul>
-<h3 id="2-composition-over-inheritance">2. <strong>Composition over Inheritance</strong></h3>
-<ul>
+<h1 id="arquitetura-frontend-finboost">Arquitetura - Frontend FinBoost+</h1>
+<h2 id="visao-geral">Visão Geral</h2>
+<p>O frontend do <strong>FinBoost+</strong> segue uma arquitetura baseada em componentes, construída com React e organizada de forma modular e escalável. A estrutura adota padrões que promovem reutilização, manutenibilidade e testabilidade.</p>
+<h2 id="principios-arquiteturais">Princípios Arquiteturais</h2>
+<ol>
+<li><strong>Single Responsibility Principle (SRP)</strong></li>
+<li>Cada componente tem uma responsabilidade específica</li>
+<li>Separação entre lógica de negócio, apresentação e estado</li>
+<li><strong>Composição sobre Herança</strong></li>
 <li>Preferência por composição de componentes</li>
-<li>Uso de Higher-Order Components (HOCs) e Render Props quando necessário</li>
-</ul>
-<h3 id="3-unidirectional-data-flow">3. <strong>Unidirectional Data Flow</strong></h3>
-<ul>
-<li>Fluxo de dados sempre de cima para baixo (top-down)</li>
-<li>Estado gerenciado centralmente com Context API</li>
-</ul>
-<h3 id="4-separation-of-concerns">4. <strong>Separation of Concerns</strong></h3>
-<ul>
-<li>Separação clara entre:</li>
-<li><strong>UI Components</strong>: Apresentação visual</li>
-<li><strong>Business Logic</strong>: Regras de negócio em hooks</li>
-<li><strong>Data Layer</strong>: Comunicação com APIs em services</li>
-</ul>
-<h2 id="padroes-de-design-implementados">🧩 Padrões de Design Implementados</h2>
-<h3 id="1-containerpresentational-pattern"><strong>1. Container/Presentational Pattern</strong></h3>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>📦 Pages (Container Components)
+<li>Uso de HOCs e Render Props quando necessário</li>
+<li><strong>Fluxo Unidirecional de Dados</strong></li>
+<li>Dados fluem de cima para baixo (top-down)</li>
+<li>Estado global via Context API</li>
+<li><strong>Separação de Responsabilidades</strong></li>
+<li>UI Components: apresentação visual</li>
+<li>Business Logic: hooks personalizados</li>
+<li>Data Layer: comunicação com APIs em services</li>
+</ol>
+<h2 id="padroes-de-design">Padrões de Design</h2>
+<h3 id="containerpresentational-pattern">Container/Presentational Pattern</h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>Pages (Containers)
 <a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>├── Lógica de estado e efeitos
 <a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>├── Comunicação com APIs
 <a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>└── Passa dados para Presentational Components
 <a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a>
-<a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a>📦 Components (Presentational Components)
+<a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a>Components (Presentational)
 <a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a>├── Recebem dados via props
 <a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a>├── Focados na apresentação
 <a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a>└── Reutilizáveis e testáveis
 </code></pre></div>
-<h3 id="2-custom-hooks-pattern"><strong>2. Custom Hooks Pattern</strong></h3>
+<h3 id="custom-hooks-pattern">Custom Hooks Pattern</h3>
 <div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1">// Encapsulamento de lógica reutilizável</span>
 <a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">useAuth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">  </span><span class="c1">// Estado local</span>
-<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">  </span><span class="c1">// Efeitos colaterais</span>
-<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="w">  </span><span class="c1">// Lógica de negócio</span>
-<a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">  </span><span class="c1">// Retorna interface limpa</span>
-<a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="p">}</span>
+<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">  </span><span class="c1">// Estado local, efeitos, lógica de negócio</span>
+<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">  </span><span class="c1">// Retorna interface limpa</span>
+<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="p">}</span>
 </code></pre></div>
-<h3 id="3-provider-pattern"><strong>3. Provider Pattern</strong></h3>
+<h3 id="provider-pattern">Provider Pattern</h3>
 <div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1">// Contextos globais para estado compartilhado</span>
 <a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="o">&lt;</span><span class="nx">AuthProvider</span><span class="o">&gt;</span>
 <a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">  </span><span class="o">&lt;</span><span class="nx">ThemeProvider</span><span class="o">&gt;</span>
@@ -1224,32 +876,29 @@
 <a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">  </span><span class="o">&lt;</span><span class="err">/ThemeProvider&gt;</span>
 <a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="o">&lt;</span><span class="err">/AuthProvider&gt;</span>
 </code></pre></div>
-<h2 id="arquitetura-de-pastas">📁 Arquitetura de Pastas</h2>
-<h3 id="estrutura-hierarquica-por-funcao"><strong>Estrutura Hierárquica por Função</strong></h3>
+<h2 id="estrutura-de-pastas">Estrutura de Pastas</h2>
 <div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>src/
-<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>├── 🧩 components/        # Componentes reutilizáveis
-<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>│   ├── ui/                # Componentes básicos (Button, Input)
-<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a>│   ├── forms/             # Componentes de formulário
-<a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a>│   ├── layout/            # Componentes de layout
-<a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a>│   └── specialized/       # Componentes especializados
-<a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a>├── 📄 pages/              # Páginas da aplicação (Containers)
-<a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a>├── 🪝 hooks/              # Hooks personalizados
-<a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a>├── 🧠 context/            # Contextos globais
-<a href="#__codelineno-3-10" id="__codelineno-3-10" name="__codelineno-3-10"></a>├── 🔌 services/           # Comunicação com APIs
-<a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a>├── ⚙️ utils/              # Funções utilitárias
-<a href="#__codelineno-3-12" id="__codelineno-3-12" name="__codelineno-3-12"></a>├── 🎨 styles/             # Estilos globais
-<a href="#__codelineno-3-13" id="__codelineno-3-13" name="__codelineno-3-13"></a>├── 🌐 routes/             # Configuração de rotas
-<a href="#__codelineno-3-14" id="__codelineno-3-14" name="__codelineno-3-14"></a>└── 🧪 mockData/           # Dados de desenvolvimento
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>├── components/        # Componentes reutilizáveis
+<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>│   ├── ui/            # Componentes básicos (Button, Input)
+<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a>│   ├── forms/         # Formulários
+<a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a>│   ├── layout/        # Layout
+<a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a>│   └── specialized/   # Componentes especializados
+<a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a>├── pages/             # Páginas (Containers)
+<a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a>├── hooks/             # Hooks personalizados
+<a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a>├── context/           # Contextos globais
+<a href="#__codelineno-3-10" id="__codelineno-3-10" name="__codelineno-3-10"></a>├── services/          # Comunicação com APIs
+<a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a>├── utils/             # Funções utilitárias
+<a href="#__codelineno-3-12" id="__codelineno-3-12" name="__codelineno-3-12"></a>├── styles/            # Estilos globais
+<a href="#__codelineno-3-13" id="__codelineno-3-13" name="__codelineno-3-13"></a>├── routes/            # Configuração de rotas
+<a href="#__codelineno-3-14" id="__codelineno-3-14" name="__codelineno-3-14"></a>└── mockData/          # Dados de desenvolvimento
 </code></pre></div>
-<h3 id="vantagens-desta-organizacao"><strong>Vantagens desta Organização</strong></h3>
-<ul>
-<li><strong>Escalabilidade</strong>: Fácil adicionar novos recursos</li>
-<li><strong>Manutenibilidade</strong>: Localização rápida de código</li>
-<li><strong>Reusabilidade</strong>: Componentes independentes</li>
-<li><strong>Testabilidade</strong>: Isolamento de responsabilidades</li>
-</ul>
-<h2 id="fluxo-de-dados">🔄 Fluxo de Dados</h2>
-<h3 id="1-estado-global-context-api"><strong>1. Estado Global (Context API)</strong></h3>
+<p><strong>Vantagens:</strong>
+- Escalabilidade
+- Manutenibilidade
+- Reusabilidade
+- Testabilidade</p>
+<h2 id="fluxo-de-dados">Fluxo de Dados</h2>
+<h3 id="estado-global-context-api">Estado Global (Context API)</h3>
 <pre class="mermaid"><code>graph TD
     A[App.jsx] --&gt; B[AuthProvider]
     B --&gt; C[ThemeProvider]
@@ -1258,7 +907,7 @@
     E --&gt; F[useAuth Hook]
     E --&gt; G[useTheme Hook]
     E --&gt; H[useGroups Hook]</code></pre>
-<h3 id="2-comunicacao-com-api"><strong>2. Comunicação com API</strong></h3>
+<h3 id="comunicacao-com-api">Comunicação com API</h3>
 <pre class="mermaid"><code>graph LR
     A[Component] --&gt; B[Custom Hook]
     B --&gt; C[Service Layer]
@@ -1268,12 +917,12 @@
     D --&gt; C
     C --&gt; B
     B --&gt; A</code></pre>
-<h3 id="3-estado-local-vs-global"><strong>3. Estado Local vs Global</strong></h3>
+<h3 id="estado-local-vs-global">Estado Local vs Global</h3>
 <table>
 <thead>
 <tr>
-<th><strong>Estado Local</strong></th>
-<th><strong>Estado Global</strong></th>
+<th>Estado Local</th>
+<th>Estado Global</th>
 </tr>
 </thead>
 <tbody>
@@ -1282,11 +931,11 @@
 <td>Autenticação</td>
 </tr>
 <tr>
-<td>UI State (modals, dropdowns)</td>
+<td>UI State (modals etc)</td>
 <td>Tema da aplicação</td>
 </tr>
 <tr>
-<td>Loading states específicos</td>
+<td>Loading específicos</td>
 <td>Dados de grupos</td>
 </tr>
 <tr>
@@ -1295,146 +944,53 @@
 </tr>
 </tbody>
 </table>
-<h2 id="arquitetura-de-estilizacao">🎨 Arquitetura de Estilização</h2>
-<h3 id="design-system-com-tailwindcss"><strong>Design System com TailwindCSS</strong></h3>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>🎨 Design System
-<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>├── 🎯 Tokens de Design
-<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a>│   ├── Colors (Primary, Secondary, Neutral)
-<a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a>│   ├── Typography (Font sizes, weights)
-<a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a>│   ├── Spacing (Margins, paddings)
-<a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a>│   └── Breakpoints (Responsive)
-<a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a>├── 🧩 Component Library
-<a href="#__codelineno-4-8" id="__codelineno-4-8" name="__codelineno-4-8"></a>│   ├── Button variants
-<a href="#__codelineno-4-9" id="__codelineno-4-9" name="__codelineno-4-9"></a>│   ├── Input types
-<a href="#__codelineno-4-10" id="__codelineno-4-10" name="__codelineno-4-10"></a>│   ├── Card layouts
-<a href="#__codelineno-4-11" id="__codelineno-4-11" name="__codelineno-4-11"></a>│   └── Modal patterns
-<a href="#__codelineno-4-12" id="__codelineno-4-12" name="__codelineno-4-12"></a>└── 🌓 Theme System
-<a href="#__codelineno-4-13" id="__codelineno-4-13" name="__codelineno-4-13"></a>    ├── Light mode
-<a href="#__codelineno-4-14" id="__codelineno-4-14" name="__codelineno-4-14"></a>    ├── Dark mode
-<a href="#__codelineno-4-15" id="__codelineno-4-15" name="__codelineno-4-15"></a>    └── Theme switching
+<h2 id="estilizacao">Estilização</h2>
+<h3 id="design-system-com-tailwindcss">Design System com TailwindCSS</h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>Design System
+<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>├── Tokens de Design (cores, tipografia, espaçamento, breakpoints)
+<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a>├── Component Library (Button, Input, Card, Modal)
+<a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a>└── Theme System (Light/Dark, troca de tema)
 </code></pre></div>
-<h3 id="estrategia-mobile-first"><strong>Estratégia Mobile-First</strong></h3>
+<h3 id="estrategia-mobile-first">Estratégia Mobile-First</h3>
 <div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c">/* Base: Mobile (default) */</span>
 <a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="p">.</span><span class="nc">component</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c">/* mobile styles */</span><span class="w"> </span><span class="p">}</span>
-<a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a>
-<a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="c">/* Tablet */</span>
-<a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="p">@</span><span class="k">screen</span><span class="w"> </span><span class="nt">md</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="nc">component</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c">/* tablet styles */</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
-<a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a>
-<a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="c">/* Desktop */</span>
-<a href="#__codelineno-5-8" id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="p">@</span><span class="k">screen</span><span class="w"> </span><span class="nt">lg</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="nc">component</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c">/* desktop styles */</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="c">/* Tablet */</span>
+<a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="p">@</span><span class="k">screen</span><span class="w"> </span><span class="nt">md</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="nc">component</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c">/* tablet styles */</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="c">/* Desktop */</span>
+<a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="p">@</span><span class="k">screen</span><span class="w"> </span><span class="nt">lg</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="nc">component</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c">/* desktop styles */</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
-<h2 id="gerenciamento-de-estado">🧠 Gerenciamento de Estado</h2>
-<h3 id="arquitetura-de-estado-multi-camada"><strong>Arquitetura de Estado Multi-Camada</strong></h3>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>📊 Estado da Aplicação
-<a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>├── 🌐 Global State (Context API)
-<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a>│   ├── AuthContext - Autenticação do usuário
-<a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a>│   ├── ThemeContext - Preferências visuais
-<a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a>│   └── GroupContext - Dados de grupos
-<a href="#__codelineno-6-6" id="__codelineno-6-6" name="__codelineno-6-6"></a>├── 📄 Page State (useState)
+<h2 id="gerenciamento-de-estado">Gerenciamento de Estado</h2>
+<h3 id="arquitetura-multi-camada">Arquitetura Multi-Camada</h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>Estado da Aplicação
+<a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>├── Global State (Context API)
+<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a>│   ├── AuthContext
+<a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a>│   ├── ThemeContext
+<a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a>│   └── GroupContext
+<a href="#__codelineno-6-6" id="__codelineno-6-6" name="__codelineno-6-6"></a>├── Page State (useState)
 <a href="#__codelineno-6-7" id="__codelineno-6-7" name="__codelineno-6-7"></a>│   ├── Form data
 <a href="#__codelineno-6-8" id="__codelineno-6-8" name="__codelineno-6-8"></a>│   ├── Loading states
 <a href="#__codelineno-6-9" id="__codelineno-6-9" name="__codelineno-6-9"></a>│   └── Error handling
-<a href="#__codelineno-6-10" id="__codelineno-6-10" name="__codelineno-6-10"></a>└── 🔄 Server State (Custom Hooks)
+<a href="#__codelineno-6-10" id="__codelineno-6-10" name="__codelineno-6-10"></a>└── Server State (Custom Hooks)
 <a href="#__codelineno-6-11" id="__codelineno-6-11" name="__codelineno-6-11"></a>    ├── API responses
 <a href="#__codelineno-6-12" id="__codelineno-6-12" name="__codelineno-6-12"></a>    ├── Cache management
 <a href="#__codelineno-6-13" id="__codelineno-6-13" name="__codelineno-6-13"></a>    └── Sync with backend
 </code></pre></div>
-<h3 id="context-api-strategy"><strong>Context API Strategy</strong></h3>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="c1">// Padrão de Context Provider</span>
-<a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">AuthContext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createContext</span><span class="p">();</span>
-<a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a>
-<a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">AuthProvider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">children</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">user</span><span class="p">,</span><span class="w"> </span><span class="nx">setUser</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
-<a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">token</span><span class="p">,</span><span class="w"> </span><span class="nx">setToken</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
-<a href="#__codelineno-7-7" id="__codelineno-7-7" name="__codelineno-7-7"></a>
-<a href="#__codelineno-7-8" id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">login</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">credentials</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<a href="#__codelineno-7-9" id="__codelineno-7-9" name="__codelineno-7-9"></a><span class="w">    </span><span class="c1">// Lógica de login</span>
-<a href="#__codelineno-7-10" id="__codelineno-7-10" name="__codelineno-7-10"></a><span class="w">  </span><span class="p">};</span>
-<a href="#__codelineno-7-11" id="__codelineno-7-11" name="__codelineno-7-11"></a>
-<a href="#__codelineno-7-12" id="__codelineno-7-12" name="__codelineno-7-12"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">logout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<a href="#__codelineno-7-13" id="__codelineno-7-13" name="__codelineno-7-13"></a><span class="w">    </span><span class="c1">// Lógica de logout</span>
-<a href="#__codelineno-7-14" id="__codelineno-7-14" name="__codelineno-7-14"></a><span class="w">  </span><span class="p">};</span>
-<a href="#__codelineno-7-15" id="__codelineno-7-15" name="__codelineno-7-15"></a>
-<a href="#__codelineno-7-16" id="__codelineno-7-16" name="__codelineno-7-16"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<a href="#__codelineno-7-17" id="__codelineno-7-17" name="__codelineno-7-17"></a><span class="w">    </span><span class="nx">user</span><span class="p">,</span>
-<a href="#__codelineno-7-18" id="__codelineno-7-18" name="__codelineno-7-18"></a><span class="w">    </span><span class="nx">token</span><span class="p">,</span>
-<a href="#__codelineno-7-19" id="__codelineno-7-19" name="__codelineno-7-19"></a><span class="w">    </span><span class="nx">login</span><span class="p">,</span>
-<a href="#__codelineno-7-20" id="__codelineno-7-20" name="__codelineno-7-20"></a><span class="w">    </span><span class="nx">logout</span><span class="p">,</span>
-<a href="#__codelineno-7-21" id="__codelineno-7-21" name="__codelineno-7-21"></a><span class="w">    </span><span class="nx">isAuthenticated</span><span class="o">:</span><span class="w"> </span><span class="o">!!</span><span class="nx">token</span>
-<a href="#__codelineno-7-22" id="__codelineno-7-22" name="__codelineno-7-22"></a><span class="w">  </span><span class="p">};</span>
-<a href="#__codelineno-7-23" id="__codelineno-7-23" name="__codelineno-7-23"></a>
-<a href="#__codelineno-7-24" id="__codelineno-7-24" name="__codelineno-7-24"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
-<a href="#__codelineno-7-25" id="__codelineno-7-25" name="__codelineno-7-25"></a><span class="w">    </span><span class="o">&lt;</span><span class="nx">AuthContext</span><span class="p">.</span><span class="nx">Provider</span><span class="w"> </span><span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">value</span><span class="p">}</span><span class="o">&gt;</span>
-<a href="#__codelineno-7-26" id="__codelineno-7-26" name="__codelineno-7-26"></a><span class="w">      </span><span class="p">{</span><span class="nx">children</span><span class="p">}</span>
-<a href="#__codelineno-7-27" id="__codelineno-7-27" name="__codelineno-7-27"></a><span class="w">    </span><span class="o">&lt;</span><span class="err">/AuthContext.Provider&gt;</span>
-<a href="#__codelineno-7-28" id="__codelineno-7-28" name="__codelineno-7-28"></a><span class="w">  </span><span class="p">);</span>
-<a href="#__codelineno-7-29" id="__codelineno-7-29" name="__codelineno-7-29"></a><span class="p">};</span>
+<h3 id="exemplo-de-context-provider">Exemplo de Context Provider</h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">AuthContext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createContext</span><span class="p">();</span>
+<a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">AuthProvider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">children</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">user</span><span class="p">,</span><span class="w"> </span><span class="nx">setUser</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">token</span><span class="p">,</span><span class="w"> </span><span class="nx">setToken</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">login</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">credentials</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="w">    </span><span class="c1">// Lógica de login</span>
+<a href="#__codelineno-7-7" id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="w">  </span><span class="p">};</span>
+<a href="#__codelineno-7-8" id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="w">  </span><span class="c1">// ...</span>
+<a href="#__codelineno-7-9" id="__codelineno-7-9" name="__codelineno-7-9"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<a href="#__codelineno-7-10" id="__codelineno-7-10" name="__codelineno-7-10"></a><span class="w">    </span><span class="o">&lt;</span><span class="nx">AuthContext</span><span class="p">.</span><span class="nx">Provider</span><span class="w"> </span><span class="nx">value</span><span class="o">=</span><span class="p">{{</span><span class="w"> </span><span class="nx">user</span><span class="p">,</span><span class="w"> </span><span class="nx">token</span><span class="p">,</span><span class="w"> </span><span class="nx">login</span><span class="w"> </span><span class="p">}}</span><span class="o">&gt;</span>
+<a href="#__codelineno-7-11" id="__codelineno-7-11" name="__codelineno-7-11"></a><span class="w">      </span><span class="p">{</span><span class="nx">children</span><span class="p">}</span>
+<a href="#__codelineno-7-12" id="__codelineno-7-12" name="__codelineno-7-12"></a><span class="w">    </span><span class="o">&lt;</span><span class="err">/AuthContext.Provider&gt;</span>
+<a href="#__codelineno-7-13" id="__codelineno-7-13" name="__codelineno-7-13"></a><span class="w">  </span><span class="p">);</span>
+<a href="#__codelineno-7-14" id="__codelineno-7-14" name="__codelineno-7-14"></a><span class="p">};</span>
 </code></pre></div>
-<h2 id="arquitetura-de-roteamento">🌐 Arquitetura de Roteamento</h2>
-<h3 id="estrutura-de-rotas"><strong>Estrutura de Rotas</strong></h3>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1">// Hierarquia de rotas</span>
-<a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">routes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="w">  </span><span class="kr">public</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
-<a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="w">    </span><span class="s1">'/'</span><span class="p">,</span><span class="w">           </span><span class="c1">// Redirect to login</span>
-<a href="#__codelineno-8-5" id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="w">    </span><span class="s1">'/login'</span><span class="p">,</span><span class="w">      </span><span class="c1">// Login page</span>
-<a href="#__codelineno-8-6" id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="w">    </span><span class="s1">'/register'</span><span class="w">    </span><span class="c1">// Register page</span>
-<a href="#__codelineno-8-7" id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="w">  </span><span class="p">],</span>
-<a href="#__codelineno-8-8" id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="w">  </span><span class="kr">protected</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
-<a href="#__codelineno-8-9" id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="w">    </span><span class="s1">'/dashboard'</span><span class="p">,</span><span class="w">  </span><span class="c1">// Main dashboard</span>
-<a href="#__codelineno-8-10" id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="w">    </span><span class="s1">'/expenses'</span><span class="p">,</span><span class="w">   </span><span class="c1">// Expense management</span>
-<a href="#__codelineno-8-11" id="__codelineno-8-11" name="__codelineno-8-11"></a><span class="w">    </span><span class="s1">'/groups'</span><span class="p">,</span><span class="w">     </span><span class="c1">// Group management</span>
-<a href="#__codelineno-8-12" id="__codelineno-8-12" name="__codelineno-8-12"></a><span class="w">    </span><span class="s1">'/profile'</span><span class="w">     </span><span class="c1">// User profile</span>
-<a href="#__codelineno-8-13" id="__codelineno-8-13" name="__codelineno-8-13"></a><span class="w">  </span><span class="p">],</span>
-<a href="#__codelineno-8-14" id="__codelineno-8-14" name="__codelineno-8-14"></a><span class="w">  </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
-<a href="#__codelineno-8-15" id="__codelineno-8-15" name="__codelineno-8-15"></a><span class="w">    </span><span class="s1">'/404'</span><span class="p">,</span><span class="w">        </span><span class="c1">// Not found</span>
-<a href="#__codelineno-8-16" id="__codelineno-8-16" name="__codelineno-8-16"></a><span class="w">    </span><span class="s1">'*'</span><span class="w">            </span><span class="c1">// Catch all</span>
-<a href="#__codelineno-8-17" id="__codelineno-8-17" name="__codelineno-8-17"></a><span class="w">  </span><span class="p">]</span>
-<a href="#__codelineno-8-18" id="__codelineno-8-18" name="__codelineno-8-18"></a><span class="p">};</span>
-</code></pre></div>
-<h3 id="protecao-de-rotas"><strong>Proteção de Rotas</strong></h3>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="c1">// ProtectedRoute Component</span>
-<a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">ProtectedRoute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">children</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">isAuthenticated</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useAuth</span><span class="p">();</span>
-<a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a>
-<a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">isAuthenticated</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">(</span>
-<a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="w">    </span><span class="nx">children</span>
-<a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">(</span>
-<a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="w">    </span><span class="o">&lt;</span><span class="nx">Navigate</span><span class="w"> </span><span class="nx">to</span><span class="o">=</span><span class="s2">"/login"</span><span class="w"> </span><span class="nx">replace</span><span class="w"> </span><span class="o">/&gt;</span>
-<a href="#__codelineno-9-9" id="__codelineno-9-9" name="__codelineno-9-9"></a><span class="w">  </span><span class="p">);</span>
-<a href="#__codelineno-9-10" id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="p">};</span>
-</code></pre></div>
-<h2 id="arquitetura-de-services">🔌 Arquitetura de Services</h2>
-<h3 id="camada-de-comunicacao-com-api"><strong>Camada de Comunicação com API</strong></h3>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>🔌 Services Layer
-<a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a>├── 📡 api.js - Configuração base do Axios
-<a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a>├── 🔐 auth.js - Autenticação e autorização
-<a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a>├── 💰 expenses.js - Gestão de despesas
-<a href="#__codelineno-10-5" id="__codelineno-10-5" name="__codelineno-10-5"></a>├── 👥 groups.js - Gestão de grupos
-<a href="#__codelineno-10-6" id="__codelineno-10-6" name="__codelineno-10-6"></a>└── 👤 users.js - Gestão de usuários
-</code></pre></div>
-<h3 id="ferramentas-de-teste"><strong>Ferramentas de Teste</strong></h3>
-<ul>
-<li><strong>Vitest</strong>: Test runner e assertions</li>
-<li><strong>Testing Library</strong>: Component testing</li>
-</ul>
-<h2 id="otimizacoes-de-performance">⚡ Otimizações de Performance</h2>
-<h3 id="estrategias-implementadas"><strong>Estratégias Implementadas</strong></h3>
-<ol>
-<li><strong>Code Splitting</strong>: Divisão do bundle por rotas</li>
-<li><strong>Lazy Loading</strong>: Carregamento sob demanda</li>
-<li><strong>Memoization</strong>: React.memo e useMemo</li>
-<li><strong>Virtual Scrolling</strong>: Para listas grandes</li>
-<li><strong>Image Optimization</strong>: Lazy loading de imagens</li>
-</ol>
-<h2 id="arquitetura-de-seguranca">🔒 Arquitetura de Segurança</h2>
-<h3 id="medidas-de-seguranca-frontend"><strong>Medidas de Segurança Frontend</strong></h3>
-<ol>
-<li><strong>Token Management</strong>: JWT armazenado de forma segura</li>
-<li><strong>Route Protection</strong>: Rotas protegidas por autenticação</li>
-<li><strong>Input Validation</strong>: Validação client-side</li>
-<li><strong>XSS Prevention</strong>: Sanitização de inputs</li>
-<li><strong>HTTPS Only</strong>: Conexões seguras apenas</li>
-</ol>
 </article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
