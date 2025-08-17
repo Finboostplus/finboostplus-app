@@ -80,3 +80,18 @@ nav:
       - Log de Prompts - Frontend: frontend/ai_prompts_log.md
       - Uso de IA - Backend: backend/ai_usage.md
       - Log de Prompts - Backend: backend/ai_prompts_log.md
+  - Wiki:
+      - Home: wiki/Home.md
+      - Sobre o Projeto: wiki/Sobre-o-Projeto.md
+      - Roadmap: wiki/Roadmap.md
+      - Como Rodar o Projeto: wiki/Como-Rodar-o-Projeto.md
+      - Estrutura do Repositório: wiki/Estrutura-do-Repositorio.md
+      - Fluxo de Git e Branches: wiki/Fluxo-de-Git-e-Branches.md
+      - Boas Práticas de Desenvolvimento: wiki/Boas-Praticas-de-Desenvolvimento.md
+      - Padrões de Código: wiki/Padroes-de-Codigo.md
+      - Guia de Testes: wiki/Guia-de-Testes.md
+      - Revisão de Código: wiki/Revisao-de-Codigo.md
+      - Guia de Deploy: wiki/Guia-de-Deploy.md
+      - Configuração de Ambiente: wiki/Configuracao-de-Ambiente.md
+      - API - Guia Rápido: 'wiki/API‐Guia-Rapido.md'
+      - API - Documentação: 'wiki/API‐Documentacao.md'

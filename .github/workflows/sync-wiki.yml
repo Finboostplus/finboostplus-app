@@ -1,0 +1,70 @@
+name: Sync Wiki from docs/wiki
+
+on:
+  push:
+    branches:
+      - main
+      - feature/**
+    paths:
+      - 'docs/wiki/**'
+      - 'docs/assets/**'
+      - '.github/workflows/sync-wiki.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Checkout Wiki repository
+        run: |
+          git clone "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git" wiki
+          # Verificar se o clone foi bem-sucedido
+          if [ ! -d wiki/.git ]; then
+            echo "Erro: Falha ao clonar o repositório wiki"
+            exit 1
+          fi
+
+      - name: Sync files to Wiki
+        run: |
+          # Verificar se docs/wiki existe antes de sincronizar
+          if [ ! -d docs/wiki ]; then
+            echo "Erro: Diretório docs/wiki não encontrado"
+            exit 1
+          fi
+          rsync -av --delete --exclude '_Sidebar.md' --exclude '_Footer.md' docs/wiki/ wiki/
+          # Copy assets (images) to a subfolder in the wiki
+          mkdir -p wiki/assets/images
+          if [ -d docs/assets/images ]; then rsync -av docs/assets/images/ wiki/assets/images/; fi
+
+      - name: Ensure Sidebar/Footer
+        run: |
+          # If sidebar/footer exist in docs/wiki, copy; otherwise keep existing
+          if [ -f docs/wiki/_Sidebar.md ]; then cp docs/wiki/_Sidebar.md wiki/_Sidebar.md; fi
+          if [ -f docs/wiki/_Footer.md ]; then cp docs/wiki/_Footer.md wiki/_Footer.md; fi
+
+      - name: Commit & Push changes (if any)
+        working-directory: wiki
+        run: |
+          # Verificar qual branch está sendo usado no wiki
+          WIKI_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || echo "master")
+          echo "Wiki branch detectado: $WIKI_BRANCH"
+          
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "chore(wiki): sync from docs/wiki @ $GITHUB_SHA"
+            git push origin HEAD:$WIKI_BRANCH
+          else
+            echo "No changes to sync."
+          fi
