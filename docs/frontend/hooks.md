@@ -1,17 +1,16 @@
-# 🪝 Hooks Personalizados - Frontend FinBoost+
+# Hooks Personalizados - Frontend FinBoost+
 
-## 📋 Visão Geral
+## Visão Geral
 
-Os hooks personalizados do **FinBoost+** encapsulam lógicas reutilizáveis e complexas, promovendo a separação de responsabilidades e a reutilização de código. Cada hook segue as regras dos hooks do React e fornece uma interface limpa para componentes consumidores.
+Os hooks personalizados do **FinBoost+** encapsulam lógicas reutilizáveis e complexas, promovendo separação de responsabilidades e reutilização de código. Cada hook segue as regras do React e fornece uma interface limpa para os componentes.
 
-## 🎯 Princípios dos Custom Hooks
+## Princípios dos Custom Hooks
 
-### Convenções Adotadas
-- **Nomenclatura**: Sempre começam com `use` (ex: `useAuth`, `useExpenses`)
-- **Single Responsibility**: Cada hook tem uma responsabilidade específica
-- **Estado Isolado**: Cada instância do hook mantém seu próprio estado
-- **API Consistente**: Interface padronizada de retorno
-- **Error Handling**: Tratamento de erros encapsulado
+- Nomenclatura: sempre começam com `use` (ex: `useAuth`, `useExpenses`)
+- Responsabilidade única: cada hook tem uma função específica
+- Estado isolado: cada instância mantém seu próprio estado
+- API consistente: interface padronizada de retorno
+- Tratamento de erros encapsulado
 
 ### Padrões de Retorno
 ```javascript
@@ -30,16 +29,16 @@ const {
 } = useCustomHook();
 ```
 
-## 💾 useLocalStorage (`useLocalStorage.js`)
+## useLocalStorage
 
 Hook para persistência de dados no localStorage do navegador.
 
-### **Interface**
+**Interface:**
 ```javascript
 const [value, setValue] = useLocalStorage(key, initialValue);
 ```
 
-### **Implementação Completa**
+**Exemplo de implementação:**
 ```javascript
 import { useState } from 'react';
 
@@ -79,43 +78,34 @@ export function useLocalStorage(key, initialValue) {
 }
 ```
 
-### **Exemplos de Uso**
+## useAuth
 
-#### Persistir Tema da Aplicação
-```javascript
-function ThemeProvider({ children }) {
-  const [theme, setTheme] = useLocalStorage('app_theme', 'light');
-  
-  const toggleTheme = () => {
-    setTheme(current => current === 'light' ? 'dark' : 'light');
-  };
+Gerencia autenticação do usuário, login, logout e estado do token.
 
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
-}
-```
+**Retorno:**
+- user, token, login, logout, loading, error
 
-#### Persistir Preferências do Usuário
-```javascript
-function useUserPreferences() {
-  const [preferences, setPreferences] = useLocalStorage('user_preferences', {
-    currency: 'BRL',
-    dateFormat: 'DD/MM/YYYY',
-    notifications: true
-  });
+## useExpenses
 
-  const updatePreference = (key, value) => {
-    setPreferences(prev => ({
-      ...prev,
-      [key]: value
-    }));
-  };
+Gerencia listagem, criação, edição e exclusão de despesas.
 
-  return { preferences, updatePreference };
-}
-```
+**Retorno:**
+- expenses, loading, error, createExpense, updateExpense, deleteExpense, refetch
 
-**💡 Os hooks personalizados do FinBoost+ fornecem uma camada de abstração poderosa que simplifica o gerenciamento de estado e lógica de negócio, mantendo os componentes limpos e focados na apresentação.**
+## useGroups
+
+Gerencia dados de grupos, membros e convites.
+
+**Retorno:**
+- groups, loading, error, createGroup, updateGroup, inviteMember, refetch
+
+## useTheme
+
+Gerencia tema claro/escuro e preferências visuais do usuário.
+
+**Retorno:**
+- theme, setTheme, toggleTheme
+
+---
+
+Todos os hooks seguem boas práticas de React, são testados e documentados para facilitar a manutenção e a escalabilidade do frontend do FinBoost+.

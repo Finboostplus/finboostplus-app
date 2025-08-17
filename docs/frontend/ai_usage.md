@@ -2,13 +2,17 @@
 
 ## Introdução
 
-Este documento descreve o uso de ferramentas de Inteligência Artificial (IA) durante o desenvolvimento do frontend deste projeto, visando garantir a transparência no processo de criação, manutenção e evolução do software. A seguir, detalhamos como as ferramentas de IA auxiliaram na geração de ideias, produção de código, design de interface e definições técnicas ao longo do desenvolvimento da aplicação de gerenciamento de finanças compartilhadas.
+Este documento descreve o uso de ferramentas de Inteligência Artificial (IA) durante o desenvolvimento do frontend 
+deste projeto, visando garantir a transparência no processo de criação, manutenção e evolução do software. A seguir, 
+detalhamos como as ferramentas de IA auxiliaram na geração de ideias, produção de código, design de interface e 
+definições técnicas ao longo do desenvolvimento da aplicação de gerenciamento de finanças compartilhadas.
 
 ## Ferramentas de Inteligência Artificial Utilizadas
 
 - **Nome da ferramenta**: ChatGPT  
   **Fornecedor**: OpenAI  
-  **Descrição do uso**: Geração de código, definição de escopo do MVP, naming do projeto, sugestões de design, estruturação de pastas e modelagem de dados
+  **Descrição do uso**: Geração de código, definição de escopo do MVP, naming do projeto, sugestões de design, 
+estruturação de pastas e modelagem de dados
 
 - **Nome da ferramenta**: Claude IA  
   **Fornecedor**: Anthropic  
@@ -16,7 +20,8 @@ Este documento descreve o uso de ferramentas de Inteligência Artificial (IA) du
 
 - **Nome da ferramenta**: DeepSeek  
   **Fornecedor**: DeepSeek  
-  **Descrição do uso**: Implementação de gerenciamento de estado com Zustand/Jotai, persistência de tema, estruturação de mocks e contratos com Zod
+  **Descrição do uso**: Implementação de gerenciamento de estado com Zustand/Jotai, persistência de tema, estruturação 
+de mocks e contratos com Zod
 
 - **Nome da ferramenta**: Stitch  
   **Fornecedor**: Stitch AI  
@@ -36,7 +41,7 @@ As principais áreas com auxílio de IA incluem:
 - [x] Estruturação de projeto frontend (React + Zustand/Jotai)
 - [x] Modelagem de dados mockados
 - [x] Escrita de documentação e naming
-- [x] Criação de testes automatizados (planejado para etapas futuras)
+- [x] Criação de testes automatizados
 
 ## Casos de Uso Específicos
 
@@ -50,7 +55,8 @@ As principais áreas com auxílio de IA incluem:
 
 - **Data**: 06/07/2025
 - **Ferramenta**: ChatGPT
-- **Contribuição**: Geração da definição inicial do MVP com foco em grupos de despesas, cálculo automático de saldos e painel visual.
+- **Contribuição**: Geração da definição inicial do MVP com foco em grupos de despesas, cálculo automático de saldos e 
+painel visual.
 
 ### Nome e Branding do App
 
@@ -62,7 +68,8 @@ As principais áreas com auxílio de IA incluem:
 
 - **Data**: 02 e 30/07/2025
 - **Ferramenta**: DeepSeek
-- **Contribuição**: Comparação entre Zustand e Jotai, com recomendação e implementação de exemplo modular com persistência via localStorage.
+- **Contribuição**: Comparação entre Zustand e Jotai, com recomendação e implementação de exemplo modular com 
+persistência via localStorage.
 
 ### Dados Mockados Realistas
 
@@ -86,13 +93,14 @@ As principais áreas com auxílio de IA incluem:
 
 - **Data**: 06/08/2025
 - **Ferramenta**: Copilot
-- **Contibuição**: Criação dos arquivos de teste: Button.test.jsx, Header.test.jsx, Logo.test.jsx e  LoginForm.test.jsx. Além dos arquivos de documentação: TESTING_GUIDE.md, FOLDER_STRUTURE.md e /__tests__/README.md.
+- **Contibuição**: Criação dos arquivos de teste: Button.test.jsx, Header.test.jsx, Logo.test.jsx e LoginForm.test.jsx.
+Além do arquivo de documentação: TESTING_GUIDE.md
 
 ## Revisão e Validação
 
 Todo o conteúdo gerado com o apoio das ferramentas de IA foi:
 
-- Revisado por líder do frontend e mais 2 membros do time
+- Revisado pelo líder do frontend e mais 2 membros do time.
 - Adaptado às necessidades do projeto
 - Testado para garantir a adequação as necessidades do projeto
 - Documentado para garantir rastreabilidade
@@ -123,8 +131,10 @@ Todo o conteúdo gerado com o apoio das ferramentas de IA foi:
 
 ## Responsabilidade Final
 
-Apesar do uso intensivo de ferramentas de IA, **todas as decisões finais de implementação, validação e curadoria** foram tomadas pelos desenvolvedores do grupo, que assumem a responsabilidade final pelo projeto entregue.
+Apesar do uso intensivo de ferramentas de IA, **todas as decisões finais de implementação, validação e curadoria** 
+foram tomadas pelos desenvolvedores do grupo, que assumem a responsabilidade final pelo projeto entregue.
 
 ## Atualizações
 
-Este documento será atualizado sempre que houver novo uso relevante de IA no projeto, garantindo rastreamento e transparência contínuos.
+Este documento será atualizado sempre que houver novo uso relevante de IA no projeto, garantindo rastreamento e 
+transparência contínuos.

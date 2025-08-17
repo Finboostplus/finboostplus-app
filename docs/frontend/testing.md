@@ -14,18 +14,6 @@ O FinBoost+ utiliza uma estratégia robusta de testes automatizados para garanti
 | **@testing-library/user-event** | `^14.0.0` | Simulação de interações |
 | **jsdom** | `^23.0.0` | Ambiente de DOM virtual |
 
-### Status Atual
-
-!!! success "Cobertura de Testes"
-    **✅ 19 testes passando** em 4 arquivos de teste com cobertura superior a 80%
-
-```
- ✓ components/Header.test.jsx (1 teste)
- ✓ components/Logo.test.jsx (4 testes)  
- ✓ components/Button.test.jsx (9 testes)
- ✓ integration/LoginForm.test.jsx (5 testes)
-```
-
 ## Estrutura do Projeto
 
 A organização dos testes segue uma estrutura clara e escalável:

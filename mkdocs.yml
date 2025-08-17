@@ -1,5 +1,5 @@
 site_name: FinBoost+ Documentation
-site_description: Documentação completa da aplicação FinBoost+ (Frontend e Backend)
+site_description: Documentação completa da aplicação FinBoost+
 site_author: Equipe FinBoost+
 repo_url: https://github.com/Finboostplus/finboostplus-app
 repo_name: finboostplus-app
@@ -55,6 +55,7 @@ nav:
   - Home: index.md
   - Projeto:
       - Visão Geral: project/overview.md
+      - Uso de IA: project/ai-development.md
       - Arquitetura: project/architecture.md
       - Requisitos: project/requirements.md
       - Diagramas: project/diagrams.md
@@ -67,17 +68,10 @@ nav:
       - Páginas: frontend/pages.md
       - Hooks: frontend/hooks.md
       - Styling: frontend/styling.md
-  - Backend:
-      - Visão Geral: backend/index.md
-      - Getting Started: backend/getting-started.md
-      - Arquitetura: backend/architecture.md
-      - API Endpoints: backend/api-endpoints.md
-      - Database: backend/database.md
-      - Autenticação: backend/authentication.md
-  - Desenvolvimento:
-      - Visão Geral: development/index.md
+      - Testes: frontend/testing.md
       - Uso de IA - Frontend: frontend/ai_usage.md
       - Log de Prompts - Frontend: frontend/ai_prompts_log.md
+  - Backend:
       - Uso de IA - Backend: backend/ai_usage.md
       - Log de Prompts - Backend: backend/ai_prompts_log.md
   - Wiki:
