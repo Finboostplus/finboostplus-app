@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/vitest';
 import { vi, expect } from 'vitest';
-import { customMatchers } from './test-utils.js';
+import { customMatchers } from './test-utils.jsx';
 
 // Registra matchers customizados definidos em test-utils
 expect.extend(customMatchers);
@@ -78,3 +78,21 @@ if (typeof window !== 'undefined' && window.URLSearchParams) {
   URLSearchParams = window.URLSearchParams;
   globalThis.URLSearchParams = window.URLSearchParams;
 }
+
+// Mock adicional para fetch para evitar erros de Request constructor
+const originalFetch = globalThis.fetch;
+globalThis.fetch = vi.fn(async (input, init = {}) => {
+  // Se o body é um URLSearchParams do jsdom, convertê-lo para string
+  if (init.body && init.body.constructor.name === 'URLSearchParams') {
+    init.body = init.body.toString();
+  }
+
+  // Mock response padrão para testes
+  return {
+    ok: true,
+    status: 200,
+    json: async () => ({}),
+    text: async () => '',
+    headers: new Map(),
+  };
+});

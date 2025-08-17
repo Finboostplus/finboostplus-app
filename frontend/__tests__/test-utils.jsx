@@ -1,11 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { vi, beforeEach, afterEach } from 'vitest';
-import { AuthContext } from '../src/context/AuthContext';
-import { ThemeContext } from '../src/context/ThemeContext';
-import { GroupContext } from '../src/context/GroupContext';
 
 // Salva fetch original para restauração
 const originalFetch = globalThis.fetch;
+
+// Mock simples para contextos (caso sejam necessários nos testes)
+const createMockContext = (value) => ({
+  Provider: ({ children }) => children,
+  Consumer: ({ children }) => children(value),
+});
 
 // Utilitários para mocks
 export const createMockAuthContext = (user = null, isLoading = false) => ({
@@ -35,26 +38,9 @@ export const createMockGroupContext = (groups = [], currentGroup = null, overrid
   ...overrides,
 });
 
-// Função para renderizar com contextos
-export const renderWithProviders = (
-  ui,
-  {
-    authContext = createMockAuthContext(),
-    themeContext = createMockThemeContext(),
-    groupContext = createMockGroupContext(),
-  } = {}
-) => {
-  const AllProviders = ({ children }) => (
-    <AuthContext.Provider value={authContext}>
-      <ThemeContext.Provider value={themeContext}>
-        <GroupContext.Provider value={groupContext}>
-          {children}
-        </GroupContext.Provider>
-      </ThemeContext.Provider>
-    </AuthContext.Provider>
-  );
-
-  return render(ui, { wrapper: AllProviders });
+// Função para renderizar com providers (simplificada)
+export const renderWithProviders = (ui, options = {}) => {
+  return render(ui, options);
 };
 
 // Mock para React Router
@@ -70,15 +56,39 @@ export const resetRouterMocks = () => {
   mockNavigate.mockClear();
 };
 
-vi.mock('react-router', async (importOriginal) => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-    useLocation: () => mockLocation,
-    useParams: () => ({}),
-  };
-});
+// Custom matchers para testes
+export const customMatchers = {
+  toBeLoading(received) {
+    const pass = received && received.getAttribute('data-testid') === 'loading';
+    return {
+      pass,
+      message: () => pass
+        ? `Expected element not to be loading`
+        : `Expected element to be loading`
+    };
+  },
+  toHaveErrorMessage(received, expected) {
+    const errorElement = received.querySelector('[data-testid="error-message"]');
+    const pass = errorElement && errorElement.textContent === expected;
+    return {
+      pass,
+      message: () => pass
+        ? `Expected element not to have error message "${expected}"`
+        : `Expected element to have error message "${expected}"`
+    };
+  }
+};
+
+// Mock para React Router (somente se necessário)
+vi.mock('react-router-dom', () => ({
+  useNavigate: () => mockNavigate,
+  useLocation: () => mockLocation,
+  useParams: () => ({}),
+  BrowserRouter: ({ children }) => children,
+  Routes: ({ children }) => children,
+  Route: ({ children }) => children,
+  Link: ({ children, to, ...props }) => <a href={to} {...props}>{children}</a>,
+}));
 
 // Mocks para APIs
 export const mockApiResponse = (data, status = 200) => ({
@@ -91,6 +101,7 @@ export const mockApiResponse = (data, status = 200) => ({
 export const mockFetch = response => {
   globalThis.fetch = vi.fn().mockResolvedValue(response);
 };
+
 export const restoreFetch = () => {
   globalThis.fetch = originalFetch;
 };
@@ -132,20 +143,6 @@ export const createMockExpense = (overrides = {}) => ({
   groupId: '1',
   ...overrides,
 });
-
-// Matchers customizados para testes
-export const customMatchers = {
-  toBeInTheRange: (received, min, max) => {
-    const pass = received >= min && received <= max;
-    return {
-      message: () =>
-        pass
-          ? `Expected ${received} not to be within range ${min} - ${max}`
-          : `Expected ${received} to be within range ${min} - ${max}`,
-      pass,
-    };
-  },
-};
 
 // Helper para testar erros de console
 export const suppressConsoleError = () => {

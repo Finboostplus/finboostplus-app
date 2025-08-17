@@ -31,6 +31,9 @@ replay_pid*.log
 *.iml
 *.ipr
 
+# Metadata de IDE (se necessário)
+/.metadata/
+
 # NetBeans
 /nbproject/private/
 /nbbuild/

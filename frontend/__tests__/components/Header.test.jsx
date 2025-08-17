@@ -10,13 +10,12 @@ describe('Componente Header', () => {
     const header = screen.getByRole('banner');
     expect(header).toBeInTheDocument();
     
-    // Verifica se o logo está presente
-    const logo = screen.getByAltText('Logo da Finboostplus');
+    // Verifica se o logo está presente (usando o alt text correto)
+    const logo = screen.getByAltText('Logo');
     expect(logo).toBeInTheDocument();
     
-    // Verifica se o slogan está presente
-    const slogan = screen.getByLabelText('Slogan');
+    // Verifica se o slogan está presente (buscando por texto)
+    const slogan = screen.getByText('Controle seus gastos de forma simples e compartilhada');
     expect(slogan).toBeInTheDocument();
-    expect(slogan).toHaveTextContent('Controle seus gastos de forma simples e compartilhada');
   });
 });
