@@ -138,7 +138,7 @@ public class UserController {
 		)
 	})
 	public String getReturnAuthorized(){
-		return authenticated();
+		return "O usuário logado possui o e-mail: " + authenticated();
 	}
 
 
