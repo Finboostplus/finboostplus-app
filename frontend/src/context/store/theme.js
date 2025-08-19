@@ -7,7 +7,7 @@ export const useThemeStore = create(
   persist(
     set => ({
       theme: 'light', // usado apenas se não houver nada no localStorage
-      logo_image: './light_mode_logo.png',
+      logo_image: '/light_mode_logo.png',
       toggleTheme: () =>
         set(state => {
           const newTheme = state.theme === 'light' ? 'dark' : 'light';
