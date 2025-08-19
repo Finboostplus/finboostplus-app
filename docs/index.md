@@ -1,65 +1,65 @@
-# FinBoost+ - Documentação
+# FinBoost+ — Documentação
 
-Bem-vindo à documentação do **FinBoost+**, uma aplicação web moderna para controle financeiro compartilhado, desenvolvida como projeto final de curso.
+Bem-vindo à documentação do **FinBoost+**, um sistema web moderno para controle financeiro pessoal e compartilhado, desenvolvido como projeto final do curso **Desenvolvimento Full-Stack Jr – +Prati & Codifica**.
 
 ## Sobre o Projeto
 
-O **FinBoost+** permite:
-- Controle de despesas pessoais de forma intuitiva
-- Compartilhamento de gastos em grupos (amigos, família, viagens)
-- Visualização de dados financeiros com gráficos interativos
-- Acesso multiplataforma com design responsivo
-- Personalização de experiência (tema claro/escuro)
+O **FinBoost+** é uma aplicação fullstack que permite aos usuários gerenciar finanças e compartilhar despesas em grupo de forma intuitiva e eficiente.
 
-## Stack Tecnológico
+### Principais Funcionalidades
 
-### Frontend
-- React 19.1.0
-- Vite 7.0.3
-- TailwindCSS 4.1.11
-- HeadlessUI 2.2.4
-- Recharts 3.1.0
+- **Controle financeiro** com categorização de despesas e receitas
+- **Gestão compartilhada** para divisão de gastos em grupos (família, amigos, viagens)
+- **Visualização de dados** através de gráficos interativos e relatórios
+- **Interface responsiva** com suporte a temas claro/escuro
+- **Autenticação segura** com JWT e controle de sessões
+- **Sugestões inteligentes** com apoio de inteligência artificial
 
-### Backend
-- Java Spring Boot
-- Spring Security
-- PostgreSQL
-- Docker
+### Stack Tecnológico
 
-## Navegação da Documentação
+**Frontend:**
+- React 19.1.0 com Vite 7.0.3
+- TailwindCSS 4.1.11 para estilização
+- HeadlessUI 2.2.4 para componentes acessíveis
+- Recharts 3.1.0 para visualização de dados
 
-### Projeto
-- [Visão Geral](project/overview.md): Contexto e objetivos
-- [Requisitos](project/requirements.md): Funcionais e não funcionais
-- [Uso de IA](project/ai-development.md): Transparência no uso de IA
-- [Arquitetura](project/architecture.md): Estrutura técnica
-- [Diagramas](project/diagrams.md): Diagramas do sistema
-- [API Contract](project/api-contract.md): Contrato da API
+**Backend:**
+- Java Spring Boot com Spring Security
+- PostgreSQL para persistência de dados
+- Docker para containerização
+- JWT para autenticação
 
-### Frontend
-- [Visão Geral](frontend/index.md)
-- [Getting Started](frontend/getting-started.md)
-- [Arquitetura](frontend/architecture.md)
-- [Componentes](frontend/components.md)
-- [Páginas](frontend/pages.md)
-- [Hooks](frontend/hooks.md)
-- [Styling](frontend/styling.md)
+## Estrutura da Documentação
 
-### Backend
-- [Visão Geral](backend/index.md)
-- [Getting Started](backend/getting-started.md)
-- [Arquitetura](backend/architecture.md)
-- [API Endpoints](backend/api-endpoints.md)
-- [Database](backend/database.md)
-- [Autenticação](backend/authentication.md)
+Esta documentação está organizada para atender diferentes públicos e necessidades:
 
-## Características Principais
+### Para Usuários
+**[Guia do Usuário](user_guide/intro.md)** - Como instalar, configurar e utilizar a aplicação
 
-- Interface responsiva e intuitiva
-- Tema claro/escuro
-- Autenticação JWT
-- Gráficos e relatórios financeiros
-- Colaboração em grupos e divisão automática de despesas
+### Para Avaliadores e Recrutadores
+**[Sobre o Projeto](project/overview.md)** - Contexto, objetivos e decisões técnicas tomadas durante o desenvolvimento
+
+### Para Desenvolvedores
+**[Arquitetura e API](technical/architecture.md)** - Estrutura técnica detalhada e documentação da API
+
+**[Frontend](frontend/structure.md)** e **[Backend](backend/structure.md)** - Padrões de código e estrutura dos projetos
+
+### Transparência
+**[Transparência de IA](ai_docs/ai_usage.md)** - Registro completo do uso de inteligência artificial no desenvolvimento
+
+## Diagrama de Arquitetura
+
+```mermaid
+flowchart TD
+    A[Cliente/Usuário] -->|HTTPS| B[Frontend React]
+    B -->|API REST| C[Backend Spring Boot]
+    C -->|JPA/Hibernate| D[(PostgreSQL)]
+    C -->|JWT| E[Autenticação]
+    C -->|Processamento| F[Lógica de Negócio]
+    F -->|Sugestões| G[Módulo IA]
+    B -->|Gráficos| H[Recharts]
+    B -->|UI/UX| I[TailwindCSS + HeadlessUI]
+```
 
 ## Quick Start
 
@@ -67,36 +67,69 @@ O **FinBoost+** permite:
 - Node.js 18+
 - Java 17+
 - PostgreSQL 13+
-- Docker (opcional)
+- Git
 
-### Executar Frontend
+### Executar o Projeto Localmente
+
+**Frontend:**
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-### Executar Backend
+**Backend:**
 ```bash
 cd backend/finboostplus_teste
 ./mvnw spring-boot:run
 ```
 
+A aplicação estará disponível em `http://localhost:3000` (frontend) e `http://localhost:8080` (backend).
+
+## Características Técnicas
+
+### Arquitetura
+- **Separação clara** entre frontend e backend
+- **API RESTful** seguindo padrões REST
+- **Autenticação stateless** com JWT
+- **Design responsivo** mobile-first
+
+### Qualidade de Código
+- **Padrões de desenvolvimento** documentados e seguidos
+- **Testes automatizados** para frontend e backend
+- **Documentação abrangente** de código e APIs
+- **Versionamento semântico** e controle de branches
+
+### Segurança
+- **Autenticação JWT** com refresh tokens
+- **Validação de dados** no frontend e backend
+- **Proteção contra ataques** comuns (XSS, CSRF)
+- **Configuração segura** de CORS e headers
+
 ## Sobre o Desenvolvimento
 
-Projeto desenvolvido com foco em:
-- Arquitetura moderna
-- Boas práticas (Clean Code, SOLID)
-- Documentação técnica completa
-- Stack atualizada
+Este projeto foi desenvolvido com foco em:
 
-## Suporte
+- **Aplicação de conhecimentos** adquiridos durante o curso
+- **Boas práticas** de desenvolvimento (Clean Code, SOLID)
+- **Arquitetura escalável** e manutenível
+- **Documentação técnica** completa e acessível
+- **Transparência** no uso de ferramentas de IA
 
-- Email: finboostplus@gmail.com
-- Issues: [GitHub Issues](https://github.com/Finboostplus/finboostplus-app/issues)
+## Links Importantes
+
+- **Repositório:** [GitHub - FinBoost+](https://github.com/Finboostplus/finboostplus-app)
+- **Wiki de Desenvolvimento:** [GitHub Wiki](https://github.com/Finboostplus/finboostplus-app/wiki)
+- **Documentação da API:** [Swagger/Scalar](technical/api_interactive.md)
+
+## Suporte e Contato
+
+- **Email:** finboostplus@gmail.com
+- **Issues:** [GitHub Issues](https://github.com/Finboostplus/finboostplus-app/issues)
 
 ---
 
-*Esta documentação está em constante evolução. Contribuições são bem-vindas!*
+!!! note "Sobre esta documentação"
+Esta documentação é continuamente atualizada conforme o desenvolvimento do projeto. Para informações técnicas detalhadas sobre o processo de desenvolvimento, consulte também nossa [Wiki no GitHub](https://github.com/Finboostplus/finboostplus-app/wiki).
 
 *Projeto desenvolvido como trabalho final de curso - 2025*
