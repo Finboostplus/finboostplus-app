@@ -2,7 +2,7 @@
 import { Navigate, Outlet, useLocation } from 'react-router';
 
 // Verifica se há token salvo (ajuste conforme sua lógica real)
-const isAuthenticated = () => Boolean(localStorage.getItem('token'));
+const isAuthenticated = () => true; //Boolean(localStorage.getItem('token'));
 
 const ProtectedRoute = () => {
   const location = useLocation();
