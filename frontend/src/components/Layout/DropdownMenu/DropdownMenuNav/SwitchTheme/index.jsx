@@ -1,19 +1,15 @@
 import { Switch } from '@headlessui/react';
-import { useAtomValue, useSetAtom } from 'jotai';
-import {
-  enabledAtom,
-  toggleThemeAtom,
-} from '../../../../../context/atoms/themeApp.atoms';
+import { useStore } from 'zustand';
+import { useThemeStore } from '../../../../../context/store/theme';
 
 export default function SwitchTheme() {
-  const enabled = useAtomValue(enabledAtom);
-  const toggleTheme = useSetAtom(toggleThemeAtom);
-
+  const { theme, toggleTheme } = useStore(useThemeStore);
+  let enabled = theme === 'dark' ? true : false;
   return (
     <Switch
       checked={enabled}
       onChange={toggleTheme}
-      className={`group relative inline-flex h-8 w-16 items-center rounded-full ${
+      className={`group relative inline-flex h-8 w-16 items-center rounded-full cursor-pointer ${
         enabled ? 'bg-zinc-600' : 'bg-zinc-200'
       } transition-colors duration-300 focus:outline-none`}
       aria-label="Alternar tema escuro/claro"

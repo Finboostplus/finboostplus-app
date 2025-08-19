@@ -1,19 +1,20 @@
+import categories from '../../../../mockData/categories';
+
+import { getCurrentDate } from '../../../../utils/helpers';
 import InputUI from '../../../ui/Input';
 import SelectUI from '../../../ui/Select';
 import TextareaUI from '../../../ui/Textarea';
+import { useFormExpense } from '../useForm';
+import CurrencyInputUI from '../../../ui/CurrencyInput';
 
-const categories = [
-  { id: 1, name: 'Alimentação' },
-  { id: 2, name: 'Transporte' },
-  { id: 3, name: 'Outros' },
-];
+export default function FormFieldsExpenses({ members }) {
+  const { setAmount } = useFormExpense();
 
-const users = [
-  { id: 1, name: 'Marina', isCurrentUser: true },
-  { id: 2, name: 'João' },
-];
+  const handleAmountChange = ({ float: numericValue }) => {
+    // Converte o valor formatado para número
+    setAmount(numericValue);
+  };
 
-export default function FormFieldsExpenses() {
   return (
     <div className="flex flex-col h-full w-full overflow-auto p-4">
       <div className="grid gap-4 flex-1">
@@ -42,19 +43,22 @@ export default function FormFieldsExpenses() {
             >
               Valor
             </label>
-            <InputUI
+            <CurrencyInputUI
               id="total_amount"
-              type="number"
+              type="text"
+              allowNegativeValue={false}
+              onValueChange={(value, name, values) =>
+                handleAmountChange(values)
+              }
               name="total_amount"
               placeholder="R$ 0,00"
-              step="0.01"
               required
               className="w-full p-2 border border-neutral rounded-md text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
             />
           </div>
         </div>
 
-        {/* Data da despesa */}
+        {/* Restante do formulário permanece igual */}
         <div>
           <label
             htmlFor="date"
@@ -66,12 +70,12 @@ export default function FormFieldsExpenses() {
             id="date"
             type="date"
             name="date"
+            min={getCurrentDate()}
             required
             className="w-full p-2 border border-neutral rounded-md text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
           />
         </div>
 
-        {/* Descrição */}
         <div>
           <label
             htmlFor="description"
@@ -88,7 +92,6 @@ export default function FormFieldsExpenses() {
           />
         </div>
 
-        {/* Categoria */}
         <div>
           <label
             htmlFor="category_id"
@@ -100,15 +103,16 @@ export default function FormFieldsExpenses() {
             id="category_id"
             name="category_id"
             required
-            options={categories.map(c => ({
-              value: c.id.toString(),
-              label: c.name,
-            }))}
             className="w-full p-2 border border-neutral rounded-md text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition cursor-pointer"
-          />
+          >
+            {categories.map(({ id, name }) => (
+              <option key={id} value={id.toString()}>
+                {name}
+              </option>
+            ))}
+          </SelectUI>
         </div>
 
-        {/* Quem pagou */}
         <div>
           <label
             htmlFor="payer_id"
@@ -120,12 +124,14 @@ export default function FormFieldsExpenses() {
             id="payer_id"
             name="payer_id"
             required
-            options={users.map(u => ({
-              value: u.id.toString(),
-              label: u.name + (u.isCurrentUser ? ' (Você)' : ''),
-            }))}
             className="w-full p-2 border border-neutral rounded-md text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
-          />
+          >
+            {members.map((member, i) => (
+              <option key={i} value={i}>
+                {member.name}
+              </option>
+            ))}
+          </SelectUI>
         </div>
       </div>
     </div>
