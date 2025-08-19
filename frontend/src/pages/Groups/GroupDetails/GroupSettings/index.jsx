@@ -122,13 +122,12 @@ export default function GroupSettings() {
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
                   <SelectUI
                     defaultValue={m.isAdmin ? 'admin' : 'member'}
-                    options={[
-                      { value: 'member', label: 'Membro' },
-                      { value: 'admin', label: 'Administrador' },
-                    ]}
                     aria-label={`Cargo de ${m.name}`}
                     className="rounded-md border border-muted bg-surface px-3 py-2 text-text cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary w-full sm:w-auto"
-                  />
+                  >
+                    <option value={'member'}>Membro</option>
+                    <option value={'admin'}>Administrador</option>
+                  </SelectUI>
 
                   <ButtonUI
                     className="bg-error/70 hover:bg-error transition-opacity text-white p-2 rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
