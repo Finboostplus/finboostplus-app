@@ -38,6 +38,15 @@ public class Group {
 //   @OneToMany(mappedBy = "group" , cascade = CascadeType.ALL, orphanRemoval = true)
 //    private Set<MemberGroup> memberGroups = new HashSet<>();
 
+
+    public void setGroupCreatorId(Long groupCreatorId) {
+        GroupCreatorId = groupCreatorId;
+    }
+
+    public Long getGroupCreatorId() {
+        return GroupCreatorId;
+    }
+
     public Long getId() {
         return id;
     }
@@ -70,8 +79,9 @@ public class Group {
 //        this.memberGroups = memberGroups;
 //    }
 
-    @OneToMany(mappedBy = "group",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true)
     public Set<Expense> expenses;
+
     public String getName() {
         return name;
     }

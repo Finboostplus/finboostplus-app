@@ -8,11 +8,14 @@ import com.finboostplus.model.Role;
 import com.finboostplus.projection.UserDetailsProjection;
 import com.finboostplus.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import com.finboostplus.model.User;
@@ -91,4 +94,22 @@ public class UserService implements UserDetailsService {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
+    public String authenticated() {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Jwt jwtPrincipal = (Jwt) authentication.getPrincipal();
+            return jwtPrincipal.getClaim("username");
+        } catch (Exception e) {
+            throw new UsernameNotFoundException("Não foi encontrado o usuário");
+        }
+
+    }
+
+    public User getUser(String email){
+
+        Optional<User> userOptional = userRepository.findByEmailIgnoreCase(email);
+        var user  = userOptional.get();
+        return  user;
+    }
 }
