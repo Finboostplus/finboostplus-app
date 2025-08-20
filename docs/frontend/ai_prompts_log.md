@@ -1,6 +1,7 @@
 # Registro de Prompts Utilizados no Projeto
 
-Este documento registra os principais prompts utilizados para gerar código, ideias, soluções ou documentações com o apoio de ferramentas de Inteligência Artificial durante o desenvolvimento deste projeto.
+Este documento registra os principais prompts utilizados para gerar código, ideias, soluções ou documentações com o 
+apoio de ferramentas de Inteligência Artificial durante o desenvolvimento deste projeto.
 
 ---
 
@@ -61,7 +62,8 @@ Abordagem recomendada, principalmente para componentes com subcomponentes ou ló
 - Recomendação de biblioteca
 
 **Breve descrição do resultado**:  
-Para o MVP deste app de gerenciamento e compartilhamento de finanças, escolhemos o **Jotai** como biblioteca de gerenciamento de estado.
+Para o MVP deste app de gerenciamento e compartilhamento de finanças, escolhemos o **Jotai** como biblioteca de 
+gerenciamento de estado.
 
 **Características**:
 
@@ -132,7 +134,8 @@ Claude sugeriu 4 paletas eficazes, com destaque para a **Paleta Confiança (Reco
 - Escopo do MVP
 
 **Breve descrição do resultado**:
-Sistema para gerenciar despesas compartilhadas entre grupos, com divisão automática de gastos, saldos individuais, relatórios e uma interface simples.
+Sistema para gerenciar despesas compartilhadas entre grupos, com divisão automática de gastos, saldos individuais, 
+relatórios e uma interface simples.
 
 **Funcionalidades-Chave**:
 - Cadastro e login de usuários
@@ -265,7 +268,8 @@ Você já está acima da média, ótimo trabalho!
 **Versão (se aplicável)**: -
 
 ### Prompt
-> "Quero ideias de design de telas para um app de gerenciamento de finanças com: Cadastro, Login, Home, Perfil, > Lista de Grupos, Novo Grupo, Detalhes do Grupo e Modal de Nova Despesa"
+> "Quero ideias de design de telas para um app de gerenciamento de finanças com: Cadastro, Login, Home, Perfil, 
+> Lista de Grupos, Novo Grupo, Detalhes do Grupo e Modal de Nova Despesa"
 
 ### Resultado
 
@@ -598,4 +602,5 @@ async function fetchGrupo(id) {
 
 # Nota Final
 
-Este registro tem como objetivo garantir a transparência, rastreabilidade e documentação de boas práticas no uso de Inteligência Artificial durante o desenvolvimento de software.
+Este registro tem como objetivo garantir a transparência, rastreabilidade e documentação de boas práticas no uso de 
+Inteligência Artificial durante o desenvolvimento de software.

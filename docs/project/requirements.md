@@ -1,157 +1,141 @@
-# 📋 Requisitos do Sistema - FinBoost+
+# Requisitos do Sistema - FinBoost+
 
-Este documento especifica os requisitos funcionais e não funcionais do sistema FinBoost+, baseado no documento oficial de requisitos do projeto acadêmico.
-
----
-
-## 🎯 **Objetivo do Sistema**
-
-Desenvolver uma aplicação web para **controle financeiro compartilhado** que permita a criação de grupos, registro de despesas e cálculo automático de saldos entre participantes. Este é um projeto final de curso com prazo até dezembro de 2025.
+Este documento especifica os requisitos funcionais e não funcionais do sistema FinBoost+, conforme o documento oficial do projeto acadêmico.
 
 ---
 
-## ⚙️ **Requisitos Funcionais (RF)**
+## Objetivo do Sistema
 
-### **RF01 - Cadastro e Gestão de Usuário**
-**Prioridade:** Essencial  
+Desenvolver uma aplicação web para controle financeiro compartilhado, permitindo a criação de grupos, registro de despesas e cálculo automático de saldos entre participantes. Projeto final de curso com prazo até dezembro de 2025.
+
+---
+
+## Requisitos Funcionais (RF)
+
+### RF01 - Cadastro e Gestão de Usuário (Essencial)
 - Cadastro com nome, email e senha
 - Login via email/senha ou OAuth2 (Google)
-- Gestão completa de perfil
-- Entidade "Perfil" com dados pessoais e preferências
-- Validação rigorosa de dados de entrada
-- Criptografia de senhas (hash + salt)
+- Gestão de perfil e preferências
+- Validação rigorosa de dados
+- Criptografia de senhas
 - Verificação de email opcional
 
-### **RF02 - Login e Autenticação Segura**
-**Prioridade:** Essencial  
-- Login tradicional (email + senha)
-- Implementação de OAuth2 para login social (Google)
-- Emissão de token JWT com expiração e refresh token
-- Fluxo de recuperação de senha por email (link único, validade limitada)
-- 2FA opcional via OTP para ações críticas
-- Proteção contra ataques de força bruta
+### RF02 - Login e Autenticação Segura (Essencial)
+- Login tradicional e social (Google)
+- Emissão de token JWT com expiração e refresh
+- Recuperação de senha por email
+- 2FA opcional via OTP
+- Proteção contra força bruta
 
-### **RF03 - Criação e Gerenciamento de Grupos**
-**Prioridade:** Essencial  
+### RF03 - Criação e Gerenciamento de Grupos (Essencial)
 - Criação de grupos com nome e descrição
-- Convite de membros por email ou código de convite
-- Visualização de membros
+- Convite de membros por email ou código
+- Visualização e gestão de membros
 - Aceitação/recusa de convites
-- Definição automática do criador como administrador
+- Administrador definido automaticamente
 
-### **RF04 - Cadastro e Registro de Despesas com CRUD Completo**
-**Prioridade:** Essencial  
-- Registro com valor, descrição, data, categoria, pagador, participantes
-- CRUD completo para todas as entidades
-- Filtros dinâmicos e paginação em listagens
-- Consulta detalhada incluindo relacionamentos e metadados
-- Pesquisa avançada com filtros em múltiplos campos
-- Divisão igual ou personalizada de despesas
+### RF04 - Cadastro e Registro de Despesas (Essencial)
+- Registro com valor, descrição, data, categoria, pagador e participantes
+- CRUD completo para despesas
+- Filtros dinâmicos e paginação
+- Consulta detalhada e pesquisa avançada
+- Divisão igual ou personalizada
 - Histórico de alterações
 
-### **RF05 - Cálculo Automático de Saldos**
-**Prioridade:** Essencial  
-- Cálculo automático de quanto cada participante deve ou recebe
-- Saldo individual e resumo de "quem deve para quem"
-- Atualização em tempo real após mudanças
+### RF05 - Cálculo Automático de Saldos (Essencial)
+- Cálculo automático de saldos individuais
+- Resumo de "quem deve para quem"
+- Atualização em tempo real
 
-### **RF06 - Dashboard Resumo**
-**Prioridade:** Essencial  
-- Visão geral das finanças do grupo e usuário
+### RF06 - Dashboard Resumo (Essencial)
+- Visão geral das finanças
 - Total gasto, últimas despesas, saldos
 - Débitos e créditos consolidados
 
-### **RF07 - Categorias de Despesas**
-**Prioridade:** Essencial  
+### RF07 - Categorias de Despesas (Essencial)
 - Categorias básicas: Alimentação, Transporte, Casa, Lazer, Outros
 - Organização e visualização por categoria
 
-### **RF08 - Metas de Economia** *(Importante)*
-**Prioridade:** Importante  
+### RF08 - Metas de Economia (Importante)
 - Definição de metas individuais ou familiares
 - Acompanhamento de progresso
 - Alertas de acompanhamento
 
-### **RF09 - Alertas Simples** *(Desejável)*
-**Prioridade:** Desejável  
-- Alertas por email quando limites de orçamento forem ultrapassados
+### RF09 - Alertas Simples (Desejável)
+- Alertas por email para limites de orçamento
 - Configuração de parâmetros pelo usuário
 
-### **RF10 - Navegação e Usabilidade Avançada**
-**Prioridade:** Importante  
-- Navegação fluida com animações suaves
-- Estrutura de menus e rotas clara
+### RF10 - Navegação e Usabilidade Avançada (Importante)
+- Navegação fluida e menus claros
 - Breadcrumbs para orientação
 - Interface responsiva (mobile-first)
-- Feedback visual claro e em tempo real
-- Navegação por teclado para acessibilidade
+- Feedback visual em tempo real
+- Navegação por teclado
 
-### **RF11 - Listagem e Organização Avançada**
-**Prioridade:** Importante  
-- Listas paginadas ou carregamento contínuo (infinite scroll)
+### RF11 - Listagem e Organização Avançada (Importante)
+- Listas paginadas ou infinite scroll
 - Reorganização de itens (drag and drop)
-- Filtros dinâmicos e ordenação múltipla
+- Filtros dinâmicos e ordenação
 - Lazy loading para performance
 - Pesquisa em tempo real
-- Exportação de dados básica
+- Exportação de dados
 
-### **RF12 - Sistema de Preferências e Personalização** *(Desejável)*
-**Prioridade:** Desejável  
+### RF12 - Sistema de Preferências e Personalização (Desejável)
 - Tema claro/escuro
 - Configurações de notificações
-- Preferências de visualização (formato de data, moeda)
+- Preferências de visualização (data, moeda)
 - Configurações de privacidade
 - Sincronização entre dispositivos
 
 ---
 
-## 🛡️ **Requisitos Não Funcionais (RNF)**
+## Requisitos Não Funcionais (RNF)
 
-### **RNF01 - Performance e Tempo de Resposta**
-- Operações básicas (login, cadastro): máximo 3 segundos
-- Cálculos de saldo: máximo 5 segundos
-- Carregamento de páginas: máximo 4 segundos
+### RNF01 - Performance e Tempo de Resposta
+- Operações básicas: até 3 segundos
+- Cálculos de saldo: até 5 segundos
+- Carregamento de páginas: até 4 segundos
 - Cache distribuído (Redis ou equivalente)
 - Lazy loading e otimização de queries
-- Evitar re-renderizações desnecessárias no frontend
+- Evitar re-renderizações desnecessárias
 
-### **RNF02 - Capacidade e Escalabilidade**
+### RNF02 - Capacidade e Escalabilidade
 - Suportar pelo menos 50 usuários simultâneos
-- Máximo 1000 usuários cadastrados
-- Máximo 100 grupos
-- Máximo 10.000 despesas
+- Até 1000 usuários cadastrados
+- Até 100 grupos
+- Até 10.000 despesas
 - Arquitetura modular ou microsserviços
-- Preparação para load balancing futuro
+- Preparação para load balancing
 
-### **RNF03 - Segurança**
-- Senhas criptografadas (hash + salt)
+### RNF03 - Segurança
+- Senhas criptografadas
 - Sessões seguras com JWT e refresh token
-- OAuth2 para login social (Google)
+- OAuth2 para login social
 - 2FA opcional via OTP
-- Proteção contra OWASP Top 10 (SQL Injection, XSS, CSRF)
+- Proteção contra OWASP Top 10
 - HTTPS obrigatório em produção
-- Rate limiting para prevenir ataques
+- Rate limiting
 - Cabeçalhos de segurança (CSP, HSTS, X-Frame-Options)
 
-### **RNF04 - Usabilidade e Acessibilidade**
-- Interface intuitiva (máximo 3 cliques para funcionalidades principais)
-- Interface responsiva (mobile-first)
+### RNF04 - Usabilidade e Acessibilidade
+- Interface intuitiva (máximo 3 cliques para funções principais)
+- Interface responsiva
 - Contraste adequado de cores
 - Textos alternativos para imagens
 - Navegação por teclado
 - Compatibilidade com leitores de tela
-- Feedback visual claro e em tempo real
-- Animações suaves e não invasivas
+- Feedback visual em tempo real
+- Animações suaves
 
-### **RNF05 - Confiabilidade**
-- 95% de disponibilidade durante horário comercial
+### RNF05 - Confiabilidade
+- 95% de disponibilidade em horário comercial
 - Backup automático diário do banco de dados
-- Mensagens de erro claras e acionáveis
+- Mensagens de erro claras
 - Não perder dados do usuário em caso de erro
 - Logs de erro detalhados para debug
 - Monitoramento de saúde da aplicação
 
-### **RNF06 - Manutenibilidade e DevOps**
+### RNF06 - Manutenibilidade e DevOps
 - Código bem estruturado com padrões consistentes
 - Separação clara de responsabilidades (MVC)
 - Comentários em funções complexas
@@ -161,7 +145,7 @@ Desenvolver uma aplicação web para **controle financeiro compartilhado** que p
 - Containerização com Docker
 - Documentação técnica completa (Swagger/OpenAPI)
 
-### **RNF07 - Portabilidade e Compatibilidade**
+### RNF07 - Portabilidade e Compatibilidade
 - Compatibilidade com Chrome, Firefox, Edge (versões atuais)
 - Responsividade: Mobile (320px+), Tablet (768px+), Desktop (1024px+)
 - Containerização com Docker
@@ -171,56 +155,56 @@ Desenvolver uma aplicação web para **controle financeiro compartilhado** que p
 
 ---
 
-## 🔧 **Stack Tecnológica**
+## Stack Tecnológica
 
-### **Frontend**
-- **Framework:** React 19+
-- **Build Tool:** Vite 7+
-- **Styling:** CSS/TailwindCSS
-- **Roteamento:** React Router
-- **Estado Global:** Context API ou Redux
-- **HTTP Client:** Axios ou Fetch API
-- **Testing:** Jest + React Testing Library
+### Frontend
+- Framework: React 19+
+- Build Tool: Vite 7+
+- Styling: CSS/TailwindCSS
+- Roteamento: React Router
+- Estado Global: Context API ou Redux
+- HTTP Client: Axios ou Fetch API
+- Testing: Jest + React Testing Library
 
-### **Backend**
-- **Linguagem:** Java 21+
-- **Framework:** Spring Boot 3.5+
-- **Security:** Spring Security + JWT
-- **Database:** PostgreSQL 15+
-- **ORM:** JPA/Hibernate
-- **Cache:** Redis (futuro)
-- **Testing:** JUnit 5 + Mockito
+### Backend
+- Linguagem: Java 21+
+- Framework: Spring Boot 3.5+
+- Security: Spring Security + JWT
+- Database: PostgreSQL 15+
+- ORM: JPA/Hibernate
+- Cache: Redis (futuro)
+- Testing: JUnit 5 + Mockito
 
-### **Infraestrutura**
-- **Containerização:** Docker + Docker Compose
-- **CI/CD:** GitHub Actions
-- **Documentação:** MkDocs Material + Swagger/OpenAPI
-- **Monitoramento:** Spring Actuator
-- **Deploy:** Heroku/Railway (MVP)
+### Infraestrutura
+- Containerização: Docker + Docker Compose
+- CI/CD: GitHub Actions
+- Documentação: MkDocs Material + Swagger/OpenAPI
+- Monitoramento: Spring Actuator
+- Deploy: Heroku/Railway (MVP)
 
 ---
 
-## 📊 **Regras de Negócio**
+## Regras de Negócio
 
-### **RN01 - Usuários e Grupos**
+### RN01 - Usuários e Grupos
 - Um usuário pode participar de múltiplos grupos
 - Um grupo deve ter pelo menos 2 participantes
 - Apenas o administrador pode excluir o grupo
 - Usuários podem sair de grupos voluntariamente
 
-### **RN02 - Despesas**
+### RN02 - Despesas
 - Valor da despesa deve ser positivo e maior que zero
 - Data da despesa não pode ser futura
 - Participantes da divisão devem ser membros do grupo
 - Soma das divisões deve igualar o valor total
 
-### **RN03 - Saldos**
+### RN03 - Saldos
 - Saldos são calculados automaticamente
 - Valores positivos indicam crédito
 - Valores negativos indicam débito
 - Simplificação de dívidas para minimizar transações
 
-### **RN04 - Segurança**
+### RN04 - Segurança
 - Usuários só acessam grupos dos quais participam
 - Apenas criador pode editar/excluir suas despesas
 - Tokens JWT expiram em 24 horas
@@ -228,23 +212,23 @@ Desenvolver uma aplicação web para **controle financeiro compartilhado** que p
 
 ---
 
-## 🎯 **Critérios de Aceitação do MVP**
+## Critérios de Aceitação do MVP
 
-### **Funcional**
+### Funcional
 - [x] Usuário consegue se cadastrar e fazer login
 - [x] Usuário consegue criar e participar de grupos
 - [x] Usuário consegue registrar despesas compartilhadas
 - [x] Sistema calcula saldos automaticamente
 - [x] Interface é responsiva e intuitiva
 
-### **Técnico**
+### Técnico
 - [ ] Cobertura de testes > 80%
 - [ ] Performance adequada (carregamento < 4s)
 - [x] Segurança implementada (JWT, validações)
 - [x] Documentação completa
 - [x] Deploy automatizado funcionando
 
-### **Qualidade**
+### Qualidade
 - [x] Código segue padrões estabelecidos
 - [x] Interface acessível e usável
 - [x] Tratamento adequado de erros
@@ -252,28 +236,28 @@ Desenvolver uma aplicação web para **controle financeiro compartilhado** que p
 
 ---
 
-## 📈 **Priorização (MoSCoW)**
+## Priorização (MoSCoW)
 
-### **Must Have (Obrigatório)**
+### Must Have (Obrigatório)
 - Autenticação básica (RF01, RF02)
 - Gestão de grupos (RF03)
 - Registro de despesas (RF04)
 - Cálculo de saldos (RF05)
 - Interface responsiva (RF10)
 
-### **Should Have (Importante)**
+### Should Have (Importante)
 - Dashboard principal (RF06)
 - Categorias de despesas (RF07)
 - Navegação avançada (RF10)
 - Listagem otimizada (RF11)
 
-### **Could Have (Desejável)**
+### Could Have (Desejável)
 - Metas de economia (RF08)
 - Alertas simples (RF09)
 - Personalização (RF12)
 - Exportação de relatórios
 
-### **Won't Have (Não será feito no MVP)**
+### Won't Have (Não será feito no MVP)
 - Login social completo (apenas Google)
 - Notificações push
 - Integração bancária
@@ -283,15 +267,15 @@ Desenvolver uma aplicação web para **controle financeiro compartilhado** que p
 
 ---
 
-## 📚 **Contexto Acadêmico**
+## Contexto Acadêmico
 
-### **Restrições do Projeto**
-- **Prazo:** Até dezembro de 2025
-- **Equipe:** 10 pessoas (6 backend, 2 frontend, 1 gestão, 1 design)
-- **Orçamento:** Projeto acadêmico (sem orçamento para serviços pagos)
-- **Foco:** Demonstrar competências técnicas do curso
+### Restrições do Projeto
+- Prazo: Até dezembro de 2025
+- Equipe: 10 pessoas (6 backend, 2 frontend, 1 gestão, 1 design)
+- Orçamento: Projeto acadêmico (sem orçamento para serviços pagos)
+- Foco: Demonstrar competências técnicas do curso
 
-### **Alinhamento com Requisitos do Curso**
+### Alinhamento com Requisitos do Curso
 
 **Backend:**
 - ✅ Autenticação e segurança (OAuth2, JWT, 2FA)

@@ -1,141 +1,135 @@
-# 🚀 FinBoost+ - Documentação
+# FinBoost+ — Documentação
 
-Bem-vindo à documentação completa do **FinBoost+**, uma aplicação moderna de **controle financeiro compartilhado** desenvolvida como projeto final de curso.
+Bem-vindo à documentação do **FinBoost+**, um sistema web moderno para controle financeiro pessoal e compartilhado, desenvolvido como projeto final do curso **Desenvolvimento Full-Stack Jr – +Prati & Codifica**.
 
-## 📱 Sobre o Projeto
+## Sobre o Projeto
 
-O **FinBoost+** é uma aplicação web fullstack que permite aos usuários:
+O **FinBoost+** é uma aplicação fullstack que permite aos usuários gerenciar finanças e compartilhar despesas em grupo de forma intuitiva e eficiente.
 
-- 💰 **Controlar despesas pessoais** de forma intuitiva
-- 👥 **Compartilhar gastos em grupos** com amigos e família
-- 📊 **Visualizar dados financeiros** através de gráficos interativos
-- 📱 **Acessar de qualquer dispositivo** com design responsivo
-- 🌓 **Personalizar a experiência** com temas claro e escuro
+### Principais Funcionalidades
 
-## 🛠️ Stack Tecnológico
+- **Controle financeiro** com categorização de despesas e receitas
+- **Gestão compartilhada** para divisão de gastos em grupos (família, amigos, viagens)
+- **Visualização de dados** através de gráficos interativos e relatórios
+- **Interface responsiva** com suporte a temas claro/escuro
+- **Autenticação segura** com JWT e controle de sessões
+- **Sugestões inteligentes** com apoio de inteligência artificial
 
-### Frontend
-- **React 19.1.0** - Interface moderna e reativa
-- **Vite 7.0.3** - Build tool rápida e eficiente
-- **TailwindCSS 4.1.11** - Estilização utilitária
-- **HeadlessUI 2.2.4** - Componentes acessíveis
-- **Recharts 3.1.0** - Gráficos interativos
+### Stack Tecnológico
 
-### Backend
-- **Java Spring Boot** - Framework robusto para APIs
-- **Spring Security** - Autenticação e autorização
-- **PostgreSQL** - Banco de dados relacional
-- **Docker** - Containerização e deploy
+**Frontend:**
+- React 19.1.0 com Vite 7.0.3
+- TailwindCSS 4.1.11 para estilização
+- HeadlessUI 2.2.4 para componentes acessíveis
+- Recharts 3.1.0 para visualização de dados
 
-## 📚 Navegação da Documentação
+**Backend:**
+- Java Spring Boot com Spring Security
+- PostgreSQL para persistência de dados
+- Docker para containerização
+- JWT para autenticação
 
-### 📋 **Projeto**
-Visão geral, requisitos, user stories e diagramas do sistema.
+## Estrutura da Documentação
 
-- [📖 Visão Geral](project/overview.md) - Contexto e objetivos do projeto
-- [📝 Requisitos](project/requirements.md) - Requisitos funcionais e não funcionais
-- [👤 User Stories](project/user-stories.md) - Histórias de usuário
-- [📊 Diagramas](project/diagrams.md) - Diagramas do sistema
-- [🎭 Personas](project/personas.md) - Perfis de usuários
+Esta documentação está organizada para atender diferentes públicos e necessidades:
 
-### 🎨 **Frontend**
-Documentação completa da interface React.
+### Para Usuários
+**[Guia do Usuário](user_guide/intro.md)** - Como instalar, configurar e utilizar a aplicação
 
-- [🏠 Visão Geral](frontend/index.md) - Introdução ao frontend
-- [🚀 Getting Started](frontend/getting-started.md) - Como executar o projeto
-- [🏗️ Arquitetura](frontend/architecture.md) - Estrutura e padrões
-- [🧩 Componentes](frontend/components.md) - Biblioteca de componentes
-- [📄 Páginas](frontend/pages.md) - Páginas da aplicação
-- [🪝 Hooks](frontend/hooks.md) - Hooks personalizados
-- [🎨 Styling](frontend/styling.md) - Sistema de design e CSS
+### Para Avaliadores e Recrutadores
+**[Sobre o Projeto](project/overview.md)** - Contexto, objetivos e decisões técnicas tomadas durante o desenvolvimento
 
-### ⚙️ **Backend**
-Documentação da API e serviços.
+### Para Desenvolvedores
+**[Arquitetura e API](technical/architecture.md)** - Estrutura técnica detalhada e documentação da API
 
-- [🏠 Visão Geral](backend/index.md) - Introdução ao backend
-- [🚀 Getting Started](backend/getting-started.md) - Setup do ambiente
-- [🏗️ Arquitetura](backend/architecture.md) - Estrutura do backend
-- [🔌 API Endpoints](backend/api-endpoints.md) - Documentação das APIs
-- [🗄️ Database](backend/database.md) - Modelo de dados
-- [🔐 Autenticação](backend/authentication.md) - Sistema de auth
+**[Frontend](frontend/structure.md)** e **[Backend](backend/structure.md)** - Padrões de código e estrutura dos projetos
 
-## 🎯 Características Principais
+### Transparência
+**[Transparência de IA](ai_docs/ai_usage.md)** - Registro completo do uso de inteligência artificial no desenvolvimento
 
-### ✨ **Interface Moderna**
-- Design responsivo e intuitivo
-- Tema claro/escuro
-- Componentes acessíveis
-- Experiência mobile-first
+## Diagrama de Arquitetura
 
-### 🔒 **Segurança**
-- Autenticação JWT
-- Criptografia de dados sensíveis
-- Validação robusta
-- Proteção CORS
+```mermaid
+flowchart TD
+    A[Cliente/Usuário] -->|HTTPS| B[Frontend React]
+    B -->|API REST| C[Backend Spring Boot]
+    C -->|JPA/Hibernate| D[(PostgreSQL)]
+    C -->|JWT| E[Autenticação]
+    C -->|Processamento| F[Lógica de Negócio]
+    F -->|Sugestões| G[Módulo IA]
+    B -->|Gráficos| H[Recharts]
+    B -->|UI/UX| I[TailwindCSS + HeadlessUI]
+```
 
-### 📊 **Visualização de Dados**
-- Gráficos interativos
-- Relatórios personalizados
-- Métricas em tempo real
-- Exportação de dados
-
-### 👥 **Colaboração**
-- Grupos de despesas
-- Convites por email
-- Divisão automática de gastos
-- Notificações em tempo real
-
-## 🚀 Quick Start
+## Quick Start
 
 ### Pré-requisitos
-- Node.js 18+ 
+- Node.js 18+
 - Java 17+
 - PostgreSQL 13+
-- Docker (opcional)
+- Git
 
-### Executar Frontend
+### Executar o Projeto Localmente
+
+**Frontend:**
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-### Executar Backend
+**Backend:**
 ```bash
 cd backend/finboostplus_teste
 ./mvnw spring-boot:run
 ```
 
-## 📊 Status do Projeto
+A aplicação estará disponível em `http://localhost:3000` (frontend) e `http://localhost:8080` (backend).
 
-| **Componente** | **Status** | **Progresso** |
-|----------------|------------|---------------|
-| 🎨 Frontend | ✅ Em desenvolvimento | 80% |
-| ⚙️ Backend | ✅ Em desenvolvimento | 70% |
-| 🗄️ Database | ✅ Modelado | 90% |
-| 📱 Responsivo | ✅ Implementado | 95% |
-| 🧪 Testes | 🟡 Planejado | 0% |
-| 🚀 Deploy | 🟡 Planejado | 0% |
+## Características Técnicas
 
-## 👨‍💻 Sobre o Desenvolvimento
+### Arquitetura
+- **Separação clara** entre frontend e backend
+- **API RESTful** seguindo padrões REST
+- **Autenticação stateless** com JWT
+- **Design responsivo** mobile-first
 
-Este projeto foi desenvolvido como **trabalho final de curso** com foco em:
+### Qualidade de Código
+- **Padrões de desenvolvimento** documentados e seguidos
+- **Testes automatizados** para frontend e backend
+- **Documentação abrangente** de código e APIs
+- **Versionamento semântico** e controle de branches
 
-- **Arquitetura Moderna**: Padrões atuais de desenvolvimento
-- **Boas Práticas**: Clean Code e SOLID principles
-- **Documentação**: Documentação técnica completa
-- **Tecnologias Atuais**: Stack moderno e relevante
+### Segurança
+- **Autenticação JWT** com refresh tokens
+- **Validação de dados** no frontend e backend
+- **Proteção contra ataques** comuns (XSS, CSRF)
+- **Configuração segura** de CORS e headers
 
-## 📞 Suporte
+## Sobre o Desenvolvimento
 
-Para dúvidas sobre a documentação ou o projeto:
+Este projeto foi desenvolvido com foco em:
 
-- 📧 **Email**: contato@finboostplus.com
-- 💬 **Issues**: [GitHub Issues](https://github.com/seu-usuario/finboostplus-app/issues)
-- 📖 **Docs**: Esta documentação
+- **Aplicação de conhecimentos** adquiridos durante o curso
+- **Boas práticas** de desenvolvimento (Clean Code, SOLID)
+- **Arquitetura escalável** e manutenível
+- **Documentação técnica** completa e acessível
+- **Transparência** no uso de ferramentas de IA
+
+## Links Importantes
+
+- **Repositório:** [GitHub - FinBoost+](https://github.com/Finboostplus/finboostplus-app)
+- **Wiki de Desenvolvimento:** [GitHub Wiki](https://github.com/Finboostplus/finboostplus-app/wiki)
+- **Documentação da API:** [Swagger/Scalar](technical/api_interactive.md)
+
+## Suporte e Contato
+
+- **Email:** finboostplus@gmail.com
+- **Issues:** [GitHub Issues](https://github.com/Finboostplus/finboostplus-app/issues)
 
 ---
 
-**💡 Esta documentação é um trabalho em progresso. Contribuições e melhorias são sempre bem-vindas!**
+!!! note "Sobre esta documentação"
+Esta documentação é continuamente atualizada conforme o desenvolvimento do projeto. Para informações técnicas detalhadas sobre o processo de desenvolvimento, consulte também nossa [Wiki no GitHub](https://github.com/Finboostplus/finboostplus-app/wiki).
 
-**🎓 Projeto desenvolvido como trabalho final de curso - 2025**
+*Projeto desenvolvido como trabalho final de curso - 2025*

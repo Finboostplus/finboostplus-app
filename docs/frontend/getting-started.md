@@ -1,183 +1,119 @@
-# 🚀 Getting Started - Frontend FinBoost+
+# Getting Started - Frontend FinBoost+
 
-## 📋 Pré-requisitos
+## Pré-requisitos
 
-Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em seu sistema:
+Antes de iniciar, certifique-se de ter instalado:
+- Node.js 18.0.0 ou superior
+- npm 8.0.0 ou superior (ou yarn)
+- Git
+- (Opcional) VS Code como editor
 
-### Obrigatórios
-- **[Node.js](https://nodejs.org/)** (versão 18.0.0 ou superior)
-- **[npm](https://www.npmjs.com/)** (versão 8.0.0 ou superior) ou **[yarn](https://yarnpkg.com/)**
-- **[Git](https://git-scm.com/)** para controle de versão
-
-### Recomendados
-- **[VS Code](https://code.visualstudio.com/)** como editor de código
-
-### Verificação das Versões
-
+Verifique as versões:
 ```bash
-# Verificar versão do Node.js
 node --version
-# Deve retornar v18.0.0 ou superior
-
-# Verificar versão do npm
 npm --version
-# Deve retornar 8.0.0 ou superior
-
-# Verificar versão do Git
 git --version
 ```
 
-## 📥 Instalação
+## Instalação
 
-### 1. Clone do Repositório
-
+1. Clone o repositório:
 ```bash
-# Clone o repositório do projeto
 git clone https://github.com/seu-usuario/finboostplus-app-develop.git
-
-# Navegue para o diretório do projeto
-cd finboostplus-app-develop
-
-# Entre na pasta do frontend
-cd frontend
+cd finboostplus-app-develop/frontend
 ```
-
-### 2. Instalação das Dependências
-
+2. Instale as dependências:
 ```bash
-# Instale as dependências usando npm
 npm install
-
-# OU usando yarn (se preferir)
+# ou
 yarn install
 ```
-
-### 3. Configuração de Variáveis de Ambiente
-
-Crie um arquivo `.env.local` na raiz da pasta `frontend/` com as seguintes variáveis:
-
+3. Configure as variáveis de ambiente:
+Crie um arquivo `.env.local` na pasta `frontend/`:
 ```bash
-# URL da API do backend
 VITE_API_URL=http://localhost:8080/api
-
-# Outras configurações opcionais
 VITE_APP_NAME="FinBoost+"
 VITE_APP_VERSION="1.0.0"
 ```
 
-## 🏃‍♂️ Executando o Projeto
+## Execução
 
-### Modo Desenvolvimento
-
+Para rodar em modo desenvolvimento:
 ```bash
-# Inicia o servidor de desenvolvimento
 npm run dev
-
-# OU usando yarn
+# ou
 yarn dev
 ```
+Acesse: http://localhost:5173/
 
-O servidor será iniciado em `http://localhost:5173/` e abrirá automaticamente no seu navegador padrão.
-
-### Características do Modo Desenvolvimento
-- **Hot Module Replacement (HMR)**: Atualizações automáticas sem recarregar a página
-- **Source Maps**: Facilita o debugging
-- **Erro Overlay**: Exibe erros diretamente na tela
-- **Fast Refresh**: Preserva o estado dos componentes durante atualizações
-
-## 📦 Scripts Disponíveis
+## Scripts Disponíveis
 
 ```bash
-# 🔧 Desenvolvimento
-npm run dev          # Inicia servidor de desenvolvimento (porta 5173)
-npm run preview      # Preview do build de produção
-
-# 🏗️ Build e Produção
-npm run build        # Gera build otimizado para produção
-npm run build:stats  # Build com análise de bundle size
-
-# 🧹 Qualidade de Código
-npm run lint         # Executa ESLint para análise de código
-npm run lint:fix     # Corrige automaticamente problemas do ESLint
-npm run format       # Formata código com Prettier
-npm run format:check # Verifica se o código está formatado corretamente
-
-# 🧪 Testes
-npm run test         # Executa testes unitários com Vitest
-npm run test:watch   # Executa testes em modo watch
-npm run test:coverage # Gera relatório de cobertura de testes
+npm run dev           # Servidor de desenvolvimento
+npm run preview       # Preview do build de produção
+npm run build         # Build otimizado para produção
+npm run build:stats   # Build com análise de bundle
+npm run lint          # Análise de código (ESLint)
+npm run lint:fix      # Corrige problemas do ESLint
+npm run format        # Formata código (Prettier)
+npm run format:check  # Verifica formatação
+npm run test          # Testes unitários (Vitest)
+npm run test:watch    # Testes em modo watch
+npm run test:coverage # Relatório de cobertura
 ```
 
-## 🌐 Estrutura de URLs
+## Estrutura de URLs
 
-Quando a aplicação estiver rodando, você terá acesso às seguintes rotas:
+Rotas públicas:
+- `/` Página inicial
+- `/login` Login
+- `/register` Cadastro
+- `/forgotPassword` Redefinição de senha
 
-### Rotas Públicas
-- `http://localhost:5173/` - Página inicial (redirecionamento)
-- `http://localhost:5173/login` - Página de login
-- `http://localhost:5173/register` - Página de cadastro
-- `http://localhost:5173/forgotPassword` - Página de redefinição de senha
+Rotas protegidas (autenticado):
+- `/` Dashboard
+- `/profile` Perfil
+- `/profile/edit` Editar perfil
+- `/groups` Listar grupos
+- `/groups/{groupId}` Detalhes do grupo
+- `/groups/{groupId}/edit` Editar grupo
+- `/groups/{groupId}/members` Gestão de membros
+- `/groups/{groupId}/members/{userId}` Detalhes do membro
+- `/groups/{groupId}/expenses` Gestão de despesas
+- `/groups/{groupId}/expenses/{expenseId}` Detalhes da despesa
+- `/groups/{groupId}/expenses/{expenseId}/edit` Editar despesa
 
-### Rotas Protegidas (requer autenticação)
-- `http://localhost:5173/` - Dashboard principal
-- `http://localhost:5173/profile` - Perfil do usuário
-- `http://localhost:5173/profile/edit` - Edição do perfil
-- `http://localhost:5173/groups` - Listar grupos
-- `http://localhost:5173/groups/{groupId}` - Detalhes do grupo
-- `http://localhost:5173/groups/{groupId}/edit` - Edição do grupo
-- `http://localhost:5173/groups/{groupId}/members` - Gestão de membros | Transferência de dono do grupo
-- `http://localhost:5173/groups/{groupId}/members/{userId}` - Detalhes do membro
-- `http://localhost:5173/groups/{groupId}/expenses` - Gestão de despesas
-- `http://localhost:5173/groups/{groupId}/expenses/{expenseId}` - Detalhes da despesa
-- `http://localhost:5173/groups/{groupId}/expenses/{expenseId}/edit` - Edição da despesa
+## Troubleshooting
 
-## 🐛 Troubleshooting
+- **Porta em uso:**
+  ```bash
+  npm run dev -- --port 3000
+  ```
+- **Erro de dependências:**
+  ```bash
+  npm cache clean --force
+  rm -rf node_modules package-lock.json
+  npm install
+  ```
+- **Erro de permissões (Windows):**
+  Execute o PowerShell como administrador:
+  ```bash
+  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+  ```
+- **Problemas com ESLint/Prettier:**
+  ```bash
+  npm install --save-dev eslint prettier @eslint/js
+  ```
 
-### Problemas Comuns
+## Integração com Backend
 
-#### 1. Erro de Porta em Uso
+- Certifique-se de que o backend está rodando na porta correta (8080)
+- CORS habilitado no backend
+- Variável VITE_API_URL configurada corretamente
 
-```bash
-# Se a porta 5173 estiver em uso, você pode especificar uma porta diferente
-npm run dev -- --port 3000
-```
+## Próximos Passos
 
-#### 2. Erro de Dependências
-
-```bash
-# Limpe o cache do npm e reinstale as dependências
-npm cache clean --force
-rm -rf node_modules package-lock.json
-npm install
-```
-
-#### 3. Erro de Permissões (Windows)
-
-```bash
-# Execute o PowerShell como administrador e execute:
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
-
-#### 4. Problemas com ESLint/Prettier
-
-```bash
-# Reinstale as dependências de desenvolvimento
-npm install --save-dev eslint prettier @eslint/js
-```
-
-## 🔗 Integração com Backend
-
-Para conectar com o backend, certifique-se de que:
-
-1. **Backend está executando** na porta configurada (geralmente 8080)
-2. **CORS está habilitado** no backend para a origem do frontend
-3. **Variável VITE_API_URL** está configurada corretamente no `.env.local`
-
-## 🎯 Próximos Passos
-
-Agora que você tem o ambiente configurado:
-
-1. **📖 Leia a [Arquitetura](architecture.md)** - Entenda como o projeto está estruturado
-2. **🧩 Explore os [Componentes](components.md)** - Conheça os componentes disponíveis
-3. **📄 Veja as [Páginas](pages.md)** - Understand as páginas da aplicação
-4. **🪝 Aprenda sobre [Hooks](hooks.md)** - Hooks personalizados disponíveis
+- Leia a [Arquitetura](architecture.md)
+- Explore os [Componentes](components.md)
+- Veja as [Páginas](pages.md)
+- Aprenda sobre [Hooks](hooks.md)
