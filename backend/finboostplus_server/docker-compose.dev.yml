@@ -10,7 +10,7 @@ services:
       db:
         condition: service_healthy
     volumes:
-      - .:/build               # Código fonte montado (hot reload)
+      - .:/build                # Código fonte montado (hot reload)
       - maven-repo:/root/.m2    # Cache de dependências Maven
     environment:
       # Variáveis de conexão (application.properties usa placeholders)
@@ -38,6 +38,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  # Adminer para gerenciamento do banco (opcional)
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: unless-stopped
+    ports:
+      - "8081:8080"  # Mudei para 8081 para não conflitar com o servidor
+    profiles:
+      - dev
+# Redes
 volumes:
   db-data:
   maven-repo:

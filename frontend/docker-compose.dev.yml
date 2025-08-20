@@ -4,18 +4,6 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: finboostplus-frontend
-    ports:
-      - "3000:80"
-    restart: unless-stopped
-    networks:
-      - finboostplus-network
-
-  # Serviço para desenvolvimento (opcional)
-  frontend-dev:
-    build:
-      context: .
       dockerfile: Dockerfile.dev
     container_name: finboostplus-frontend-dev
     ports:
@@ -28,8 +16,6 @@ services:
     restart: unless-stopped
     networks:
       - finboostplus-network
-    profiles:
-      - dev
 
 networks:
   finboostplus-network:
