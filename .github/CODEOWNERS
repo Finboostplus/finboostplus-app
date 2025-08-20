@@ -4,8 +4,14 @@
 # Responsável pelo diretório backend
 /backend/ @Bruno-Pimenta
 
-# Responsável pelas configurações do GitHub Actions
-/.github/workflows/* @Alan-oliveir
+# Responsável pelo diretório docs
+/docs/ @Alan-oliveir
+
+# Responsável pelo diretório project_docs
+/project_docs/ @Alan-oliveir
+
+# Responsável pelas configurações do GitHub
+/.github/ @Alan-oliveir
 
 # Responsável por todo o repositório (fallback)
 * @Alan-oliveir
