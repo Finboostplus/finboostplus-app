@@ -44,9 +44,7 @@ services:
     container_name: adminer
     restart: unless-stopped
     ports:
-      - "8081:8080"  # Mudei para 8081 para não conflitar com o servidor
-    profiles:
-      - dev
+      - "8081:8080"  # 8081 para não conflitar com o servidor
 # Redes
 volumes:
   db-data:
