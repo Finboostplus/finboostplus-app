@@ -15,14 +15,14 @@ import java.time.LocalDateTime;
 public class Expense {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_expense")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_expense")
     private Long id;
 
     private Double value;
 
     private String tile;
 
-    private String  description;
+    private String description;
 
     @Column(name = "deadline_date")
     private LocalDateTime deadlineDate;
@@ -36,5 +36,5 @@ public class Expense {
 
     @ManyToOne
     @JoinColumn(name = "id_group")
-    private  Group group;
+    private Group group;
 }

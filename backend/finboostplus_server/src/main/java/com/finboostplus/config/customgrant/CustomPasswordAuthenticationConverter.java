@@ -19,6 +19,20 @@ import org.springframework.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class CustomPasswordAuthenticationConverter implements AuthenticationConverter {
+    private static MultiValueMap<String, String> getParameters(HttpServletRequest request) {
+
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>(parameterMap.size());
+        parameterMap.forEach((key, values) -> {
+            if (values.length > 0) {
+                for (String value : values) {
+                    parameters.add(key, value);
+                }
+            }
+        });
+        return parameters;
+    }
+
     @Nullable
     @Override
     public Authentication convert(HttpServletRequest request) {
@@ -68,19 +82,5 @@ public class CustomPasswordAuthenticationConverter implements AuthenticationConv
 
         Authentication clientPrincipal = SecurityContextHolder.getContext().getAuthentication();
         return new CustomPasswordAuthenticationToken(clientPrincipal, requestedScopes, additionalParameters);
-    }
-
-    private static MultiValueMap<String, String> getParameters(HttpServletRequest request) {
-
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>(parameterMap.size());
-        parameterMap.forEach((key, values) -> {
-            if (values.length > 0) {
-                for (String value : values) {
-                    parameters.add(key, value);
-                }
-            }
-        });
-        return parameters;
     }
 }

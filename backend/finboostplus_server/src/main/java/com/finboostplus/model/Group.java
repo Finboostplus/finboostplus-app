@@ -14,29 +14,27 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tb_group")
-@SequenceGenerator(name = "seq_group",sequenceName = "seq_group",allocationSize = 1,initialValue = 1)
+@SequenceGenerator(name = "seq_group", sequenceName = "seq_group", allocationSize = 1, initialValue = 1)
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Group {
 
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    public Set<Expense> expenses;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_group")
     private Long id;
-
     private String name;
-
     private String description;
-
     @Column(name = "created_at")
     @CreatedDate
-    private LocalDateTime createdAt ;
-
-    @Column(name = "group_creator_id")
-    private Long GroupCreatorId;
+    private LocalDateTime createdAt;
 
 //   @OneToMany(mappedBy = "group" , cascade = CascadeType.ALL, orphanRemoval = true)
 //    private Set<MemberGroup> memberGroups = new HashSet<>();
+    @Column(name = "group_creator_id")
+    private Long GroupCreatorId;
 
     public Long getId() {
         return id;
@@ -58,10 +56,6 @@ public class Group {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
 //    public Set<MemberGroup> getMemberGroups() {
 //        return memberGroups;
 //    }
@@ -70,8 +64,10 @@ public class Group {
 //        this.memberGroups = memberGroups;
 //    }
 
-    @OneToMany(mappedBy = "group",cascade = CascadeType.ALL,orphanRemoval = true)
-    public Set<Expense> expenses;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public String getName() {
         return name;
     }

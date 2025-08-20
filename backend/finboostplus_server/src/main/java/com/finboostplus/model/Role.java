@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+
 import java.util.Objects;
 
 @Data
@@ -13,7 +14,7 @@ import java.util.Objects;
 @SuppressWarnings("serial")
 @Table(name = "roles")
 @Entity
-public class Role implements GrantedAuthority{
+public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

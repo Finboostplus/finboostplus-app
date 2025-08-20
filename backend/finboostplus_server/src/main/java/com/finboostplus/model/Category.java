@@ -20,11 +20,11 @@ import java.util.Set;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_category")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_category")
     private Long id;
     @Column(unique = true)
     private String name;
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Expense> expenses;
 
     public String getName() {

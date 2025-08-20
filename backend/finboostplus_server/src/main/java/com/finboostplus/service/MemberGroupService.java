@@ -24,19 +24,19 @@ public class MemberGroupService {
     @Autowired
     GroupMemberRepository groupMemberRepository;
 
-    public void  addUserGroup(UserRequestDTO userRequestDTO, GroupDto groupDto, String authorization){
+    public void addUserGroup(UserRequestDTO userRequestDTO, GroupDto groupDto, String authorization) {
         Optional<User> userOptional = userRepository.findByEmailIgnoreCase(userRequestDTO.email());
         var user = userOptional.get();
 
         Optional<Group> groupOptional = groupRepository.findById(Long.parseLong(String.valueOf(groupDto.id())));
         var group = groupOptional.get();
 
-        if(user !=null && group != null){
+        if (user != null && group != null) {
             GroupMember members = new GroupMember();
             members.setUser(user);
             members.setGroup(group);
             members.setAuthorization(authorization);
-            members.setId(new GroupMemberId(user.getId(),group.getId()));
+            members.setId(new GroupMemberId(user.getId(), group.getId()));
             groupMemberRepository.save(members);
         }
 

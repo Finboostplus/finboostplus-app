@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface GroupMemberRepository extends JpaRepository<GroupMember,Long> {
+public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> {
 
     /*
         SELECT u.user_name , u.e_mail FROM users u

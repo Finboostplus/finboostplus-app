@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 public class FinboostplusApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FinboostplusApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FinboostplusApplication.class, args);
+    }
 
 }

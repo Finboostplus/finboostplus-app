@@ -12,7 +12,7 @@ public class UserExpenseDivision {
 
 
     @EmbeddedId
-    private  UserExpenseDivisionId id;
+    private UserExpenseDivisionId id;
 
     @ManyToOne
     @MapsId("userId")

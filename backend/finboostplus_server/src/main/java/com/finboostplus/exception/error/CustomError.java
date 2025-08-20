@@ -1,6 +1,7 @@
 package com.finboostplus.exception.error;
 
 import lombok.Data;
+
 import java.time.Instant;
 
 @Data
