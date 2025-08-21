@@ -1,171 +1,182 @@
 # Visão Geral do Projeto
 
-## Conceito
+O **FinBoost+** é uma aplicação web fullstack desenvolvida para solucionar problemas comuns no controle financeiro. O projeto nasceu da necessidade de uma ferramenta que combine simplicidade de uso com funcionalidades robustas para gestão de despesas em grupo.
 
-O **FinBoost+** é uma aplicação web fullstack para controle financeiro pessoal e compartilhado, desenvolvida como projeto final do curso Desenvolvimento Full-Stack Jr da +Prati & Codifica.
+## Contexto e Motivação
 
 ### Problema Identificado
-- Dificuldade no controle de gastos compartilhados entre grupos (amigos, família, colegas)
-- Falta de transparência sobre responsabilidades financeiras
-- Divisões manuais propensas a erros
-- Ausência de ferramentas simples para acompanhamento financeiro
 
-### Solução Proposta
-Sistema web que automatiza o registro, divisão e acompanhamento de despesas compartilhadas, com interface intuitiva e cálculos automáticos de saldos.
+O gerenciamento de finanças compartilhadas é um desafio constante em diversos cenários: divisão de contas entre amigos, controle de gastos familiares, gestão de despesas em viagens ou repúblicas estudantis. As soluções existentes frequentemente são complexas demais para uso casual ou limitadas demais para necessidades reais.
 
----
+### Nossa Solução
 
-## Objetivos
+O FinBoost+ oferece uma abordagem equilibrada, combinando funcionalidades essenciais de controle financeiro com uma interface intuitiva e recursos colaborativos eficientes.
+
+## Objetivos do Projeto
 
 ### Objetivo Principal
-Desenvolver um MVP funcional que permita criação de grupos, registro de despesas e visualização clara de saldos entre participantes.
+Criar uma plataforma web que simplifique o controle financeiro compartilhado, oferecendo transparência nas divisões de despesas e facilidade de uso para todos os perfis de usuários.
 
-### Objetivos Secundários
-- Demonstrar competências em desenvolvimento fullstack
-- Aplicar metodologias ágeis em equipe
-- Criar documentação técnica profissional
-- Implementar testes automatizados
-- Seguir boas práticas de UX/UI
+### Objetivos Específicos
 
----
+**Para Usuários Finais:**
+- Reduzir conflitos relacionados a divisão de gastos
+- Proporcionar visibilidade clara sobre saldos e débitos
+- Facilitar o acompanhamento de gastos em grupo
+- Oferecer insights através de relatórios e gráficos
 
-## Público-Alvo
+**Para o Desenvolvimento Técnico:**
+- Aplicar conhecimentos adquiridos no curso de Desenvolvimento Full-Stack
+- Demonstrar competências em arquitetura de software moderna
+- Implementar boas práticas de desenvolvimento e documentação
+- Criar um projeto que sirva como portfólio profissional
 
-### Usuários Primários
-- Estudantes que dividem moradia e gastos
-- Casais que controlam finanças em conjunto
-- Grupos de amigos que fazem viagens e atividades
-- Famílias que precisam organizar gastos domésticos
+## Arquitetura da Solução
 
-### Personas Principais
-- Ana (21, Estudante) – Divide aluguel e contas com colegas
-- João (28, Profissional) – Controla gastos com esposa
-- Grupo Viagem – Amigos que dividem custos de viagens
+```mermaid
+graph TB
+    subgraph "Cliente"
+        A[Navegador Web]
+    end
+    
+    subgraph "Frontend"
+        B[React + Vite]
+        C[TailwindCSS]
+        D[Recharts]
+    end
+    
+    subgraph "Backend"
+        E[Spring Boot]
+        F[Spring Security]
+        G[JPA/Hibernate]
+    end
+    
+    subgraph "Dados"
+        H[(PostgreSQL)]
+    end
+    
+    A --> B
+    B --> C
+    B --> D
+    B --> E
+    E --> F
+    E --> G
+    G --> H
+```
 
----
+### Decisões Arquiteturais
 
-## Escopo do MVP
+**Separação Frontend/Backend**
+- Permite desenvolvimento paralelo das equipes
+- Facilita escalabilidade e manutenção
+- Possibilita futuras integrações (app mobile)
 
-### Funcionalidades Essenciais
-- Cadastro e autenticação de usuários
-- Criação e gerenciamento de grupos
-- Registro de despesas compartilhadas
-- Cálculo automático de saldos
-- Dashboard com visão geral
-- Interface responsiva
+**Stack Tecnológico Moderna**
+- React 19 com Vite para desenvolvimento ágil e performance
+- Spring Boot 3.5+ para APIs robustas e seguras
+- PostgreSQL para confiabilidade de dados
+- JWT para autenticação stateless
 
-### Funcionalidades Futuras (pós-MVP)
-- Integração com bancos e cartões
-- Sugestões de economia com IA
-- Notificações push
-- Relatórios avançados
-- Múltiplas moedas
+**Padrões de Desenvolvimento**
+- API RESTful seguindo padrões de mercado
+- Design responsivo mobile-first
+- Validação de dados em múltiplas camadas
+- Arquitetura em camadas no backend
 
----
+## Metodologia de Desenvolvimento
 
-## Stack Tecnológico
+### Organização da Equipe
 
-### Frontend
-- React 19 – Interface de usuário
-- Vite 7 – Build tool e dev server
-- TailwindCSS 4 – Estilização
-- React Router – Roteamento
-- Recharts – Gráficos
+O projeto foi desenvolvido por uma equipe multidisciplinar dividida em frentes especializadas:
 
-### Backend
-- Java 21 – Linguagem principal
-- Spring Boot 3.5 – Framework
-- Spring Security – Autenticação
-- PostgreSQL 15 – Banco de dados
-- Docker – Containerização
+- **Gestão de Projeto**: Coordenação, planejamento e integração
+- **Backend**: API, banco de dados e segurança
+- **Frontend**: Interface, experiência do usuário e integrações
 
-### Infraestrutura
-- GitHub – Versionamento
-- GitHub Actions – CI/CD
-- MkDocs – Documentação
-- Vitest – Testes frontend
-- JUnit – Testes backend
+### Processo de Desenvolvimento
 
----
+**Planejamento Inicial**
+1. Definição de requisitos e MVP
+2. Criação de personas e histórias de usuário
+3. Design da arquitetura e banco de dados
+4. Estabelecimento de padrões de código
 
-## Métricas de Sucesso
+**Desenvolvimento Iterativo**
+1. Sprints focadas em funcionalidades completas
+2. Integração contínua entre frontend e backend
+3. Testes regulares e validação
+4. Documentação paralela ao desenvolvimento
 
-### Técnicas
-- Cobertura de testes > 80%
-- Performance (FCP < 1.5s)
-- Responsividade completa
-- Zero vulnerabilidades críticas
+### Ferramentas e Práticas
 
-### Funcionais
-- Usuário consegue criar grupo em menos de 1 minuto
-- Registro de despesa em menos de 30 segundos
-- Visualização de saldos instantânea
-- Interface intuitiva (sem necessidade de tutorial)
+**Controle de Versão**
+- Git com metodologia GitFlow
+- Pull Requests obrigatórios
+- Code review entre pares
 
-### Acadêmicas
-- Entrega no prazo (10/12/2025)
-- Documentação completa
-- Apresentação técnica
-- Trabalho em equipe efetivo
+**Documentação**
+- Documentação técnica detalhada (MkDocs)
+- Wiki para documentação interna (GitHub Wiki)
+- Documentação de API interativa (Swagger)
+- Registro de decisões arquiteturais
 
----
+**Qualidade de Código**
+- Padrões de commit semântico
+- Testes automatizados frontend e backend
+- Análise de cobertura de código
+- Revisões regulares de código
 
-## Equipe
+## Diferenciais da Solução
 
-### Gestão
-- Alan Oliveira – Product Owner & DevOps
+### Técnicos
 
-### Backend (Java/Spring)
-- Bruno – Tech Lead Backend
-- Cristiano – Developer
-- Eduardo – Developer
-- João – Developer
-- Pedro – Developer
-- Alisson – Developer
-- Túlio – Developer
+**Arquitetura Escalável**
+- Separação clara de responsabilidades
+- APIs bem documentadas e versionadas
+- Banco de dados otimizado
 
-### Frontend (React)
-- Cleiton – Tech Lead Frontend
-- Hugo – Developer
+**Segurança**
+- Autenticação JWT com refresh tokens
+- Validação rigorosa de dados
+- Proteção contra ataques comuns (XSS, CSRF)
+- Controle de acesso baseado em roles
 
----
+**Performance**
+- Otimizações de consultas no banco
+- Lazy loading de componentes
+- Cache inteligente de requisições
+- Interface responsiva e fluida
 
-## Contexto Educacional
+### Experiência do Usuário
 
-### Curso
-Desenvolvimento Full-Stack Jr – +Prati & Codifica
+**Interface Intuitiva**
+- Design clean e moderno
+- Navegação simplificada
+- Feedback visual claro
+- Suporte a temas (claro/escuro)
 
-### Competências Demonstradas
-- Desenvolvimento Frontend (React, JavaScript)
-- Desenvolvimento Backend (Java, Spring Boot)
-- Banco de Dados (PostgreSQL, JPA)
-- Versionamento (Git, GitHub)
-- DevOps (Docker, CI/CD)
-- Testes Automatizados
-- Documentação Técnica
-- Metodologias Ágeis
+**Funcionalidades Práticas**
+- Divisão de despesas
+- Cálculo transparente de saldos
+- Panéis visuais interativos
 
-### Metodologia
-- Scrum adaptado para contexto acadêmico
-- Sprints de 2 semanas
-- Daily standups síncronos
-- Code review obrigatório
-- Documentação como código
+## Impacto Esperado
 
----
+### Para Usuários
+- Redução de tempo gasto em cálculos manuais
+- Maior transparência em gastos compartilhados
+- Melhor organização financeira 
+- Redução de conflitos por questões financeiras
 
-## Recursos de Apoio
+### Para a Equipe de Desenvolvimento
+- Aplicação prática de conhecimentos técnicos
+- Experiência em projeto colaborativo real
+- Portfólio profissional robusto
+- Preparação para mercado de trabalho
 
-### Documentação
-- [Documentação Técnica Completa](../index.md)
-- [Guia de Contribuição](../../CONTRIBUTING.md)
-- [Análise da Documentação](../../DOCUMENTATION_ANALYSIS.md)
+!!! note "Projeto Acadêmico"
+    O FinBoost+ foi desenvolvido como projeto final do curso **Desenvolvimento Full-Stack Jr** oferecido pela **+Prati & Codifica**. Embora seja um projeto acadêmico, foi construído seguindo padrões profissionais de mercado e pode ser utilizado em cenários reais.
 
-### Repositório
-- [GitHub - finboostplus-app](https://github.com/Finboostplus/finboostplus-app)
-- [Issues e Tarefas](https://github.com/Finboostplus/finboostplus-app/issues)
-- [Pull Requests](https://github.com/Finboostplus/finboostplus-app/pulls)
+## Próximos Passos
 
-### Comunicação
-- GitHub Discussions – Discussões técnicas
-- Email – finboostplus@gmail.com
+Para informações sobre a implementação, veja [Funcionalidades](features.md).

@@ -130,6 +130,6 @@ Este projeto foi desenvolvido com foco em:
 ---
 
 !!! note "Sobre esta documentação"
-Esta documentação é continuamente atualizada conforme o desenvolvimento do projeto. Para informações técnicas detalhadas sobre o processo de desenvolvimento, consulte também nossa [Wiki no GitHub](https://github.com/Finboostplus/finboostplus-app/wiki).
+    Esta documentação é continuamente atualizada conforme o desenvolvimento do projeto. Para informações técnicas detalhadas sobre o processo de desenvolvimento, consulte também nossa [Wiki no GitHub](https://github.com/Finboostplus/finboostplus-app/wiki).
 
 *Projeto desenvolvido como trabalho final de curso - 2025*

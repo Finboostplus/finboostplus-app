@@ -70,7 +70,7 @@ nav:
       - Como Usar: user_guide/usage.md
       - FAQ: user_guide/faq.md
   - Sobre o Projeto:
-      - Visão Geral: project/project_overview.md
+      - Visão Geral: project/overview.md
       - MVP (Resumo): project/mvp_summary.md
       - Funcionalidades: project/features.md
       - Personas Principais: project/personas_key.md
@@ -78,8 +78,7 @@ nav:
       - Documentação Completa: project/full_docs.md
   - Arquitetura e API:
       - Visão da Arquitetura: technical/architecture.md
-      - API - Guia Rápido: technical/api_quickstart.md
-      - API - Swagger/Scalar: technical/api_interactive.md
+      - API - Documentação e Guia: technical/api_documentation.md
       - Banco de Dados: technical/database.md
       - Autenticação: technical/auth.md
       - Estratégia de Testes: technical/testing_strategy.md
@@ -92,12 +91,13 @@ nav:
       - Estrutura e Padrões: backend/structure.md
       - Modelos e Schemas: backend/models.md
       - Testes Backend: backend/testing.md
-  - Transparência de IA:
+  - Uso de IA:
       - Como Usamos IA: ai_docs/ai_usage.md
-      - Registro de Prompts: ai_docs/ai_prompts_log.md
+      - Frontend - Uso de IA: frontend/ai_usage.md
+      - Frontend - Registro de Prompts: frontend/ai_prompts_log.md
+      - Backend - Uso de IA: backend/ai_usage.md
+      - Backend - Registro de Prompts: backend/ai_prompts_log.md
   - Para Desenvolvedores:
-      - Como Contribuir: dev/contributing.md
       - Configuração de Ambiente: dev/environment.md
-      - Deploy: dev/deploy.md
       - Links Úteis: dev/useful_links.md
       - Wiki de Desenvolvimento: "https://github.com/Finboostplus/finboostplus-app/wiki"

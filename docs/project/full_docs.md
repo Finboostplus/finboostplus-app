@@ -106,7 +106,7 @@ A Wiki contém documentação técnica voltada para desenvolvedores durante o pr
 - Exemplos de requisições e respostas
 - **Acesso**: Disponível quando a aplicação está rodando em `/swagger-ui.html`
 
-**Para desenvolvedores**: Consulte [API - Guia Rápido](../technical/api_quickstart.md) para instruções de acesso.
+**Para desenvolvedores**: Consulte [API - Guia Rápido](../technical/api_documentation.md) para instruções de acesso.
 
 ### Notion - Hub de Documentação (Interno)
 
