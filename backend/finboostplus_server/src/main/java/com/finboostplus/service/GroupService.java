@@ -2,14 +2,22 @@ package com.finboostplus.service;
 
 import com.finboostplus.DTO.GroupUpdateDTO;
 import com.finboostplus.model.Group;
+import com.finboostplus.model.GroupMember;
+import com.finboostplus.model.GroupMemberId;
+import com.finboostplus.model.User;
+import com.finboostplus.repository.GroupMemberRepository;
 import com.finboostplus.repository.GroupRepository;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.finboostplus.DTO.GroupDto;
+
+import java.util.List;
 
 @Service
 public class GroupService {
@@ -17,24 +25,51 @@ public class GroupService {
     @Autowired
     GroupRepository groupRepository;
 
-    public Group createNewGroup(GroupDto groupDto) {
+    @Autowired
+    GroupMemberRepository groupMemberRepository;
 
-        Group group;
-        group = groupDto.groupDtoToGroup();
+    @Autowired
+    UserService userService;
 
-        return groupRepository.save(group);
+    public Group createNewGroup(GroupDto groupDto, User user){
+
+        GroupMember groupMember = new GroupMember();
+        Group group = groupDto.groupDtoToGroup();
+         group.setGroupCreatorId(user.getId());
+         group = groupRepository.save(group);
+
+        if(group != null){
+
+            GroupMemberId groupMemberId = new GroupMemberId(group.getId(), user.getId());
+
+            groupMember.setId(groupMemberId);
+            groupMember.setGroup(group);
+            groupMember.setUser(user);
+            groupMember.setAuthorization("ONWER");
+
+            groupMemberRepository.save(groupMember);
+
+            return group;
+        }
+
+        return null;
+
     }
 
-    @Transactional
-    public Optional<Group> updateGroup(Long id, GroupUpdateDTO groupDto) {
-        return groupRepository.findById(id).map(existingGroup -> {
-            if (groupDto.name() != null) {
-                existingGroup.setName(groupDto.name());
-            }
-            if (groupDto.description() != null) {
-                existingGroup.setDescription(groupDto.description());
-            }
-            return groupRepository.save(existingGroup);
-        });
+    public boolean addMemberGroup(Long id,String email){
+
+
+
+        return  false;
     }
+//    public List<Group> listGroupCreator(Long userId, Pageable pageable){
+//
+//        return groupRepository.listaGrupoUsuario(userId,pageable);
+//    }
+
+    public Page<Group> listCreatorGroupPage(Long userId, Pageable pageable){
+
+        return groupRepository.listaGrupoUsuarioPage(userId,pageable);
+    }
+
 }

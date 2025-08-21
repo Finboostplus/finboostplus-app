@@ -75,4 +75,20 @@ public class Group {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Long getGroupCreatorId() {
+        return GroupCreatorId;
+    }
+
+    public void setGroupCreatorId(Long groupCreatorId) {
+        GroupCreatorId = groupCreatorId;
+    }
+
+    public Set<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(Set<Expense> expenses) {
+        this.expenses = expenses;
+    }
 }
