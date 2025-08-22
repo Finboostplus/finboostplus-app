@@ -29,9 +29,16 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Checkout Wiki repository
+      - name: Clean and checkout Wiki repository
         run: |
+          # Remove qualquer diretório wiki existente
+          if [ -d wiki ]; then
+            rm -rf wiki
+          fi
+          
+          # Clone do repositório wiki
           git clone "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git" wiki
+          
           # Verificar se o clone foi bem-sucedido
           if [ ! -d wiki/.git ]; then
             echo "Erro: Falha ao clonar o repositório wiki"
