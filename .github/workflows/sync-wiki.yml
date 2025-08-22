@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+      - develop
+      - test
       - feature/**
     paths:
       - 'docs/wiki/**'
