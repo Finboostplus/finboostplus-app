@@ -15,26 +15,26 @@ O frontend do FinBoost+ é construído com React 19 usando Vite, seguindo uma ar
 ### Stack Principal
 
 === "Core"
-- **React 19**: Framework principal com hooks
-- **Vite 7**: Bundler e dev server
-- **React Router**: Roteamento SPA
-- **TypeScript**: Tipos via JSDoc e Zod
+    - **React 19**: Framework principal com hooks
+    - **Vite 7**: Bundler e dev server
+    - **React Router**: Roteamento SPA
+    - **TypeScript**: Tipos via JSDoc e Zod
 
 === "UI/Estado"
-- **TailwindCSS 4**: Framework CSS utility-first
-- **HeadlessUI**: Componentes acessíveis
-- **Zustand**: Estado global simples
-- **React Hook Form**: Formulários performáticos
+    - **TailwindCSS 4**: Framework CSS utility-first
+    - **HeadlessUI**: Componentes acessíveis
+    - **Zustand**: Estado global simples
+    - **React Hook Form**: Formulários performáticos
 
 === "PWA/Performance"
-- **Vite PWA Plugin**: Service Worker automático
-- **React.lazy**: Code splitting por rotas
-- **React.memo**: Otimização de re-renders
+    - **Vite PWA Plugin**: Service Worker automático
+    - **React.lazy**: Code splitting por rotas
+    - **React.memo**: Otimização de re-renders
 
 === "Testes"
-- **Vitest**: Framework de testes
-- **React Testing Library**: Testes centrados no usuário
-- **ESLint + Prettier**: Qualidade de código
+    - **Vitest**: Framework de testes
+    - **React Testing Library**: Testes centrados no usuário
+    - **ESLint + Prettier**: Qualidade de código
 
 ## Estrutura de Pastas
 
@@ -227,19 +227,19 @@ api.interceptors.request.use((config) => {
 ### Otimizações Implementadas
 
 === "Code Splitting"
-- Lazy loading de páginas com `React.lazy()`
-- Suspense boundaries para loading states
-- Chunking automático pelo Vite
+    - Lazy loading de páginas com `React.lazy()`
+    - Suspense boundaries para loading states
+    - Chunking automático pelo Vite
 
 === "PWA Features"
-- Service Worker para cache offline
-- Manifest para instalação nativa
-- Network-first para dados, Cache-first para assets
+    - Service Worker para cache offline
+    - Manifest para instalação nativa
+    - Network-first para dados, Cache-first para assets
 
 === "React Optimizations"
-- `React.memo` para componentes pesados
-- `useMemo` e `useCallback` quando necessário
-- Evitar re-renders desnecessários
+    - `React.memo` para componentes pesados
+    - `useMemo` e `useCallback` quando necessário
+    - Evitar re-renders desnecessários
 
 ## Acessibilidade
 
@@ -263,16 +263,16 @@ api.interceptors.request.use((config) => {
 ### Comandos Principais
 
 === "Desenvolvimento"
-```bash
-npm run dev         # Servidor de desenvolvimento
-npm run preview     # Preview local do build
-```
+    ```bash
+    npm run dev         # Servidor de desenvolvimento
+    npm run preview     # Preview local do build
+    ```
 
 === "Produção"
-```bash
-npm run build       # Build otimizado
-npm run test        # Executar testes
-```
+    ```bash
+    npm run build       # Build otimizado
+    npm run test        # Executar testes
+    ```
 
 ### Otimizações de Build
 

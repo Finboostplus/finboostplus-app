@@ -181,25 +181,25 @@ private static RSAKey generateRsa() {
 O sistema suporta revogação segura de tokens através da classe `TokenRevocationUtil`:
 
 === "Logout Seguro"
-Remove tokens ativos do usuário
-```java
-@PostMapping("/api/auth/logout")
-public ResponseEntity<ApiResponse> logout() {
-    TokenRevocationUtil.revokeCurrentUserTokens(authorizationService);
-    return ResponseEntity.ok(ApiResponse.success("Logout realizado com sucesso"));
-}
-```
+    Remove tokens ativos do usuário
+    ```java
+    @PostMapping("/api/auth/logout")
+    public ResponseEntity<ApiResponse> logout() {
+        TokenRevocationUtil.revokeCurrentUserTokens(authorizationService);
+        return ResponseEntity.ok(ApiResponse.success("Logout realizado com sucesso"));
+    }
+    ```
 
 === "Alteração de Senha"
-Revoga todos os tokens por segurança
-```java
-@PostMapping("/api/auth/change-password") 
-public ResponseEntity<ApiResponse> changePassword(@RequestBody ChangePasswordRequest request) {
-    userService.changePassword(request);
-    TokenRevocationUtil.revokeCurrentUserTokens(authorizationService);
-    return ResponseEntity.ok(ApiResponse.success("Senha alterada. Faça login novamente."));
-}
-```
+    Revoga todos os tokens por segurança
+    ```java
+    @PostMapping("/api/auth/change-password") 
+    public ResponseEntity<ApiResponse> changePassword(@RequestBody ChangePasswordRequest request) {
+        userService.changePassword(request);
+        TokenRevocationUtil.revokeCurrentUserTokens(authorizationService);
+        return ResponseEntity.ok(ApiResponse.success("Senha alterada. Faça login novamente."));
+    }
+    ```
 
 ### Funcionamento
 
@@ -308,22 +308,22 @@ Solução: Usuário deve fazer login novamente
 ### Endpoints de Diagnóstico
 
 === "Configuração OAuth2"
-```bash
-# Verificar configuração do authorization server
-GET /.well-known/oauth-authorization-server
-```
+    ```bash
+    # Verificar configuração do authorization server
+    GET /.well-known/oauth-authorization-server
+    ```
 
 === "Chaves Públicas"
-```bash
-# Obter chaves públicas JWK
-GET /.well-known/jwks.json
-```
+    ```bash
+    # Obter chaves públicas JWK
+    GET /.well-known/jwks.json
+    ```
 
 === "Health Check"
-```bash
-# Health check da aplicação
-GET /actuator/health
-```
+    ```bash
+    # Health check da aplicação
+    GET /actuator/health
+    ```
 
 !!! tip "Boas Práticas"
 - Use sempre HTTPS em produção para proteger tokens

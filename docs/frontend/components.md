@@ -54,31 +54,31 @@ Componente de botão flexível com suporte a ícones, estados e variantes.
 Campo de entrada com validação e estados de erro.
 
 === "Básico"
-```jsx
-<Input
-  id="email"
-  type="email"
-  placeholder="seu@email.com"
-  required
-  value={email}
-  onChange={setEmail}
-  error={emailError}
-/>
-```
+    ```jsx
+    <Input
+      id="email"
+      type="email"
+      placeholder="seu@email.com"
+      required
+      value={email}
+      onChange={setEmail}
+      error={emailError}
+    />
+    ```
 
 === "Props Principais"
-```javascript
-{
-  id: string,
-  type: 'text' | 'email' | 'password' | 'number',
-  placeholder: string,
-  required: boolean,
-  value: string,
-  onChange: (e) => void,
-  error: string,
-  disabled: boolean
-}
-```
+    ```javascript
+    {
+      id: string,
+      type: 'text' | 'email' | 'password' | 'number',
+      placeholder: string,
+      required: boolean,
+      value: string,
+      onChange: (e) => void,
+      error: string,
+      disabled: boolean
+    }
+    ```
 
 ### Card
 
@@ -131,16 +131,18 @@ Formulário de autenticação com validação client-side e server-side.
 Formulário complexo para criação e edição de despesas.
 
 **Recursos principais:**
-- Múltiplos tipos de divisão (igual, por valor, percentual)
-- Upload de comprovantes
-- Categorização automática
-- Cálculos em tempo real
 
+- Múltiplos tipos de divisão (igual, por valor, percentual)  
+- Upload de comprovantes  
+- Categorização automática  
+- Cálculos em tempo real  
+  
 ### GroupForm
 
 Formulário para criação e gestão de grupos.
 
 **Funcionalidades:**
+
 - Convite por email
 - Definição de permissões
 - Configurações de notificação
@@ -152,21 +154,21 @@ Formulário para criação e gestão de grupos.
 Cabeçalho principal da aplicação.
 
 === "Elementos"
-- Logo responsivo (claro/escuro)
-- Menu de navegação
-- Perfil do usuário
-- Switch de tema
-- Notificações
+    - Logo responsivo (claro/escuro)
+    - Menu de navegação
+    - Perfil do usuário
+    - Switch de tema
+    - Notificações
 
 === "Estrutura"
-```jsx
-<Header>
-  <Logo />
-  <Navigation />
-  <UserMenu />
-  <ThemeSwitch />
-</Header>
-```
+    ```jsx
+    <Header>
+      <Logo />
+      <Navigation />
+      <UserMenu />
+      <ThemeSwitch />
+    </Header>
+    ```
 
 ### Layout
 
@@ -199,6 +201,7 @@ Sistema de menus suspensos baseado em HeadlessUI.
 Alternador inteligente entre diferentes visualizações gráficas.
 
 **Tipos de gráfico:**
+
 - **Linha**: Evolução temporal
 - **Pizza**: Distribuição por categoria
 - **Barra**: Comparação de valores
@@ -254,6 +257,7 @@ Grid de cartões com métricas financeiras principais.
 ```
 
 **Métricas exibidas:**
+
 - Saldo atual
 - Gastos do mês
 - Receitas do mês
@@ -264,13 +268,13 @@ Grid de cartões com métricas financeiras principais.
 Indicadores de carregamento com múltiplas variações.
 
 === "Spinner"
-Loading circular animado
+    Loading circular animado
 
 === "Skeleton"
-Placeholder que simula o conteúdo
+    Placeholder que simula o conteúdo
 
 === "Progress"
-Barra de progresso para uploads/downloads
+    Barra de progresso para uploads/downloads
 
 ### PWAInstaller
 
@@ -288,23 +292,23 @@ Componente que promove a instalação da PWA.
 Sistema de notificações personalizado baseado em react-toastify.
 
 === "Tipos"
-- **Success**: Ações completadas
-- **Error**: Erros e falhas
-- **Warning**: Avisos importantes
-- **Info**: Informações gerais
+    - **Success**: Ações completadas
+    - **Error**: Erros e falhas
+    - **Warning**: Avisos importantes
+    - **Info**: Informações gerais
 
 === "Configuração"
-```jsx
-const toastConfig = {
-  position: "top-right",
-  autoClose: 5000,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-  theme: "light", // ou "dark"
-};
-```
+    ```jsx
+    const toastConfig = {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light", // ou "dark"
+    };
+    ```
 
 ## Padrões de Desenvolvimento
 
@@ -370,8 +374,6 @@ describe('Button Component', () => {
 ### Padrões WCAG Implementados
 
 !!! success "Implementado"
-- **Keyboard Navigation**: Todos os elementos interativos
-- **Focus Management**: Ordem lógica e trap quando necessário
 - **ARIA Labels**: Contexto claro para screen readers
 - **Color Contrast**: Mínimo de 4.5:1 para texto normal
 - **Semantic HTML**: Uso correto de elementos semânticos

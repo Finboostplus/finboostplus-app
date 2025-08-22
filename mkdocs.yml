@@ -64,7 +64,7 @@ copyright: FinBoost+ Team - Controle Financeiro e Compartilhamento de Despesas
 
 nav:
   - Início: index.md
-  - Guia do Usuário:
+  - Guia Rápido:
       - Introdução: user_guide/intro.md
       - Instalação e Setup: user_guide/setup.md
       - Como Usar: user_guide/usage.md

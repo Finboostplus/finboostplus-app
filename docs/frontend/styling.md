@@ -16,48 +16,48 @@ Sistema de estilização baseado em **TailwindCSS** + **CSS Custom Properties** 
 ### Metodologia
 
 === "Component-Based"
-Estilos organizados por componentes reutilizáveis
+    Estilos organizados por componentes reutilizáveis
 
 === "CSS Variables"
-Tokens de design centralizados e reutilizáveis
+    Tokens de design centralizados e reutilizáveis
 
 === "Naming Semântico"
-Convenções claras para cores e espaçamentos
+    Convenções claras para cores e espaçamentos
 
 === "Progressive Enhancement"
-Funcionalidades avançadas para navegadores modernos
+    Funcionalidades avançadas para navegadores modernos
 
 ## Sistema de Cores
 
 ### Tokens de Design
 
 === "Modo Claro"
-```css
-:root {
-  --color-primary: #0152ac;
-  --color-secondary: #00a6ed;
-  --color-success: #18af7d;
-  --color-error: #e74c3c;
-  --color-neutral: #f5f7fa;
-  --color-surface: #ffffff;
-  --color-text: #1f2d3d;
-  --color-muted: #95a5a6;
-}
-```
+    ```css
+    :root {
+      --color-primary: #0152ac;
+      --color-secondary: #00a6ed;
+      --color-success: #18af7d;
+      --color-error: #e74c3c;
+      --color-neutral: #f5f7fa;
+      --color-surface: #ffffff;
+      --color-text: #1f2d3d;
+      --color-muted: #95a5a6;
+    }
+    ```
 
 === "Modo Escuro"
-```css
-.dark {
-  --color-primary: #4a90e2;
-  --color-secondary: #5bc0f8;
-  --color-success: #2fd8a3;
-  --color-error: #ff7a6b;
-  --color-neutral: #2e3239;
-  --color-surface: #3a3f47;
-  --color-text: #e3e8ee;
-  --color-muted: #a0a9b8;
-}
-```
+    ```css
+    .dark {
+      --color-primary: #4a90e2;
+      --color-secondary: #5bc0f8;
+      --color-success: #2fd8a3;
+      --color-error: #ff7a6b;
+      --color-neutral: #2e3239;
+      --color-surface: #3a3f47;
+      --color-text: #e3e8ee;
+      --color-muted: #a0a9b8;
+    }
+    ```
 
 ### Psicologia das Cores
 
@@ -374,18 +374,6 @@ const debugCSSVars = () => {
 - **Semântica:** Nomes de classes descritivos
 - **Reutilização:** Extraia padrões comuns em componentes
 - **Performance:** Prefira classes do Tailwind ao CSS customizado
-
-!!! warning "Evitar"
-- CSS inline excessivo
-- Cores hardcoded (use sempre as variáveis)
-- Quebrar a metodologia mobile-first
-- Ignorar estados de acessibilidade
-
-!!! danger "Cuidados"
-- Teste sempre em diferentes dispositivos
-- Valide contraste de cores (WCAG)
-- Teste funcionamento com JavaScript desabilitado
-- Verifique performance em dispositivos lentos
 
 ---
 

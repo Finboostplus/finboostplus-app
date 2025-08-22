@@ -138,16 +138,19 @@ graph LR
 ### Recursos Principais
 
 **Busca Global** - `Ctrl+K`
+
 - Encontrar endpoints por nome ou método
 - Buscar parâmetros específicos
 - Filtrar por tags
 
 **Try It Out**
+
 - Testar requisições diretamente na interface
 - Editar parâmetros em tempo real
 - Copiar comandos cURL automaticamente
 
 **Code Generation**
+
 - JavaScript/TypeScript
 - Python
 - cURL
@@ -197,15 +200,18 @@ graph LR
 ### Campos Obrigatórios
 
 **Usuário**
+
 - `name`: 2-100 caracteres
 - `email`: formato válido e único
 - `password`: mínimo 6 caracteres
 
 **Grupo**
+
 - `name`: 2-100 caracteres
 - `description`: máximo 500 caracteres (opcional)
 
 **Despesa**
+
 - `title`: 2-200 caracteres
 - `amount`: valor positivo
 - `category`: uma das categorias válidas
@@ -380,6 +386,7 @@ curl -X POST http://localhost:8080/api/auth/refresh \
 ```
 
 **Erro de validação (422)**
+
 - Verificar campos obrigatórios
 - Confirmar formatos (email, datas, etc.)
 

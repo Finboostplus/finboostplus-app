@@ -7,18 +7,21 @@ Este documento detalha todas as funcionalidades implementadas e disponíveis na 
 ### Autenticação Segura
 
 **Cadastro de Usuários**
+
 - Validação de email único e formato válido
 - Senha com critérios de segurança (mínimo 6 caracteres)
 - Confirmação de senha obrigatória
 - Hash seguro das senhas (BCrypt)
 
 **Login e Sessão**
+
 - Autenticação via JWT (JSON Web Tokens)
 - Refresh token para renovação automática de sessão
 - Logout seguro com invalidação de tokens
 - Sessão persistente entre navegação
 
 **Recuperação de Conta**
+
 - Reset de senha via email
 - Tokens temporários com expiração
 - Validação de identidade antes da alteração
@@ -26,6 +29,7 @@ Este documento detalha todas as funcionalidades implementadas e disponíveis na 
 ### Gerenciamento de Perfil
 
 **Informações Básicas**
+
 - Nome completo e email
 - Histórico de atividades
 - Preferências
@@ -45,6 +49,7 @@ flowchart TD
 ```
 
 **Configurações de Grupo**
+
 - Nome e descrição personalizáveis
 - Categorias predefinidas (Casa, Viagem, Trabalho, etc.)
 - Definição de administradores
@@ -52,7 +57,8 @@ flowchart TD
 ### Gerenciamento de Membros
 
 **Convites e Adição**
-- Convite via email ou link compartilhável
+
+- Convite para novo membro
 - Aprovação automática ou manual de novos membros
 - Diferentes níveis de permissão (Admin, Membro)
 
@@ -61,11 +67,13 @@ flowchart TD
 ### Registro de Despesas
 
 **Tipos de Despesa**
+
 - **Individual**: Afeta apenas o usuário que registra
 - **Compartilhada Igual**: Dividida igualmente entre todos os membros ativos
 - **Compartilhada Personalizada**: Divisão manual com valores específicos
 
 **Informações da Despesa**
+
 - Título e descrição detalhada
 - Valor monetário com validação
 - Data da despesa (padrão: data atual)
@@ -88,6 +96,7 @@ graph LR
 ### Categorização
 
 **Categorias Padrão**
+
 - Alimentação e Restaurantes
 - Transporte e Combustível
 - Entretenimento e Lazer
@@ -102,22 +111,26 @@ graph LR
 ### Painel Principal
 
 **Visão Geral Financeira**
+
 - Saldo atual por grupo
 - Total de despesas do mês
 - Débitos e créditos pendentes
 - Atividades recentes
 
 **Cards Informativos**
+
 - Resumo rápido por grupo ativo
 - Status de pagamentos pendentes
 
 ### Relatórios e Gráficos
 
 **Gráficos Interativos (Recharts)**
+
 - Distribuição de gastos por categoria (Pizza)
 - Evolução temporal dos gastos (Linha)
 
 **Filtros e Períodos**
+
 - Filtro por data (último mês, trimestre, ano)
 - Filtro por categoria específica
 - Filtro por membro do grupo
@@ -126,11 +139,13 @@ graph LR
 ### Histórico de Transações
 
 **Lista Detalhada**
+
 - Todas as despesas em ordem cronológica
 - Informações completas de cada transação
 - Status de divisão e pagamentos
 
 **Funcionalidades de Lista**
+
 - Paginação para performance
 - Ordenação por diferentes campos
 - Filtros múltiplos simultâneos
@@ -155,6 +170,7 @@ sequenceDiagram
 ```
 
 **Algoritmos de Saldo**
+
 - Cálculo individual por usuário em cada grupo
 - Soma de débitos (despesas que deve pagar)
 - Soma de créditos (despesas que outros devem)
@@ -163,12 +179,14 @@ sequenceDiagram
 ### Transparência Financeira
 
 **Detalhamento de Saldos**
+
 - Origem de cada débito e crédito
 - Histórico de como o saldo foi formado
 - Drill-down até a despesa específica
 - Validação de consistência matemática
 
 **Resumos por Relacionamento**
+
 - "João deve R$ 50,00 para Maria"
 - "Ana deve receber R$ 30,00 de Pedro"
 - Simplificação de débitos múltiplos
@@ -179,6 +197,7 @@ sequenceDiagram
 ### Design Responsivo
 
 **Layout Adaptativo**
+
 - Mobile-first design
 - Breakpoints otimizados para tablet e desktop
 - Navegação intuitiva em todos os dispositivos
@@ -187,6 +206,7 @@ sequenceDiagram
 ### Temas e Personalização
 
 **Sistema de Temas**
+
 - Tema claro (padrão)
 - Tema escuro
 - Preferência salva no perfil do usuário
@@ -197,12 +217,14 @@ sequenceDiagram
 ### Sistema de Busca
 
 **Busca Inteligente**
+
 - Busca em títulos e descrições de despesas
 - Filtro por autor da despesa
 - Filtro por período específico
 - Combinação múltipla de filtros
 
 **Filtros Avançados**
+
 - Por categoria de despesa
 - Por valor mínimo/máximo
 - Por tipo de divisão
@@ -213,12 +235,14 @@ sequenceDiagram
 ### Validações de Dados
 
 **Frontend (Imediata)**
+
 - Validação de campos obrigatórios
 - Formato de email e valores monetários
 - Limites de caracteres em textos
 - Confirmação de ações destrutivas
 
 **Backend (Definitiva)**
+
 - Revalidação de todos os dados recebidos
 - Sanitização contra ataques XSS
 - Verificação de autorização por recurso
@@ -227,12 +251,14 @@ sequenceDiagram
 ### Proteções Implementadas
 
 **Autenticação e Autorização**
+
 - JWT com expiração configurável
 - Verificação de permissões por endpoint
 - Rate limiting para APIs críticas
 - Logout automático por inatividade
 
 **Integridade de Dados**
+
 - Validações de consistência matemática
 - Rollback automático em erros
 - Backup de transações críticas
@@ -243,6 +269,7 @@ sequenceDiagram
 ### Otimizações Frontend
 
 **Carregamento Eficiente**
+
 - Lazy loading de componentes grandes
 - Paginação de listas extensas
 - Cache local de dados frequentes
@@ -251,6 +278,7 @@ sequenceDiagram
 ### Otimizações Backend
 
 **Queries Otimizadas**
+
 - Índices estratégicos no banco
 - Consultas com joins eficientes
 - Paginação no servidor
@@ -268,6 +296,7 @@ sequenceDiagram
 #### Aprimoramentos de Usabilidade
 
 **Notificações Avançadas**
+
 - Sistema de notificações por email
 - Alertas personalizáveis por usuário
 - Notificações push para PWA
@@ -287,6 +316,7 @@ sequenceDiagram
 ```
 
 **Melhorias na Interface**
+
 - Wizard de onboarding para novos usuários
 - Tutoriais interativos para funcionalidades principais
 - Atalhos de teclado para ações frequentes
@@ -295,12 +325,14 @@ sequenceDiagram
 #### Funcionalidades Financeiras
 
 **Gestão de Pagamentos**
+
 - Registro de quitação de dívidas entre membros
 - Histórico de pagamentos realizados
 - Lembretes automáticos de débitos pendentes
 - Validação de acerto de contas
 
 **Relatórios Expandidos**
+
 - Exportação para PDF e Excel
 - Relatórios personalizáveis por período
 - Análises de tendências de gastos
@@ -313,12 +345,14 @@ sequenceDiagram
 #### Inteligência Artificial
 
 **Sugestões Inteligentes**
+
 - Análise de padrões de gastos
 - Alertas de gastos atípicos
 - Sugestões de categorização automática
 - Previsões de gastos mensais
 
 **Reconhecimento de Dados**
+
 - OCR para extração de dados de recibos
 - Reconhecimento de voz para entrada rápida
 - Classificação automática de despesas
@@ -329,16 +363,19 @@ sequenceDiagram
 ### Impacto no Usuário
 
 **Alto Impacto**
+
 - Funcionalidades que resolvem dores principais dos usuários
 - Melhorias que aumentam significativamente a usabilidade
 - Recursos que reduzem tempo de execução de tarefas
 
 **Médio Impacto**
+
 - Funcionalidades que agregam conveniência
 - Melhorias estéticas e de experiência
 - Recursos que ampliam casos de uso
 
 **Baixo Impacto**
+
 - Funcionalidades "nice-to-have"
 - Recursos utilizados por poucos usuários
 - Melhorias puramente estéticas

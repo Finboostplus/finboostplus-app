@@ -26,6 +26,7 @@ graph TD
 ### Distribuição de Responsabilidades
 
 **Gestão e Coordenação**
+
 - Planejamento de sprints e cronograma
 - Coordenação entre equipes frontend e backend
 - Gestão de requisitos e escopo
@@ -33,6 +34,7 @@ graph TD
 - Documentação e deploy do projeto
 
 **Desenvolvimento Backend**
+
 - Arquitetura da API REST
 - Modelagem e implementação do banco de dados
 - Sistema de autenticação e autorização
@@ -40,6 +42,7 @@ graph TD
 - Testes automatizados e documentação da API
 
 **Desenvolvimento Frontend**
+
 - Design e implementação da interface do usuário
 - Experiência do usuário (UX) e usabilidade
 - Integração com APIs backend
@@ -71,6 +74,7 @@ graph TD
 - Sprints de 2 semanas com objetivos claros
 
 **GitFlow**
+
 - Branch `main` para código de produção
 - Branch `develop` para integração contínua
 - Feature branches para desenvolvimento de funcionalidades
@@ -79,6 +83,7 @@ graph TD
 ### Ferramentas de Colaboração
 
 **Desenvolvimento**
+
 - **GitHub**: Controle de versão e colaboração de código
 - **VS Code**: IDE usada no desenvolvimento do frontend
 - **IntelliJ**: IDE usada no desenvolvimento do backend
@@ -86,12 +91,14 @@ graph TD
 - **Postman** e **Scalar**: Testes e documentação de APIs
 
 **Gestão e Comunicação**
+
 - **Discord**: Comunicação e reuniões
 - **Notion**: Documentação, planejamento e knowledge base
 - **GitHub Wiki**: Documentação técnica para os times
 - **MkDocs**: Documentação pública e técnica
 
 **Design e Prototipagem**
+
 - **Draw.io**: Diagramas técnicos e arquiteturais
 
 ## Processo de Code Review
@@ -99,12 +106,14 @@ graph TD
 ### Critérios de Avaliação
 
 **Qualidade Técnica**
+
 - Aderência aos padrões de código estabelecidos
 - Performance e otimização
 - Segurança e validações adequadas
 - Cobertura de testes apropriada
 
 **Funcionalidade**
+
 - Atendimento aos requisitos especificados
 - Integração adequada com componentes existentes
 - Tratamento de casos de erro e edge cases
@@ -113,15 +122,32 @@ graph TD
 ### Fluxo de Aprovação
 
 ```mermaid
-flowchart LR
-    A[Develop Feature] --> B[Create PR]
-    B --> C[Code Review]
-    C --> D{Approved?}
-    D -->|No| E[Address Feedback]
-    E --> C
-    D -->|Yes| F[Merge to Develop]
-    F --> G[Integration Tests]
-    G --> H[Deploy to Staging]
+flowchart TD
+    subgraph "Developer"
+        A[Develop Feature] --> B[Create Pull Request]
+        E[Address Feedback] --> C
+    end
+    
+    subgraph "Reviewer"
+        C[Code Review] --> D{Approved?}
+    end
+    
+    subgraph "CI/CD Pipeline"
+        F[Merge to Develop] --> G[Integration Tests]
+        G --> H[Deploy to Staging]
+    end
+    
+    B --> C
+    D -->|No| E
+    D -->|Yes| F
+    
+    classDef devStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef reviewStyle fill:#fff8e1,stroke:#f57c00,stroke-width:2px
+    classDef cicdStyle fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    
+    class A,B,E devStyle
+    class C,D reviewStyle
+    class F,G,H cicdStyle
 ```
 
 ## Aprendizados e Crescimento
@@ -129,12 +155,14 @@ flowchart LR
 ### Competências Desenvolvidas
 
 **Técnicas**
+
 - Desenvolvimento fullstack com tecnologias modernas
 - Arquitetura de software e design patterns
 - Testes automatizados e DevOps básico
 - Colaboração em projetos de código aberto
 
 **Interpessoais**
+
 - Trabalho em equipe multidisciplinar
 - Comunicação técnica efetiva
 - Resolução de conflitos e tomada de decisões em grupo
@@ -143,12 +171,14 @@ flowchart LR
 ### Desafios Superados
 
 **Técnicos**
+
 - Integração complexa entre frontend e backend
 - Sincronização de desenvolvimento paralelo
 - Debugging de problemas de integração
 - Otimização de performance em consultas complexas
 
 **Organizacionais**
+
 - Coordenação de equipe grande (10+ pessoas)
 - Conciliação de diferentes níveis de experiência
 - Gestão de tempo e prioridades acadêmicas
@@ -160,6 +190,7 @@ flowchart LR
 ## Agradecimentos
 
 **+Prati & Codifica**
+
 - Ensino de programação
 - Mentoria par soft skills
 - Oportunidade de desenvolvimento de projeto real

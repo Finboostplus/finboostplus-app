@@ -9,10 +9,12 @@ Esta página serve como índice centralizado para toda a documentação técnica
 Esta documentação técnica está organizada para usuários, desenvolvedores e avaliadores do projeto.
 
 **Para Usuários Finais**
+
 - [Guia do Usuário](../user_guide/intro.md) - Como usar a aplicação
 - [FAQ](../user_guide/faq.md) - Perguntas frequentes
 
 **Para Desenvolvedores e Avaliadores**
+
 - [Arquitetura e API](../technical/architecture.md) - Visão técnica do sistema
 - [Frontend](../frontend/structure.md) - Estrutura e padrões do frontend
 - [Backend](../backend/structure.md) - Estrutura e padrões do backend
@@ -23,18 +25,21 @@ Esta documentação técnica está organizada para usuários, desenvolvedores e 
 #### Arquivos Principais do Repositório
 
 **README.md Principal**
+
 - Visão geral do projeto para visitantes do GitHub
 - Quick start e instruções básicas
 - Links para documentações mais detalhadas
 - **Acesso**: [GitHub - README](https://github.com/Finboostplus/finboostplus-app/blob/main/README.md)
 
 **CONTRIBUTING.md**
+
 - Guia detalhado para contribuidores
 - Padrões de código e commit
 - Processo de pull requests
 - **Acesso**: [GitHub - Contributing](https://github.com/Finboostplus/finboostplus-app/blob/main/CONTRIBUTING.md)
 
 **LICENSE**
+
 - Licença do projeto (MPL-2.0)
 - **Acesso**: [GitHub - License](https://github.com/Finboostplus/finboostplus-app/blob/main/LICENSE)
 
@@ -43,30 +48,35 @@ Esta documentação técnica está organizada para usuários, desenvolvedores e 
 Contém documentos extensos de planejamento e especificação do projeto:
 
 **Documento MVP Completo**
+
 - Especificação detalhada do Produto Mínimo Viável
 - Mais de 900 linhas com requisitos técnicos e funcionais
 - Diagramas de arquitetura e banco de dados
 - **Acesso**: [GitHub - MVP](https://github.com/Finboostplus/finboostplus-app/blob/main/project_docs/mvp.md)
 
 **Personas Detalhadas**
+
 - Perfis completos dos usuários-alvo
 - Cenários de uso e necessidades específicas
 - Jornadas do usuário mapeadas
 - **Acesso**: [GitHub - Personas](https://github.com/Finboostplus/finboostplus-app/blob/main/project_docs/personas.md)
 
 **Histórias de Usuário**
+
 - Especificação detalhada de todos os recursos
 - Critérios de aceitação por funcionalidade
 - Priorização e estimativas
 - **Acesso**: [GitHub - User Stories](https://github.com/Finboostplus/finboostplus-app/blob/main/project_docs/user_stories.md)
 
 **Documento de Requisitos**
+
 - Requisitos funcionais e não funcionais
 - Restrições técnicas e de negócio
 - Matriz de rastreabilidade
 - **Acesso**: [GitHub - Requisitos](https://github.com/Finboostplus/finboostplus-app/blob/main/project_docs/requirements.md)
 
 **Contrato de API**
+
 - Especificação completa de todos os endpoints
 - Modelos de dados e schemas
 - Códigos de resposta e tratamento de erros
@@ -77,21 +87,25 @@ Contém documentos extensos de planejamento e especificação do projeto:
 A Wiki contém documentação técnica voltada para desenvolvedores durante o processo de desenvolvimento:
 
 **Processo de Desenvolvimento**
+
 - [Estrutura do Repositório](https://github.com/Finboostplus/finboostplus-app/wiki/Estrutura-do-Repositório)
 - [Como Rodar o Projeto](https://github.com/Finboostplus/finboostplus-app/wiki/Como-Rodar-o-Projeto)
 - [Boas Práticas de Desenvolvimento](https://github.com/Finboostplus/finboostplus-app/wiki/Boas-Praticas-de-Desenvolvimento)
 
 **Padrões Técnicos**
+
 - [Padrão de Commits](https://github.com/Finboostplus/finboostplus-app/wiki/Padrão-de-Commits)
 - [GitFlow e Branching](https://github.com/Finboostplus/finboostplus-app/wiki/GitFlow-e-Branching)
 - [Code Review Guidelines](https://github.com/Finboostplus/finboostplus-app/wiki/Code-Review-Guidelines)
 
 **Deploy e Infraestrutura**
+
 - [Configuração de Ambiente](https://github.com/Finboostplus/finboostplus-app/wiki/Configuração-de-Ambiente)
 - [Deploy Local com Docker](https://github.com/Finboostplus/finboostplus-app/wiki/Deploy-Local-com-Docker)
 - [Testes Automatizados](https://github.com/Finboostplus/finboostplus-app/wiki/Testes-Automatizados)
 
 **Planejamento**
+
 - [Roadmap Detalhado](https://github.com/Finboostplus/finboostplus-app/wiki/Roadmap)
 - [Retrospectivas de Sprint](https://github.com/Finboostplus/finboostplus-app/wiki/Retrospectivas)
 - [Decisões Arquiteturais](https://github.com/Finboostplus/finboostplus-app/wiki/Decisões-Arquiteturais)
@@ -101,6 +115,7 @@ A Wiki contém documentação técnica voltada para desenvolvedores durante o pr
 ### Documentação da API (Swagger/Scalar)
 
 **Documentação Interativa**
+
 - Interface web para explorar e testar todas as APIs
 - Schemas de dados automaticamente gerados
 - Exemplos de requisições e respostas
@@ -113,37 +128,50 @@ A Wiki contém documentação técnica voltada para desenvolvedores durante o pr
 O Notion serve como hub centralizado para documentação de processos, planejamento e acompanhamento do projeto (acesso restrito à equipe):
 
 **Planejamento e Gestão**
+
 - Backlog detalhado com priorização
 - Sprint planning e retrospectives
 - Acompanhamento de métricas do projeto
 - Documentação de reuniões e decisões
 
 **Conhecimento Compartilhado**
+
 - Tutoriais e guias técnicos
 - Troubleshooting comum
 - Links úteis e recursos de aprendizado
 - Templates e checklists
 
 **Gestão de Equipe**
+
 - Divisão de tarefas e responsabilidades
 - Timeline de entregas
 
 ## Mapa de Navegação da Documentação
 
 ```mermaid
-graph TD
-    A[Usuário Interessado] --> B{Qual seu objetivo?}
+flowchart TD
+    Start([Acesso ao FinBoost+]) --> Question{O que você busca?}
     
-    B -->|Usar a aplicação| C[README.md + Guia do Usuário]
-    B -->|Avaliar o projeto| D[MkDocs - Visão Geral]
-    B -->|Contribuir código| E[CONTRIBUTING.md + Wiki]
-    B -->|Estudar arquitetura| F[MkDocs Técnico + project_docs/]
+    Question -->|Usar o app| Use[Experiência do Usuário]
+    Question -->|Avaliar projeto| Eval[Avaliação do Projeto]
+    Question -->|Contribuir| Dev[Desenvolvimento]
+    Question -->|Entender sistema| Arch[Arquitetura Técnica]
     
-    C --> G[FAQ + Suporte]
-    D --> H[MVP Summary + Funcionalidades]
-    E --> I[Padrões + Setup Local]
-    F --> J[API Docs + Código Fonte]
+    Use --> UseRes[README + Guia<br/> FAQ + Suporte]
     
-    D --> K[Para recrutadores:<br/>Sobre o Projeto + Equipe]
-    F --> L[Para desenvolvedores:<br/>Arquitetura + Backend/Frontend]
+    Eval --> EvalRes[Visão Geral<br/>MVP Summary<br/>Equipe]
+    
+    Dev --> DevRes[CONTRIBUTING<br/>Setup Local<br/>Padrões]
+    
+    Arch --> ArchRes[Documentação Técnica<br/>API Reference<br/>Database Design]
+    
+    classDef startStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px
+    classDef questionStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef pathStyle fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef resultStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:1px
+    
+    class Start startStyle
+    class Question questionStyle
+    class Use,Eval,Dev,Arch pathStyle
+    class UseRes,EvalRes,DevRes,ArchRes resultStyle
 ```

@@ -7,6 +7,7 @@ cobrindo diferentes contextos de uso do controle financeiro compartilhado.
 ## Por que Personas?
 
 As personas nos ajudam a:
+
 - **Focar nas necessidades reais** dos usuários durante o desenvolvimento
 - **Priorizar funcionalidades** que resolvem problemas genuínos
 - **Criar uma experiência consistente** em todos os fluxos da aplicação
@@ -24,12 +25,14 @@ especialmente compras online.
 **Objetivo Financeiro:** Gastar menos do que ganha, diminuir dívidas no cartão e evitar compras por impulso.
 
 **Principais Dores:**
+
 - Não sabe quanto pode gastar no momento
 - Esquece de registrar gastos regulares
 - Vive no limite do cartão de crédito
 - Falta de controle sobre categorias de gasto
 
 **Como o FinBoost+ Ajuda:**
+
 - Notificações em tempo real sobre gastos
 - Alertas quando se aproxima de limites por categoria
 - Relatórios visuais simples e informativos
@@ -48,12 +51,14 @@ especialmente compras online.
 **Objetivo Financeiro:** Ter uma reserva de emergência e controlar gastos com transporte e alimentação.
 
 **Principais Dores:**
+
 - Falta de tempo para registrar tudo detalhadamente
 - Dificuldade em manter disciplina de controle
 - Precisa de informações rápidas para tomar decisões
 - Quer saber se ainda pode gastar no mês
 
 **Como o FinBoost+ Ajuda:**
+
 - Cadastro rápido de gastos do dia a dia
 - Alertas semanais de controle
 - Visualização clara de quanto ainda pode gastar
@@ -73,12 +78,14 @@ internacional.
 **Objetivo Financeiro:** Evitar brigas por dinheiro e poupar mensalmente de forma justa entre os dois.
 
 **Principais Dores:**
+
 - Desorganização na divisão de despesas domésticas
 - Esquecimento de quem pagou cada conta
 - Dificuldade em acompanhar contribuição de cada um
 - Falta de clareza sobre economia conjunta
 
 **Como o FinBoost+ Ajuda:**
+
 - Divisão automática de despesas compartilhadas
 - Visualização clara de quem pagou o quê
 - Metas mensais conjuntas de economia
@@ -97,12 +104,14 @@ internacional.
 **Objetivo Financeiro:** Ter controle das despesas domésticas e economizar para emergências familiares.
 
 **Principais Dores:**
+
 - Falta de controle sobre despesas fixas da casa
 - Dificuldade em acompanhar todos os pagamentos
 - Renda variável complica planejamento
 - Necessidade de reserva para imprevistos com a filha
 
 **Como o FinBoost+ Ajuda:**
+
 - Categorização de despesas por tipo (casa, filha, pessoal)
 - Divisão justa das contas do lar
 - Visualização dos saldos familiares
@@ -147,17 +156,20 @@ graph LR
 ### Critérios de Representatividade
 
 **Diversidade de Contextos:**
+
 - Individual (Marina, Gabriel)
 - Casal (João e Letícia)
 - Família (Marcos e Vanessa)
 
 **Variação de Perfis:**
+
 - Diferentes idades (22-35 anos)
 - Diferentes profissões e rendas
 - Diferentes níveis de organização financeira
 - Diferentes localizações no Brasil
 
 **Problemas Financeiros Cobertos:**
+
 - Gastos impulsivos e falta de controle
 - Tempo limitado para organização
 - Divisão justa de despesas compartilhadas
@@ -187,16 +199,19 @@ versões futuras:
 ### Decisões de UX/UI
 
 **Interface Simples e Rápida** (Gabriel)
+
 - Formulários com poucos campos obrigatórios
 - Ações rápidas na tela principal
 - Navegação intuitiva
 
 **Clareza nas Divisões** (João & Letícia, Marcos & Vanessa)
+
 - Visualização clara de "quem deve quanto"
 - Histórico de pagamentos acessível
 - Cálculos transparentes e auditáveis
 
 **Controle e Alertas** (Marina)
+
 - Notificações não-invasivas
 - Cores e indicadores visuais claros
 - Configurações de limite personalizáveis
@@ -204,18 +219,21 @@ versões futuras:
 ### Priorização de Features
 
 1. **Funcionalidades Essenciais** (todas as personas)
-   - Cadastro de despesas
-   - Divisão de gastos
-   - Dashboard com resumos
+
+    - Cadastro de despesas
+    - Divisão de gastos
+    - Dashboard com resumos
 
 2. **Funcionalidades Importantes** (2-3 personas)
-   - Sistema de notificações
-   - Metas e orçamentos
-   - Relatórios por categoria
+
+    - Sistema de notificações
+    - Metas e orçamentos
+    - Relatórios por categoria
 
 3. **Funcionalidades Desejáveis** (1-2 personas)
-   - Exportação de dados
-   - Integrações bancárias (futuro)
+
+    - Exportação de dados
+    - Integrações bancárias (futuro)
 
 !!! tip "Metodologia" 
     As personas foram criadas utilizando **LLMs (DeepSeek, ChatGPT e Gemini)** através de prompts que simularam casos de pessoas reais com necessidades específicas de controle financeiro. A equipe avaliou e selecionou as melhores respostas geradas, refinando-as para criar perfis consistentes e realistas. Com base nessas personas validadas,foram derivadas **user stories específicas** e **cenários de uso detalhados** que orientam o desenvolvimento do produto.

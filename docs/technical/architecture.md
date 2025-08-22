@@ -62,16 +62,19 @@ graph TB
 ### Princípios Arquiteturais
 
 **Separação de Responsabilidades**
+
 - Frontend focado em UX e apresentação
 - Backend concentrado em lógica de negócio e dados
 - Banco de dados otimizado para performance e consistência
 
 **Escalabilidade e Manutenibilidade**
+
 - Arquitetura em camadas bem definidas
 - Componentes desacoplados e testáveis
 - APIs RESTful padronizadas
 
 **Segurança por Design**
+
 - Autenticação JWT com refresh tokens
 - Validação rigorosa em múltiplas camadas
 - Controle de acesso baseado em contexto de grupo
@@ -138,6 +141,7 @@ frontend/
 ### Padrões de Componentes
 
 **Atomic Design + Feature-First**
+
 - **Atoms**: Componentes básicos (Button, Input, Icon)
 - **Molecules**: Combinações simples (SearchBox, FormField)
 - **Organisms**: Componentes complexos (ExpenseList, Dashboard)
@@ -159,6 +163,7 @@ export const useAuth = () => {
 ```
 
 **Principais Contexts:**
+
 - `AuthContext` - Autenticação e dados do usuário
 - `GroupContext` - Estado de grupos ativos
 - `ThemeContext` - Preferências de tema e UI
@@ -280,11 +285,13 @@ public class GroupController {
 ### Principais Relacionamentos
 
 **Grupos e Membros**
+
 - Um usuário pode ser dono de múltiplos grupos
 - Um usuário pode participar de múltiplos grupos
 - Cada grupo tem um dono e múltiplos membros
 
 **Despesas e Divisões**
+
 - Cada despesa pertence a um grupo
 - Despesas são divididas entre membros selecionados
 - Cálculo automático de valores individuais
@@ -322,13 +329,16 @@ sequenceDiagram
 ### Níveis de Proteção
 
 **Rotas Públicas**
+
 - Registro, login e recuperação de senha
 
 **Rotas Protegidas (JWT Required)**
+
 - Todas as operações de grupos e despesas
 - Dashboard e relatórios
 
 **Controle de Acesso por Contexto**
+
 - Apenas membros do grupo podem ver dados do grupo
 - Apenas dono do grupo pode gerenciar membros
 - Usuários podem editar apenas suas próprias despesas
@@ -389,10 +399,12 @@ graph TB
 ### Estratégia de Deploy
 
 **Desenvolvimento**
+
 - Docker Compose para ambiente local completo
 - Hot reload habilitado em frontend e backend
 
 **Produção**
+
 - Frontend: Vercel 
 - Backend: Render 
 - Banco: PostgreSQL managed service
@@ -403,24 +415,28 @@ graph TB
 ### Otimizações Implementadas
 
 **Frontend**
+
 - Code splitting por rota
 - Lazy loading de componentes
 - Service Worker para cache de assets
 - Otimização de bundle com Vite
 
 **Backend**
+
 - Connection pooling do PostgreSQL
 - Queries JPA otimizadas
 - Paginação em listagens
 - Spring Boot Actuator para métricas
 
 **Banco de Dados**
+
 - Índices em colunas de busca frequente
 - Constraints para integridade referencial
 
 ## Planos de Expansão
 
 ### Funcionalidades Futuras
+
 - Notificações push em tempo real
 - Relatórios avançados e exportação
 - App mobile nativo (React Native)

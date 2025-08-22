@@ -20,12 +20,14 @@ Criar uma plataforma web que simplifique o controle financeiro compartilhado, of
 ### Objetivos Específicos
 
 **Para Usuários Finais:**
+
 - Reduzir conflitos relacionados a divisão de gastos
 - Proporcionar visibilidade clara sobre saldos e débitos
 - Facilitar o acompanhamento de gastos em grupo
 - Oferecer insights através de relatórios e gráficos
 
 **Para o Desenvolvimento Técnico:**
+
 - Aplicar conhecimentos adquiridos no curso de Desenvolvimento Full-Stack
 - Demonstrar competências em arquitetura de software moderna
 - Implementar boas práticas de desenvolvimento e documentação
@@ -67,17 +69,20 @@ graph TB
 ### Decisões Arquiteturais
 
 **Separação Frontend/Backend**
+
 - Permite desenvolvimento paralelo das equipes
 - Facilita escalabilidade e manutenção
 - Possibilita futuras integrações (app mobile)
 
 **Stack Tecnológico Moderna**
+
 - React 19 com Vite para desenvolvimento ágil e performance
 - Spring Boot 3.5+ para APIs robustas e seguras
 - PostgreSQL para confiabilidade de dados
 - JWT para autenticação stateless
 
 **Padrões de Desenvolvimento**
+
 - API RESTful seguindo padrões de mercado
 - Design responsivo mobile-first
 - Validação de dados em múltiplas camadas
@@ -96,12 +101,14 @@ O projeto foi desenvolvido por uma equipe multidisciplinar dividida em frentes e
 ### Processo de Desenvolvimento
 
 **Planejamento Inicial**
+
 1. Definição de requisitos e MVP
 2. Criação de personas e histórias de usuário
 3. Design da arquitetura e banco de dados
 4. Estabelecimento de padrões de código
 
 **Desenvolvimento Iterativo**
+
 1. Sprints focadas em funcionalidades completas
 2. Integração contínua entre frontend e backend
 3. Testes regulares e validação
@@ -110,17 +117,20 @@ O projeto foi desenvolvido por uma equipe multidisciplinar dividida em frentes e
 ### Ferramentas e Práticas
 
 **Controle de Versão**
+
 - Git com metodologia GitFlow
 - Pull Requests obrigatórios
 - Code review entre pares
 
 **Documentação**
+
 - Documentação técnica detalhada (MkDocs)
 - Wiki para documentação interna (GitHub Wiki)
 - Documentação de API interativa (Swagger)
 - Registro de decisões arquiteturais
 
 **Qualidade de Código**
+
 - Padrões de commit semântico
 - Testes automatizados frontend e backend
 - Análise de cobertura de código
@@ -131,17 +141,20 @@ O projeto foi desenvolvido por uma equipe multidisciplinar dividida em frentes e
 ### Técnicos
 
 **Arquitetura Escalável**
+
 - Separação clara de responsabilidades
 - APIs bem documentadas e versionadas
 - Banco de dados otimizado
 
 **Segurança**
+
 - Autenticação JWT com refresh tokens
 - Validação rigorosa de dados
 - Proteção contra ataques comuns (XSS, CSRF)
 - Controle de acesso baseado em roles
 
 **Performance**
+
 - Otimizações de consultas no banco
 - Lazy loading de componentes
 - Cache inteligente de requisições
@@ -150,12 +163,14 @@ O projeto foi desenvolvido por uma equipe multidisciplinar dividida em frentes e
 ### Experiência do Usuário
 
 **Interface Intuitiva**
+
 - Design clean e moderno
 - Navegação simplificada
 - Feedback visual claro
 - Suporte a temas (claro/escuro)
 
 **Funcionalidades Práticas**
+
 - Divisão de despesas
 - Cálculo transparente de saldos
 - Panéis visuais interativos
@@ -163,12 +178,14 @@ O projeto foi desenvolvido por uma equipe multidisciplinar dividida em frentes e
 ## Impacto Esperado
 
 ### Para Usuários
+
 - Redução de tempo gasto em cálculos manuais
 - Maior transparência em gastos compartilhados
 - Melhor organização financeira 
 - Redução de conflitos por questões financeiras
 
 ### Para a Equipe de Desenvolvimento
+
 - Aplicação prática de conhecimentos técnicos
 - Experiência em projeto colaborativo real
 - Portfólio profissional robusto

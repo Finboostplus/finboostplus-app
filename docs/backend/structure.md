@@ -4,8 +4,7 @@
 
 O backend do FinBoost+ é construído com **Spring Boot 3.5+** e **Java 21**, seguindo uma arquitetura limpa em camadas baseada nos padrões **Domain Driven Design (DDD)** e **Clean Architecture**. A API REST fornece endpoints seguros para gestão financeira colaborativa.
 
-### Princípios Arquiteturais
-
+!!! info "Princípios Arquiteturais"
 - **Separation of Concerns**: Cada camada tem responsabilidade específica
 - **Domain-First**: Domínio no centro, independente de frameworks
 - **RESTful Design**: APIs seguem princípios REST
@@ -16,47 +15,29 @@ O backend do FinBoost+ é construído com **Spring Boot 3.5+** e **Java 21**, se
 ## Stack Tecnológica
 
 ### Core Framework
-- **Java 21**: Linguagem com recursos modernos (Records, Pattern Matching, Virtual Threads)
+- **Java 21**: Records, Pattern Matching, Virtual Threads
 - **Spring Boot 3.5**: Framework principal com auto-configuração
 - **Spring Data JPA**: Abstração de persistência sobre Hibernate
 - **Spring Security**: Autenticação JWT e controle de acesso
-- **Spring Web MVC**: Controllers REST com Jackson para JSON
+- **Spring Web MVC**: Controllers REST com Jackson
 
-### Banco de Dados
+### Banco de Dados & Segurança
 - **PostgreSQL 15+**: Banco relacional principal
-- **H2**: Banco em memória para testes e desenvolvimento
-- **JPA/Hibernate**: ORM com suporte a migrations
-- **Flyway/Liquibase**: Versionamento de schema (futuro)
-
-### Segurança e Autenticação
-- **Spring Security OAuth2**: Resource Server para JWT
-- **OAuth2 Authorization Server**: Servidor de autorização próprio
+- **H2**: Banco em memória para testes
+- **OAuth2 + JWT**: Servidor de autorização próprio
 - **BCrypt**: Hash de senhas
-- **CORS**: Configuração para frontend
 
-### Documentação e APIs
-- **SpringDoc OpenAPI 3**: Documentação automática da API
-- **Swagger UI**: Interface interativa para testes
-- **Scalar**: UI moderna alternativa ao Swagger
-
-### Qualidade e Testes
-- **JUnit 5**: Framework de testes unitários
-- **Mockito**: Mocks para isolamento de testes
-- **Spring Boot Test**: Testes de integração
+### Documentação & Qualidade
+- **SpringDoc OpenAPI 3**: Documentação automática
+- **Swagger UI / Scalar**: Interface interativa para testes
+- **JUnit 5 + Mockito**: Testes unitários e integração
 - **JaCoCo**: Cobertura de código
-- **Checkstyle**: Análise estática de código
-
-### Build e Deploy
-- **Maven 3.8+**: Gerenciamento de dependências
-- **Spring Boot DevTools**: Hot reload em desenvolvimento
-- **Docker**: Containerização da aplicação
-- **Docker Compose**: Orquestração local
 
 ## Estrutura de Pastas
 
 ```
 src/main/java/com/finboostplus/
-├── FinboostplusApplication.java    # Classe principal Spring Boot
+├── FinboostplusApplication.java    # Classe principal
 ├── 
 ├── config/                         # Configurações do Spring
 │   ├── SecurityConfig.java         # Configuração de segurança
@@ -65,7 +46,6 @@ src/main/java/com/finboostplus/
 │   └── DatabaseConfig.java         # Configuração JPA/DataSource
 │
 ├── controller/                     # Camada de Apresentação (REST)
-│   ├── ApiDocsController.java      # Documentação da API
 │   ├── UserController.java         # Endpoints de usuários
 │   ├── GroupController.java        # Endpoints de grupos
 │   ├── ExpenseController.java      # Endpoints de despesas
@@ -75,175 +55,100 @@ src/main/java/com/finboostplus/
 │   ├── UserService.java            # Lógica de usuários
 │   ├── GroupService.java           # Lógica de grupos
 │   ├── ExpenseService.java         # Lógica de despesas
-│   ├── AuthService.java            # Autenticação
 │   └── impl/                       # Implementações dos serviços
 │
 ├── repository/                     # Camada de Dados (JPA)
 │   ├── UserRepository.java         # Acesso a dados de usuários
 │   ├── GroupRepository.java        # Acesso a dados de grupos
-│   ├── ExpenseRepository.java      # Acesso a dados de despesas
-│   └── CategoryRepository.java     # Acesso a dados de categorias
+│   └── ExpenseRepository.java      # Acesso a dados de despesas
 │
 ├── model/                          # Entidades do Domínio
 │   ├── User.java                   # Entidade Usuário
 │   ├── Group.java                  # Entidade Grupo
 │   ├── Expense.java                # Entidade Despesa
 │   ├── Category.java               # Entidade Categoria
-│   ├── GroupMember.java            # Relacionamento Grupo-Usuário
-│   ├── UserExpenseDivision.java    # Divisão de despesas
-│   └── Role.java                   # Roles de autorização
+│   └── GroupMember.java            # Relacionamento Grupo-Usuário
 │
-├── DTO/                           # Data Transfer Objects
+├── dto/                           # Data Transfer Objects
 │   ├── request/                   # DTOs de entrada
-│   │   ├── UserCreateDTO.java     # Criação de usuário
-│   │   ├── LoginRequestDTO.java   # Dados de login
-│   │   └── ExpenseCreateDTO.java  # Criação de despesa
 │   └── response/                  # DTOs de saída
-│       ├── UserResponseDTO.java   # Resposta de usuário
-│       ├── TokenResponseDTO.java  # Token JWT
-│       └── GroupSummaryDTO.java   # Resumo de grupo
-│
-├── projection/                    # Projeções JPA
-│   ├── UserProjection.java       # Projeção de dados de usuário
-│   ├── GroupSummaryProjection.java # Resumo de grupos
-│   └── ExpenseSummaryProjection.java # Resumo de despesas
 │
 ├── exception/                     # Tratamento de Exceções
 │   ├── GlobalExceptionHandler.java # Handler global
-│   ├── BusinessException.java     # Exceções de negócio
-│   ├── ResourceNotFoundException.java
-│   └── ValidationException.java  # Validações customizadas
+│   └── BusinessException.java     # Exceções de negócio
 │
 └── util/                         # Utilitários
     ├── Constants.java            # Constantes da aplicação
-    ├── DateUtils.java           # Utilidades de data
     └── SecurityUtils.java       # Utilidades de segurança
-```
-
-### Estrutura de Recursos
-
-```
-src/main/resources/
-├── application.yml              # Configurações principais
-├── application-dev.yml          # Perfil de desenvolvimento
-├── application-prod.yml         # Perfil de produção
-├── application-test.yml         # Perfil de testes
-├── 
-├── db/migration/               # Scripts Flyway (futuro)
-│   ├── V1__create_users.sql
-│   ├── V2__create_groups.sql
-│   └── V3__create_expenses.sql
-├── 
-├── static/                     # Recursos estáticos
-│   └── api-docs/              # Documentação adicional
-└── templates/                  # Templates (se necessário)
-```
-
-### Estrutura de Testes
-
-```
-src/test/java/com/finboostplus/
-├── config/                    # Configurações de teste
-│   └── TestConfig.java       # Beans para testes
-├── 
-├── controller/               # Testes de Controller (@WebMvcTest)
-│   ├── UserControllerTest.java
-│   ├── GroupControllerTest.java
-│   └── AuthControllerTest.java
-├── 
-├── service/                  # Testes Unitários (@ExtendWith(MockitoExtension))
-│   ├── UserServiceTest.java
-│   ├── GroupServiceTest.java
-│   └── ExpenseServiceTest.java
-├── 
-├── repository/               # Testes de Repository (@DataJpaTest)
-│   ├── UserRepositoryTest.java
-│   ├── GroupRepositoryTest.java
-│   └── ExpenseRepositoryTest.java
-├── 
-├── integration/              # Testes de Integração (@SpringBootTest)
-│   ├── AuthIntegrationTest.java
-│   ├── GroupFlowIntegrationTest.java
-│   └── ExpenseFlowIntegrationTest.java
-├── 
-└── util/                     # Utilitários de teste
-    ├── TestDataFactory.java  # Factory de dados de teste
-    └── MockUtils.java        # Utilitários para mocks
 ```
 
 ## Padrões de Desenvolvimento
 
 ### Arquitetura em Camadas
 
-```java
-// Controller Layer - REST Endpoints
-@RestController
-@RequestMapping("/api/users")
-@Tag(name = "Usuários", description = "Gestão de usuários")
-public class UserController {
+=== "Controller"
+    ```java
+    @RestController
+    @RequestMapping("/api/users")
+    @Tag(name = "Usuários", description = "Gestão de usuários")
+    public class UserController {
     
-    private final UserService userService;
-    
-    @PostMapping
-    @Operation(summary = "Criar usuário")
-    public ResponseEntity<UserResponseDTO> create(
-        @Valid @RequestBody UserCreateDTO request) {
-        
-        var user = userService.create(request);
-        return ResponseEntity.status(201).body(user);
-    }
-}
-
-// Service Layer - Business Logic
-@Service
-@Transactional
-public class UserService {
-    
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    
-    public UserResponseDTO create(UserCreateDTO dto) {
-        validateEmailNotExists(dto.getEmail());
-        
-        var user = User.builder()
-            .name(dto.getName())
-            .email(dto.getEmail())
-            .password(passwordEncoder.encode(dto.getPassword()))
-            .build();
+            private final UserService userService;
             
-        var saved = userRepository.save(user);
-        return UserResponseDTO.from(saved);
-    }
-}
+            @PostMapping
+            @Operation(summary = "Criar usuário")
+            public ResponseEntity<UserResponseDTO> create(
+                @Valid @RequestBody UserCreateDTO request) {
+                
+                var user = userService.create(request);
+                return ResponseEntity.status(201).body(user);
+            }
+        }
+    ```
 
-// Repository Layer - Data Access
-@Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+=== "Service"
+    ```java
+    @Service
+    @Transactional
+    public class UserService {
     
-    @Query("SELECT u FROM User u WHERE u.email = :email")
-    Optional<User> findByEmail(String email);
-    
-    @Query("SELECT COUNT(u) > 0 FROM User u WHERE u.email = :email")
-    boolean existsByEmail(String email);
-}
-```
+            private final UserRepository userRepository;
+            private final PasswordEncoder passwordEncoder;
+            
+            public UserResponseDTO create(UserCreateDTO dto) {
+                validateEmailNotExists(dto.getEmail());
+                
+                var user = User.builder()
+                    .name(dto.getName())
+                    .email(dto.getEmail())
+                    .password(passwordEncoder.encode(dto.getPassword()))
+                    .build();
+                    
+                var saved = userRepository.save(user);
+                return UserResponseDTO.from(saved);
+            }
+        }
+    ```
 
-### Padrão DTO e Mappers
+=== "Repository"
+    ```java
+    @Repository
+    public interface UserRepository extends JpaRepository<User, Long> {
+    
+            Optional<User> findByEmail(String email);
+            
+            boolean existsByEmail(String email);
+        }
+    ```
+
+### DTOs com Records
 
 ```java
 // Request DTO
 public record UserCreateDTO(
-    @NotBlank(message = "Nome é obrigatório")
-    @Size(min = 2, max = 100, message = "Nome deve ter entre 2 e 100 caracteres")
-    String name,
-    
-    @NotBlank(message = "Email é obrigatório")
-    @Email(message = "Email deve ser válido")
-    String email,
-    
-    @NotBlank(message = "Senha é obrigatória")
-    @Size(min = 6, message = "Senha deve ter pelo menos 6 caracteres")
-    String password
+    @NotBlank @Size(min = 2, max = 100) String name,
+    @NotBlank @Email String email,
+    @NotBlank @Size(min = 6) String password
 ) {}
 
 // Response DTO
@@ -268,7 +173,7 @@ public record UserResponseDTO(
 }
 ```
 
-### Entidades JPA com Lombok
+### Entidades JPA
 
 ```java
 @Entity
@@ -277,8 +182,6 @@ public record UserResponseDTO(
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@SequenceGenerator(name = "seq_user", sequenceName = "seq_user", 
-                   allocationSize = 1, initialValue = 1)
 public class User implements UserDetails {
     
     @Id
@@ -298,10 +201,6 @@ public class User implements UserDetails {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
     
-    @Column(name = "color_theme", nullable = false)
-    @Builder.Default
-    private String colorTheme = "light";
-    
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
                joinColumns = @JoinColumn(name = "user_id"),
@@ -309,36 +208,13 @@ public class User implements UserDetails {
     @Builder.Default
     private Set<Role> roles = new HashSet<>();
     
-    // UserDetails implementation
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-            .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
-            .collect(Collectors.toSet());
-    }
-    
-    @Override
-    public String getUsername() {
-        return email;
-    }
-    
-    @Override
-    public boolean isAccountNonExpired() { return true; }
-    
-    @Override
-    public boolean isAccountNonLocked() { return true; }
-    
-    @Override
-    public boolean isCredentialsNonExpired() { return true; }
-    
-    @Override
-    public boolean isEnabled() { return true; }
+    // UserDetails implementation methods...
 }
 ```
 
-## Configurações e Segurança
+## Configurações Principais
 
-### Security Configuration
+### Spring Security
 
 ```java
 @Configuration
@@ -347,71 +223,23 @@ public class User implements UserDetails {
 public class SecurityConfig {
     
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-    
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+        return http
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/docs/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .requestMatchers("/docs/**", "/swagger-ui/**").permitAll()
                 .requestMatchers("/actuator/health").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
                 .anyRequest().authenticated())
             .oauth2ResourceServer(oauth2 -> oauth2
-                .jwt(jwt -> jwt.jwtDecoder(jwtDecoder())));
-                
-        return http.build();
-    }
-    
-    @Bean
-    public JwtDecoder jwtDecoder() {
-        return JwtDecoders.fromIssuerLocation("http://localhost:8080");
+                .jwt(jwt -> jwt.jwtDecoder(jwtDecoder())))
+            .build();
     }
 }
 ```
 
-### Database Configuration
-
-```java
-@Configuration
-@EnableJpaRepositories(basePackages = "com.finboostplus.repository")
-@EnableJpaAuditing
-public class DatabaseConfig {
-    
-    @Bean
-    @Primary
-    @ConfigurationProperties("spring.datasource")
-    public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
-    }
-    
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        var factory = new LocalContainerEntityManagerFactoryBean();
-        factory.setDataSource(dataSource());
-        factory.setPackagesToScan("com.finboostplus.model");
-        factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        
-        var props = new Properties();
-        props.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        props.setProperty("hibernate.hbm2ddl.auto", "validate");
-        props.setProperty("hibernate.show_sql", "true");
-        props.setProperty("hibernate.format_sql", "true");
-        factory.setJpaProperties(props);
-        
-        return factory;
-    }
-}
-```
-
-## Tratamento de Erros
-
-### Global Exception Handler
+### Tratamento Global de Erros
 
 ```java
 @RestControllerAdvice
@@ -419,22 +247,17 @@ public class DatabaseConfig {
 public class GlobalExceptionHandler {
     
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ErrorResponse> handleBusinessException(
-        BusinessException e) {
-        
-        log.warn("Business exception: {}", e.getMessage());
-        
+    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
         var error = ErrorResponse.builder()
             .message(e.getMessage())
             .code("BUSINESS_ERROR")
             .timestamp(Instant.now())
             .build();
-            
         return ResponseEntity.badRequest().body(error);
     }
     
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationErrorResponse> handleValidationException(
+    public ResponseEntity<ValidationErrorResponse> handleValidation(
         MethodArgumentNotValidException e) {
         
         var errors = e.getBindingResult().getFieldErrors().stream()
@@ -450,53 +273,35 @@ public class GlobalExceptionHandler {
             
         return ResponseEntity.badRequest().body(response);
     }
-    
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorResponse> handleDataIntegrityViolation(
-        DataIntegrityViolationException e) {
-        
-        log.error("Data integrity violation", e);
-        
-        String message = "Erro de integridade dos dados";
-        if (e.getMessage().contains("email")) {
-            message = "Email já está em uso";
-        }
-        
-        var error = ErrorResponse.builder()
-            .message(message)
-            .code("DATA_INTEGRITY_ERROR")
-            .timestamp(Instant.now())
-            .build();
-            
-        return ResponseEntity.status(409).body(error);
-    }
 }
 ```
 
-## Padrões de API REST
+## API REST - Convenções
 
-### Convenções de URL
+### Endpoints Padrão
 
-- **GET /api/users** - Listar usuários
-- **GET /api/users/{id}** - Buscar usuário por ID
-- **POST /api/users** - Criar usuário
-- **PUT /api/users/{id}** - Atualizar usuário completo
-- **PATCH /api/users/{id}** - Atualização parcial
-- **DELETE /api/users/{id}** - Excluir usuário
+| Método | Endpoint | Descrição | Status |
+|--------|----------|-----------|--------|
+| GET | `/api/users` | Listar usuários | 200 |
+| GET | `/api/users/{id}` | Buscar por ID | 200, 404 |
+| POST | `/api/users` | Criar usuário | 201, 400 |
+| PUT | `/api/users/{id}` | Atualizar completo | 200, 404 |
+| PATCH | `/api/users/{id}` | Atualização parcial | 200, 404 |
+| DELETE | `/api/users/{id}` | Excluir usuário | 204, 404 |
 
 ### Códigos de Status HTTP
 
+!!! tip "Status Codes Principais"
 - **200 OK** - Operação bem-sucedida
-- **201 Created** - Recurso criado com sucesso
-- **204 No Content** - Operação bem-sucedida sem retorno
+- **201 Created** - Recurso criado
+- **204 No Content** - Operação sem retorno
 - **400 Bad Request** - Dados inválidos
 - **401 Unauthorized** - Não autenticado
 - **403 Forbidden** - Não autorizado
 - **404 Not Found** - Recurso não encontrado
 - **409 Conflict** - Conflito (email duplicado)
-- **500 Internal Server Error** - Erro interno
 
-### Paginação e Filtros
+### Paginação
 
 ```java
 @GetMapping
@@ -504,18 +309,17 @@ public ResponseEntity<Page<UserResponseDTO>> findAll(
     @RequestParam(defaultValue = "0") int page,
     @RequestParam(defaultValue = "20") int size,
     @RequestParam(defaultValue = "name") String sort,
-    @RequestParam(defaultValue = "asc") String direction,
     @RequestParam(required = false) String search) {
     
     var pageable = PageRequest.of(page, size, 
-        Sort.by(Sort.Direction.fromString(direction), sort));
+        Sort.by(Sort.Direction.ASC, sort));
     
     var users = userService.findAll(pageable, search);
     return ResponseEntity.ok(users);
 }
 ```
 
-## Performance e Otimizações
+## Performance & Otimizações
 
 ### Queries Otimizadas
 
@@ -523,9 +327,11 @@ public ResponseEntity<Page<UserResponseDTO>> findAll(
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
     
+    // Query com JOIN FETCH para evitar N+1
     @Query("SELECT g FROM Group g JOIN FETCH g.members m WHERE m.user.id = :userId")
     List<Group> findByUserIdWithMembers(Long userId);
     
+    // Query nativa para agregações complexas
     @Query(value = """
         SELECT g.id, g.name, COUNT(gm.user_id) as member_count,
                COALESCE(SUM(e.amount), 0) as total_expenses
@@ -561,6 +367,58 @@ public UserResponseDTO findById(Long id) {
 }
 ```
 
+## Configurações de Ambiente
+
+### Application Properties
+
+=== "Development"
+    ```yaml
+    # application-dev.yml
+    spring:
+    datasource:
+    url: jdbc:postgresql://localhost:5432/finboost_dev
+    username: finboost
+    password: dev123
+    jpa:
+    hibernate:
+    ddl-auto: create-drop
+    show-sql: true
+    
+        logging:
+          level:
+            com.finboostplus: DEBUG
+    ```
+
+=== "Production"
+    ```yaml
+    # application-prod.yml
+    spring:
+    datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    jpa:
+    hibernate:
+    ddl-auto: validate
+    show-sql: false
+    
+        logging:
+          level:
+            com.finboostplus: INFO
+    ```
+
+=== "Test"
+    ```yaml
+    # application-test.yml
+    spring:
+      datasource:
+        url: jdbc:h2:mem:testdb
+        driver-class-name: org.h2.Driver
+      jpa:
+        hibernate:
+          ddl-auto: create-drop
+    ```
+
 ## Documentação da API
 
 ### OpenAPI Configuration
@@ -575,12 +433,9 @@ public class OpenApiConfig {
             .info(new Info()
                 .title("FinBoost+ API")
                 .version("1.0")
-                .description("API REST para gestão financeira colaborativa")
-                .contact(new Contact()
-                    .name("FinBoost+ Team")
-                    .email("finboostplus@gmail.com")
-                    .url("https://github.com/Finboostplus/finboostplus-app")))
-            .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
+                .description("API REST para gestão financeira colaborativa"))
+            .addSecurityItem(new SecurityRequirement()
+                .addList("Bearer Authentication"))
             .components(new Components()
                 .addSecuritySchemes("Bearer Authentication", 
                     new SecurityScheme()
@@ -611,7 +466,7 @@ public class GroupController {
     @PostMapping
     public ResponseEntity<GroupResponseDTO> create(
         @Valid @RequestBody GroupCreateDTO request,
-        @Parameter(hidden = true) @AuthenticationPrincipal UserDetails currentUser) {
+        @AuthenticationPrincipal UserDetails currentUser) {
         
         var group = groupService.create(request, currentUser.getUsername());
         return ResponseEntity.status(201).body(group);
@@ -619,45 +474,11 @@ public class GroupController {
 }
 ```
 
-## Deployment e Ambiente
+## Deploy com Docker
 
-### Profiles
-
-```yaml
-# application.yml
-spring:
-  profiles:
-    active: dev
-  application:
-    name: finboostplus-server
-
-# application-dev.yml
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/finboost_dev
-    username: finboost
-    password: dev123
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    show-sql: true
-
-# application-prod.yml
-spring:
-  datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/finboost}
-    username: ${DATABASE_USERNAME:finboost}
-    password: ${DATABASE_PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    show-sql: false
-```
-
-### Docker Configuration
+### Dockerfile
 
 ```dockerfile
-# Dockerfile
 FROM openjdk:21-jdk-slim
 
 WORKDIR /app
@@ -669,6 +490,37 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
+### Docker Compose
+
+```yaml
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DATABASE_URL=jdbc:postgresql://db:5432/finboost
+      - DATABASE_USERNAME=finboost
+      - DATABASE_PASSWORD=prod123
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=finboost
+      - POSTGRES_USER=finboost
+      - POSTGRES_PASSWORD=prod123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+```
+
 ---
 
-Esta estrutura garante escalabilidade, manutenibilidade e performance para o backend do FinBoost+, seguindo as melhores práticas de desenvolvimento Spring Boot e arquitetura de microsserviços.
+!!! success "Resumo"
+Esta estrutura garante **escalabilidade**, **manutenibilidade** e **performance** para o backend do FinBoost+, seguindo as melhores práticas de desenvolvimento Spring Boot e arquitetura em camadas.

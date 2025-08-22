@@ -15,22 +15,22 @@ Os hooks personalizados encapsulam lógicas reutilizáveis, seguindo as regras d
 ### Padrões de Retorno
 
 === "Dados Simples"
-```javascript
-const { data, loading, error, refetch } = useCustomHook();
-```
+    ```javascript
+    const { data, loading, error, refetch } = useCustomHook();
+    ```
 
 === "CRUD Operations"
-```javascript
-const { 
-  data, loading, error, 
-  create, update, delete: remove, refetch 
-} = useCustomHook();
-```
+    ```javascript
+    const { 
+      data, loading, error, 
+      create, update, delete: remove, refetch 
+    } = useCustomHook();
+    ```
 
 === "Estado Local"
-```javascript
-const [value, setValue] = useCustomHook(initialValue);
-```
+    ```javascript
+    const [value, setValue] = useCustomHook(initialValue);
+    ```
 
 ## Hooks Principais
 

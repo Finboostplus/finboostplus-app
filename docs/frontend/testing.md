@@ -31,10 +31,10 @@ __tests__/
 ## Comandos
 
 === "Básicos"
-```bash
-# Executar todos os testes
-npm test
-
+    ```bash
+    # Executar todos os testes
+    npm test
+    
     # Com cobertura
     npm test -- --coverage
 
@@ -43,13 +43,13 @@ npm test
     ```
 
 === "Avançados"
-```bash
-# Interface gráfica
-npm test -- --ui
-
+    ```bash
+    # Interface gráfica
+    npm test -- --ui
+    
     # Apenas alterados
     npm test -- --changed
-
+    
     # Teste específico
     npm test -- Header.test.jsx
     ```
@@ -133,24 +133,24 @@ describe('useContador', () => {
 ### Estratégias de Busca (Por Prioridade)
 
 === "1. Por Papel (Mais Acessível)"
-```jsx
-screen.getByRole('button', { name: /enviar/i })
-screen.getByRole('textbox', { name: /email/i })
-screen.getByRole('heading', { level: 1 })
-```
+    ```jsx
+    screen.getByRole('button', { name: /enviar/i })
+    screen.getByRole('textbox', { name: /email/i })
+    screen.getByRole('heading', { level: 1 })
+    ```
 
 === "2. Por Label/Texto"
-```jsx
-screen.getByLabelText('Email')
-screen.getByPlaceholderText('Digite seu email')
-screen.getByText('Clique aqui')
-```
+    ```jsx
+    screen.getByLabelText('Email')
+    screen.getByPlaceholderText('Digite seu email')
+    screen.getByText('Clique aqui')
+    ```
 
 === "3. Por Test ID (Último Recurso)"
-```jsx
-screen.getByTestId('custom-element')
-// Use apenas quando outras opções não são viáveis
-```
+    ```jsx
+    screen.getByTestId('custom-element')
+    // Use apenas quando outras opções não são viáveis
+    ```
 
 ### Principais Matchers
 
@@ -172,9 +172,9 @@ screen.getByTestId('custom-element')
 ### Mock de Funções
 
 === "Básico"
-```jsx
-import { vi } from 'vitest';
-
+    ```jsx
+    import { vi } from 'vitest';
+    
     // Mock simples
     const mockFn = vi.fn();
     
@@ -183,21 +183,21 @@ import { vi } from 'vitest';
     ```
 
 === "Assíncrono"
-```jsx
-// Mock assíncrono
-const mockAsync = vi.fn().mockResolvedValue({ data: 'response' });
-
+    ```jsx
+    // Mock assíncrono
+    const mockAsync = vi.fn().mockResolvedValue({ data: 'response' });
+    
     // Mock com erro
     const mockError = vi.fn().mockRejectedValue(new Error('Erro simulado'));
     ```
 
 === "Condicional"
-```jsx
-const mockConditional = vi.fn()
-  .mockReturnValueOnce('primeira chamada')
-  .mockReturnValueOnce('segunda chamada')
-  .mockReturnValue('demais chamadas');
-```
+    ```jsx
+    const mockConditional = vi.fn()
+      .mockReturnValueOnce('primeira chamada')
+      .mockReturnValueOnce('segunda chamada')
+      .mockReturnValue('demais chamadas');
+    ```
 
 ### Mock de Módulos
 
@@ -249,7 +249,7 @@ success: true, token: 'mock-token'
         });
       });
     });
-    ```
+```
 
 ### Estados Assíncronos
 
@@ -297,7 +297,7 @@ const produtos = [
       // ✅ Assert - Verificar resultado
       expect(screen.getByText('Total: R$ 25,50')).toBeInTheDocument();
     });
-    ```
+```
 
 ### Nomes Descritivos
 
@@ -377,15 +377,6 @@ export default defineConfig({
   }
 })
 ```
-
-### Metas
-
-| Métrica | Meta Atual | Meta Ideal |
-|---------|------------|------------|
-| **Linhas** | 80% | 90% |
-| **Funções** | 80% | 85% |
-| **Branches** | 80% | 85% |
-| **Statements** | 80% | 90% |
 
 ## CI/CD
 

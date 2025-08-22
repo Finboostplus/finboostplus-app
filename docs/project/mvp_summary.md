@@ -12,11 +12,13 @@ O MVP do FinBoost+ foi definido com foco na entrega de valor imediato aos usuár
 ### Critérios de Sucesso
 
 **Funcional**
+
 - Usuários conseguem registrar e dividir despesas
 - Cálculos de saldos são precisos e transparentes
 - Interface é intuitiva para usuários não técnicos
 
 **Técnico**
+
 - Sistema é estável e responsivo
 - APIs são seguras e bem documentadas
 - Código segue padrões estabelecidos
@@ -46,17 +48,20 @@ sequenceDiagram
 - Perfil básico do usuário
 
 **Gerenciamento de Grupos**
+
 - Criação e edição de grupos financeiros
 - Convite e remoção de membros
 - Configurações de grupo (nome, descrição, categoria)
 - Histórico de atividades do grupo
 
 **Controle de Despesas**
+
 - Registro de despesas individuais e compartilhadas
 - Categorização de novas despesas
 - Divisão flexível entre membros (igual ou personalizada)
 
 **Dashboard e Relatórios**
+
 - Visão geral de saldos por grupo
 - Histórico de transações
 - Gráficos básicos de gastos por categoria
@@ -65,6 +70,7 @@ sequenceDiagram
 ### Secundárias - Funcionalidades de Suporte
 
 **Interface e Usabilidade**
+
 - Design responsivo para mobile e desktop
 - Tema claro/escuro
 - Buscas e filtros básicos
@@ -74,18 +80,21 @@ sequenceDiagram
 Para manter o foco e viabilizar a entrega no prazo estabelecido, algumas funcionalidades foram deliberadamente deixadas para versões futuras:
 
 ### Integrações Externas
+
 - Conexão com bancos e cartões
 - APIs de pagamento (PIX, cartão)
 - Sincronização com planilhas
 - Integração com outros apps financeiros
 
 ### Recursos Avançados
+
 - Inteligência artificial para sugestões
 - Reconhecimento automático de recibos
 - Análises preditivas de gastos
 - Relatórios avançados e exportação
 
 ### Funcionalidades Sociais
+
 - Chat integrado entre membros dos grupos
 - Sistema de pontuação/gamificação
 - Comunidade de usuários
@@ -108,17 +117,20 @@ graph LR
 ### Decisões Técnicas para o MVP
 
 **Frontend**
+
 - React com hooks para gerenciamento de estado
 - TailwindCSS para estilização rápida
 - Recharts para gráficos básicos
 
 **Backend**
+
 - Spring Boot com arquitetura em camadas
 - JPA/Hibernate para persistência
 - Spring Security para autenticação
 - Validação robusta de dados
 
 **Infraestrutura**
+
 - PostgreSQL como banco principal
 - Docker para desenvolvimento local
 - Deploy manual para demonstração
@@ -126,16 +138,19 @@ graph LR
 ## Métricas de Sucesso
 
 ### Técnicas
+
 - **Performance**: Tempo de resposta < 2 segundos
 - **Segurança**: Zero vulnerabilidades críticas
 - **Cobertura de Testes**: Mínimo 70% backend, 70% frontend
 
 ### Usabilidade
+
 - **Onboarding**: Usuário consegue criar primeiro grupo em < 5 minutos
 - **Divisão de Despesa**: Processo completo em < 5 cliques
 - **Navegação**: Interface intuitiva sem necessidade de tutorial
 
 ### Negócio
+
 - **Adoção**: Demonstração funcional para avaliadores
 - **Documentação**: 100% das funcionalidades documentadas
 
@@ -144,6 +159,7 @@ graph LR
 ### Cenários de Teste Principais
 
 **Fluxo de Usuário Completo**
+
 1. Usuário se cadastra na plataforma
 2. Cria seu primeiro grupo financeiro
 3. Adiciona outros membros
@@ -151,10 +167,11 @@ graph LR
 5. Visualiza saldo calculado automaticamente
 
 **Casos de Borda**
-- Divisões com valores decimais complexos
-- Grupos com muitos membros (10+)
-- Despesas com valores muito altos/baixos
-- Comportamento com conexão instável
+
+1. Divisões com valores decimais complexos
+2. Grupos com muitos membros (10+)
+3. Despesas com valores muito altos/baixos
+4. Comportamento com conexão instável
 
 ## Conclusão
 
