@@ -64,6 +64,7 @@ tipo(escopo): descrição breve
 feat(auth): adiciona autenticação JWT
 fix(expenses): corrige cálculo de divisão de despesas
 docs(readme): atualiza instruções de instalação
+style(button): ajusta espaçamento do botão de submit
 ```
 
 ---
