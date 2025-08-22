@@ -15,7 +15,7 @@ Seguir esse fluxo garante que o código fique organizado, fácil de revisar e se
 
 ### Fluxo de Trabalho
 
-###3 1. **Atualize o repositório local**
+### 1. **Atualize o repositório local**
 ```bash
 git checkout develop
 git pull origin develop
