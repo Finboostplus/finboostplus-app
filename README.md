@@ -42,12 +42,11 @@
 
 ---
 
-## 🚀 **Demo ao Vivo**
+## 🚀 **Demontração**
 
 <!-- Adicionar quando tiver deploy -->
-- 🌐 **Aplicação:** [Em breve]
+- 🌐 **Aplicação:** [FinBoost+](https://finboostplus-app-zeta.vercel.app/)
 - 📚 **Documentação:** [FinBoost+ Docs](https://finboostplus.github.io/finboostplus-app/)
-- 🎥 **Video Demo:** [YouTube](link-do-video)
 
 ---
 
