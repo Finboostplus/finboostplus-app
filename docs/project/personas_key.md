@@ -225,9 +225,9 @@ versões futuras:
 Para acessar a especificação completa das personas, incluindo jornadas detalhadas, motivações e cenários de uso 
 ampliados:
 
-**[Personas Detalhadas - GitHub](https://github.com/Finboostplus/finboostplus-app/blob/main/project_docs/personas.md)**
+**[Personas Detalhadas - GitHub](https://github.com/Finboostplus/finboostplus-app/blob/main/project_docs/documentos/personas.md)**
 
-**[User Stories Completas - GitHub](https://github.com/Finboostplus/finboostplus-app/blob/main/project_docs/user_stories.md)**
+**[User Stories Completas - GitHub](https://github.com/Finboostplus/finboostplus-app/blob/main/project_docs/documentos/user_stories.md)**
 
 ---
 

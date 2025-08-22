@@ -277,73 +277,6 @@ public class GroupController {
 
 ## Banco de Dados - Modelo Relacional
 
-### Diagrama Entidade-Relacionamento
-
-```mermaid
-erDiagram
-    USER {
-        bigint id PK
-        varchar name
-        varchar email UK
-        varchar password_hash
-        timestamp created_at
-        timestamp updated_at
-        boolean active
-    }
-    
-    GROUP {
-        bigint id PK
-        varchar name
-        text description
-        varchar invite_code UK
-        bigint owner_id FK
-        timestamp created_at
-        timestamp updated_at
-        boolean active
-    }
-    
-    GROUP_MEMBER {
-        bigint id PK
-        bigint group_id FK
-        bigint user_id FK
-        varchar role
-        timestamp joined_at
-        boolean active
-    }
-    
-    EXPENSE {
-        bigint id PK
-        bigint group_id FK
-        bigint created_by FK
-        varchar title
-        decimal amount
-        varchar category
-        date expense_date
-        text description
-        timestamp created_at
-        timestamp updated_at
-        boolean active
-    }
-    
-    EXPENSE_SPLIT {
-        bigint id PK
-        bigint expense_id FK
-        bigint user_id FK
-        decimal amount
-        varchar split_type
-        decimal percentage
-        timestamp created_at
-    }
-    
-    USER ||--o{ GROUP : owns
-    USER ||--o{ GROUP_MEMBER : participates
-    GROUP ||--o{ GROUP_MEMBER : contains
-    GROUP ||--o{ EXPENSE : has
-    USER ||--o{ EXPENSE : creates
-    EXPENSE ||--o{ EXPENSE_SPLIT : divided_into
-    USER ||--o{ EXPENSE_SPLIT : owes
-```
-
 ### Principais Relacionamentos
 
 **Grupos e Membros**
@@ -501,5 +434,3 @@ graph TB
 - [**Frontend README**](https://github.com/Finboostplus/finboostplus-app/blob/main/frontend/README.md) - Desenvolvimento local
 - [**API Interativa**](api_interactive.md) - Documentação Scalar/Swagger
 - [**GitHub Wiki**](https://github.com/Finboostplus/finboostplus-app/wiki) - Guias técnicos detalhados
-
-*Arquitetura revisada pela equipe técnica - versão atualizada em Agosto de 2025*

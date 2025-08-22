@@ -405,5 +405,3 @@ curl http://localhost:8080/actuator/health
 
 !!! tip "Documentação Sempre Atualizada"
     A documentação Scalar é gerada automaticamente do código fonte. Sempre que a API é atualizada, a documentação reflete as mudanças imediatamente.
-
-*Documentação consolidada pela equipe técnica - Agosto de 2025*

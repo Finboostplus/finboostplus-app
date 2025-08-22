@@ -62,18 +62,18 @@ docs/
 Pré-requisitos: Python 3.10+ e `pip`.
 
 ```powershell
-# Instalar dependências (local)
-pip install mkdocs mkdocs-material mkdocs-mermaid2
-
-# Servir com hot-reload
-mkdocs serve
-# Abra: http://127.0.0.1:8000
+    # Instalar dependências (local)
+    pip install mkdocs mkdocs-material mkdocs-mermaid2
+    
+    # Servir com hot-reload
+    mkdocs serve
+    # Abra: http://127.0.0.1:8000
 ```
 
 Opcional:
 ```powershell
-# Verificar a navegação definida
-type mkdocs.yml
+    # Verificar a navegação definida
+    type mkdocs.yml
 ```
 
 ---
@@ -91,30 +91,29 @@ Exemplos úteis:
 
 Admonitions
 ```md
-!!! note "Observação"
-    Este é um bloco de nota.
+    !!! note "Observação"
+        Este é um bloco de nota.
 ```
 
 Mermaid
 ```md
-```mermaid
-flowchart LR
-  A[Cliente] --> B(API)
-  B --> C[(DB)]
-```
+    ```mermaid
+    flowchart LR
+      A[Cliente] --> B(API)
+      B --> C[(DB)]
+    ```
 ```
 
 Abas
 ```md
-=== "cURL"
-```bash
-curl http://localhost:8080/actuator/health
-```
+    === "cURL"
+    ```bash
+    curl http://localhost:8080/actuator/health
 
-=== "HTTPie"
-```bash
-http :8080/actuator/health
-```
+    === "HTTPie"
+    ```bash
+        http :8080/actuator/health
+    ```
 ```
 
 ---
@@ -125,9 +124,9 @@ http :8080/actuator/health
 2) Registre na navegação do `mkdocs.yml`:
 
 ```yaml
-nav:
-  - Frontend:
-      - Estado Global: frontend/state-management.md
+    nav:
+      - Frontend:
+          - Estado Global: frontend/state-management.md
 ```
 
 3) Rode `mkdocs serve` e valide links, títulos e formatação
@@ -140,7 +139,7 @@ nav:
 Geração local (artefatos em `site/`):
 
 ```powershell
-mkdocs build
+    mkdocs build
 ```
 
 Publicação:

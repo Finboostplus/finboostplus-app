@@ -46,17 +46,17 @@ graph TB
 
 ### Características Principais
 
-**OAuth2 Authorization Server**
+!!! info "OAuth2 Authorization Server"
 - Servidor de autorização completo com Spring Security
 - Suporte a múltiplos grant types (password + refresh token)
 - Tokens JWT auto-contidos com assinatura RSA
 
-**Segurança Robusta**
+!!! success "Segurança Robusta"
 - Senhas criptografadas com BCrypt
 - Chaves RSA geradas dinamicamente
 - Tokens com expiração configurável
 
-**Performance Otimizada**
+!!! performance "Performance Otimizada"
 - Tokens JWT stateless (sem consulta ao banco)
 - Claims customizadas para reduzir chamadas à API
 - Refresh tokens para renovação automática
@@ -71,7 +71,6 @@ O sistema utiliza configurações injetáveis através de properties para máxim
 - **Token Settings**: Access tokens JWT com duração configurável (padrão 24h)
 - **Refresh Tokens**: Tokens de renovação com duração estendida (padrão 30 dias)
 - **RSA Key Generation**: Chaves RSA 2048 bits geradas dinamicamente
-```
 
 ### Token Settings
 
@@ -145,10 +144,13 @@ Os tokens JWT incluem informações essenciais do usuário para reduzir consulta
 ```
 
 **Claims Principais:**
-- `sub`: Email do usuário (identificador único)
-- `username`: Nome para exibição na interface
-- `authorities`: Roles e permissões do usuário
-- `exp`: Timestamp de expiração do token
+
+| Claim | Descrição |
+|-------|-----------|
+| `sub` | Email do usuário (identificador único) |
+| `username` | Nome para exibição na interface |
+| `authorities` | Roles e permissões do usuário |
+| `exp` | Timestamp de expiração do token |
 
 ### Geração de Chaves RSA
 
@@ -167,6 +169,7 @@ private static RSAKey generateRsa() {
 }
 ```
 
+!!! note "Especificações de Segurança"
 - **Algoritmo**: RSA 2048 bits para máxima segurança
 - **Geração**: Nova chave a cada inicialização da aplicação
 - **Key ID**: Identificador único para rotação de chaves
@@ -177,7 +180,8 @@ private static RSAKey generateRsa() {
 
 O sistema suporta revogação segura de tokens através da classe `TokenRevocationUtil`:
 
-**Logout Seguro**: Remove tokens ativos do usuário
+=== "Logout Seguro"
+Remove tokens ativos do usuário
 ```java
 @PostMapping("/api/auth/logout")
 public ResponseEntity<ApiResponse> logout() {
@@ -186,7 +190,8 @@ public ResponseEntity<ApiResponse> logout() {
 }
 ```
 
-**Alteração de Senha**: Revoga todos os tokens por segurança
+=== "Alteração de Senha"
+Revoga todos os tokens por segurança
 ```java
 @PostMapping("/api/auth/change-password") 
 public ResponseEntity<ApiResponse> changePassword(@RequestBody ChangePasswordRequest request) {
@@ -260,48 +265,17 @@ sequenceDiagram
     F->>F: Limpar localStorage
     F-->>U: Redirecionamento para login
 ```
-    participant Auth as Auth Server
-    
-    F->>A: GET /api/groups (token expirado)
-    A-->>F: 401 Unauthorized
-    F->>F: Detectar 401, buscar refresh token
-    F->>Auth: POST /oauth2/token (refresh_token grant)
-    Auth-->>F: Novo access token
-    F->>F: Atualizar token no localStorage
-    F->>A: Repetir requisição original
-    A-->>F: Dados solicitados
-```
-
-### Logout com Revogação
-
-```mermaid
-sequenceDiagram
-    participant U as Usuário
-    participant F as Frontend
-    participant A as Auth Server
-    participant S as Token Storage
-    
-    U->>F: Clica em Logout
-    F->>A: POST /api/auth/logout
-    A->>A: Extrair token do SecurityContext
-    A->>S: Buscar autorização pelo token
-    S-->>A: OAuth2Authorization
-    A->>S: Remover autorização (revoga tokens)
-    A-->>F: Confirmação de logout
-    F->>F: Limpar localStorage
-    F-->>U: Redirecionamento para login
-```
 
 ## Segurança e Monitoramento
 
 ### Proteções Implementadas
 
-**Validação de Entrada**
+!!! security "Validação de Entrada"
 - Sanitização de dados de entrada
 - Validação de formato de email
 - Rate limiting para tentativas de login
 
-**Headers de Segurança**
+!!! security "Headers de Segurança"
 - CORS configurado apropriadamente
 - Headers HSTS para HTTPS obrigatório
 - Content-Type validation
@@ -310,21 +284,21 @@ sequenceDiagram
 
 ### Problemas Comuns
 
-**Token JWT Inválido**
+!!! failure "Token JWT Inválido"
 ```
 Erro: "JWT signature does not match locally computed signature"
 Causa: Chaves RSA não sincronizadas
 Solução: Verificar geração de chaves no startup
 ```
 
-**Client Authentication Failed**
+!!! failure "Client Authentication Failed"
 ```
 Erro: "Client authentication failed"  
 Causa: Client ID/Secret incorretos
 Solução: Verificar variáveis de ambiente
 ```
 
-**Refresh Token Expirado**
+!!! failure "Refresh Token Expirado"
 ```
 Erro: "Refresh token is expired"
 Causa: Token expirou (30 dias padrão)
@@ -333,29 +307,31 @@ Solução: Usuário deve fazer login novamente
 
 ### Endpoints de Diagnóstico
 
+=== "Configuração OAuth2"
 ```bash
 # Verificar configuração do authorization server
 GET /.well-known/oauth-authorization-server
+```
 
+=== "Chaves Públicas"
+```bash
 # Obter chaves públicas JWK
 GET /.well-known/jwks.json
+```
 
+=== "Health Check"
+```bash
 # Health check da aplicação
 GET /actuator/health
 ```
 
 !!! tip "Boas Práticas"
-    - Use sempre HTTPS em produção para proteger tokens
-    - Configure CORS apropriadamente para evitar problemas de origem
-    - Monitore logs de segurança regularmente
-    - Implemente rate limiting para prevenir ataques de força bruta
+- Use sempre HTTPS em produção para proteger tokens
+- Configure CORS apropriadamente para evitar problemas de origem
+- Monitore logs de segurança regularmente
+- Implemente rate limiting para prevenir ataques de força bruta
 
 !!! info "Recursos Adicionais"
-    - [**API Interativa**](api_interactive.md) - Testar endpoints de autenticação
-    - [**Banco de Dados**](database.md) - Estrutura de tabelas de usuários
-    - [**Backend README**](https://github.com/Finboostplus/finboostplus-app/blob/main/backend/README.md) - Setup completo
-    - [**Spring Security OAuth2**](https://spring.io/projects/spring-authorization-server) - Documentação oficial
-
----
-
-*Sistema de autenticação implementado e documentado pela equipe técnica - versão atualizada em Agosto de 2025*
+- [**API Interativa**](api_documentation.md) - Testar endpoints de autenticação
+- [**Banco de Dados**](database.md) - Estrutura de tabelas de usuários
+- [**Spring Security OAuth2**](https://spring.io/projects/spring-authorization-server) - Documentação oficial

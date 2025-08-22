@@ -85,7 +85,9 @@ nav:
   - Frontend:
       - Estrutura e Padrões: frontend/structure.md
       - Componentes Principais: frontend/components.md
+      - Páginas e Rotas: frontend/pages.md
       - Hooks Customizados: frontend/hooks.md
+      - Estilos e Temas: frontend/styling.md
       - Testes Frontend: frontend/testing.md
   - Backend:
       - Estrutura e Padrões: backend/structure.md
@@ -99,5 +101,4 @@ nav:
       - Backend - Registro de Prompts: backend/ai_prompts_log.md
   - Para Desenvolvedores:
       - Configuração de Ambiente: dev/environment.md
-      - Links Úteis: dev/useful_links.md
       - Wiki de Desenvolvimento: "https://github.com/Finboostplus/finboostplus-app/wiki"
