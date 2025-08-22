@@ -15,12 +15,14 @@ Garantir transparência sobre como e quando ferramentas de IA foram utilizadas c
 Durante o desenvolvimento deste projeto, foram utilizadas ferramentas de IA para apoiar o planejamento, organização e metodologias ágeis. O mini guia criado reúne perguntas, respostas e aprendizados organizados durante o desenvolvimento de um projeto fullstack real, servindo como referência prática para iniciantes.
 
 **Conteúdo do Mini Guia:**
+
 - Definição de escopo e criação de personas
 - Organização de equipes e uso de metodologias ágeis
 - Estruturação de MVP e requisitos
 - Templates de personas e user stories
 
 **Links:**
+
 - Repositório: https://github.com/Alan-oliveir/mini-guia-fullstack
 - Site: alan-oliveir.github.io/mini-guia-fullstack/
 
@@ -29,12 +31,14 @@ Durante o desenvolvimento deste projeto, foram utilizadas ferramentas de IA para
 ## Princípios do Uso de IA
 
 **Práticas Adotadas:**
+
 - Transparência: todo uso de IA é documentado
 - Responsabilidade: decisões finais são dos desenvolvedores
 - Revisão: todo código gerado é revisado e testado
 - Aprendizado: IA como ferramenta de capacitação
 
 **Práticas Não Adotadas:**
+
 - Não copiar código sem entendimento
 - Não submeter trabalho puramente gerado por IA
 - Não ocultar o uso de ferramentas auxiliares
@@ -89,12 +93,14 @@ mindmap
 ## **Benefícios Alcançados**
 
 ### **Para o Projeto**
+
 - **Aceleração do desenvolvimento** - Redução de 30-40% no tempo de tarefas repetitivas
 - **Qualidade do código** - Sugestões de boas práticas e padrões
 - **Documentação rica** - Geração estruturada de docs técnicas
 - **Design consistente** - Paletas e layouts profissionais
 
 ### **Para a Equipe**
+
 - **Produtividade aumentada** - Foco em lógica de negócio
 - **Capacitação técnica** - Conhecimento de ferramentas modernas
 
@@ -135,12 +141,14 @@ mindmap
 ## Benefícios Alcançados
 
 **Para o Projeto:**
+
 - Aceleração do desenvolvimento
 - Melhoria na qualidade do código
 - Apoio na documentação técnica
 - Facilidade na prototipação de interfaces
 
 **Para a Equipe:**
+
 - Aprendizado contínuo
 - Redução de dúvidas técnicas
 - Melhoria na organização do trabalho
