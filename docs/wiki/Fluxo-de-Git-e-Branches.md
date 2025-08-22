@@ -50,7 +50,7 @@ Usamos o formato do **Conventional Commits**:
 tipo(escopo): descrição breve
 ```
 
-###3 Tipos mais comuns:
+### Tipos mais comuns:
 - **`feat`**: nova funcionalidade
 - **`fix`**: correção de bug
 - **`docs`**: mudanças apenas na documentação
