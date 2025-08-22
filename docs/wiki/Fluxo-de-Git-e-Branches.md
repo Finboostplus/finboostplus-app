@@ -6,11 +6,10 @@ Seguir esse fluxo garante que o código fique organizado, fácil de revisar e se
 ### Estrutura de Branches
 
 - **`main`** → Branch de produção, sempre estável.  
-- **`develop`** → Integração contínua do desenvolvimento.  
+- **`develop`** → Integração contínua do desenvolvimento.
+- **`teste`** → Branch para testes e experimentação de funcionalidades.
+- **`deploy`** → Branch para deploys automáticos.
 - **`feature/nome-da-feature`** → Nova funcionalidade.  
-- **`fix/nome-da-correção`** → Correções de bugs.  
-- **`hotfix/nome`** → Correções urgentes diretamente em produção.  
-- **`docs/nome`** → Atualizações ou criação de documentação.
 
 ---
 
