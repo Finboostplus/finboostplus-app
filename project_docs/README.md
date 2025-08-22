@@ -41,17 +41,18 @@ Repositório de artefatos de planejamento e apoio ao desenvolvimento: MVP, perso
 
 ```
 project_docs/
-├── documentos/               # Conteúdo de planejamento (texto)
+├── documentos/                   # Conteúdo de planejamento (texto)
 │   ├── mvp.md
 │   ├── personas.md
 │   ├── user_stories.md
 │   ├── documento_requisitos.md
-│   └── api_contract.md       # (espelho/rascunho do contrato)
-├── diagramas/                # Imagens exportadas (PNG/SVG)
+│   └── api_contract.md           # (espelho/rascunho do contrato)
+├── diagramas/                    # Imagens exportadas (PNG/SVG)
 │   ├── diagrama_classes.png
 │   ├── diagrama_ER.png
 │   └── diagrama_uses_cases.png
-└── prototipos/               # Wireframes/mockups
+├── testes_api/                   # orientações para testes com Postman 
+└── prototipos/                   # Wireframes/mockups
     ├── finboostplus-wireframe_01.jpg
     └── ...
 ```
@@ -67,6 +68,7 @@ project_docs/
 - Contrato de API: rascunhos e decisões
 - Diagramas: visão de arquitetura, ER, casos de uso e classes
 - Prototipação: wireframes e fluxos principais
+- Testes API: coleção Postman para endpoints documentados
 
 ---
 

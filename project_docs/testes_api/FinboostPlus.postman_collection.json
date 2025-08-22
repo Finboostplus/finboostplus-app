@@ -1,0 +1,277 @@
+{
+	"info": {
+		"_postman_id": "0694876b-d24b-4c26-8198-97db08b96fcd",
+		"name": "FinboostPlus",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47331996",
+		"_collection_link": "https://henriquepimentabruno-9074196.postman.co/workspace/henriquepimentabruno's-Workspac~6f2e9fe0-de53-4ab8-89e8-4a9ca90a6d8c/collection/47331996-0694876b-d24b-4c26-8198-97db08b96fcd?action=share&source=collection_link&creator=47331996"
+	},
+	"item": [
+		{
+			"name": "Criar Conta",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Bruno\",\r\n    \"email\": \"bruno@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"colorTheme\": \"#FFF\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/user",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(responseCode.code >= 200 && responseCode.code < 300){\r",
+							"    var json = JSON.parse(responseBody);\r",
+							"    postman.setEnvironmentVariable('token', json.access_token);\r",
+							"    postman.setEnvironmentVariable('refresh-token', json.refresh_token);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{client-secret}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{client-id}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Username",
+						"value": "{{username}}",
+						"type": "text"
+					},
+					{
+						"key": "Password",
+						"value": "{{password}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "read write",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/oauth2/token",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"oauth2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login (Refresh Token)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(responseCode.code >= 200 && responseCode.code < 300){\r",
+							"    var json = JSON.parse(responseBody);\r",
+							"    postman.setEnvironmentVariable('token', json.access_token);\r",
+							"    postman.setEnvironmentVariable('refresh-token', json.refresh_token);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{client-secret}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{client-id}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Username",
+						"value": "{{username}}",
+						"type": "text"
+					},
+					{
+						"key": "Password",
+						"value": "{{password}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "refresh_token",
+							"type": "text"
+						},
+						{
+							"key": "refresh_token",
+							"value": "{{refresh-token}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/oauth2/token",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"oauth2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Testar Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/user/whoareyou",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"user",
+						"whoareyou"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Perfil",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Bruno\",\r\n    \"email\": \"bruno@gmail.com\",\r\n    \"colorTheme\": \"#FAA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/user",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
