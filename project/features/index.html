@@ -1,0 +1,1634 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="pt">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Documentação completa da aplicação FinBoost+" name="description"/>
+<meta content="Equipe FinBoost+" name="author"/>
+<link href="../mvp_summary/" rel="prev"/>
+<link href="../personas_key/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.6.14" name="generator"/>
+<title>Funcionalidades - FinBoost+ Documentation</title>
+<link href="../../assets/stylesheets/main.342714a4.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="blue" data-md-color-primary="blue" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#funcionalidades-atuais">
+          Pular para conteúdo
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Cabeçalho" class="md-header__inner md-grid">
+<a aria-label="FinBoost+ Documentation" class="md-header__button md-logo" data-md-component="logo" href="../.." title="FinBoost+ Documentation">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            FinBoost+ Documentation
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Funcionalidades
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="blue" data-md-color-media="" data-md-color-primary="blue" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="blue" data-md-color-media="" data-md-color-primary="blue" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Buscar" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Buscar" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Pesquisar" class="md-search__options">
+<button aria-label="Limpar" class="md-search__icon md-icon" tabindex="-1" title="Limpar" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/Finboostplus/finboostplus-app" title="Ir para repositório">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
+</div>
+<div class="md-source__repository">
+    finboostplus-app
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Abas" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../..">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../user_guide/intro/">
+          
+  
+  
+  Guia Rápido
+
+        </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="../overview/">
+          
+  
+  
+  Sobre o Projeto
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../technical/architecture/">
+          
+  
+  
+  Arquitetura e API
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../frontend/structure/">
+          
+  
+  
+  Frontend
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../backend/structure/">
+          
+  
+  
+  Backend
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../ai_docs/ai_usage/">
+          
+  
+  
+  Uso de IA
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../dev/environment/">
+          
+  
+  
+  Para Desenvolvedores
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navegação" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="FinBoost+ Documentation" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="FinBoost+ Documentation">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    FinBoost+ Documentation
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/Finboostplus/finboostplus-app" title="Ir para repositório">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
+</div>
+<div class="md-source__repository">
+    finboostplus-app
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    Início
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    Guia Rápido
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            Guia Rápido
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../user_guide/intro/">
+<span class="md-ellipsis">
+    Introdução
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../user_guide/setup/">
+<span class="md-ellipsis">
+    Instalação e Setup
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../user_guide/usage/">
+<span class="md-ellipsis">
+    Como Usar
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../user_guide/faq/">
+<span class="md-ellipsis">
+    FAQ
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-ellipsis">
+    Sobre o Projeto
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            Sobre o Projeto
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../overview/">
+<span class="md-ellipsis">
+    Visão Geral
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../mvp_summary/">
+<span class="md-ellipsis">
+    MVP (Resumo)
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    Funcionalidades
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    Funcionalidades
+    
+  </span>
+</a>
+<nav aria-label="Índice" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sistema-de-autenticacao-e-autorizacao">
+<span class="md-ellipsis">
+      Sistema de Autenticação e Autorização
+    </span>
+</a>
+<nav aria-label="Sistema de Autenticação e Autorização" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#autenticacao-segura">
+<span class="md-ellipsis">
+      Autenticação Segura
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gerenciamento-de-perfil">
+<span class="md-ellipsis">
+      Gerenciamento de Perfil
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gerenciamento-de-grupos-financeiros">
+<span class="md-ellipsis">
+      Gerenciamento de Grupos Financeiros
+    </span>
+</a>
+<nav aria-label="Gerenciamento de Grupos Financeiros" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#criacao-e-configuracao">
+<span class="md-ellipsis">
+      Criação e Configuração
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gerenciamento-de-membros">
+<span class="md-ellipsis">
+      Gerenciamento de Membros
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sistema-de-despesas">
+<span class="md-ellipsis">
+      Sistema de Despesas
+    </span>
+</a>
+<nav aria-label="Sistema de Despesas" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#registro-de-despesas">
+<span class="md-ellipsis">
+      Registro de Despesas
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#calculos-financeiros">
+<span class="md-ellipsis">
+      Cálculos Financeiros
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#categorizacao">
+<span class="md-ellipsis">
+      Categorização
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#dashboard-e-visualizacoes">
+<span class="md-ellipsis">
+      Dashboard e Visualizações
+    </span>
+</a>
+<nav aria-label="Dashboard e Visualizações" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#painel-principal">
+<span class="md-ellipsis">
+      Painel Principal
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#relatorios-e-graficos">
+<span class="md-ellipsis">
+      Relatórios e Gráficos
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#historico-de-transacoes">
+<span class="md-ellipsis">
+      Histórico de Transações
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#calculo-e-gestao-de-saldos">
+<span class="md-ellipsis">
+      Cálculo e Gestão de Saldos
+    </span>
+</a>
+<nav aria-label="Cálculo e Gestão de Saldos" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#engine-de-saldos">
+<span class="md-ellipsis">
+      Engine de Saldos
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#transparencia-financeira">
+<span class="md-ellipsis">
+      Transparência Financeira
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#interface-e-experiencia-do-usuario">
+<span class="md-ellipsis">
+      Interface e Experiência do Usuário
+    </span>
+</a>
+<nav aria-label="Interface e Experiência do Usuário" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#design-responsivo">
+<span class="md-ellipsis">
+      Design Responsivo
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#temas-e-personalizacao">
+<span class="md-ellipsis">
+      Temas e Personalização
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#funcionalidades-de-busca-e-filtros">
+<span class="md-ellipsis">
+      Funcionalidades de Busca e Filtros
+    </span>
+</a>
+<nav aria-label="Funcionalidades de Busca e Filtros" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sistema-de-busca">
+<span class="md-ellipsis">
+      Sistema de Busca
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#seguranca-e-validacoes">
+<span class="md-ellipsis">
+      Segurança e Validações
+    </span>
+</a>
+<nav aria-label="Segurança e Validações" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#validacoes-de-dados">
+<span class="md-ellipsis">
+      Validações de Dados
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#protecoes-implementadas">
+<span class="md-ellipsis">
+      Proteções Implementadas
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#performance-e-otimizacoes">
+<span class="md-ellipsis">
+      Performance e Otimizações
+    </span>
+</a>
+<nav aria-label="Performance e Otimizações" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#otimizacoes-frontend">
+<span class="md-ellipsis">
+      Otimizações Frontend
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#otimizacoes-backend">
+<span class="md-ellipsis">
+      Otimizações Backend
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#roadmap-de-desenvolvimento">
+<span class="md-ellipsis">
+      Roadmap de Desenvolvimento
+    </span>
+</a>
+<nav aria-label="Roadmap de Desenvolvimento" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fase-1-melhorias-imediatas-proximos-meses">
+<span class="md-ellipsis">
+      Fase 1 - Melhorias Imediatas (Próximos meses)
+    </span>
+</a>
+<nav aria-label="Fase 1 - Melhorias Imediatas (Próximos meses)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#aprimoramentos-de-usabilidade">
+<span class="md-ellipsis">
+      Aprimoramentos de Usabilidade
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#funcionalidades-financeiras">
+<span class="md-ellipsis">
+      Funcionalidades Financeiras
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fase-2-expansao-de-recursos">
+<span class="md-ellipsis">
+      Fase 2 - Expansão de Recursos
+    </span>
+</a>
+<nav aria-label="Fase 2 - Expansão de Recursos" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#inteligencia-artificial">
+<span class="md-ellipsis">
+      Inteligência Artificial
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#criterios-de-priorizacao">
+<span class="md-ellipsis">
+      Critérios de Priorização
+    </span>
+</a>
+<nav aria-label="Critérios de Priorização" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#impacto-no-usuario">
+<span class="md-ellipsis">
+      Impacto no Usuário
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../personas_key/">
+<span class="md-ellipsis">
+    Personas Principais
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../team/">
+<span class="md-ellipsis">
+    Equipe
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../full_docs/">
+<span class="md-ellipsis">
+    Documentação Completa
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
+    Arquitetura e API
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            Arquitetura e API
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/architecture/">
+<span class="md-ellipsis">
+    Visão da Arquitetura
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/api_documentation/">
+<span class="md-ellipsis">
+    API - Documentação e Guia
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/database/">
+<span class="md-ellipsis">
+    Banco de Dados
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/auth/">
+<span class="md-ellipsis">
+    Autenticação
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/testing_strategy/">
+<span class="md-ellipsis">
+    Estratégia de Testes
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    Frontend
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            Frontend
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/structure/">
+<span class="md-ellipsis">
+    Estrutura e Padrões
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/components/">
+<span class="md-ellipsis">
+    Componentes Principais
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/pages/">
+<span class="md-ellipsis">
+    Páginas e Rotas
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/hooks/">
+<span class="md-ellipsis">
+    Hooks Customizados
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/styling/">
+<span class="md-ellipsis">
+    Estilos e Temas
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/testing/">
+<span class="md-ellipsis">
+    Testes Frontend
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<span class="md-ellipsis">
+    Backend
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            Backend
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../backend/structure/">
+<span class="md-ellipsis">
+    Estrutura e Padrões
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../backend/models/">
+<span class="md-ellipsis">
+    Modelos e Schemas
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../backend/testing/">
+<span class="md-ellipsis">
+    Testes Backend
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+<span class="md-ellipsis">
+    Uso de IA
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            Uso de IA
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ai_docs/ai_usage/">
+<span class="md-ellipsis">
+    Como Usamos IA
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/ai_usage/">
+<span class="md-ellipsis">
+    Frontend - Uso de IA
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/ai_prompts_log/">
+<span class="md-ellipsis">
+    Frontend - Registro de Prompts
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../backend/ai_usage/">
+<span class="md-ellipsis">
+    Backend - Uso de IA
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../backend/ai_prompts_log/">
+<span class="md-ellipsis">
+    Backend - Registro de Prompts
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+<span class="md-ellipsis">
+    Para Desenvolvedores
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            Para Desenvolvedores
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../dev/environment/">
+<span class="md-ellipsis">
+    Configuração de Ambiente
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="https://github.com/Finboostplus/finboostplus-app/wiki">
+<span class="md-ellipsis">
+    Wiki de Desenvolvimento
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Índice" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sistema-de-autenticacao-e-autorizacao">
+<span class="md-ellipsis">
+      Sistema de Autenticação e Autorização
+    </span>
+</a>
+<nav aria-label="Sistema de Autenticação e Autorização" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#autenticacao-segura">
+<span class="md-ellipsis">
+      Autenticação Segura
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gerenciamento-de-perfil">
+<span class="md-ellipsis">
+      Gerenciamento de Perfil
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gerenciamento-de-grupos-financeiros">
+<span class="md-ellipsis">
+      Gerenciamento de Grupos Financeiros
+    </span>
+</a>
+<nav aria-label="Gerenciamento de Grupos Financeiros" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#criacao-e-configuracao">
+<span class="md-ellipsis">
+      Criação e Configuração
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gerenciamento-de-membros">
+<span class="md-ellipsis">
+      Gerenciamento de Membros
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sistema-de-despesas">
+<span class="md-ellipsis">
+      Sistema de Despesas
+    </span>
+</a>
+<nav aria-label="Sistema de Despesas" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#registro-de-despesas">
+<span class="md-ellipsis">
+      Registro de Despesas
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#calculos-financeiros">
+<span class="md-ellipsis">
+      Cálculos Financeiros
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#categorizacao">
+<span class="md-ellipsis">
+      Categorização
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#dashboard-e-visualizacoes">
+<span class="md-ellipsis">
+      Dashboard e Visualizações
+    </span>
+</a>
+<nav aria-label="Dashboard e Visualizações" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#painel-principal">
+<span class="md-ellipsis">
+      Painel Principal
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#relatorios-e-graficos">
+<span class="md-ellipsis">
+      Relatórios e Gráficos
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#historico-de-transacoes">
+<span class="md-ellipsis">
+      Histórico de Transações
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#calculo-e-gestao-de-saldos">
+<span class="md-ellipsis">
+      Cálculo e Gestão de Saldos
+    </span>
+</a>
+<nav aria-label="Cálculo e Gestão de Saldos" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#engine-de-saldos">
+<span class="md-ellipsis">
+      Engine de Saldos
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#transparencia-financeira">
+<span class="md-ellipsis">
+      Transparência Financeira
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#interface-e-experiencia-do-usuario">
+<span class="md-ellipsis">
+      Interface e Experiência do Usuário
+    </span>
+</a>
+<nav aria-label="Interface e Experiência do Usuário" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#design-responsivo">
+<span class="md-ellipsis">
+      Design Responsivo
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#temas-e-personalizacao">
+<span class="md-ellipsis">
+      Temas e Personalização
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#funcionalidades-de-busca-e-filtros">
+<span class="md-ellipsis">
+      Funcionalidades de Busca e Filtros
+    </span>
+</a>
+<nav aria-label="Funcionalidades de Busca e Filtros" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sistema-de-busca">
+<span class="md-ellipsis">
+      Sistema de Busca
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#seguranca-e-validacoes">
+<span class="md-ellipsis">
+      Segurança e Validações
+    </span>
+</a>
+<nav aria-label="Segurança e Validações" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#validacoes-de-dados">
+<span class="md-ellipsis">
+      Validações de Dados
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#protecoes-implementadas">
+<span class="md-ellipsis">
+      Proteções Implementadas
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#performance-e-otimizacoes">
+<span class="md-ellipsis">
+      Performance e Otimizações
+    </span>
+</a>
+<nav aria-label="Performance e Otimizações" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#otimizacoes-frontend">
+<span class="md-ellipsis">
+      Otimizações Frontend
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#otimizacoes-backend">
+<span class="md-ellipsis">
+      Otimizações Backend
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#roadmap-de-desenvolvimento">
+<span class="md-ellipsis">
+      Roadmap de Desenvolvimento
+    </span>
+</a>
+<nav aria-label="Roadmap de Desenvolvimento" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fase-1-melhorias-imediatas-proximos-meses">
+<span class="md-ellipsis">
+      Fase 1 - Melhorias Imediatas (Próximos meses)
+    </span>
+</a>
+<nav aria-label="Fase 1 - Melhorias Imediatas (Próximos meses)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#aprimoramentos-de-usabilidade">
+<span class="md-ellipsis">
+      Aprimoramentos de Usabilidade
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#funcionalidades-financeiras">
+<span class="md-ellipsis">
+      Funcionalidades Financeiras
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fase-2-expansao-de-recursos">
+<span class="md-ellipsis">
+      Fase 2 - Expansão de Recursos
+    </span>
+</a>
+<nav aria-label="Fase 2 - Expansão de Recursos" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#inteligencia-artificial">
+<span class="md-ellipsis">
+      Inteligência Artificial
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#criterios-de-priorizacao">
+<span class="md-ellipsis">
+      Critérios de Priorização
+    </span>
+</a>
+<nav aria-label="Critérios de Priorização" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#impacto-no-usuario">
+<span class="md-ellipsis">
+      Impacto no Usuário
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="funcionalidades-atuais">Funcionalidades Atuais</h1>
+<p>Este documento detalha todas as funcionalidades implementadas e disponíveis na versão atual do FinBoost+. Cada funcionalidade é apresentada com sua descrição, casos de uso e aspectos técnicos relevantes.</p>
+<h2 id="sistema-de-autenticacao-e-autorizacao">Sistema de Autenticação e Autorização</h2>
+<h3 id="autenticacao-segura">Autenticação Segura</h3>
+<p><strong>Cadastro de Usuários</strong></p>
+<ul>
+<li>Validação de email único e formato válido</li>
+<li>Senha com critérios de segurança (mínimo 6 caracteres)</li>
+<li>Confirmação de senha obrigatória</li>
+<li>Hash seguro das senhas (BCrypt)</li>
+</ul>
+<p><strong>Login e Sessão</strong></p>
+<ul>
+<li>Autenticação via JWT (JSON Web Tokens)</li>
+<li>Refresh token para renovação automática de sessão</li>
+<li>Logout seguro com invalidação de tokens</li>
+<li>Sessão persistente entre navegação</li>
+</ul>
+<p><strong>Recuperação de Conta</strong></p>
+<ul>
+<li>Reset de senha via email</li>
+<li>Tokens temporários com expiração</li>
+<li>Validação de identidade antes da alteração</li>
+</ul>
+<h3 id="gerenciamento-de-perfil">Gerenciamento de Perfil</h3>
+<p><strong>Informações Básicas</strong></p>
+<ul>
+<li>Nome completo e email</li>
+<li>Histórico de atividades</li>
+<li>Preferências</li>
+</ul>
+<h2 id="gerenciamento-de-grupos-financeiros">Gerenciamento de Grupos Financeiros</h2>
+<h3 id="criacao-e-configuracao">Criação e Configuração</h3>
+<pre class="mermaid"><code>flowchart TD
+    A[Criar Grupo] --&gt; B[Definir Nome]
+    B --&gt; C[Adicionar Descrição]
+    C --&gt; D[Escolher Categoria]
+    D --&gt; E[Definir Configurações]
+    E --&gt; F[Convidar Membros]
+    F --&gt; G[Grupo Ativo]</code></pre>
+<p><strong>Configurações de Grupo</strong></p>
+<ul>
+<li>Nome e descrição personalizáveis</li>
+<li>Categorias predefinidas (Casa, Viagem, Trabalho, etc.)</li>
+<li>Definição de administradores</li>
+</ul>
+<h3 id="gerenciamento-de-membros">Gerenciamento de Membros</h3>
+<p><strong>Convites e Adição</strong></p>
+<ul>
+<li>Convite para novo membro</li>
+<li>Aprovação automática ou manual de novos membros</li>
+<li>Diferentes níveis de permissão (Admin, Membro)</li>
+</ul>
+<h2 id="sistema-de-despesas">Sistema de Despesas</h2>
+<h3 id="registro-de-despesas">Registro de Despesas</h3>
+<p><strong>Tipos de Despesa</strong></p>
+<ul>
+<li><strong>Individual</strong>: Afeta apenas o usuário que registra</li>
+<li><strong>Compartilhada Igual</strong>: Dividida igualmente entre todos os membros ativos</li>
+<li><strong>Compartilhada Personalizada</strong>: Divisão manual com valores específicos</li>
+</ul>
+<p><strong>Informações da Despesa</strong></p>
+<ul>
+<li>Título e descrição detalhada</li>
+<li>Valor monetário com validação</li>
+<li>Data da despesa (padrão: data atual)</li>
+<li>Categoria (Alimentação, Transporte, Entretenimento, etc.)</li>
+</ul>
+<h3 id="calculos-financeiros">Cálculos Financeiros</h3>
+<p><strong>Engine de Divisão</strong>
+<pre class="mermaid"><code>graph LR
+    A[Despesa Registrada] --&gt; B{Tipo de Divisão}
+    B --&gt;|Igual| C[Valor ÷ Membros Ativos]
+    B --&gt;|Personalizada| D[Valores Manuais]
+    B --&gt;|Percentual| E[Valor × Percentuais]
+    C --&gt; F[Atualizar Saldos]
+    D --&gt; F
+    E --&gt; F</code></pre></p>
+<h3 id="categorizacao">Categorização</h3>
+<p><strong>Categorias Padrão</strong></p>
+<ul>
+<li>Alimentação e Restaurantes</li>
+<li>Transporte e Combustível</li>
+<li>Entretenimento e Lazer</li>
+<li>Casa e Utilities</li>
+<li>Compras e Shopping</li>
+<li>Saúde e Medicamentos</li>
+<li>Educação e Livros</li>
+<li>Outros</li>
+</ul>
+<h2 id="dashboard-e-visualizacoes">Dashboard e Visualizações</h2>
+<h3 id="painel-principal">Painel Principal</h3>
+<p><strong>Visão Geral Financeira</strong></p>
+<ul>
+<li>Saldo atual por grupo</li>
+<li>Total de despesas do mês</li>
+<li>Débitos e créditos pendentes</li>
+<li>Atividades recentes</li>
+</ul>
+<p><strong>Cards Informativos</strong></p>
+<ul>
+<li>Resumo rápido por grupo ativo</li>
+<li>Status de pagamentos pendentes</li>
+</ul>
+<h3 id="relatorios-e-graficos">Relatórios e Gráficos</h3>
+<p><strong>Gráficos Interativos (Recharts)</strong></p>
+<ul>
+<li>Distribuição de gastos por categoria (Pizza)</li>
+<li>Evolução temporal dos gastos (Linha)</li>
+</ul>
+<p><strong>Filtros e Períodos</strong></p>
+<ul>
+<li>Filtro por data (último mês, trimestre, ano)</li>
+<li>Filtro por categoria específica</li>
+<li>Filtro por membro do grupo</li>
+<li>Busca textual em descrições</li>
+</ul>
+<h3 id="historico-de-transacoes">Histórico de Transações</h3>
+<p><strong>Lista Detalhada</strong></p>
+<ul>
+<li>Todas as despesas em ordem cronológica</li>
+<li>Informações completas de cada transação</li>
+<li>Status de divisão e pagamentos</li>
+</ul>
+<p><strong>Funcionalidades de Lista</strong></p>
+<ul>
+<li>Paginação para performance</li>
+<li>Ordenação por diferentes campos</li>
+<li>Filtros múltiplos simultâneos</li>
+<li>Exportação básica (futuro)</li>
+</ul>
+<h2 id="calculo-e-gestao-de-saldos">Cálculo e Gestão de Saldos</h2>
+<h3 id="engine-de-saldos">Engine de Saldos</h3>
+<p><strong>Cálculo em Tempo Real</strong>
+<pre class="mermaid"><code>sequenceDiagram
+    participant U as Usuário
+    participant S as Sistema
+    participant DB as Database
+
+    U-&gt;&gt;S: Adiciona Despesa
+    S-&gt;&gt;DB: Salva Despesa
+    S-&gt;&gt;DB: Calcula Divisão
+    S-&gt;&gt;DB: Atualiza Saldos
+    S-&gt;&gt;U: Mostra Novos Saldos</code></pre></p>
+<p><strong>Algoritmos de Saldo</strong></p>
+<ul>
+<li>Cálculo individual por usuário em cada grupo</li>
+<li>Soma de débitos (despesas que deve pagar)</li>
+<li>Soma de créditos (despesas que outros devem)</li>
+<li>Saldo líquido (créditos - débitos)</li>
+</ul>
+<h3 id="transparencia-financeira">Transparência Financeira</h3>
+<p><strong>Detalhamento de Saldos</strong></p>
+<ul>
+<li>Origem de cada débito e crédito</li>
+<li>Histórico de como o saldo foi formado</li>
+<li>Drill-down até a despesa específica</li>
+<li>Validação de consistência matemática</li>
+</ul>
+<p><strong>Resumos por Relacionamento</strong></p>
+<ul>
+<li>"João deve R$ 50,00 para Maria"</li>
+<li>"Ana deve receber R$ 30,00 de Pedro"</li>
+<li>Simplificação de débitos múltiplos</li>
+<li>Sugestões de acerto de contas</li>
+</ul>
+<h2 id="interface-e-experiencia-do-usuario">Interface e Experiência do Usuário</h2>
+<h3 id="design-responsivo">Design Responsivo</h3>
+<p><strong>Layout Adaptativo</strong></p>
+<ul>
+<li>Mobile-first design</li>
+<li>Breakpoints otimizados para tablet e desktop</li>
+<li>Navegação intuitiva em todos os dispositivos</li>
+<li>Touch-friendly para dispositivos móveis</li>
+</ul>
+<h3 id="temas-e-personalizacao">Temas e Personalização</h3>
+<p><strong>Sistema de Temas</strong></p>
+<ul>
+<li>Tema claro (padrão)</li>
+<li>Tema escuro</li>
+<li>Preferência salva no perfil do usuário</li>
+<li>Transição suave entre temas</li>
+</ul>
+<h2 id="funcionalidades-de-busca-e-filtros">Funcionalidades de Busca e Filtros</h2>
+<h3 id="sistema-de-busca">Sistema de Busca</h3>
+<p><strong>Busca Inteligente</strong></p>
+<ul>
+<li>Busca em títulos e descrições de despesas</li>
+<li>Filtro por autor da despesa</li>
+<li>Filtro por período específico</li>
+<li>Combinação múltipla de filtros</li>
+</ul>
+<p><strong>Filtros Avançados</strong></p>
+<ul>
+<li>Por categoria de despesa</li>
+<li>Por valor mínimo/máximo</li>
+<li>Por tipo de divisão</li>
+<li>Por status de pagamento</li>
+</ul>
+<h2 id="seguranca-e-validacoes">Segurança e Validações</h2>
+<h3 id="validacoes-de-dados">Validações de Dados</h3>
+<p><strong>Frontend (Imediata)</strong></p>
+<ul>
+<li>Validação de campos obrigatórios</li>
+<li>Formato de email e valores monetários</li>
+<li>Limites de caracteres em textos</li>
+<li>Confirmação de ações destrutivas</li>
+</ul>
+<p><strong>Backend (Definitiva)</strong></p>
+<ul>
+<li>Revalidação de todos os dados recebidos</li>
+<li>Sanitização contra ataques XSS</li>
+<li>Verificação de autorização por recurso</li>
+<li>Logs de segurança para auditoria</li>
+</ul>
+<h3 id="protecoes-implementadas">Proteções Implementadas</h3>
+<p><strong>Autenticação e Autorização</strong></p>
+<ul>
+<li>JWT com expiração configurável</li>
+<li>Verificação de permissões por endpoint</li>
+<li>Rate limiting para APIs críticas</li>
+<li>Logout automático por inatividade</li>
+</ul>
+<p><strong>Integridade de Dados</strong></p>
+<ul>
+<li>Validações de consistência matemática</li>
+<li>Rollback automático em erros</li>
+<li>Backup de transações críticas</li>
+<li>Monitoramento de integridade</li>
+</ul>
+<h2 id="performance-e-otimizacoes">Performance e Otimizações</h2>
+<h3 id="otimizacoes-frontend">Otimizações Frontend</h3>
+<p><strong>Carregamento Eficiente</strong></p>
+<ul>
+<li>Lazy loading de componentes grandes</li>
+<li>Paginação de listas extensas</li>
+<li>Cache local de dados frequentes</li>
+<li>Otimização de imagens anexadas</li>
+</ul>
+<h3 id="otimizacoes-backend">Otimizações Backend</h3>
+<p><strong>Queries Otimizadas</strong></p>
+<ul>
+<li>Índices estratégicos no banco</li>
+<li>Consultas com joins eficientes</li>
+<li>Paginação no servidor</li>
+<li>Cache de consultas frequentes</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Status de Desenvolvimento</p>
+<p>Todas as funcionalidades listadas foram implementadas e testadas. O sistema está em constante evolução, com melhorias baseadas nos testes realizados.</p>
+</div>
+<h2 id="roadmap-de-desenvolvimento">Roadmap de Desenvolvimento</h2>
+<h3 id="fase-1-melhorias-imediatas-proximos-meses">Fase 1 - Melhorias Imediatas (Próximos meses)</h3>
+<p><strong>Prioridade: Alta</strong></p>
+<h4 id="aprimoramentos-de-usabilidade">Aprimoramentos de Usabilidade</h4>
+<p><strong>Notificações Avançadas</strong></p>
+<ul>
+<li>Sistema de notificações por email</li>
+<li>Alertas personalizáveis por usuário</li>
+<li>Notificações push para PWA</li>
+<li>Resumos periódicos de atividades</li>
+</ul>
+<pre class="mermaid"><code>sequenceDiagram
+    participant U as Usuário
+    participant S as Sistema
+    participant E as Email Service
+    participant W as WhatsApp API
+
+    S-&gt;&gt;S: Nova despesa registrada
+    S-&gt;&gt;E: Enviar email para membros
+    S-&gt;&gt;W: Opcional: Notificação WhatsApp
+    S-&gt;&gt;U: Notificação in-app</code></pre>
+<p><strong>Melhorias na Interface</strong></p>
+<ul>
+<li>Wizard de onboarding para novos usuários</li>
+<li>Tutoriais interativos para funcionalidades principais</li>
+<li>Atalhos de teclado para ações frequentes</li>
+<li>Modo offline básico com sincronização</li>
+</ul>
+<h4 id="funcionalidades-financeiras">Funcionalidades Financeiras</h4>
+<p><strong>Gestão de Pagamentos</strong></p>
+<ul>
+<li>Registro de quitação de dívidas entre membros</li>
+<li>Histórico de pagamentos realizados</li>
+<li>Lembretes automáticos de débitos pendentes</li>
+<li>Validação de acerto de contas</li>
+</ul>
+<p><strong>Relatórios Expandidos</strong></p>
+<ul>
+<li>Exportação para PDF e Excel</li>
+<li>Relatórios personalizáveis por período</li>
+<li>Análises de tendências de gastos</li>
+<li>Comparativos entre grupos diferentes</li>
+</ul>
+<h3 id="fase-2-expansao-de-recursos">Fase 2 - Expansão de Recursos</h3>
+<p><strong>Prioridade: Média-Alta</strong></p>
+<h4 id="inteligencia-artificial">Inteligência Artificial</h4>
+<p><strong>Sugestões Inteligentes</strong></p>
+<ul>
+<li>Análise de padrões de gastos</li>
+<li>Alertas de gastos atípicos</li>
+<li>Sugestões de categorização automática</li>
+<li>Previsões de gastos mensais</li>
+</ul>
+<p><strong>Reconhecimento de Dados</strong></p>
+<ul>
+<li>OCR para extração de dados de recibos</li>
+<li>Reconhecimento de voz para entrada rápida</li>
+<li>Classificação automática de despesas</li>
+<li>Detecção de duplicatas</li>
+</ul>
+<h2 id="criterios-de-priorizacao">Critérios de Priorização</h2>
+<h3 id="impacto-no-usuario">Impacto no Usuário</h3>
+<p><strong>Alto Impacto</strong></p>
+<ul>
+<li>Funcionalidades que resolvem dores principais dos usuários</li>
+<li>Melhorias que aumentam significativamente a usabilidade</li>
+<li>Recursos que reduzem tempo de execução de tarefas</li>
+</ul>
+<p><strong>Médio Impacto</strong></p>
+<ul>
+<li>Funcionalidades que agregam conveniência</li>
+<li>Melhorias estéticas e de experiência</li>
+<li>Recursos que ampliam casos de uso</li>
+</ul>
+<p><strong>Baixo Impacto</strong></p>
+<ul>
+<li>Funcionalidades "nice-to-have"</li>
+<li>Recursos utilizados por poucos usuários</li>
+<li>Melhorias puramente estéticas</li>
+</ul>
+<p>Para detalhes técnicos de implementação, veja a seção <a href="../../technical/architecture/">Arquitetura e API</a>.</p>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Voltar para o topo
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Rodapé" class="md-footer__inner md-grid">
+<a aria-label="Anterior: MVP (Resumo)" class="md-footer__link md-footer__link--prev" href="../mvp_summary/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Anterior
+              </span>
+<div class="md-ellipsis">
+                MVP (Resumo)
+              </div>
+</div>
+</a>
+<a aria-label="Próximo: Personas Principais" class="md-footer__link md-footer__link--next" href="../personas_key/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Próximo
+              </span>
+<div class="md-ellipsis">
+                Personas Principais
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      FinBoost+ Team - Controle Financeiro e Compartilhamento de Despesas
+    </div>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/Finboostplus" rel="noopener" target="_blank" title="github.com">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+</body>
+</html>

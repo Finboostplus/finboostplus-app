@@ -1,0 +1,1538 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="pt">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Documentação completa da aplicação FinBoost+" name="description"/>
+<meta content="Equipe FinBoost+" name="author"/>
+<link href="../../project/full_docs/" rel="prev"/>
+<link href="../api_documentation/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.6.14" name="generator"/>
+<title>Visão da Arquitetura - FinBoost+ Documentation</title>
+<link href="../../assets/stylesheets/main.342714a4.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="blue" data-md-color-primary="blue" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#visao-da-arquitetura">
+          Pular para conteúdo
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Cabeçalho" class="md-header__inner md-grid">
+<a aria-label="FinBoost+ Documentation" class="md-header__button md-logo" data-md-component="logo" href="../.." title="FinBoost+ Documentation">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            FinBoost+ Documentation
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Visão da Arquitetura
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="blue" data-md-color-media="" data-md-color-primary="blue" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="blue" data-md-color-media="" data-md-color-primary="blue" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Buscar" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Buscar" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Pesquisar" class="md-search__options">
+<button aria-label="Limpar" class="md-search__icon md-icon" tabindex="-1" title="Limpar" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/Finboostplus/finboostplus-app" title="Ir para repositório">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
+</div>
+<div class="md-source__repository">
+    finboostplus-app
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Abas" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../..">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../user_guide/intro/">
+          
+  
+  
+  Guia Rápido
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../project/overview/">
+          
+  
+  
+  Sobre o Projeto
+
+        </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="./">
+          
+  
+  
+  Arquitetura e API
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../frontend/structure/">
+          
+  
+  
+  Frontend
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../backend/structure/">
+          
+  
+  
+  Backend
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../ai_docs/ai_usage/">
+          
+  
+  
+  Uso de IA
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../dev/environment/">
+          
+  
+  
+  Para Desenvolvedores
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navegação" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="FinBoost+ Documentation" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="FinBoost+ Documentation">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    FinBoost+ Documentation
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/Finboostplus/finboostplus-app" title="Ir para repositório">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
+</div>
+<div class="md-source__repository">
+    finboostplus-app
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    Início
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    Guia Rápido
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            Guia Rápido
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../user_guide/intro/">
+<span class="md-ellipsis">
+    Introdução
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../user_guide/setup/">
+<span class="md-ellipsis">
+    Instalação e Setup
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../user_guide/usage/">
+<span class="md-ellipsis">
+    Como Usar
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../user_guide/faq/">
+<span class="md-ellipsis">
+    FAQ
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-ellipsis">
+    Sobre o Projeto
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            Sobre o Projeto
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../project/overview/">
+<span class="md-ellipsis">
+    Visão Geral
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../project/mvp_summary/">
+<span class="md-ellipsis">
+    MVP (Resumo)
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../project/features/">
+<span class="md-ellipsis">
+    Funcionalidades
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../project/personas_key/">
+<span class="md-ellipsis">
+    Personas Principais
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../project/team/">
+<span class="md-ellipsis">
+    Equipe
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../project/full_docs/">
+<span class="md-ellipsis">
+    Documentação Completa
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-ellipsis">
+    Arquitetura e API
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            Arquitetura e API
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    Visão da Arquitetura
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    Visão da Arquitetura
+    
+  </span>
+</a>
+<nav aria-label="Índice" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#arquitetura-geral-do-sistema">
+<span class="md-ellipsis">
+      Arquitetura Geral do Sistema
+    </span>
+</a>
+<nav aria-label="Arquitetura Geral do Sistema" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#visao-de-alto-nivel">
+<span class="md-ellipsis">
+      Visão de Alto Nível
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#principios-arquiteturais">
+<span class="md-ellipsis">
+      Princípios Arquiteturais
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#arquitetura-frontend-react">
+<span class="md-ellipsis">
+      Arquitetura Frontend - React
+    </span>
+</a>
+<nav aria-label="Arquitetura Frontend - React" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stack-tecnologico">
+<span class="md-ellipsis">
+      Stack Tecnológico
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estrutura-de-arquivos">
+<span class="md-ellipsis">
+      Estrutura de Arquivos
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#padroes-de-componentes">
+<span class="md-ellipsis">
+      Padrões de Componentes
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gerenciamento-de-estado">
+<span class="md-ellipsis">
+      Gerenciamento de Estado
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#arquitetura-backend-spring-boot">
+<span class="md-ellipsis">
+      Arquitetura Backend - Spring Boot
+    </span>
+</a>
+<nav aria-label="Arquitetura Backend - Spring Boot" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stack-tecnologico_1">
+<span class="md-ellipsis">
+      Stack Tecnológico
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#arquitetura-em-camadas">
+<span class="md-ellipsis">
+      Arquitetura em Camadas
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estrutura-de-arquivos_1">
+<span class="md-ellipsis">
+      Estrutura de Arquivos
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#padrao-de-implementacao">
+<span class="md-ellipsis">
+      Padrão de Implementação
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#banco-de-dados-modelo-relacional">
+<span class="md-ellipsis">
+      Banco de Dados - Modelo Relacional
+    </span>
+</a>
+<nav aria-label="Banco de Dados - Modelo Relacional" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#principais-relacionamentos">
+<span class="md-ellipsis">
+      Principais Relacionamentos
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#seguranca-e-autenticacao">
+<span class="md-ellipsis">
+      Segurança e Autenticação
+    </span>
+</a>
+<nav aria-label="Segurança e Autenticação" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fluxo-de-autenticacao-jwt">
+<span class="md-ellipsis">
+      Fluxo de Autenticação JWT
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#niveis-de-protecao">
+<span class="md-ellipsis">
+      Níveis de Proteção
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#integracao-e-comunicacao">
+<span class="md-ellipsis">
+      Integração e Comunicação
+    </span>
+</a>
+<nav aria-label="Integração e Comunicação" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#api-restful">
+<span class="md-ellipsis">
+      API RESTful
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#deployment-e-infraestrutura">
+<span class="md-ellipsis">
+      Deployment e Infraestrutura
+    </span>
+</a>
+<nav aria-label="Deployment e Infraestrutura" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#containerizacao-com-docker">
+<span class="md-ellipsis">
+      Containerização com Docker
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estrategia-de-deploy">
+<span class="md-ellipsis">
+      Estratégia de Deploy
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#monitoramento-e-performance">
+<span class="md-ellipsis">
+      Monitoramento e Performance
+    </span>
+</a>
+<nav aria-label="Monitoramento e Performance" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#otimizacoes-implementadas">
+<span class="md-ellipsis">
+      Otimizações Implementadas
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#planos-de-expansao">
+<span class="md-ellipsis">
+      Planos de Expansão
+    </span>
+</a>
+<nav aria-label="Planos de Expansão" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#funcionalidades-futuras">
+<span class="md-ellipsis">
+      Funcionalidades Futuras
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../api_documentation/">
+<span class="md-ellipsis">
+    API - Documentação e Guia
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../database/">
+<span class="md-ellipsis">
+    Banco de Dados
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../auth/">
+<span class="md-ellipsis">
+    Autenticação
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../testing_strategy/">
+<span class="md-ellipsis">
+    Estratégia de Testes
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    Frontend
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            Frontend
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/structure/">
+<span class="md-ellipsis">
+    Estrutura e Padrões
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/components/">
+<span class="md-ellipsis">
+    Componentes Principais
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/pages/">
+<span class="md-ellipsis">
+    Páginas e Rotas
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/hooks/">
+<span class="md-ellipsis">
+    Hooks Customizados
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/styling/">
+<span class="md-ellipsis">
+    Estilos e Temas
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/testing/">
+<span class="md-ellipsis">
+    Testes Frontend
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<span class="md-ellipsis">
+    Backend
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            Backend
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../backend/structure/">
+<span class="md-ellipsis">
+    Estrutura e Padrões
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../backend/models/">
+<span class="md-ellipsis">
+    Modelos e Schemas
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../backend/testing/">
+<span class="md-ellipsis">
+    Testes Backend
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+<span class="md-ellipsis">
+    Uso de IA
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            Uso de IA
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ai_docs/ai_usage/">
+<span class="md-ellipsis">
+    Como Usamos IA
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/ai_usage/">
+<span class="md-ellipsis">
+    Frontend - Uso de IA
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../frontend/ai_prompts_log/">
+<span class="md-ellipsis">
+    Frontend - Registro de Prompts
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../backend/ai_usage/">
+<span class="md-ellipsis">
+    Backend - Uso de IA
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../backend/ai_prompts_log/">
+<span class="md-ellipsis">
+    Backend - Registro de Prompts
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+<span class="md-ellipsis">
+    Para Desenvolvedores
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            Para Desenvolvedores
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../dev/environment/">
+<span class="md-ellipsis">
+    Configuração de Ambiente
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="https://github.com/Finboostplus/finboostplus-app/wiki">
+<span class="md-ellipsis">
+    Wiki de Desenvolvimento
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Índice" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#arquitetura-geral-do-sistema">
+<span class="md-ellipsis">
+      Arquitetura Geral do Sistema
+    </span>
+</a>
+<nav aria-label="Arquitetura Geral do Sistema" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#visao-de-alto-nivel">
+<span class="md-ellipsis">
+      Visão de Alto Nível
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#principios-arquiteturais">
+<span class="md-ellipsis">
+      Princípios Arquiteturais
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#arquitetura-frontend-react">
+<span class="md-ellipsis">
+      Arquitetura Frontend - React
+    </span>
+</a>
+<nav aria-label="Arquitetura Frontend - React" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stack-tecnologico">
+<span class="md-ellipsis">
+      Stack Tecnológico
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estrutura-de-arquivos">
+<span class="md-ellipsis">
+      Estrutura de Arquivos
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#padroes-de-componentes">
+<span class="md-ellipsis">
+      Padrões de Componentes
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gerenciamento-de-estado">
+<span class="md-ellipsis">
+      Gerenciamento de Estado
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#arquitetura-backend-spring-boot">
+<span class="md-ellipsis">
+      Arquitetura Backend - Spring Boot
+    </span>
+</a>
+<nav aria-label="Arquitetura Backend - Spring Boot" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stack-tecnologico_1">
+<span class="md-ellipsis">
+      Stack Tecnológico
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#arquitetura-em-camadas">
+<span class="md-ellipsis">
+      Arquitetura em Camadas
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estrutura-de-arquivos_1">
+<span class="md-ellipsis">
+      Estrutura de Arquivos
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#padrao-de-implementacao">
+<span class="md-ellipsis">
+      Padrão de Implementação
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#banco-de-dados-modelo-relacional">
+<span class="md-ellipsis">
+      Banco de Dados - Modelo Relacional
+    </span>
+</a>
+<nav aria-label="Banco de Dados - Modelo Relacional" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#principais-relacionamentos">
+<span class="md-ellipsis">
+      Principais Relacionamentos
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#seguranca-e-autenticacao">
+<span class="md-ellipsis">
+      Segurança e Autenticação
+    </span>
+</a>
+<nav aria-label="Segurança e Autenticação" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fluxo-de-autenticacao-jwt">
+<span class="md-ellipsis">
+      Fluxo de Autenticação JWT
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#niveis-de-protecao">
+<span class="md-ellipsis">
+      Níveis de Proteção
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#integracao-e-comunicacao">
+<span class="md-ellipsis">
+      Integração e Comunicação
+    </span>
+</a>
+<nav aria-label="Integração e Comunicação" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#api-restful">
+<span class="md-ellipsis">
+      API RESTful
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#deployment-e-infraestrutura">
+<span class="md-ellipsis">
+      Deployment e Infraestrutura
+    </span>
+</a>
+<nav aria-label="Deployment e Infraestrutura" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#containerizacao-com-docker">
+<span class="md-ellipsis">
+      Containerização com Docker
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estrategia-de-deploy">
+<span class="md-ellipsis">
+      Estratégia de Deploy
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#monitoramento-e-performance">
+<span class="md-ellipsis">
+      Monitoramento e Performance
+    </span>
+</a>
+<nav aria-label="Monitoramento e Performance" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#otimizacoes-implementadas">
+<span class="md-ellipsis">
+      Otimizações Implementadas
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#planos-de-expansao">
+<span class="md-ellipsis">
+      Planos de Expansão
+    </span>
+</a>
+<nav aria-label="Planos de Expansão" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#funcionalidades-futuras">
+<span class="md-ellipsis">
+      Funcionalidades Futuras
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="visao-da-arquitetura">Visão da Arquitetura</h1>
+<p>O <strong>FinBoost+</strong> foi projetado seguindo uma arquitetura moderna e escalável, com separação clara entre frontend e backend, facilitando manutenção, testes e futuras expansões do sistema.</p>
+<h2 id="arquitetura-geral-do-sistema">Arquitetura Geral do Sistema</h2>
+<h3 id="visao-de-alto-nivel">Visão de Alto Nível</h3>
+<pre class="mermaid"><code>graph TB
+    subgraph "Camada Cliente"
+        Browser[Navegador Web]
+        PWA[App PWA Instalado]        
+    end
+
+    subgraph "Camada Frontend"
+        React[React 19 + Vite]
+        Router[React Router v6]
+        Context[Context API + Hooks]
+        UI[TailwindCSS + Headless UI]
+    end
+
+    subgraph "Camada Backend"
+        API[Spring Boot 3.5 API]
+        Security[Spring Security + JWT]
+        Business[Services + Business Logic]
+        JPA[Spring Data JPA]
+    end
+
+    subgraph "Camada Dados"
+        DB[(PostgreSQL 15+)]
+    end
+
+    subgraph "Infraestrutura"
+        Docker[Docker Containers]
+        CI[GitHub Actions CI/CD]
+        Deploy[Render Deploy]
+    end
+
+    Browser --&gt; React
+    PWA --&gt; React
+    Mobile --&gt; React
+    React --&gt; API
+    API --&gt; Security
+    Security --&gt; Business
+    Business --&gt; JPA
+    JPA --&gt; DB
+    Business -.-&gt; Cache
+
+    Docker --&gt; React
+    Docker --&gt; API
+    CI --&gt; Docker
+    Deploy --&gt; Docker
+
+    style Cache fill:#f9f9f9,stroke:#999,stroke-dasharray: 5 5
+    style PWA fill:#e1f5fe
+    style Security fill:#fff3e0</code></pre>
+<p>*Cache Redis planejado para versões futuras</p>
+<h3 id="principios-arquiteturais">Princípios Arquiteturais</h3>
+<p><strong>Separação de Responsabilidades</strong></p>
+<ul>
+<li>Frontend focado em UX e apresentação</li>
+<li>Backend concentrado em lógica de negócio e dados</li>
+<li>Banco de dados otimizado para performance e consistência</li>
+</ul>
+<p><strong>Escalabilidade e Manutenibilidade</strong></p>
+<ul>
+<li>Arquitetura em camadas bem definidas</li>
+<li>Componentes desacoplados e testáveis</li>
+<li>APIs RESTful padronizadas</li>
+</ul>
+<p><strong>Segurança por Design</strong></p>
+<ul>
+<li>Autenticação JWT com refresh tokens</li>
+<li>Validação rigorosa em múltiplas camadas</li>
+<li>Controle de acesso baseado em contexto de grupo</li>
+</ul>
+<h2 id="arquitetura-frontend-react">Arquitetura Frontend - React</h2>
+<h3 id="stack-tecnologico">Stack Tecnológico</h3>
+<pre class="mermaid"><code>graph LR
+    subgraph "Core Frontend"
+        React[React 19]
+        Vite[Vite 7]
+        TypeScript[JavaScript ES2024]
+    end
+
+    subgraph "Estado e Roteamento"
+        Context[Context API]
+        Hooks[Custom Hooks]
+        Router[React Router v6]
+    end
+
+    subgraph "UI e Estilo"
+        Tailwind[TailwindCSS 4]
+        Headless[Headless UI]
+        Recharts[Recharts]
+    end
+
+    subgraph "Qualidade"
+        Vitest[Vitest + RTL]
+        ESLint[ESLint + Prettier]
+        PWA[Vite PWA Plugin]
+    end
+
+    React --&gt; Context
+    React --&gt; Router
+    Context --&gt; Hooks
+    Tailwind --&gt; Headless
+    Vite --&gt; PWA</code></pre>
+<h3 id="estrutura-de-arquivos">Estrutura de Arquivos</h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>frontend/
+<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>├── src/
+<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>│   ├── components/          # Componentes reutilizáveis
+<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>│   │   ├── ui/             # Componentes atômicos (Button, Input)
+<a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a>│   │   ├── layout/         # Layout e navegação
+<a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a>│   │   ├── forms/          # Formulários complexos
+<a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a>│   │   └── features/       # Componentes de funcionalidades
+<a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a>│   ├── pages/              # Páginas principais (rotas)
+<a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a>│   ├── hooks/              # Custom hooks reutilizáveis
+<a href="#__codelineno-0-10" id="__codelineno-0-10" name="__codelineno-0-10"></a>│   ├── context/            # Providers globais
+<a href="#__codelineno-0-11" id="__codelineno-0-11" name="__codelineno-0-11"></a>│   │   ├── AuthContext.jsx # Autenticação
+<a href="#__codelineno-0-12" id="__codelineno-0-12" name="__codelineno-0-12"></a>│   │   ├── GroupContext.jsx# Estado de grupos
+<a href="#__codelineno-0-13" id="__codelineno-0-13" name="__codelineno-0-13"></a>│   │   └── ThemeContext.jsx# Tema e preferências
+<a href="#__codelineno-0-14" id="__codelineno-0-14" name="__codelineno-0-14"></a>│   ├── services/           # Integração com APIs
+<a href="#__codelineno-0-15" id="__codelineno-0-15" name="__codelineno-0-15"></a>│   ├── routes/             # Configuração de rotas
+<a href="#__codelineno-0-16" id="__codelineno-0-16" name="__codelineno-0-16"></a>│   └── utils/              # Funções utilitárias
+<a href="#__codelineno-0-17" id="__codelineno-0-17" name="__codelineno-0-17"></a>└── public/                 # Assets estáticos + PWA
+</code></pre></div>
+<h3 id="padroes-de-componentes">Padrões de Componentes</h3>
+<p><strong>Atomic Design + Feature-First</strong></p>
+<ul>
+<li><strong>Atoms</strong>: Componentes básicos (Button, Input, Icon)</li>
+<li><strong>Molecules</strong>: Combinações simples (SearchBox, FormField)</li>
+<li><strong>Organisms</strong>: Componentes complexos (ExpenseList, Dashboard)</li>
+<li><strong>Features</strong>: Agrupamento por funcionalidade (Auth, Groups, Expenses)</li>
+</ul>
+<h3 id="gerenciamento-de-estado">Gerenciamento de Estado</h3>
+<p>Utilizamos <strong>Context API + Custom Hooks</strong> para gerenciamento de estado global:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1">// Exemplo de Custom Hook</span>
+<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">useAuth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useContext</span><span class="p">(</span><span class="nx">AuthContext</span><span class="p">)</span>
+<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="w">    </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">'useAuth must be used within AuthProvider'</span><span class="p">)</span>
+<a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">  </span><span class="p">}</span>
+<a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">context</span>
+<a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>Principais Contexts:</strong></p>
+<ul>
+<li><code>AuthContext</code> - Autenticação e dados do usuário</li>
+<li><code>GroupContext</code> - Estado de grupos ativos</li>
+<li><code>ThemeContext</code> - Preferências de tema e UI</li>
+</ul>
+<h2 id="arquitetura-backend-spring-boot">Arquitetura Backend - Spring Boot</h2>
+<h3 id="stack-tecnologico_1">Stack Tecnológico</h3>
+<pre class="mermaid"><code>graph LR
+    subgraph "Core Backend"
+        Java[Java 21 LTS]
+        Spring[Spring Boot 3.5]
+        Maven[Maven 3.9+]
+    end
+
+    subgraph "Dados"
+        JPA[Spring Data JPA]
+        Hibernate[Hibernate 6]
+        PostgreSQL[PostgreSQL 15]        
+    end
+
+    subgraph "Segurança"
+        Security[Spring Security 6]
+        JWT[JWT Tokens]
+        BCrypt[BCrypt Hashing]
+    end
+
+    subgraph "Documentação"
+        OpenAPI[SpringDoc OpenAPI]
+        Scalar[Scalar UI]
+    end
+
+    Spring --&gt; JPA
+    Spring --&gt; Security
+    Security --&gt; JWT
+    JPA --&gt; PostgreSQL
+    OpenAPI --&gt; Scalar</code></pre>
+<h3 id="arquitetura-em-camadas">Arquitetura em Camadas</h3>
+<pre class="mermaid"><code>graph TB
+    subgraph "Presentation Layer"
+        Controllers[REST Controllers]
+        DTOs[Data Transfer Objects]
+        Validators[Request Validators]
+    end
+
+    subgraph "Business Layer"
+        Services[Business Services]
+        Mappers[Entity ↔ DTO Mappers]
+        Security[Security Context]
+    end
+
+    subgraph "Persistence Layer"
+        Repositories[JPA Repositories]
+        Entities[JPA Entities]
+        Migrations[Flyway Scripts]
+    end
+
+    subgraph "Cross-Cutting"
+        Exception[Exception Handling]
+        Logging[Logging &amp; Monitoring]
+        Config[Configuration]
+    end
+
+    Controllers --&gt; Services
+    Controllers --&gt; DTOs
+    Services --&gt; Repositories
+    Services --&gt; Mappers
+    Repositories --&gt; Entities
+    Exception -.-&gt; Controllers
+    Security -.-&gt; Services</code></pre>
+<h3 id="estrutura-de-arquivos_1">Estrutura de Arquivos</h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>backend/
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>├── src/main/java/com/finboostplus/
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>│   ├── controller/         # REST Controllers
+<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>│   ├── service/            # Business Logic
+<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a>│   ├── model/              # JPA Entities
+<a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a>│   ├── repository/         # Data Access
+<a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a>│   ├── dto/                # Data Transfer Objects
+<a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a>│   │   ├── request/        # Request DTOs
+<a href="#__codelineno-2-9" id="__codelineno-2-9" name="__codelineno-2-9"></a>│   │   └── response/       # Response DTOs
+<a href="#__codelineno-2-10" id="__codelineno-2-10" name="__codelineno-2-10"></a>│   ├── config/             # Configuration Classes
+<a href="#__codelineno-2-11" id="__codelineno-2-11" name="__codelineno-2-11"></a>│   ├── security/           # Security Components
+<a href="#__codelineno-2-12" id="__codelineno-2-12" name="__codelineno-2-12"></a>│   └── exception/          # Exception Handling
+<a href="#__codelineno-2-13" id="__codelineno-2-13" name="__codelineno-2-13"></a>└── src/main/resources/
+<a href="#__codelineno-2-14" id="__codelineno-2-14" name="__codelineno-2-14"></a>    ├── application.yml     # Main Configuration
+<a href="#__codelineno-2-15" id="__codelineno-2-15" name="__codelineno-2-15"></a>    └── db/migration/       # Database Scripts
+</code></pre></div>
+<h3 id="padrao-de-implementacao">Padrão de Implementação</h3>
+<p><strong>Controller → Service → Repository</strong>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nd">@RestController</span>
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">"/api/groups"</span><span class="p">)</span>
+<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="nd">@RequiredArgsConstructor</span>
+<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GroupController</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">GroupService</span><span class="w"> </span><span class="n">groupService</span><span class="p">;</span>
+<a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a>
+<a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="w">    </span><span class="nd">@GetMapping</span>
+<a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">PagedResponse</span><span class="o">&lt;</span><span class="n">GroupDTO</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="nf">getUserGroups</span><span class="p">(</span>
+<a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="w">            </span><span class="nd">@PageableDefault</span><span class="w"> </span><span class="n">Pageable</span><span class="w"> </span><span class="n">pageable</span><span class="p">,</span>
+<a href="#__codelineno-3-10" id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="w">            </span><span class="n">Authentication</span><span class="w"> </span><span class="n">authentication</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="p">.</span><span class="na">ok</span><span class="p">(</span><span class="n">groupService</span><span class="p">.</span><span class="na">getUserGroups</span><span class="p">(</span><span class="n">authentication</span><span class="p">.</span><span class="na">getName</span><span class="p">(),</span><span class="w"> </span><span class="n">pageable</span><span class="p">));</span>
+<a href="#__codelineno-3-12" id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="w">    </span><span class="p">}</span>
+<a href="#__codelineno-3-13" id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="p">}</span>
+</code></pre></div></p>
+<h2 id="banco-de-dados-modelo-relacional">Banco de Dados - Modelo Relacional</h2>
+<h3 id="principais-relacionamentos">Principais Relacionamentos</h3>
+<p><strong>Grupos e Membros</strong></p>
+<ul>
+<li>Um usuário pode ser dono de múltiplos grupos</li>
+<li>Um usuário pode participar de múltiplos grupos</li>
+<li>Cada grupo tem um dono e múltiplos membros</li>
+</ul>
+<p><strong>Despesas e Divisões</strong></p>
+<ul>
+<li>Cada despesa pertence a um grupo</li>
+<li>Despesas são divididas entre membros selecionados</li>
+<li>Cálculo automático de valores individuais</li>
+</ul>
+<h2 id="seguranca-e-autenticacao">Segurança e Autenticação</h2>
+<h3 id="fluxo-de-autenticacao-jwt">Fluxo de Autenticação JWT</h3>
+<pre class="mermaid"><code>sequenceDiagram
+    participant Client as Frontend
+    participant API as Spring Boot API
+    participant Auth as Spring Security
+    participant DB as PostgreSQL
+
+    Client-&gt;&gt;API: POST /api/auth/login
+    API-&gt;&gt;Auth: Validar credenciais
+    Auth-&gt;&gt;DB: Buscar usuário
+    DB--&gt;&gt;Auth: Dados do usuário
+    Auth-&gt;&gt;Auth: Gerar JWT token
+    Auth--&gt;&gt;API: Token + user data
+    API--&gt;&gt;Client: Response com token
+
+    Note over Client: Armazenar token
+
+    Client-&gt;&gt;API: GET /api/groups (Authorization: Bearer token)
+    API-&gt;&gt;Auth: Validar token JWT
+    Auth-&gt;&gt;Auth: Extrair claims
+    Auth--&gt;&gt;API: User authenticated
+    API-&gt;&gt;DB: Buscar dados
+    DB--&gt;&gt;API: Dados dos grupos
+    API--&gt;&gt;Client: Response com dados</code></pre>
+<h3 id="niveis-de-protecao">Níveis de Proteção</h3>
+<p><strong>Rotas Públicas</strong></p>
+<ul>
+<li>Registro, login e recuperação de senha</li>
+</ul>
+<p><strong>Rotas Protegidas (JWT Required)</strong></p>
+<ul>
+<li>Todas as operações de grupos e despesas</li>
+<li>Dashboard e relatórios</li>
+</ul>
+<p><strong>Controle de Acesso por Contexto</strong></p>
+<ul>
+<li>Apenas membros do grupo podem ver dados do grupo</li>
+<li>Apenas dono do grupo pode gerenciar membros</li>
+<li>Usuários podem editar apenas suas próprias despesas</li>
+</ul>
+<h2 id="integracao-e-comunicacao">Integração e Comunicação</h2>
+<h3 id="api-restful">API RESTful</h3>
+<p><strong>Padrões de Endpoint</strong>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>GET    /api/groups              # Listar grupos
+<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>POST   /api/groups              # Criar grupo
+<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a>GET    /api/groups/{id}         # Detalhes do grupo
+<a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a>PUT    /api/groups/{id}         # Atualizar grupo
+<a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a>DELETE /api/groups/{id}         # Deletar grupo
+<a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a>
+<a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a>GET    /api/groups/{id}/expenses # Despesas do grupo
+<a href="#__codelineno-4-8" id="__codelineno-4-8" name="__codelineno-4-8"></a>POST   /api/groups/{id}/expenses # Criar despesa
+</code></pre></div></p>
+<p><strong>Formato de Resposta Padrão</strong>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="p">{</span>
+<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="w">  </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Operação realizada com sucesso"</span><span class="p">,</span>
+<a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* dados da resposta */</span><span class="w"> </span><span class="p">},</span>
+<a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="w">  </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-01-01T10:00:00Z"</span>
+<a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="p">}</span>
+</code></pre></div></p>
+<h2 id="deployment-e-infraestrutura">Deployment e Infraestrutura</h2>
+<h3 id="containerizacao-com-docker">Containerização com Docker</h3>
+<pre class="mermaid"><code>graph TB
+    subgraph "Docker Compose"
+        Frontend[Frontend Container&lt;br/&gt;Nginx + React Build]
+        Backend[Backend Container&lt;br/&gt;Java + Spring Boot]
+        Database[PostgreSQL Container]        
+    end
+
+    subgraph "External Services"        
+        Vercel[Vercel Frontend]
+        GitHub[GitHub Registry]
+    end
+
+    Frontend --&gt; Backend
+    Backend --&gt; Database
+    Backend -.-&gt; Redis
+
+    GitHub --&gt; Render
+    GitHub --&gt; Vercel
+
+    style Redis fill:#f9f9f9,stroke:#999,stroke-dasharray: 5 5</code></pre>
+<h3 id="estrategia-de-deploy">Estratégia de Deploy</h3>
+<p><strong>Desenvolvimento</strong></p>
+<ul>
+<li>Docker Compose para ambiente local completo</li>
+<li>Hot reload habilitado em frontend e backend</li>
+</ul>
+<p><strong>Produção</strong></p>
+<ul>
+<li>Frontend: Vercel </li>
+<li>Backend: Render </li>
+<li>Banco: PostgreSQL managed service</li>
+<li>CI/CD: GitHub Actions</li>
+</ul>
+<h2 id="monitoramento-e-performance">Monitoramento e Performance</h2>
+<h3 id="otimizacoes-implementadas">Otimizações Implementadas</h3>
+<p><strong>Frontend</strong></p>
+<ul>
+<li>Code splitting por rota</li>
+<li>Lazy loading de componentes</li>
+<li>Service Worker para cache de assets</li>
+<li>Otimização de bundle com Vite</li>
+</ul>
+<p><strong>Backend</strong></p>
+<ul>
+<li>Connection pooling do PostgreSQL</li>
+<li>Queries JPA otimizadas</li>
+<li>Paginação em listagens</li>
+<li>Spring Boot Actuator para métricas</li>
+</ul>
+<p><strong>Banco de Dados</strong></p>
+<ul>
+<li>Índices em colunas de busca frequente</li>
+<li>Constraints para integridade referencial</li>
+</ul>
+<h2 id="planos-de-expansao">Planos de Expansão</h2>
+<h3 id="funcionalidades-futuras">Funcionalidades Futuras</h3>
+<ul>
+<li>Notificações push em tempo real</li>
+<li>Relatórios avançados e exportação</li>
+<li>App mobile nativo (React Native)</li>
+</ul>
+<hr/>
+<div class="admonition info">
+<p class="admonition-title">Documentação Viva</p>
+<p>Esta arquitetura evolui junto com o projeto. Para detalhes de implementação específicos, consulte:</p>
+</div>
+<ul>
+<li><a href="https://github.com/Finboostplus/finboostplus-app/blob/main/backend/README.md"><strong>Backend README</strong></a> - Setup e execução</li>
+<li><a href="https://github.com/Finboostplus/finboostplus-app/blob/main/frontend/README.md"><strong>Frontend README</strong></a> - Desenvolvimento local</li>
+<li><a href="api_interactive.md"><strong>API Interativa</strong></a> - Documentação Scalar/Swagger</li>
+<li><a href="https://github.com/Finboostplus/finboostplus-app/wiki"><strong>GitHub Wiki</strong></a> - Guias técnicos detalhados</li>
+</ul>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Voltar para o topo
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Rodapé" class="md-footer__inner md-grid">
+<a aria-label="Anterior: Documentação Completa" class="md-footer__link md-footer__link--prev" href="../../project/full_docs/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Anterior
+              </span>
+<div class="md-ellipsis">
+                Documentação Completa
+              </div>
+</div>
+</a>
+<a aria-label="Próximo: API - Documentação e Guia" class="md-footer__link md-footer__link--next" href="../api_documentation/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Próximo
+              </span>
+<div class="md-ellipsis">
+                API - Documentação e Guia
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      FinBoost+ Team - Controle Financeiro e Compartilhamento de Despesas
+    </div>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/Finboostplus" rel="noopener" target="_blank" title="github.com">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+</body>
+</html>
