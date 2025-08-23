@@ -1,19 +1,16 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
+# ==============================================
+# Node modules and build outputs
+# ==============================================
 node_modules
+html
 dist
 dev-dist
 dist-ssr
 *.local
 
-# Editor directories and files
+# ==============================================
+# IDE and Editor files
+# ==============================================
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -23,3 +20,24 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# ==============================================
+# Logs de depuração
+# ==============================================
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ==============================================
+# RELATÓRIOS DE TESTE E COBERTURA (Vitest)
+# ==============================================
+coverage/
+reports/
+*.lcov
+*.html
+*.xml
+*.json

@@ -1,7 +1,6 @@
 # ==============================================
 # GITIGNORE - BACKEND SPRING BOOT
 # ==============================================
-
 # Maven
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -34,8 +33,6 @@ logs/
 # ==============================================
 # SEGURANÇA - CREDENCIAIS E CONFIGURAÇÕES SENSÍVEIS
 # ==============================================
-
-# Arquivos de ambiente com credenciais reais
 .env.local
 .env.production
 .env.staging
@@ -65,3 +62,18 @@ application-*.properties
 *.bak
 *.swp
 *.swo
+
+# ==============================================
+# RELATÓRIOS DE TESTE E COBERTURA (JaCoCo / Surefire)
+# ==============================================
+jacoco-report/
+coverage/
+reports/
+test-output/
+surefire-reports/
+failsafe-reports/
+
+# Relatórios exportados
+*.html
+*.xml
+*.json
