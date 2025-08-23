@@ -9,6 +9,21 @@
   <img src="https://img.shields.io/badge/License-MPL_2.0-blue.svg" alt="License">
 </div>
 
+<div align="center">
+  <a href="https://codecov.io/gh/Finboostplus/finboostplus-app">
+    <img src="https://codecov.io/gh/Finboostplus/finboostplus-app/branch/develop/graph/badge.svg?token=YOUR_CODECOV_TOKEN" alt="Coverage Status"/>
+  </a>
+  <a href="https://sonarcloud.io/dashboard?id=Finboostplus_finboostplus-app">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=Finboostplus_finboostplus-app&metric=alert_status" alt="Quality Gate Status"/>
+  </a>
+  <a href="https://sonarcloud.io/dashboard?id=Finboostplus_finboostplus-app">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=Finboostplus_finboostplus-app&metric=coverage" alt="Coverage"/>
+  </a>
+  <a href="https://sonarcloud.io/dashboard?id=Finboostplus_finboostplus-app">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=Finboostplus_finboostplus-app&metric=bugs" alt="Bugs"/>
+  </a>
+</div>
+
 **Sistema fullstack para gerenciamento de finanças pessoais e compartilhadas**. Permite registro e divisão de despesas, acompanhamento de saldos individuais, geração de relatórios e sugestões inteligentes com IA.
 
 > 🎓 **Projeto Final** do curso Desenvolvimento Full-Stack Jr – +Prati & Codifica
@@ -31,7 +46,7 @@
     - [📋 **Pré-requisitos**](#-pré-requisitos)
     - [⚡ **Execução Rápida (Recomendado)**](#-execução-rápida-recomendado)
     - [🔧 **Execução Manual**](#-execução-manual)
-  - [🧪 **Testes**](#-testes)
+  - [🧪 **Testes e Cobertura**](#-testes-e-cobertura)
   - [👥 **Nossa Equipe**](#-nossa-equipe)
   - [🤝 **Como Contribuir**](#-como-contribuir)
   - [🎓 **Sobre o Projeto**](#-sobre-o-projeto)
@@ -165,19 +180,49 @@ spring:
 
 ---
 
-## 🧪 **Testes**
+## 🧪 **Testes e Cobertura**
+
+### 🚀 **Executar Testes**
 
 ```bash
-# Backend
-cd backend && ./mvnw test
+# Backend (Spring Boot + JUnit)
+cd backend/finboostplus_server
+./mvnw test
 
-# Frontend  
-cd frontend && npm test
-
-# Cobertura
-./mvnw test jacoco:report    # Backend
-npm run test:coverage       # Frontend
+# Frontend (Vitest + React Testing Library)  
+cd frontend
+npm test
+npm run test:watch          # Modo watch
+npm run test:ui             # Interface visual
 ```
+
+### 📊 **Relatórios de Cobertura HTML**
+
+```bash
+# Backend - Gera relatório HTML com JaCoCo
+cd backend/finboostplus_server
+./mvnw test jacoco:report
+# Visualizar: abrir backend/finboostplus_server/target/site/jacoco/index.html
+
+# Frontend - Gera relatório HTML com Vitest
+cd frontend
+npm run test:coverage:html
+# Visualizar: abrir frontend/coverage/index.html
+```
+
+### 📈 **Onde Encontrar os Relatórios**
+
+| Componente | Localização do Relatório HTML | Comando |
+|------------|--------------------------------|---------|
+| **Backend** | `backend/finboostplus_server/target/site/jacoco/index.html` | `./mvnw test jacoco:report` |
+| **Frontend** | `frontend/coverage/index.html` | `npm run test:coverage:html` |
+
+### 🎯 **Cobertura Online**
+
+- 📊 **Codecov:** [Dashboard de Cobertura](https://codecov.io/gh/Finboostplus/finboostplus-app)
+- 🔍 **SonarCloud:** [Análise de Qualidade](https://sonarcloud.io/dashboard?id=Finboostplus_finboostplus-app)
+
+> 💡 **Dica:** Os relatórios HTML são gerados automaticamente após executar os testes com cobertura e oferecem visualização detalhada linha por linha do código testado.
 
 ---
 

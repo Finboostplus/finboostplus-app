@@ -18,11 +18,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies (frontend)
         run: |
           cd frontend
-          npm install
+          npm ci
 
       - name: Run Lint (frontend)
         run: |
@@ -38,7 +40,7 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: frontend/coverage
+          files: frontend/coverage/lcov.info
         continue-on-error: true
 
   backend:
@@ -47,13 +49,11 @@ jobs:
 
     services:
       postgres:
-        image: postgres:15
+        image: postgres:17
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: app_db
-        ports:
-          - 5432:5432
+          POSTGRES_PASSWORD: 1234
+          POSTGRES_DB: finboostplus
         options: >-
           --health-cmd="pg_isready -U postgres"
           --health-interval=10s
@@ -74,25 +74,33 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('backend/finboostplus_teste/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 
       - name: Run Lint (backend - Checkstyle)
         run: |
-          cd backend/finboostplus_teste
-          mvn checkstyle:check || echo "Checkstyle warnings only"
+          cd backend/finboostplus_server
+          ./mvnw checkstyle:check || echo "Checkstyle warnings only"
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/finboostplus
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: 1234
 
       - name: Run Tests (backend)
         run: |
-          cd backend/finboostplus_teste
-          mvn test || echo "JUnit tests failed or not found (not blocking)"
+          cd backend/finboostplus_server
+          ./mvnw test || echo "JUnit tests failed or not found (not blocking)"
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/finboostplus
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: 1234
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: backend/finboostplus_teste/target/site/jacoco
+          directory: backend/finboostplus_server/target/site/jacoco
         continue-on-error: true
 
   sonarcloud:
@@ -106,6 +114,11 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for better analysis
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -116,7 +129,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('backend/finboostplus_teste/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+
+      - name: Install frontend (para análise Sonar)
+        run: |
+          cd frontend
+          npm ci
+          npm run build
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2

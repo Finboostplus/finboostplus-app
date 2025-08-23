@@ -11,6 +11,8 @@ frontend/package-lock.json
 frontend/yarn.lock
 frontend/.DS_Store
 frontend/.eslintcache
+# Coverage reports
+frontend/coverage/
 
 # IntelliJ/WebStorm/Vscode (IDE/Editor)
 .vscode/
@@ -39,6 +41,8 @@ backend/.env
 backend/.DS_Store
 backend/logs/
 backend/*.log
+# Coverage reports
+backend/**/target/site/jacoco/
 
 # Maven
 backend/.mvn/
