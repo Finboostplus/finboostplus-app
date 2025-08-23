@@ -7,10 +7,10 @@
 **/.DS_Store
 **/.classpath
 **/.dockerignore
-**/.env
+.env.example
 **/.factorypath
 **/.git
-../.idea/.gitignore
+.idea/.gitignore
 **/.idea
 **/.project
 **/.sts4-cache
@@ -31,7 +31,6 @@
 **/vendor
 LICENSE
 README.md
-**/*.class
 **/*.iml
 **/*.ipr
 **/*.iws

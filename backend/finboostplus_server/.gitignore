@@ -1,67 +1,67 @@
-# Projeto FinBoostPlus Server - .gitignore
+# ==============================================
+# GITIGNORE - BACKEND SPRING BOOT
+# ==============================================
 
-# Arquivos auxiliares de IDE e build
-HELP.md
-
-# Output de build Maven
-/target/
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-# Wrapper Maven (DEVE ser commitado: mvnw, mvnw.cmd, maven-wrapper.properties, maven-wrapper.jar)
-# Não ignorar o jar do wrapper
-
-# Logs e dumps
-*.log
-hs_err_pid*.log
-replay_pid*.log
-*.hprof
-*.dump
-
-# IDEs
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# IDE
 .idea/
 *.iws
 *.iml
 *.ipr
-
-# Metadata de IDE (se necessário)
-/.metadata/
-
-# NetBeans
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-# Gradle (caso venha a coexistir)
-/build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-# VS Code
 .vscode/
+*.swp
+*.swo
+*~
 
-# SO / Diversos
+# OS
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# Arquivos temporários
-.tmp
-~$*
-*.swp
+# Logs
+*.log
+logs/
 
-# Cobertura (mantida dentro de target já ignorado)
-# jacoco.exec fica em target
+# ==============================================
+# SEGURANÇA - CREDENCIAIS E CONFIGURAÇÕES SENSÍVEIS
+# ==============================================
 
-# Ambiente / segredos (caso venha a existir)
-*.env
+# Arquivos de ambiente com credenciais reais
 .env.local
+.env.production
+.env.staging
 .env.*.local
+
+# Certificados e chaves
+*.p12
+*.jks
+*.keystore
+*.pem
+*.key
+*.crt
+
+# Arquivos de configuração com credenciais
+application-*.properties
+!application.properties
+!application-dev.properties
+!application-test.properties
+!application-prod.properties
+
+# Backups de banco de dados
+*.sql
+*.dump
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.swo

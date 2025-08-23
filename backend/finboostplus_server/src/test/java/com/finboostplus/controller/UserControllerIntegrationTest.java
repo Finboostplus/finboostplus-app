@@ -85,7 +85,7 @@ class UserControllerIntegrationTest {
         // Verify user was created in database
         assertEquals(1, userRepository.count());
 
-        User savedUser = userRepository.findAll().getFirst();
+        User savedUser = userRepository.findAll().getFirst(); // Java 21+ API
         assertEquals("Integration Test User", savedUser.getName());
         assertEquals("integration@example.com", savedUser.getEmail());
         assertEquals("light", savedUser.getColorTheme());
