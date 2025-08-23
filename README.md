@@ -210,19 +210,20 @@ npm run test:coverage:html
 # Visualizar: abrir frontend/coverage/index.html
 ```
 
-### 📈 **Onde Encontrar os Relatórios**
+### 📌 Observação sobre Relatórios
 
-| Componente | Localização do Relatório HTML | Comando |
-|------------|--------------------------------|---------|
-| **Backend** | `backend/finboostplus_server/target/site/jacoco/index.html` | `./mvnw test jacoco:report` |
-| **Frontend** | `frontend/coverage/index.html` | `npm run test:coverage:html` |
+Os relatórios em **HTML** (gerados pelo Vitest e JaCoCo) são utilizados apenas para **consulta local** durante o desenvolvimento.  
+Eles **não são versionados no repositório** por serem arquivos temporários e automaticamente regenerados a cada execução dos testes.
+A cobertura oficial do projeto pode ser acompanhada pelos dashboards online.
+
+👉 Para visualizar os relatórios locais:
+- **Frontend (Vitest):** `frontend/coverage/index.html`  
+- **Backend (JaCoCo):** `backend/finboostplus_server/target/site/jacoco/index.html`
 
 ### 🎯 **Cobertura Online**
 
 - 📊 **Codecov:** [Dashboard de Cobertura](https://codecov.io/gh/Finboostplus/finboostplus-app)
 - 🔍 **SonarCloud:** [Análise de Qualidade](https://sonarcloud.io/dashboard?id=Finboostplus_finboostplus-app)
-
-> 💡 **Dica:** Os relatórios HTML são gerados automaticamente após executar os testes com cobertura e oferecem visualização detalhada linha por linha do código testado.
 
 ---
 
