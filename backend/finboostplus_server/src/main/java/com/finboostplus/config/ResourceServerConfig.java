@@ -1,12 +1,7 @@
 package com.finboostplus.config;
 
-import java.util.Arrays;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -15,31 +10,68 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ * Configuração principal de segurança do sistema.
+ * <p>
+ * Esta configuração é aplicada a todas as rotas exceto:
+ * - H2 Console (gerenciado por H2SecurityConfig em ambiente test)
+ * - Rotas públicas definidas aqui
+ * <p>
+ * Order(2) garante que seja aplicada após configurações específicas como H2.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class ResourceServerConfig {
-    @Value("${cors.origins}")
-    private String corsOrigins;
 
+    /**
+     * Filter chain principal da aplicação
+     * Aplica OAuth2 Resource Server para rotas protegidas
+     */
     @Bean
     @Order(2)
-    public SecurityFilterChain rsSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable());
-        http.authorizeHttpRequests(authorize -> authorize
-                // Permitir acesso público à documentação da API
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/docs/**", "/scalar", "/scalar/**").permitAll()
-                .anyRequest().permitAll());
-        http.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
-        http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
-        return http.build();
+    public SecurityFilterChain mainSecurityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                // Aplica a TODAS as rotas exceto H2 Console
+                .securityMatcher(request ->
+                        !request.getRequestURI().startsWith("/h2-console")
+                )
+                // Desabilita CSRF para APIs REST
+                .csrf(csrf -> csrf.disable())
+                // Configuração de autorização
+                .authorizeHttpRequests(authorize -> authorize
+                        // === ROTAS PÚBLICAS ===
+                        // Cadastro de usuário (POST /user)
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("POST", "/user")).permitAll()
+
+                        // Documentação da API
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/docs/**",
+                                "/scalar",
+                                "/scalar/**"
+                        ).permitAll()
+
+                        // === ROTAS PROTEGIDAS ===
+                        // Todas as outras rotas exigem autenticação
+                        .anyRequest().authenticated()
+                )
+                // Configuração OAuth2 Resource Server (JWT)
+                .oauth2ResourceServer(oauth2 ->
+                        oauth2.jwt(Customizer.withDefaults())
+                )
+                // Habilita CORS
+                .cors(Customizer.withDefaults())
+                .build();
     }
 
+    /**
+     * Configuração do conversor de JWT para extrair authorities
+     */
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
@@ -49,29 +81,5 @@ public class ResourceServerConfig {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
         return jwtAuthenticationConverter;
-    }
-
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-
-        String[] origins = corsOrigins.split(",");
-
-        CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedOriginPatterns(Arrays.asList(origins));
-        corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
-        corsConfig.setAllowCredentials(true);
-        corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfig);
-        return source;
-    }
-
-    @Bean
-    FilterRegistrationBean<CorsFilter> filterRegistrationBeanCorsFilter() {
-        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(
-                new CorsFilter(corsConfigurationSource()));
-        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        return bean;
     }
 }

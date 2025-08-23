@@ -44,8 +44,8 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(EmailAlreadyRegisteredException.class)
     public ResponseEntity<?> emailAlreadyRegisteredException(EmailAlreadyRegisteredException e) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        CustomError error = new CustomError(Instant.now(), "Internal Server Error", status.value(), e.getMessage());
+        HttpStatus status = HttpStatus.CONFLICT;
+        CustomError error = new CustomError(Instant.now(), "Email Already Registered", status.value(), e.getMessage());
         return ResponseEntity.status(status).body(error);
     }
 

@@ -91,26 +91,24 @@ public class UserService implements UserDetailsService {
     }
 
 
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-    public String authenticated(){
-        try{
+    public String authenticated() {
+        try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             Jwt jwtPrincipal = (Jwt) authentication.getPrincipal();
             return jwtPrincipal.getClaim("username");
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new UsernameNotFoundException("Não foi encontrado o usuário");
         }
 
     }
 
-    public User getUser(String username){
-         Optional<User> userOp = userRepository.findByEmailIgnoreCase(username);
-         var user = userOp.get();
+    public User getUser(String username) {
+        Optional<User> userOp = userRepository.findByEmailIgnoreCase(username);
+        var user = userOp.get();
         return user;
     }
 }

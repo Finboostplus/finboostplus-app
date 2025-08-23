@@ -27,34 +27,34 @@ public class GroupController {
     GroupRepository groupRepository;
 
     @PostMapping()
-public ResponseEntity<Object>createNewGroup(@RequestBody GroupDto dto){
+    public ResponseEntity<Object> createNewGroup(@RequestBody GroupDto dto) {
 
 
-            String userName = userService.authenticated();
+        String userName = userService.authenticated();
 
-            User user = userService.getUser(userName);
+        User user = userService.getUser(userName);
 
-            if(user==null){
+        if (user == null) {
 
-                return  ResponseEntity.badRequest().body("Usuário Não Encontrado ");
+            return ResponseEntity.badRequest().body("Usuário Não Encontrado ");
 
-            }else{
-                Group newGroup = groupService.createNewGroup(dto,user);
-                if(newGroup != null){
-                    return  ResponseEntity.status(201).body(newGroup);
-                }
+        } else {
+            Group newGroup = groupService.createNewGroup(dto, user);
+            if (newGroup != null) {
+                return ResponseEntity.status(201).body(newGroup);
             }
+        }
 
-        return  ResponseEntity.badRequest().body("Não foi possível a criação do Grupo, ");
- }
+        return ResponseEntity.badRequest().body("Não foi possível a criação do Grupo, ");
+    }
 
 
     @GetMapping()
     public ResponseEntity<Page<Group>> listGroupsPage(
-                                                  @RequestParam(defaultValue = "0") int page,
-                                                  @RequestParam(defaultValue = "10")int size) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        User  user = getUser();
+        User user = getUser();
         System.out.println(user.toString());
 
         Page<Group> groups = groupService.listCreatorGroupPage(user.getId(), pageable);
@@ -62,10 +62,10 @@ public ResponseEntity<Object>createNewGroup(@RequestBody GroupDto dto){
         return ResponseEntity.ok(groups);
     }
 
-    private User getUser(){
+    private User getUser() {
         String userName = userService.authenticated();
         User user = userService.getUser(userName);
         System.out.println("DENTRO DO GETUSER" + user.toString());
-        return  user;
+        return user;
     }
 }

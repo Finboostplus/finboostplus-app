@@ -31,14 +31,14 @@ public class GroupService {
     @Autowired
     UserService userService;
 
-    public Group createNewGroup(GroupDto groupDto, User user){
+    public Group createNewGroup(GroupDto groupDto, User user) {
 
         GroupMember groupMember = new GroupMember();
         Group group = groupDto.groupDtoToGroup();
-         group.setGroupCreatorId(user.getId());
-         group = groupRepository.save(group);
+        group.setGroupCreatorId(user.getId());
+        group = groupRepository.save(group);
 
-        if(group != null){
+        if (group != null) {
 
             GroupMemberId groupMemberId = new GroupMemberId(group.getId(), user.getId());
 
@@ -56,20 +56,19 @@ public class GroupService {
 
     }
 
-    public boolean addMemberGroup(Long id,String email){
+    public boolean addMemberGroup(Long id, String email) {
 
 
-
-        return  false;
+        return false;
     }
 //    public List<Group> listGroupCreator(Long userId, Pageable pageable){
 //
 //        return groupRepository.listaGrupoUsuario(userId,pageable);
 //    }
 
-    public Page<Group> listCreatorGroupPage(Long userId, Pageable pageable){
+    public Page<Group> listCreatorGroupPage(Long userId, Pageable pageable) {
 
-        return groupRepository.listaGrupoUsuarioPage(userId,pageable);
+        return groupRepository.listaGrupoUsuarioPage(userId, pageable);
     }
 
 }

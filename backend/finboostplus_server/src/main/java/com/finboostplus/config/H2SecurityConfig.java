@@ -1,6 +1,5 @@
 package com.finboostplus.config;
 
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -11,72 +10,42 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
- * Configuração de segurança específica para permitir acesso ao H2 Console
- * em ambiente de teste.
+ * Configuração de segurança ESPECÍFICA para ambiente de teste.
+ * <p>
+ * Permite acesso ao H2 Console apenas em ambiente de teste.
+ * Order(1) garante prioridade sobre outras configurações de segurança.
+ * <p>
+ * ATENÇÃO: Esta configuração só é ativa no profile 'test'!
  */
 @Configuration
 @EnableWebSecurity
-@Profile("test")
+@Profile("test") // <- IMPORTANTE: Só funciona em ambiente de teste
 public class H2SecurityConfig {
 
     /**
-     * Configuração de segurança para o H2 Console.
-     * Esta configuração tem prioridade alta (@Order(1)) para ser aplicada
-     * antes das configurações gerais de segurança.
+     * Filter chain específico para H2 Console
+     * Tem prioridade máxima para evitar conflitos
      */
     @Bean
-    @Order(1)
+    @Order(1) // <- Prioridade ALTA - executa ANTES da configuração principal
     public SecurityFilterChain h2ConsoleSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                // Aplica apenas para rotas do H2 Console
-                .securityMatcher(
-                        AntPathRequestMatcher.antMatcher("/h2-console/**")
-                )
-                // Permite acesso livre ao H2 Console
+                // Aplica APENAS às rotas do H2 Console
+                .securityMatcher(AntPathRequestMatcher.antMatcher("/h2-console/**"))
+
+                // Permite acesso total ao H2 Console
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers(
-                                AntPathRequestMatcher.antMatcher("/h2-console/**")
-                        ).permitAll()
+                        auth.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                 )
+
                 // Desabilita CSRF para H2 Console (necessário para funcionar)
                 .csrf(csrf ->
-                        csrf.ignoringRequestMatchers(
-                                AntPathRequestMatcher.antMatcher("/h2-console/**")
-                        )
+                        csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**"))
                 )
-                // Permite frames para H2 Console (interface web usa frames)
-                .headers(headers ->
-                        headers.frameOptions().sameOrigin()
-                )
-                .build();
-    }
 
-    /**
-     * Configuração de segurança geral para outras rotas no perfil de teste.
-     * Esta configuração tem prioridade menor (@Order(2)) e será aplicada
-     * após a configuração do H2 Console.
-     */
-    @Bean
-    @Order(2)
-    public SecurityFilterChain testSecurityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                // Aplica para todas as outras rotas
-                .securityMatcher("/**")
-                .authorizeHttpRequests(auth -> auth
-                        // Permite acesso aos endpoints de documentação
-                        .requestMatchers(
-                                "/v3/api-docs/**",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html"
-                        ).permitAll()
-                        // Permite acesso aos recursos estáticos
-                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        // Outras rotas requerem autenticação
-                        .anyRequest().authenticated()
-                )
-                // Configuração OAuth2 Resource Server (se necessário)
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> {
-                }))
+                // Permite frames (interface H2 usa frames)
+                .headers(headers -> headers.frameOptions().sameOrigin())
+
                 .build();
     }
 }

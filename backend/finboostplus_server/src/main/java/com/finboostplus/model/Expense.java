@@ -18,6 +18,7 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_expense")
     private Long id;
 
+    @Column(name = "expense_value")
     private Double value;
 
     private String tile;
