@@ -1,26 +1,39 @@
 import { Menu, MenuItem } from '@headlessui/react';
-import { useEffect } from 'react';
-import { Form, useActionData } from 'react-router';
+import { useEffect, useState } from 'react';
+import { Form, useActionData, useNavigation } from 'react-router';
 import InputUI from '../ui/Input';
 import ButtonUI from '../ui/Button';
 import CheckboxUI from '../ui/Checkbox';
 import { customToast } from '../CustomToast';
+
 export default function RegisterForm() {
   const actionData = useActionData();
+  const navigation = useNavigation();
   const errors = actionData?.errors || {};
   const values = actionData?.values || {};
 
-  // Mostra os erros via toast
+  // Estados para loading
+  const isSubmitting = navigation.state === 'submitting';
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Mostra os erros via toast APENAS se realmente houve erro na última tentativa
   useEffect(() => {
-    if (actionData?.errors) {
-      console.log(errors);
+    // Só mostra erros se:
+    // 1. Existem erros no actionData
+    // 2. O actionData indica explicitamente que houve falha (success: false)
+    // 3. Não estamos em processo de submissão (para evitar mostrar erros antigos)
+    if (actionData?.errors && actionData?.success === false && !isSubmitting) {
+      console.log('Erros recebidos:', errors);
       Object.values(actionData.errors).forEach(({ title, message }) => {
         customToast(title, message, 'error');
       });
     }
-  }, [actionData]);
+  }, [actionData, isSubmitting]);
 
-  //Senhas não coincidem
+  // Controla estado de loading
+  useEffect(() => {
+    setIsLoading(isSubmitting);
+  }, [isSubmitting]);
 
   const fields = [
     {
@@ -70,12 +83,19 @@ export default function RegisterForm() {
               name={id}
               type={type}
               required
+              disabled={isLoading}
               defaultValue={values[id] || ''}
               placeholder={placeholder}
               className={`w-full h-11 rounded-xl border px-4 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition ${
                 errors[id] ? 'border-error' : 'border-muted'
-              }`}
+              } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
             />
+            {/* Mostra erro específico do campo abaixo do input */}
+            {errors[id] && (
+              <span className="text-xs text-error mt-1">
+                {errors[id].message}
+              </span>
+            )}
           </div>
         ))}
 
@@ -84,19 +104,45 @@ export default function RegisterForm() {
             type="checkbox"
             id="terms"
             name="terms"
+            disabled={isLoading}
             defaultChecked={values.terms || false}
             className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
           />
-          <label htmlFor="terms" className="text-sm text-text">
+          <label
+            htmlFor="terms"
+            className={`text-sm text-text ${isLoading ? 'opacity-50' : ''}`}
+          >
             Aceitar os termos de uso e política de privacidade
           </label>
         </div>
 
+        {/* Mostra erro geral se existir */}
+        {errors.general && (
+          <div className="w-full p-3 bg-red-50 border border-red-200 rounded-xl">
+            <p className="text-sm text-red-600 text-center">
+              {errors.general.message}
+            </p>
+          </div>
+        )}
+
         <ButtonUI
-          title="Cadastrar"
+          title={isLoading ? 'Cadastrando...' : 'Cadastrar'}
           type="submit"
-          className="w-full py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-secondary transition-colors"
+          disabled={isLoading}
+          className={`w-full py-2 rounded-xl text-white text-sm font-semibold transition-colors ${
+            isLoading
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-primary hover:bg-secondary'
+          }`}
         />
+
+        {/* Indicador visual de loading */}
+        {isLoading && (
+          <div className="flex items-center gap-2 text-sm text-muted">
+            <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+            Criando sua conta...
+          </div>
+        )}
       </Form>
 
       <Menu as="div">

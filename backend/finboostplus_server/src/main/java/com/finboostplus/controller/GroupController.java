@@ -48,7 +48,7 @@ public class GroupController {
         return new ResponseEntity<>("Membro adicionado com sucesso!", HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<Page<Group>> listGroupsPage(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {

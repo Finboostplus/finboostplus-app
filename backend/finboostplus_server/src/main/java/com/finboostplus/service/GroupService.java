@@ -74,10 +74,16 @@ public class GroupService {
             throw new ForbiddenResourceException("Usuário sem permissão");
         }
     }
-    // public List<Group> listGroupCreator(Long userId, Pageable pageable){
-    //
-    // return groupRepository.listaGrupoUsuario(userId,pageable);
-    // }
+
+    public boolean addMemberGroup(Long id, String email) {
+
+
+        return false;
+    }
+//    public List<Group> listGroupCreator(Long userId, Pageable pageable){
+//
+//        return groupRepository.listaGrupoUsuario(userId,pageable);
+//    }
 
     public Page<Group> listCreatorGroupPage(Long userId, Pageable pageable) {
 
