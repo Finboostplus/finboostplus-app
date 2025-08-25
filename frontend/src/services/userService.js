@@ -9,7 +9,7 @@ class UserService {
    * @param {string} userData.name - Nome completo
    * @param {string} userData.email - Email
    * @param {string} userData.password - Senha
-   * @param {string} [userData.colorTheme] - Tema de cor opcional
+   * @param {string} [userData.themeColor] - Tema de cor opcional
    * @returns {Promise<string>} Mensagem de sucesso
    */
   async registerUser(userData) {

@@ -82,6 +82,7 @@ class ApiClient {
   }
 
   async post(endpoint, data = null, options = {}) {
+        console.log('POST data:', data);
     return this.request(endpoint, {
       ...options,
       method: 'POST',

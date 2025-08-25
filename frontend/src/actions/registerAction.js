@@ -39,7 +39,7 @@ export const registerAction = async ({ request }) => {
       name: data.fullName,
       email: data.email,
       password: data.password,
-      colorTheme: 'blue' // Valor padrão, pode ser configurável depois
+      themeColor: 'blue' // Valor padrão, pode ser configurável depois
     };
 
     // Chama o serviço para registrar usuário
