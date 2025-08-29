@@ -2,7 +2,6 @@ package com.finboostplus.service;
 
 import com.finboostplus.DTO.GroupCreateDTO;
 import com.finboostplus.DTO.GroupDto;
-import com.finboostplus.DTO.GroupMemberResponseDTO;
 import com.finboostplus.DTO.GroupUpdateDTO;
 import com.finboostplus.model.Group;
 import com.finboostplus.model.GroupMember;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.List;
 
 @Service
 public class GroupService {
@@ -42,14 +40,15 @@ public class GroupService {
     @Autowired
     UserService userService;
 
-    public boolean createNewGroup(GroupCreateDTO groupDto) {
+    public boolean createNewGroup(GroupCreateDTO groupDto){
         User user = userRepository
                 .findByEmailIgnoreCase(userService.authenticated())
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
+                .orElseThrow(()-> new UsernameNotFoundException("Usuário não encontrado!"));
         Group group = groupDto.groupDtoToGroup(user.getId());
         group = groupRepository.save(group);
         return groupMemberService.addOwnerGroup(user, group);
     }
+
 
     @Transactional
     public Optional<Group> updateGroup(Long id, GroupUpdateDTO groupDto) {
@@ -75,12 +74,6 @@ public class GroupService {
             throw new ForbiddenResourceException("Usuário sem permissão");
         }
     }
-
-    public boolean addMemberGroup(Long id, String email) {
-
-        return false;
-    }
-    
     // public List<Group> listGroupCreator(Long userId, Pageable pageable){
     //
     // return groupRepository.listaGrupoUsuario(userId,pageable);
@@ -91,15 +84,4 @@ public class GroupService {
         return groupRepository.listaGrupoUsuarioPage(userId, pageable);
     }
 
-    public List<GroupMemberResponseDTO> findAllMembersByGroupId(Long groupId) {
-        String username = userService.authenticated();
-        Long userId = userRepository.findByEmailIgnoreCase(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!")).getId();
-        boolean isMember = groupMemberRepository.isUserMemberOfGroup(userId, groupId) > 0;
-        if (isMember) {
-            return groupMemberRepository.findMembersByGroupId(groupId);
-        } else {
-            throw new ForbiddenResourceException("Usuário sem permissão");
-        }
-    }
 }

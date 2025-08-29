@@ -11,11 +11,6 @@ import java.util.List;
 @Repository
 public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> {
 
-    /*
-     * SELECT u.user_name , u.e_mail FROM users u
-     * INNER JOIN member_group members ON members.user_id = u.id
-     * INNER JOIN tb_group g ON members.id_group = 2
-     */
     @Query(nativeQuery = true, value = """
                 SELECT count(*) from group_members as gm
                 inner join users as u
@@ -45,4 +40,21 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
     List<GroupMember> findByUser_id(Long userId);
 
     List<GroupMember> findByGroup_Id(Long groupId);
+
+//    @Query(nativeQuery = true, value = """
+//                SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END AS exists_flag
+//                FROM group_members AS gm
+//                INNER JOIN users AS u ON gm.user_id = u.id
+//                INNER JOIN groups AS g ON g.id = gm.group_id
+//                WHERE u.id = :userId
+//                AND g.id = :groupId
+//                AND (gm.auth_level = 'OWNER' OR gm.auth_level = 'ADMIN');
+//            """)
+//    boolean isUserOnwerAdmin(Long userId,Long groupId,String authLevel);
+    @Query( value = """
+            SELECT COUNT(gm)>0 FROM GroupMember gm\s
+                     WHERE gm.user.id = :userId\s
+                     AND gm.group.id = :groupId\s
+                     AND gm.authorization IN :authLevels""")
+    boolean isUserOnwerAdmin(Long userId,Long groupId,List<String> authLevels);
 }
