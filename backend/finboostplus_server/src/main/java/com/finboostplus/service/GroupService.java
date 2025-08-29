@@ -7,6 +7,7 @@ import com.finboostplus.model.Group;
 import com.finboostplus.model.GroupMember;
 import com.finboostplus.model.GroupMemberId;
 import com.finboostplus.model.User;
+import com.finboostplus.projection.GroupProjection;
 import com.finboostplus.repository.GroupMemberRepository;
 import com.finboostplus.repository.GroupRepository;
 import com.finboostplus.repository.UserRepository;
@@ -79,11 +80,16 @@ public class GroupService {
     // return groupRepository.listaGrupoUsuario(userId,pageable);
     // }
 
-    public Page<Group> listCreatorGroupPage(Long userId, Pageable pageable) {
+//    public Page<Group> listCreatorGroupPage(Long userId, Pageable pageable) {
+//
+//        return groupRepository.listaGrupoUsuarioPage(userId, pageable);
+//    }
 
-        return groupRepository.listaGrupoUsuarioPage(userId, pageable);
+    public Page<GroupProjection>listaCreatorGroupPageProjection(Long userId, Pageable pageable){
+        Page<GroupProjection> groups = groupRepository.listaGroupUsuerProjetction(userId,pageable);
+
+        return groups;
     }
-
 
     public Group getGroup(Long idGroup) {
         Optional<Group> g  = groupRepository.findById(idGroup);

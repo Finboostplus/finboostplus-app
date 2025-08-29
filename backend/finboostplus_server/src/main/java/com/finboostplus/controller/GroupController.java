@@ -3,6 +3,7 @@ package com.finboostplus.controller;
 import com.finboostplus.DTO.GroupUpdateDTO;
 import com.finboostplus.model.Group;
 import com.finboostplus.model.User;
+import com.finboostplus.projection.GroupProjection;
 import com.finboostplus.service.GroupService;
 import com.finboostplus.service.GroupMemberService;
 import com.finboostplus.service.UserService;
@@ -49,17 +50,28 @@ public class GroupController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Group>> listGroupsPage(
+    public ResponseEntity<Page<GroupProjection>> listGroupsPage(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         User user = getUser();
-        System.out.println(user.toString());
 
-        Page<Group> groups = groupService.listCreatorGroupPage(user.getId(), pageable);
-
-        return new ResponseEntity<>(groups, HttpStatus.OK);
+        Page<GroupProjection> groupsDTO = groupService.listaCreatorGroupPageProjection(user.getId(), pageable);
+        return new ResponseEntity<>(groupsDTO, HttpStatus.OK);
     }
+
+//    @GetMapping
+//    public ResponseEntity<Page<Group>> listGroupsPage(
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "10") int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        User user = getUser();
+//        System.out.println(user.toString());
+//
+//        Page<Group> groups = groupService.listCreatorGroupPage(user.getId(), pageable);
+//
+//        return new ResponseEntity<>(groups, HttpStatus.OK);
+//    }
 
     private User getUser() {
         String userName = userService.authenticated();
