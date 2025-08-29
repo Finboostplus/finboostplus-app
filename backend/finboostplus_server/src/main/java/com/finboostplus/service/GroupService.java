@@ -84,4 +84,10 @@ public class GroupService {
         return groupRepository.listaGrupoUsuarioPage(userId, pageable);
     }
 
+
+    public Group getGroup(Long idGroup) {
+        Optional<Group> g  = groupRepository.findById(idGroup);
+        var group = g.get();
+        return group;
+    }
 }
