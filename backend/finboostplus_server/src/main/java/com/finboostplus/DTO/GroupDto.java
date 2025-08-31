@@ -1,14 +1,23 @@
 package com.finboostplus.DTO;
 
+import com.finboostplus.model.Expense;
 import com.finboostplus.model.Group;
 
-public record GroupDto(Long id,String name, String description ) {
+import java.time.Instant;
+import java.util.Set;
 
-    public Group groupDtoToGroup(){
+public record GroupDto(Long id, String name, String description, Set<ExpenseDTO> expense) {
 
-        Group group = new Group();
-        group.setName(name);
-        group.setDescription(description);
-        return  group;
-    }
+//    public Group groupDtoToGroup(){
+//
+//        Expense e = new Expense();
+//        Group group = new Group();
+//        group.setId(id);
+//        group.setName(name);
+//        group.setDescription(description);
+//        group.setExpenses(expense);
+//
+//        return  group;
+//    }
+
 }
