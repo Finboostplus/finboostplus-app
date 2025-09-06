@@ -1,5 +1,8 @@
 package com.finboostplus.DTO;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record ExpenseResponseDTO(
@@ -9,11 +12,11 @@ public record ExpenseResponseDTO(
 
                                  String description,
 
-                                 Double value,
+                                 BigDecimal value,
 
-                                 LocalDateTime deadlineDate,
+                                 LocalDate deadlineDate,
 
-                                 LocalDateTime createAt) {
+                                 Instant createAt) {
 
 
 }

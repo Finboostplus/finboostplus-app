@@ -1,7 +1,12 @@
 package com.finboostplus.controller;
 
+
 import com.finboostplus.DTO.*;
 import com.finboostplus.model.Expense;
+
+import com.finboostplus.DTO.GroupUpdateDTO;
+import com.finboostplus.DTO.GroupMemberResponseDTO;
+
 import com.finboostplus.model.Group;
 import com.finboostplus.model.User;
 import com.finboostplus.projection.GroupProjection;
@@ -16,9 +21,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 
+
+import com.finboostplus.DTO.GroupCreateDTO;
+import com.finboostplus.DTO.GroupMemberDTO;
+import com.finboostplus.DTO.GroupMemberResponseDTO;
 
 @RestController
 @RequestMapping("/groups")
@@ -38,7 +49,7 @@ public class GroupController {
     ExpenseService expenseService;
 
     @PostMapping
-    public ResponseEntity<String> createGroup(@Valid @RequestBody GroupCreateDTO dto){
+    public ResponseEntity<String> createGroup(@Valid @RequestBody GroupCreateDTO dto) {
         boolean groupIsCreated = groupService.createNewGroup(dto);
         if (groupIsCreated) {
             return new ResponseEntity<>("Grupo criado com sucesso!", HttpStatus.CREATED);
@@ -47,7 +58,8 @@ public class GroupController {
     }
 
     @PostMapping("/{groupId}/members")
-    public ResponseEntity<String> addGroupMember(@PathVariable Long groupId, @RequestBody GroupMemberDTO groupMemberDTO){
+    public ResponseEntity<String> addGroupMember(@PathVariable Long groupId,
+            @RequestBody GroupMemberDTO groupMemberDTO) {
         groupMemberService.addGroupMember(groupId, groupMemberDTO);
         return new ResponseEntity<>("Membro adicionado com sucesso!", HttpStatus.OK);
     }
@@ -62,19 +74,7 @@ public class GroupController {
         Page<GroupProjection> groupsDTO = groupService.listaCreatorGroupPageProjection(user.getId(), pageable);
         return new ResponseEntity<>(groupsDTO, HttpStatus.OK);
     }
-//
-//    @GetMapping
-//    public ResponseEntity<Page<GroupDto>> listGroupsPageExp(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "10") int size) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        User user = getUser();
-//        System.out.println(user.toString());
-//
-//        Page<GroupDto> groupsDTO = groupService.listCreatorGroupPageDTO(user.getId(), pageable);
-//
-//        return new ResponseEntity<>(groupsDTO, HttpStatus.OK);
-//    }
+
 
     private User getUser() {
         String userName = userService.authenticated();
@@ -91,34 +91,20 @@ public class GroupController {
         }
         return new ResponseEntity<>(group.get(), HttpStatus.OK);
     }
-    @PostMapping("/{groupId}/expenses/category/{catId}")
-    public ResponseEntity<Object> addNewExpense(
-            @PathVariable Long groupId,
-            @PathVariable Long catId,
-            @RequestBody ExpenseRequestDTO dto){
 
-        Expense expense =   expenseService.addNewExpense(groupId,catId,dto);
-
-        if(expense != null){
-            ExpenseResponseDTO expdto = new ExpenseResponseDTO(
-                    expense.getId(),
-                    expense.getTitle(),
-                    expense.getDescription(),
-                    expense.getValue(),
-                    expense.getCreatAt(),
-                    expense.getDeadlineDate());
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(expdto);
-        }
-        return ResponseEntity.badRequest().body("Não foi possível a criação da nova Despesa ");
-    }
 
     @GetMapping("/{groupId}/expenses")
-    public ResponseEntity<Object> listDetailsGroup(@PathVariable Long groupId){
+    public ResponseEntity<Object> listDetailsGroup(@PathVariable Long groupId) {
         GroupDetailsDTO dto = groupService.getExpenseGroupById(groupId);
-        if(dto != null){
+        if (dto != null) {
             return ResponseEntity.ok().body(dto);
         }
         return ResponseEntity.badRequest().body("Não foi possivel obter os detalhes do grupo");
+
+    }
+    @GetMapping("/{groupId}/members")
+    public ResponseEntity<List<GroupMemberResponseDTO>> findAllMembersByGroupId(@PathVariable long groupId) {
+        return new ResponseEntity<>(groupService.findAllMembersByGroupId(groupId), HttpStatus.OK);
+
     }
 }

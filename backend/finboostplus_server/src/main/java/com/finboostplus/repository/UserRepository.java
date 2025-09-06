@@ -24,25 +24,18 @@ public interface UserRepository extends JpaRepository<User, Long>  {
 	Optional<User> findByEmailIgnoreCase(String email);
 
 	@Query(nativeQuery = true, value = """
-				SELECT count(*) from group_members as mg
-				inner join users as u
-				on mg.user_id = u.id
-				inner join groups as g
-				on g.id = mg.group_id where u.id = :userId and g.id = :groupId
-				and mg.auth_level = 'OWNER'
-			""")
-	Integer isUserAndGroupAndAuthorityValidToUpdateGroup(long userId, long groupId);
+       SELECT EXISTS(
+           SELECT 1
+           FROM group_members AS gm
+           INNER JOIN users AS u ON gm.user_id = u.id
+           INNER JOIN groups AS g ON g.id = gm.group_id
+           WHERE u.id = :userId
+           AND g.id = :groupId
+           AND gm.auth_level IN (:authorities)
+       );
+       """)
+	boolean isUserAuthorityValidToGroup(long userId, long groupId, List<String> authorities);
 
-	@Query(nativeQuery = true, value = """
-			   SELECT count(*)
-			   FROM group_members AS gm
-			   INNER JOIN users AS u ON gm.user_id = u.id
-			   INNER JOIN groups AS g ON g.id = gm.group_id
-			   WHERE u.id = :userId
-			   AND g.id = :groupId
-			   AND gm.auth_level IN (:authorities);
-			""")
-	Integer isUserAuthorityValidToGroup(long userId, long groupId, List<String> authorities);
 
 
 }

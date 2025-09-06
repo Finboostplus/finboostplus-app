@@ -1,11 +1,22 @@
 package com.finboostplus.service;
 
+
 import com.finboostplus.DTO.*;
 import com.finboostplus.exception.GroupNotFoundException;
 import com.finboostplus.model.*;
 import com.finboostplus.projection.ExpenseProjection;
 import com.finboostplus.projection.GroupProjection;
 import com.finboostplus.repository.ExpenseRepository;
+
+import com.finboostplus.DTO.GroupCreateDTO;
+import com.finboostplus.DTO.GroupDto;
+import com.finboostplus.DTO.GroupMemberResponseDTO;
+import com.finboostplus.DTO.GroupUpdateDTO;
+import com.finboostplus.model.Group;
+import com.finboostplus.model.GroupMember;
+import com.finboostplus.model.GroupMemberId;
+import com.finboostplus.model.User;
+
 import com.finboostplus.repository.GroupMemberRepository;
 import com.finboostplus.repository.GroupRepository;
 import com.finboostplus.repository.UserRepository;
@@ -21,8 +32,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import java.util.List;
+
 
 @Service
 public class GroupService {
@@ -44,15 +59,14 @@ public class GroupService {
     @Autowired
     ExpenseRepository expenseRepository;
 
-    public boolean createNewGroup(GroupCreateDTO groupDto){
+    public boolean createNewGroup(GroupCreateDTO groupDto) {
         User user = userRepository
                 .findByEmailIgnoreCase(userService.authenticated())
-                .orElseThrow(()-> new UsernameNotFoundException("Usuário não encontrado!"));
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
         Group group = groupDto.groupDtoToGroup(user.getId());
         group = groupRepository.save(group);
         return groupMemberService.addOwnerGroup(user, group);
     }
-
 
     @Transactional
     public Optional<Group> updateGroup(Long id, GroupUpdateDTO groupDto) {
@@ -62,9 +76,9 @@ public class GroupService {
             throw new UserNotFoundException("Usuário não encontrado");
         }
         Long userId = user.get().getId();
-        Integer isValid = groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateGroup(
+        boolean isValid = groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateGroup(
                 userId, id);
-        if (isValid >= 1) {
+        if (isValid) {
             Optional<Group> optional = groupRepository.findById(id);
             Group group = optional.get();
             if (groupDto.name() != null && !groupDto.name().equals("")) {
@@ -78,6 +92,17 @@ public class GroupService {
             throw new ForbiddenResourceException("Usuário sem permissão");
         }
     }
+
+    public boolean addMemberGroup(Long id, String email) {
+
+        return false;
+    }
+    
+    // public List<Group> listGroupCreator(Long userId, Pageable pageable){
+    //
+    // return groupRepository.listaGrupoUsuario(userId,pageable);
+    // }
+
 
     public GroupDetailsDTO getExpenseGroupById(Long groupId){
 
@@ -126,4 +151,15 @@ public class GroupService {
         return group;
     }
 
+    public List<GroupMemberResponseDTO> findAllMembersByGroupId(Long groupId) {
+        String username = userService.authenticated();
+        Long userId = userRepository.findByEmailIgnoreCase(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!")).getId();
+        boolean isMember = groupMemberRepository.isUserMemberOfGroup(userId, groupId) ;
+        if (isMember) {
+            return groupMemberRepository.findMembersByGroupId(groupId);
+        } else {
+            throw new ForbiddenResourceException("Usuário sem permissão");
+        }
+    }
 }

@@ -46,12 +46,13 @@ public class GroupMemberService {
         Optional<Group> groupOptional = groupRepository.findById(Long.parseLong(String.valueOf(groupId)));
         var group = groupOptional.orElseThrow(() ->new GroupNotFoundException("Grupo não encontrado"));
 
-        Integer isUserGroupMember = groupMemberRepository.isUserMemberOfGroup(userNewMember.getId(), groupId);
-        if(isUserGroupMember>0){
+        boolean isUserGroupMember = groupMemberRepository.isUserMemberOfGroup(userNewMember.getId(), groupId);
+
+        if(isUserGroupMember==true){
             throw new UserAlreadyRegisteredOnGroupException("Usuário já é membro no grupo");
         }
 
-        if(userRepository.isUserAuthorityValidToGroup(userLoggedIn.getId(),groupId, this.AUTHORITIES)>0
+        if(userRepository.isUserAuthorityValidToGroup(userLoggedIn.getId(),groupId, this.AUTHORITIES)==true
                 && (groupMemberDTO.authorization().equals("USER") || groupMemberDTO.authorization().equals("ADMIN"))){
             GroupMember member = new GroupMember();
             member.setUser(userNewMember);
@@ -75,8 +76,8 @@ public class GroupMemberService {
         return groupMemberRepository.save(owner) != null? true : false;
     }
 
-    boolean getUserOnwerAdmin(Long userId,Long groupId, List<String> authLevels){
+    public boolean getUserOnwerAdmin(Long userId,Long groupId, List<String> authLevels){
 
-        return groupMemberRepository.isUserOnwerAdmin(userId,groupId,authLevels);
+        return groupMemberRepository.isUserOnwerOrAdmin(userId,groupId,authLevels);
     }
 }

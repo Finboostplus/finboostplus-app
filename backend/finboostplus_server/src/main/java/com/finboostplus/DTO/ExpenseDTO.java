@@ -2,5 +2,7 @@ package com.finboostplus.DTO;
 
 import com.finboostplus.model.Category;
 
-public record ExpenseDTO(Long id, String title, String description, Double value) {
+import java.math.BigDecimal;
+
+public record ExpenseDTO(Long id, String title, String description, BigDecimal value) {
 }
