@@ -67,4 +67,18 @@ public class ControllerExceptionHandler {
         CustomError error = new CustomError(Instant.now(), "Internal Server Error", status.value(), e.getMessage());
         return ResponseEntity.status(status).body(error);
     }
+
+    @ExceptionHandler(ValuesIncompatiblesException.class)
+    public ResponseEntity<?> valuesInCompatiblesException(ValuesIncompatiblesException e){
+        HttpStatus status = HttpStatus.CONFLICT;
+        CustomError error = new CustomError(Instant.now(), "Internal Server Error", status.value(), e.getMessage());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<?> categoryNotFoundException(CategoryNotFoundException e){
+        HttpStatus status = HttpStatus.CONFLICT;
+        CustomError error = new CustomError(Instant.now(), "Internal Server Error", status.value(), e.getMessage());
+        return ResponseEntity.status(status).body(error);
+    }
 }

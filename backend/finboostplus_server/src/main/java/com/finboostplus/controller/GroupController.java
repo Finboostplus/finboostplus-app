@@ -29,7 +29,7 @@ import org.springframework.http.HttpStatus;
 
 import com.finboostplus.DTO.GroupCreateDTO;
 import com.finboostplus.DTO.GroupMemberDTO;
-import com.finboostplus.DTO.GroupMemberResponseDTO;
+
 
 @RestController
 @RequestMapping("/groups")
@@ -118,22 +118,22 @@ public class GroupController {
                     expense.getTitle(),
                     expense.getDescription(),
                     expense.getValue(),
-                    expense.getCreatAt(),
-                    expense.getDeadlineDate());
+                    expense.getDeadlineDate(),
+                    expense.getCreatAt());
 
             return ResponseEntity.status(HttpStatus.CREATED).body(expdto);
         }
         return ResponseEntity.badRequest().body("Não foi possível a criação da nova Despesa ");
     }
 
-    @GetMapping("/{groupId}/expenses")
-    public ResponseEntity<Object> listDetailsGroup(@PathVariable Long groupId){
+    /*@GetMapping("/{groupId}/expenses")
+    public ResponseEntity<Object> listDetailsGroup(@PathVariable Long groupId) {
         GroupDetailsDTO dto = groupService.getExpenseGroupById(groupId);
-        if(dto != null){
+        if (dto != null) {
             return ResponseEntity.ok().body(dto);
         }
         return ResponseEntity.badRequest().body("Não foi possivel obter os detalhes do grupo");
-
+    }*/
 
     @GetMapping("/{groupId}/members")
     public ResponseEntity<List<GroupMemberResponseDTO>> findAllMembersByGroupId(@PathVariable long groupId) {

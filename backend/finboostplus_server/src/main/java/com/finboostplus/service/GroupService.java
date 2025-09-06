@@ -76,9 +76,9 @@ public class GroupService {
             throw new UserNotFoundException("Usuário não encontrado");
         }
         Long userId = user.get().getId();
-        Integer isValid = groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateGroup(
+        boolean isValid = groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateGroup(
                 userId, id);
-        if (isValid >= 1) {
+        if (isValid == true) {
             Optional<Group> optional = groupRepository.findById(id);
             Group group = optional.get();
             if (groupDto.name() != null && !groupDto.name().equals("")) {
@@ -155,7 +155,7 @@ public class GroupService {
         String username = userService.authenticated();
         Long userId = userRepository.findByEmailIgnoreCase(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!")).getId();
-        boolean isMember = groupMemberRepository.isUserMemberOfGroup(userId, groupId) > 0;
+        boolean isMember = groupMemberRepository.isUserMemberOfGroup(userId, groupId) ==true;
         if (isMember) {
             return groupMemberRepository.findMembersByGroupId(groupId);
         } else {

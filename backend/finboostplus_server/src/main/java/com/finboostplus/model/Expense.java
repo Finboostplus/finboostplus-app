@@ -1,11 +1,12 @@
 package com.finboostplus.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.finboostplus.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "expenses")
@@ -21,17 +22,17 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_expense")
     private Long id;
 
-    private Double value;
+    private BigDecimal value;
 
     private String title;
 
     private String description;
 
     @Column(name = "deadline_date")
-    private LocalDateTime deadlineDate;
+    private LocalDate deadlineDate;
 
     @Column(name = "creat_at")
-    private LocalDateTime creatAt; // Talvez mudar para instant
+    private Instant creatAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
@@ -39,9 +40,11 @@ public class Expense {
 
     @ManyToOne
     @JoinColumn(name = "group_id")
-
     private Group group;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private Status status;
 
     @Override
     public boolean equals(Object o) {
@@ -54,5 +57,16 @@ public class Expense {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    public Expense(String title, String description, BigDecimal value, Category category, Group group, LocalDate deadlineDate, Status status) {
+        this.title = title;
+        this.description = description;
+        this.value = value;
+        this.category = category;
+        this.group = group;
+        this.deadlineDate = deadlineDate;
+        this.creatAt = Instant.now();
+        this.status = status;
     }
 }
