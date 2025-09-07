@@ -48,27 +48,6 @@ public class ExpenseService {
    private List<String> authLevels = List.of("OWNER", "ADMIN");
 
 
-//   public Expense addNewExpense(Long idGroup, Long idCategory, ExpenseRequestDTO expDto){
-//
-//       Expense expense = new Expense();
-//       String userName = userService.authenticated();
-//       User user = userService.getUser(userName);
-//       Group group = groupService.getGroup(idGroup);
-//       Category category = categoryService.getCategory(idCategory);
-//
-//       if(user != null){
-//           if(groupMemberService.getUserOnwerAdmin(user.getId(),idGroup,authLevels)
-//             && group != null){
-//               expense = expDto.expDToToExpense();
-//               expense.setGroup(group);
-//               expense.setCategory(category);
-//
-//               return expenseRepository.save(expense);
-//           }
-//       }
-//       return null;
-//   }
-
    public List<ExpenseProjection> listExpenseDTOGroupById(Long groupId){
 
        String userName = userService.authenticated();

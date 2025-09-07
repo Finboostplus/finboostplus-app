@@ -99,4 +99,18 @@ public class GroupController {
         return new ResponseEntity<>(groupService.findAllMembersByGroupId(groupId), HttpStatus.OK);
 
     }
+
+    @PostMapping("/{groupId}/members/{newAuthId}/transfer-ownership")
+    public ResponseEntity<Object>switchAuthority( @PathVariable Long groupId,
+                                                  @PathVariable Long newAuthId,
+                                                  @RequestBody SwitchAuthorityRequestDTO authDTO
+    ){
+
+        if(userService.switchAuthority(newAuthId,groupId,authDTO)){
+
+            return ResponseEntity.ok("Posse transferida com sucesso");
+        }
+
+        return ResponseEntity.badRequest().body("Não foi possivel realiazar a transferência");
+    }
 }
