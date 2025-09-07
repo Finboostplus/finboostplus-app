@@ -103,6 +103,7 @@ public class UserService implements UserDetailsService {
 
     }
 
+
     public User getUser(String username) {
         Optional<User> userOp = userRepository.findByEmailIgnoreCase(username);
         var user = userOp.get();
