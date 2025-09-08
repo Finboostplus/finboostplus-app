@@ -117,9 +117,17 @@ public class GroupController {
         return new ResponseEntity<>(groupService.findAllMembersByGroupId(groupId), HttpStatus.OK);
     }
 
-    @PostMapping("/{groupId}/leave")
+    @DeleteMapping("/{groupId}/members")
     public ResponseEntity<Void> leaveGroup(@PathVariable Long groupId) {
         groupService.leaveGroup(groupId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{groupId}/members/{memberId}")
+    public ResponseEntity<Void> removeGroupMember(
+            @PathVariable Long groupId,
+            @PathVariable Long memberId) {
+        groupService.removeGroupMember(groupId, memberId);
         return ResponseEntity.noContent().build();
     }
 

@@ -4,11 +4,13 @@ import com.finboostplus.model.GroupMember;
 import com.finboostplus.DTO.GroupMemberResponseDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> {
@@ -76,5 +78,17 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
             nativeQuery = true
     )
     void deleteByUserIdAndGroupId(Long userId, Long groupId);
+
+
+    @Query(
+            nativeQuery = true, value = """
+        SELECT * 
+        FROM group_members 
+        WHERE user_id = :memberId 
+          AND group_id = :groupId
+        """
+    )
+    Optional<GroupMember> findGroupMemberByMemberId(@Param("memberId") Long memberId,
+                                                    @Param("groupId") Long groupId);
 
 }

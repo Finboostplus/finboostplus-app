@@ -44,8 +44,8 @@ public class ExpenseController {
     @PutMapping("{expenseId}")
     public ResponseEntity<String> updateExpense(@Valid @RequestBody ExpenseUpdateDTO dto, @PathVariable Long groupId, @PathVariable Long expenseId){
         return expenseService.updateExpense(dto, groupId, expenseId)?
-                new ResponseEntity<String>("Despesa atualizada com sucesso!", HttpStatus.OK):
-                new ResponseEntity<String>("",HttpStatus.BAD_REQUEST);
+            new ResponseEntity<String>("Despesa atualizada com sucesso!", HttpStatus.OK):
+            new ResponseEntity<String>("",HttpStatus.BAD_REQUEST);
     }
 
 }
