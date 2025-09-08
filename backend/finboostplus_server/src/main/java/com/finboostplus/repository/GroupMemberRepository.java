@@ -25,7 +25,7 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
             and gm.auth_level = 'OWNER'
        )
     """)
-    boolean isUserAndGroupAndAuthorityValidToUpdateGroup(long userId, long groupId);
+    boolean isUserAndGroupAndAuthorityValidToUpdateOrDeleteGroup(long userId, long groupId);
 
     @Query(nativeQuery = true, value = """
         SELECT EXISTS (
@@ -90,5 +90,16 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
     )
     Optional<GroupMember> findGroupMemberByMemberId(@Param("memberId") Long memberId,
                                                     @Param("groupId") Long groupId);
+
+
+    @Modifying
+    @Query(
+            value = """
+        DELETE FROM group_members 
+        WHERE group_id = :groupId
+        """,
+            nativeQuery = true
+    )
+    void deleteGroupRelationById(@Param("groupId") Long groupId);
 
 }

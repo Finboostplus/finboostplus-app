@@ -150,4 +150,12 @@ public interface ExpenseRepository extends JpaRepository<Expense,Long> {
         """, nativeQuery = true)
    boolean memberHasPendingExpenses(Long memberId, Long groupId);
 
+
+   @Query(value = """
+   SELECT EXISTS(
+      SELECT 1
+         FROM expenses e WHERE e.group_id = :groupId AND (e.status = 'PENDING' OR e.status = 'UNPAID')
+      )
+   """, nativeQuery = true)
+   boolean groupHasPendingExpenses(Long groupId);
 }

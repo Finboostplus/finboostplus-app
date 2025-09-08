@@ -6,8 +6,10 @@ import com.finboostplus.projection.GroupProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -38,5 +40,16 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
                          GROUP BY groups.id
             """)
     Page<GroupProjection>listaGroupUsuerProjetction(Long memberId, Pageable pageable);
+
+    @Modifying
+    @Query(
+            value = """
+        DELETE FROM groups 
+        WHERE id = :groupId
+        """,
+            nativeQuery = true
+    )
+    void deleteGroupById(@Param("groupId") Long groupId);
+
 
 }

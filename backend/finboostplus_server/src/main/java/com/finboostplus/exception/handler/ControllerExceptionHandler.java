@@ -89,6 +89,13 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(error);
     }
 
+    @ExceptionHandler(GroupNotFoundException.class)
+    public ResponseEntity<?> groupNotFoundException(GroupNotFoundException e){
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        CustomError error = new CustomError(Instant.now(), "Group Not Found", status.value(), e.getMessage());
+        return ResponseEntity.status(status).body(error);
+    }
+
     @ExceptionHandler(MemberHasPendingExpensesException.class)
     public ResponseEntity<?> memberHasPendingExpensesException(MemberHasPendingExpensesException e){
         HttpStatus status = HttpStatus.FORBIDDEN;

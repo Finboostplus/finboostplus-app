@@ -78,7 +78,7 @@ public class GroupService {
             throw new UserNotFoundException("Usuário não encontrado");
         }
         Long userId = user.get().getId();
-        boolean isValid = groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateGroup(
+        boolean isValid = groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateOrDeleteGroup(
                 userId, id);
         if (isValid == true) {
             Optional<Group> optional = groupRepository.findById(id);
@@ -157,6 +157,8 @@ public class GroupService {
         String username = userService.authenticated();
         Long userId = userRepository.findByEmailIgnoreCase(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!")).getId();
+        groupRepository.findById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
         boolean isMember = groupMemberRepository.isUserMemberOfGroup(userId, groupId) ==true;
         if (isMember) {
             return groupMemberRepository.findMembersByGroupId(groupId);
@@ -214,5 +216,27 @@ public class GroupService {
         } else {
             throw new ForbiddenResourceException("Recurso não permitido");
         }
+    }
+
+    @Transactional
+    public void deleteGroup(Long groupId) {
+        String userName = userService.authenticated();
+
+        User loggedUser = userRepository.findByEmailIgnoreCase(userName)
+                .orElseThrow(() -> new UserNotFoundException("Usuário autenticado não encontrado"));
+
+        groupRepository.findById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
+
+        if (groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateOrDeleteGroup(loggedUser.getId(), groupId)==false) {
+            throw new ForbiddenResourceException("Usuário não possui autoridade para excluir o grupo");
+        }
+
+        if (expenseRepository.groupHasPendingExpenses(groupId)) {
+            throw new ForbiddenResourceException("Grupo possui despesas pendentes e não pode ser excluído");
+        }
+
+        groupMemberRepository.deleteGroupRelationById(groupId);
+        groupRepository.deleteGroupById(groupId);
     }
 }
