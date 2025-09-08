@@ -2,7 +2,7 @@ package com.finboostplus.controller;
 
 
 import com.finboostplus.DTO.ExpenseCreateDTO;
-import com.finboostplus.DTO.GroupExpenseDTO;
+import com.finboostplus.DTO.ExpenseUpdateDTO;
 import com.finboostplus.enums.Status;
 import com.finboostplus.projection.GroupExpenseProjection;
 import com.finboostplus.service.ExpenseService;
@@ -41,5 +41,11 @@ public class ExpenseController {
         return ResponseEntity.ok(expenses);
     }
 
+    @PutMapping("{expenseId}")
+    public ResponseEntity<String> updateExpense(@Valid @RequestBody ExpenseUpdateDTO dto, @PathVariable Long groupId, @PathVariable Long expenseId){
+        return expenseService.updateExpense(dto, groupId, expenseId)?
+                new ResponseEntity<String>("Despesa atualizada com sucesso!", HttpStatus.OK):
+                new ResponseEntity<String>("",HttpStatus.BAD_REQUEST);
+    }
 
 }

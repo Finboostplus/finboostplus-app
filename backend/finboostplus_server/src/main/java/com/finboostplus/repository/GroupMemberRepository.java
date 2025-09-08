@@ -3,8 +3,10 @@ package com.finboostplus.repository;
 import com.finboostplus.model.GroupMember;
 import com.finboostplus.DTO.GroupMemberResponseDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -66,5 +68,13 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
             )
     """)
     boolean isUserOnwerOrAdmin(Long userId, Long groupId, List<String> authLevels);
+
+    @Modifying
+    @Transactional
+    @Query(
+            value = "DELETE FROM group_members WHERE user_id = :userId AND group_id = :groupId",
+            nativeQuery = true
+    )
+    void deleteByUserIdAndGroupId(Long userId, Long groupId);
 
 }

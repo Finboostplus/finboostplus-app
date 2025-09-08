@@ -3,6 +3,8 @@ package com.finboostplus.service;
 
 import com.finboostplus.DTO.*;
 import com.finboostplus.exception.GroupNotFoundException;
+import com.finboostplus.exception.OwnerLeaveNotAllowedException;
+import com.finboostplus.exception.MemberHasPendingExpensesException;
 import com.finboostplus.model.*;
 import com.finboostplus.projection.ExpenseProjection;
 import com.finboostplus.projection.GroupProjection;
@@ -161,5 +163,24 @@ public class GroupService {
         } else {
             throw new ForbiddenResourceException("Usuário sem permissão");
         }
+    }
+
+    public void leaveGroup(long groupId){
+        String userName = userService.authenticated();
+        User user = userRepository.findByEmailIgnoreCase(userName)
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
+
+        if(groupMemberRepository.isUserOnwerOrAdmin(user.getId(), groupId, List.of("OWNER"))){
+            throw new OwnerLeaveNotAllowedException("O dono do grupo não pode sair antes de passar esse papel para outro usuário");
+
+        }
+        if(expenseRepository.memberHasPendingExpenses(user.getId(), groupId)){
+            throw new MemberHasPendingExpensesException("Membro não pode deixar o grupo com despesas em aberto");
+        }
+
+        groupMemberRepository.deleteByUserIdAndGroupId(user.getId(), groupId);
     }
 }

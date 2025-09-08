@@ -1,9 +1,6 @@
 package com.finboostplus.service;
 
-import com.finboostplus.DTO.ExpenseCreateDTO;
-import com.finboostplus.DTO.ExpenseRequestDTO;
-import com.finboostplus.DTO.GroupExpenseDTO;
-import com.finboostplus.DTO.MembersExpenseDivisionCreateDTO;
+import com.finboostplus.DTO.*;
 import com.finboostplus.enums.Status;
 import com.finboostplus.exception.*;
 import com.finboostplus.model.*;
@@ -86,32 +83,16 @@ public class ExpenseService {
 
     @Transactional
     public boolean createNewExpense(ExpenseCreateDTO expenseDTO, Long groupId) {
-        // 1. Validação da divisão de valores
-        if (!isValuesCompatibles(expenseDTO.expenseValue(), expenseDTO.expenseDivision())) {
-            throw new ValuesIncompatiblesException(
-                    "O total da divisão da despesa é incompatível com o valor da despesa");
-        }
+        isExpenseCreationorUpdateAllowed(groupId);
 
-        // 2. Autenticação e verificação de permissões
-        String userName = userService.authenticated();
-        User user = userRepository.findByEmailIgnoreCase(userName)
-                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
-
-        boolean hasAuthority = groupMemberRepository
-                .isUserOnwerOrAdmin(user.getId(), groupId, authLevels);
-
-        if (!hasAuthority) {
-            throw new ForbiddenResourceException("Usuário não tem permissão para criar despesas no grupo");
-        }
-
-        // 3. Busca entidades relacionadas
+        // Busca entidades relacionadas
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
 
         Category category = categoryRepository.findById(expenseDTO.categoryId())
                 .orElseThrow(() -> new CategoryNotFoundException("Categoria não encontrada"));
 
-        // 4. Validação da lista de membros
+        // Validação da lista de membros
         for (MembersExpenseDivisionCreateDTO member : expenseDTO.expenseDivision()) {
             if (!groupMemberRepository.isUserMemberOfGroup(member.id(), groupId)) {
                 throw new ForbiddenResourceException("Membro da despesa não pertence ao grupo");
@@ -120,7 +101,7 @@ public class ExpenseService {
 
         Status status = expenseDTO.deadlineDate().isAfter(LocalDate.now()) ? Status.PENDING : Status.UNPAID;
 
-        // 5. Criação da despesa
+        // Criação da despesa
         Expense expense = new Expense(
                 expenseDTO.title(),
                 expenseDTO.description(),
@@ -133,12 +114,12 @@ public class ExpenseService {
 
         expense = expenseRepository.save(expense);
 
-        // 6. Criação da divisão da despesa entre membros
+        // Criação da divisão da despesa entre membros
         for (MembersExpenseDivisionCreateDTO member : expenseDTO.expenseDivision()) {
             UserExpenseDivisionId userExpenseDivisionId =
                     new UserExpenseDivisionId(member.id(), expense.getId());
 
-            User userMember = member.UserExpenseDivisionCreateDTOToUser();
+            User userMember = member.userExpenseDivisionCreateDTOToUser();
 
             UserExpenseDivision userExpenseDivision = new UserExpenseDivision(
                     userExpenseDivisionId,
@@ -154,6 +135,29 @@ public class ExpenseService {
         return true;
     }
 
+    @Transactional
+    public boolean updateExpense(ExpenseUpdateDTO expenseDTO, Long groupId, Long expenseId){
+        isExpenseCreationorUpdateAllowed(groupId);
+
+        Category category = categoryRepository.findById(expenseDTO.categoryId())
+                .orElseThrow(() -> new CategoryNotFoundException("Categoria não encontrada"));
+
+        Expense expense = expenseRepository.findById(expenseId)
+                .orElseThrow(() -> new ExpenseNotFoundException("Despesa não encontrada"));
+
+        expense.setTitle(expenseDTO.title());
+        expense.setDescription(expenseDTO.description());
+        expense.setDeadlineDate(expenseDTO.deadlineDate());
+        expense.setCategory(category);
+        if(expense.getStatus()!=Status.PAID){
+            String status = expenseDTO.deadlineDate().isAfter(LocalDate.now()) ? Status.PENDING.name() : Status.UNPAID.name();
+            expense.setStatus(Status.valueOf(status));
+            expenseRepository.updateExpenseStatus(expenseId, status);
+        }
+        return true;
+
+    }
+
 
     private boolean isValuesCompatibles(BigDecimal expenseValue, Set<MembersExpenseDivisionCreateDTO> expenseMembers) {
         if (expenseValue == null || expenseMembers == null || expenseMembers.isEmpty()) {
@@ -166,6 +170,21 @@ public class ExpenseService {
 
         return expenseValue.compareTo(total) == 0;
     }
+
+    private void isExpenseCreationorUpdateAllowed(Long groupId){
+        // Autenticação e verificação de permissões
+        String userName = userService.authenticated();
+        User user = userRepository.findByEmailIgnoreCase(userName)
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+
+        boolean hasAuthority = groupMemberRepository
+                .isUserOnwerOrAdmin(user.getId(), groupId, authLevels);
+
+        if (!hasAuthority) {
+            throw new ForbiddenResourceException("Usuário não tem permissão para atualizar dados de despesas no grupo");
+        }
+    }
+
 
     public List<GroupExpenseProjection> getAllGroupExpenses (Long groupId, Status status, boolean allMemberExpenses, boolean allGroupMembersExpenses ){
         String userName = userService.authenticated();

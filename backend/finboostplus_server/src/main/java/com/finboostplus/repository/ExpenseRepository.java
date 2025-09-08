@@ -8,12 +8,15 @@ import com.finboostplus.model.Group;
 import com.finboostplus.projection.ExpenseProjection;
 import com.finboostplus.projection.GroupExpenseProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@Repository
 public interface ExpenseRepository extends JpaRepository<Expense,Long> {
 
     @Query(nativeQuery = true, value = """
@@ -125,4 +128,26 @@ public interface ExpenseRepository extends JpaRepository<Expense,Long> {
             e.deadline_date ASC;
          """)
    List<GroupExpenseProjection> getAllGroupExpensesOfAllMembersFiltered(Long memberId, Long groupId, String status);
+
+   @Modifying
+   @Query(value = """
+        UPDATE user_expense_divisions 
+        SET status = :status 
+        WHERE expense_id = :expenseId 
+        AND status != 'PAID'
+        """, nativeQuery = true)
+   void updateExpenseStatus(@Param("expenseId") Long expenseId, @Param("status") String status);
+
+   @Query(value = """
+        SELECT EXISTS(
+           SELECT 1
+           FROM user_expense_divisions ued
+           INNER JOIN expenses e ON ued.expense_id = e.id
+           WHERE e.group_id = :groupId
+             AND ued.user_id = :memberId
+             AND (ued.status = 'PENDING' OR ued.status = 'UNPAID')
+        )
+        """, nativeQuery = true)
+   boolean memberHasPendingExpenses(Long memberId, Long groupId);
+
 }
