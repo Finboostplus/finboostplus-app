@@ -7,6 +7,8 @@ import com.finboostplus.model.Expense;
 import com.finboostplus.model.Group;
 import com.finboostplus.projection.ExpenseProjection;
 import com.finboostplus.projection.GroupExpenseProjection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -53,11 +55,13 @@ public interface ExpenseRepository extends JpaRepository<Expense,Long> {
                ELSE 1
            END,
            e.deadline_date ASC
-       """, nativeQuery = true)
-   List<GroupExpenseProjection> getAllGroupExpenses(Long memberId, Long groupId);
+       """, nativeQuery = true,
+            countQuery = "Select count(*) from user_expense_divisions")
+   Page<GroupExpenseProjection> getAllGroupExpenses(Long memberId, Long groupId, Pageable pageable);
 
 
-   @Query(nativeQuery = true, value = """
+   @Query(nativeQuery = true,
+           countQuery = "Select count(*) from user_expense_divisions", value = """
            SELECT 
                e.id AS id,
                e.title AS title,
@@ -79,10 +83,12 @@ public interface ExpenseRepository extends JpaRepository<Expense,Long> {
                END,
                e.deadline_date ASC
            """)
-   List<GroupExpenseProjection> getAllGroupExpensesFiltered(Long memberId, Long groupId, String status);
+   Page<GroupExpenseProjection> getAllGroupExpensesFiltered(Long memberId, Long groupId, String status, Pageable pageable);
 
 
-   @Query(nativeQuery = true, value = """
+   @Query(nativeQuery = true,
+           countQuery = "Select count(*) from user_expense_divisions",
+           value = """
          SELECT
             e.id AS id,
             e.title AS title,
@@ -103,9 +109,11 @@ public interface ExpenseRepository extends JpaRepository<Expense,Long> {
                END,
             e.deadline_date ASC;
            """)
-   List<GroupExpenseProjection> getAllGroupExpensesOfAllMembers(Long groupId);
+   Page<GroupExpenseProjection> getAllGroupExpensesOfAllMembers(Long groupId, Pageable pageable);
 
-   @Query(nativeQuery = true, value = """
+   @Query(nativeQuery = true,
+           countQuery = "Select count(*) from user_expense_divisions",
+           value = """
          SELECT
             e.id AS id,
             e.title AS title,
@@ -127,7 +135,7 @@ public interface ExpenseRepository extends JpaRepository<Expense,Long> {
                END,
             e.deadline_date ASC;
          """)
-   List<GroupExpenseProjection> getAllGroupExpensesOfAllMembersFiltered(Long memberId, Long groupId, String status);
+   Page<GroupExpenseProjection> getAllGroupExpensesOfAllMembersFiltered(Long memberId, Long groupId, String status, Pageable pageable);
 
    @Modifying
    @Query(value = """

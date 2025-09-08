@@ -8,6 +8,8 @@ import com.finboostplus.projection.ExpenseProjection;
 import com.finboostplus.projection.GroupExpenseProjection;
 import com.finboostplus.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -191,7 +193,7 @@ public class ExpenseService {
     }
 
 
-    public List<GroupExpenseProjection> getAllGroupExpenses (Long groupId, Status status, boolean allMemberExpenses, boolean allGroupMembersExpenses ){
+    public Page<GroupExpenseProjection> getAllGroupExpenses (Long groupId, Status status, boolean allMemberExpenses, boolean allGroupMembersExpenses, Pageable pageable ){
         String userName = userService.authenticated();
         User user = userRepository.findByEmailIgnoreCase(userName)
                 .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
@@ -205,15 +207,15 @@ public class ExpenseService {
 
         if(allMemberExpenses==true){
             if(status == null){
-                return expenseRepository.getAllGroupExpenses(user.getId(), groupId);
+                return expenseRepository.getAllGroupExpenses(user.getId(), groupId, pageable);
             }else{
-                return expenseRepository.getAllGroupExpensesFiltered(user.getId(), groupId, status.name());
+                return expenseRepository.getAllGroupExpensesFiltered(user.getId(), groupId, status.name(), pageable);
             }
         }else if(allGroupMembersExpenses==true && groupMemberRepository.isUserOnwerOrAdmin(user.getId(), groupId,authLevels)){
             if(status == null){
-                return expenseRepository.getAllGroupExpensesOfAllMembers(groupId);
+                return expenseRepository.getAllGroupExpensesOfAllMembers(groupId, pageable);
             }else{
-                return expenseRepository.getAllGroupExpensesOfAllMembersFiltered(user.getId(), groupId, status.name());
+                return expenseRepository.getAllGroupExpensesOfAllMembersFiltered(user.getId(), groupId, status.name(), pageable);
             }
         }
         throw new ForbiddenResourceException("Acesso negado");
