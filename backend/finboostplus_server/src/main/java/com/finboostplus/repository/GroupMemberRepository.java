@@ -102,4 +102,21 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
     )
     void deleteGroupRelationById(@Param("groupId") Long groupId);
 
+    @Modifying
+    @Query(
+            value = """
+        DELETE FROM group_members 
+        WHERE user_id = :memberId
+        """,
+            nativeQuery = true
+    )
+    void deleteGroupsRelationByMemberId(@Param("memberId") Long memberId);
+
+    @Query(nativeQuery = true, value = """
+       SELECT EXISTS(
+            SELECT 1 from group_members
+            where auth_level = 'OWNER' and user_id =:memberId
+       )
+    """)
+    boolean isUserOwnerOfAnyGroup(long memberId);
 }
