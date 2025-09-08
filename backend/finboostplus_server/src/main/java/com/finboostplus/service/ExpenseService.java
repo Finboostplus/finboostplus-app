@@ -83,6 +83,11 @@ public class ExpenseService {
 
     @Transactional
     public boolean createNewExpense(ExpenseCreateDTO expenseDTO, Long groupId) {
+        //Validação da divisão de valores
+        if (!isValuesCompatibles(expenseDTO.expenseValue(), expenseDTO.expenseDivision())) {
+            throw new ValuesIncompatiblesException(
+                    "O total da divisão da despesa é incompatível com o valor da despesa");
+        }
         isExpenseCreationorUpdateAllowed(groupId);
 
         // Busca entidades relacionadas
