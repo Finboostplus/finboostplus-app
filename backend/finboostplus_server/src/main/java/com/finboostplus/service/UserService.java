@@ -3,10 +3,13 @@ package com.finboostplus.service;
 import com.finboostplus.DTO.UserCreateDTO;
 import com.finboostplus.DTO.UserUpdateDTO;
 import com.finboostplus.exception.EmailAlreadyRegisteredException;
+import com.finboostplus.exception.ForbiddenResourceException;
+import com.finboostplus.exception.MemberHasPendingExpensesException;
 import com.finboostplus.exception.UserNotFoundException;
 import com.finboostplus.model.Role;
 import com.finboostplus.projection.UserDetailsProjection;
 import com.finboostplus.repository.RoleRepository;
+import com.finboostplus.repository.GroupMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +23,8 @@ import org.springframework.stereotype.Service;
 
 import com.finboostplus.model.User;
 import com.finboostplus.repository.UserRepository;
+import com.finboostplus.repository.UserExpenseDivisionRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -34,6 +39,13 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    GroupMemberRepository groupMemberRepository;
+
+    @Autowired
+    UserExpenseDivisionRepository userExpenseDivisionRepository;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -86,6 +98,7 @@ public class UserService implements UserDetailsService {
         }
         User userUpdated = userRepository.save(user);
         return userUpdated.getId() != null;
+
     }
 
     public PasswordEncoder passwordEncoder() {
@@ -108,4 +121,28 @@ public class UserService implements UserDetailsService {
         var user = userOp.get();
         return user;
     }
+
+    @Transactional
+    public void deleteCurrentUserProfile() {
+        final String userName = authenticated();
+
+        final User user = userRepository.findByEmailIgnoreCase(userName)
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+
+        if (groupMemberRepository.isUserOwnerOfAnyGroup(user.getId())) {
+            throw new ForbiddenResourceException("Usuário é proprietário de grupos ativos e não pode ser removido");
+        }
+
+        if (userExpenseDivisionRepository.hasUserAnyExpense(user.getId())) {
+            throw new MemberHasPendingExpensesException("Não é possível excluir o perfil com despesas pendentes");
+        }
+
+        // Remover relações antes de excluir o usuário
+        userExpenseDivisionRepository.deleteExpenseRelationByMemberId(user.getId());
+        groupMemberRepository.deleteGroupsRelationByMemberId(user.getId());
+
+        // Excluir usuário
+        userRepository.deleteById(user.getId());
+    }
+
 }

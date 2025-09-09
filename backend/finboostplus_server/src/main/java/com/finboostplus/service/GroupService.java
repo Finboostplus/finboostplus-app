@@ -76,7 +76,7 @@ public class GroupService {
             throw new UserNotFoundException("Usuário não encontrado");
         }
         Long userId = user.get().getId();
-        boolean isValid = groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateGroup(
+        boolean isValid = groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateOrDeleteGroup(
                 userId, id);
         if (isValid) {
             Optional<Group> optional = groupRepository.findById(id);
@@ -98,10 +98,7 @@ public class GroupService {
         return false;
     }
     
-    // public List<Group> listGroupCreator(Long userId, Pageable pageable){
-    //
-    // return groupRepository.listaGrupoUsuario(userId,pageable);
-    // }
+
 
 
     public GroupDetailsDTO getExpenseGroupById(Long groupId){
@@ -155,7 +152,7 @@ public class GroupService {
         String username = userService.authenticated();
         Long userId = userRepository.findByEmailIgnoreCase(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!")).getId();
-        boolean isMember = groupMemberRepository.isUserMemberOfGroup(userId, groupId) ;
+        boolean isMember = groupMemberRepository.isUserMemberOfGroup(userId, groupId) ==true;
         if (isMember) {
             return groupMemberRepository.findMembersByGroupId(groupId);
         } else {

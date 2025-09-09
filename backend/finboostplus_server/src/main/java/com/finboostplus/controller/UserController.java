@@ -175,4 +175,11 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    @DeleteMapping
+    public ResponseEntity<Void> deleteProfile(){
+        userService.deleteCurrentUserProfile();
+        TokenRevocationUtil.revokeCurrentUserTokens(authorizationService);
+        return ResponseEntity.noContent().build();
+    }
+
 }
