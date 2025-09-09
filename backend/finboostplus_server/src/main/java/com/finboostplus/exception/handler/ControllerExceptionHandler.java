@@ -81,4 +81,32 @@ public class ControllerExceptionHandler {
         CustomError error = new CustomError(Instant.now(), "Internal Server Error", status.value(), e.getMessage());
         return ResponseEntity.status(status).body(error);
     }
+
+    @ExceptionHandler(ExpenseNotFoundException.class)
+    public ResponseEntity<?> expenseNotFoundException(ExpenseNotFoundException e){
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        CustomError error = new CustomError(Instant.now(), "Expense Not Found", status.value(), e.getMessage());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(GroupNotFoundException.class)
+    public ResponseEntity<?> groupNotFoundException(GroupNotFoundException e){
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        CustomError error = new CustomError(Instant.now(), "Group Not Found", status.value(), e.getMessage());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(MemberHasPendingExpensesException.class)
+    public ResponseEntity<?> memberHasPendingExpensesException(MemberHasPendingExpensesException e){
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        CustomError error = new CustomError(Instant.now(), "Resource Not Allowed", status.value(), e.getMessage());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(OwnerLeaveNotAllowedException.class)
+    public ResponseEntity<?> ownerLeaveNotAllowedException(OwnerLeaveNotAllowedException e){
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        CustomError error = new CustomError(Instant.now(), "Resource Not Allowed", status.value(), e.getMessage());
+        return ResponseEntity.status(status).body(error);
+    }
 }

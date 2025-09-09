@@ -70,23 +70,9 @@ public class GroupController {
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         User user = getUser();
-       // System.out.println(user.toString());
         Page<GroupProjection> groupsDTO = groupService.listaCreatorGroupPageProjection(user.getId(), pageable);
         return new ResponseEntity<>(groupsDTO, HttpStatus.OK);
     }
-//
-//    @GetMapping
-//    public ResponseEntity<Page<GroupDto>> listGroupsPageExp(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "10") int size) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        User user = getUser();
-//        System.out.println(user.toString());
-//
-//        Page<GroupDto> groupsDTO = groupService.listCreatorGroupPageDTO(user.getId(), pageable);
-//
-//        return new ResponseEntity<>(groupsDTO, HttpStatus.OK);
-//    }
 
     private User getUser() {
         String userName = userService.authenticated();
@@ -126,18 +112,30 @@ public class GroupController {
         return ResponseEntity.badRequest().body("Não foi possível a criação da nova Despesa ");
     }
 
-    /*@GetMapping("/{groupId}/expenses")
-    public ResponseEntity<Object> listDetailsGroup(@PathVariable Long groupId) {
-        GroupDetailsDTO dto = groupService.getExpenseGroupById(groupId);
-        if (dto != null) {
-            return ResponseEntity.ok().body(dto);
-        }
-        return ResponseEntity.badRequest().body("Não foi possivel obter os detalhes do grupo");
-    }*/
-
     @GetMapping("/{groupId}/members")
     public ResponseEntity<List<GroupMemberResponseDTO>> findAllMembersByGroupId(@PathVariable long groupId) {
         return new ResponseEntity<>(groupService.findAllMembersByGroupId(groupId), HttpStatus.OK);
-
     }
+
+    @DeleteMapping("/{groupId}/members")
+    public ResponseEntity<Void> leaveGroup(@PathVariable Long groupId) {
+        groupService.leaveGroup(groupId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{groupId}/members/{memberId}")
+    public ResponseEntity<Void> removeGroupMember(
+            @PathVariable Long groupId,
+            @PathVariable Long memberId) {
+        groupService.removeGroupMember(groupId, memberId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{groupId}")
+    public ResponseEntity<Void> deleteGroup(
+            @PathVariable Long groupId) {
+        groupService.deleteGroup(groupId);
+        return ResponseEntity.noContent().build();
+    }
+
 }

@@ -15,7 +15,7 @@ public record MembersExpenseDivisionCreateDTO(
         BigDecimal value
 ) {
 
-        public User UserExpenseDivisionCreateDTOToUser(){
+        public User userExpenseDivisionCreateDTOToUser(){
                 User user = new User();
                 user.setId(id);
                 return user;
