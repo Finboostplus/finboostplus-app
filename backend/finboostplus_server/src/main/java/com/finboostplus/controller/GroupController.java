@@ -99,6 +99,27 @@ public class GroupController {
 
     }
 
+    @DeleteMapping("/{groupId}/members")
+    public ResponseEntity<Void> leaveGroup(@PathVariable Long groupId) {
+        groupService.leaveGroup(groupId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{groupId}/members/{memberId}")
+    public ResponseEntity<Void> removeGroupMember(
+            @PathVariable Long groupId,
+            @PathVariable Long memberId) {
+        groupService.removeGroupMember(groupId, memberId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{groupId}")
+    public ResponseEntity<Void> deleteGroup(
+            @PathVariable Long groupId) {
+        groupService.deleteGroup(groupId);
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/{groupId}/members/{newAuthId}/transfer-ownership")
     public ResponseEntity<Object>switchAuthority( @PathVariable Long groupId,
                                                   @PathVariable Long newAuthId,
