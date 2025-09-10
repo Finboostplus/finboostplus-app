@@ -36,6 +36,14 @@ public interface UserRepository extends JpaRepository<User, Long>  {
        """)
 	boolean isUserAuthorityValidToGroup(long userId, long groupId, List<String> authorities);
 
-
+    @Query(nativeQuery = true, value = """
+				SELECT count(*) from group_members as mg
+				inner join users as u
+				on mg.user_id = u.id
+				inner join groups as g
+				on g.id = mg.group_id where u.id = :userId and g.id = :groupId
+				and mg.auth_level = 'OWNER'
+			""")
+    Integer isUserAndGroupAndAuthorityValidToUpdateGroup(long userId, long groupId);
 
 }

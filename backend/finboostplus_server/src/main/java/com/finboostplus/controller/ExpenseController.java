@@ -42,7 +42,7 @@ public class ExpenseController {
 
         Pageable pageable = PageRequest.of(page, size);
         Page<GroupExpenseProjection> expenses = expenseService.getAllGroupExpenses(
-                groupId, status, allMemberExpenses, allGroupMembersExpenses, pageable);
+                groupId, status, allMemberExpenses, allGroupMembersExpenses);
 
         return ResponseEntity.ok(expenses);
     }
