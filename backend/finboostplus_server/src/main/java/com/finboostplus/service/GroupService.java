@@ -93,14 +93,6 @@ public class GroupService {
         }
     }
 
-    public boolean addMemberGroup(Long id, String email) {
-
-        return false;
-    }
-    
-
-
-
     public GroupDetailsDTO getExpenseGroupById(Long groupId){
 
         String userName = userService.authenticated();
