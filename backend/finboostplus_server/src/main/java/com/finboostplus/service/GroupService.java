@@ -2,7 +2,7 @@ package com.finboostplus.service;
 
 
 import com.finboostplus.DTO.*;
-import com.finboostplus.exception.GroupNotFoundException;
+import com.finboostplus.exception.*;
 import com.finboostplus.model.*;
 import com.finboostplus.projection.ExpenseProjection;
 import com.finboostplus.projection.GroupProjection;
@@ -20,8 +20,6 @@ import com.finboostplus.model.User;
 import com.finboostplus.repository.GroupMemberRepository;
 import com.finboostplus.repository.GroupRepository;
 import com.finboostplus.repository.UserRepository;
-import com.finboostplus.exception.ForbiddenResourceException;
-import com.finboostplus.exception.UserNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -150,5 +148,77 @@ public class GroupService {
         } else {
             throw new ForbiddenResourceException("Usuário sem permissão");
         }
+    }
+    public void leaveGroup(Long groupId) {
+        User user = userRepository.findByEmailIgnoreCase(userService.authenticated())
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+
+        groupRepository.findById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
+
+        if (groupMemberRepository.isUserOnwerOrAdmin(user.getId(), groupId, List.of("OWNER"))) {
+            throw new OwnerLeaveNotAllowedException("O dono do grupo não pode sair antes de transferir a função para outro membro");
+        }
+
+        if (expenseRepository.memberHasPendingExpenses(user.getId(), groupId)) {
+            throw new MemberHasPendingExpensesException("Membro não pode deixar o grupo com despesas em aberto");
+        }
+
+        groupMemberRepository.deleteByUserIdAndGroupId(user.getId(), groupId);
+    }
+
+    public void removeGroupMember(Long groupId, Long memberId) {
+        String userName = userService.authenticated();
+
+        User loggedUser = userRepository.findByEmailIgnoreCase(userName)
+                .orElseThrow(() -> new UserNotFoundException("Usuário autenticado não encontrado"));
+
+        GroupMember loggedInMember = groupMemberRepository.findGroupMemberByMemberId(loggedUser.getId(), groupId)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário autenticado não encontrado no grupo"));
+
+        GroupMember targetMember = groupMemberRepository.findGroupMemberByMemberId(memberId, groupId)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário que se pretende remover não foi encontrado"));
+
+        if (!groupMemberRepository.isUserMemberOfGroup(loggedUser.getId(), groupId) ||
+                !groupMemberRepository.isUserMemberOfGroup(targetMember.getUser().getId(), groupId)) {
+            throw new ForbiddenResourceException("Acesso não permitido");
+        }
+
+        if (expenseRepository.memberHasPendingExpenses(targetMember.getUser().getId(), groupId)) {
+            throw new MemberHasPendingExpensesException("Usuário ainda possui despesas pendentes");
+        }
+
+        String targetAuth = targetMember.getAuthorization();
+        String loggedAuth = loggedInMember.getAuthorization();
+
+        if ("OWNER".equals(loggedAuth)) {
+            groupMemberRepository.deleteByUserIdAndGroupId(memberId, groupId);
+        } else if ("ADMIN".equals(loggedAuth) && "USER".equals(targetAuth)) {
+            groupMemberRepository.deleteByUserIdAndGroupId(memberId, groupId);
+        } else {
+            throw new ForbiddenResourceException("Recurso não permitido");
+        }
+    }
+
+    @Transactional
+    public void deleteGroup(Long groupId) {
+        String userName = userService.authenticated();
+
+        User loggedUser = userRepository.findByEmailIgnoreCase(userName)
+                .orElseThrow(() -> new UserNotFoundException("Usuário autenticado não encontrado"));
+
+        groupRepository.findById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
+
+        if (groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateOrDeleteGroup(loggedUser.getId(), groupId)==false) {
+            throw new ForbiddenResourceException("Usuário não possui autoridade para excluir o grupo");
+        }
+
+        if (expenseRepository.groupHasPendingExpenses(groupId)) {
+            throw new ForbiddenResourceException("Grupo possui despesas pendentes e não pode ser excluído");
+        }
+
+        groupMemberRepository.deleteGroupRelationById(groupId);
+        groupRepository.deleteGroupById(groupId);
     }
 }
