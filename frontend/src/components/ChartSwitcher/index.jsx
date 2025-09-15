@@ -3,7 +3,7 @@ import { FaChartLine, FaWallet } from 'react-icons/fa';
 import BalanceChart from './BalanceChart';
 import ExpenseChart from './ExpenseChart';
 
-export default function ChartSwitcher() {
+export default function ChartSwitcher({ isEmpty = false, emptyMessage = 'Sem dados para exibir' }) {
   const [activeChart, setActiveChart] = useState('balance');
 
   const toggleChart = () => {
@@ -18,6 +18,7 @@ export default function ChartSwitcher() {
         </h2>
         <button
           onClick={toggleChart}
+          disabled={isEmpty}
           className="flex items-center gap-2 bg-[var(--color-primary)] text-white px-3 py-1.5 rounded-lg hover:opacity-90 transition cursor-pointer"
         >
           {activeChart === 'balance' ? (
@@ -32,7 +33,18 @@ export default function ChartSwitcher() {
       </div>
 
       <div className="h-[300px]">
-        {activeChart === 'balance' ? <BalanceChart /> : <ExpenseChart />}
+        {isEmpty ? (
+          <div
+            className="w-full h-full flex items-center justify-center text-[var(--color-muted)]"
+            data-testid="empty-state"
+          >
+            {emptyMessage}
+          </div>
+        ) : activeChart === 'balance' ? (
+          <BalanceChart />
+        ) : (
+          <ExpenseChart />
+        )}
       </div>
     </div>
   );

@@ -32,7 +32,10 @@ export default function Modal({ children, isOpen, fnClose }) {
             leaveFrom="opacity-70"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-[rgba(31,45,61,0.7)]" />
+            <div
+              className="fixed inset-0 bg-[rgba(31,45,61,0.7)]"
+              data-testid="modal-overlay"
+            />
           </TransitionChild>
 
           {/* PAINEL DO MODAL COM ANIMAÇÃO */}
@@ -49,6 +52,7 @@ export default function Modal({ children, isOpen, fnClose }) {
               className="w-full max-w-lg sm:max-w-xl md:max-w-2xl max-h-[90vh] overflow-y-auto 
                          rounded-2xl p-6 sm:p-8 relative shadow-lg transition-all font-[var(--font-principal)]
                          bg-[var(--color-surface)] text-[var(--color-text)]"
+              data-testid="modal-panel"
             >
               <ButtonUI
                 title="×"
@@ -56,7 +60,7 @@ export default function Modal({ children, isOpen, fnClose }) {
                 className="text-3xl font-extrabold text-white bg-[var(--color-error)] 
                            w-10 h-10 rounded-lg absolute top-3 right-3 opacity-80 
                            hover:opacity-100 transition-opacity cursor-pointer shadow-md flex justify-center"
-                aria-label="Fechar modal"
+                ariaLabel="Fechar modal"
               />
               {children}
             </DialogPanel>

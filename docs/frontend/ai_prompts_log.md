@@ -379,6 +379,28 @@ Usar bibliotecas como Recharts ou Chart.js
 
 ---
 
+## Novo Registro
+
+**Data**: 06/08/2025  
+**Ferramenta Utilizada**: Copilot 
+**Versão (se aplicável)**: Integrado no VSCode
+**Modo (se aplicável)**: Agente
+**Modelo (se aplicável)**: Claude Sonnet 4
+
+### Prompt
+> "Quero ajuda para criar testes básicos para componentes react com vitest, poderia me ajudar 
+> verificando se o projeto já está com as configurações necessárias para rodar os testes?"
+
+### Resultado
+
+**Tipo de resultado**:
+- Verificação de arquivos de configuração
+- Instalação de dependências
+- Geração de código para testes automatizados
+- Documentação de testes
+
+---
+
 # Prompts Técnicos Específicos
 
 ## Novo Registro

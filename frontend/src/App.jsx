@@ -4,7 +4,7 @@ import SummaryCards from './components/SummaryCards';
 
 function App() {
   return (
-    <div className="">
+    <div>
       <SummaryCards />
       <ChartSwitcher />
       <LatestExpenses />

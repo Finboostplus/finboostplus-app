@@ -1,403 +1,289 @@
-# 🔧 Backend - Controle Financeiro Compartilhado
+# 🔧 Backend - FinBoost+
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Java-17+-orange" alt="Java">
-  <img src="https://img.shields.io/badge/Spring_Boot-3.2+-green" alt="Spring Boot">
-  <img src="https://img.shields.io/badge/PostgreSQL-15+-blue" alt="PostgreSQL">
-  <img src="https://img.shields.io/badge/Maven-3.8+-red" alt="Maven">
+  <img src="https://img.shields.io/badge/Java-17+-f89820" alt="Java">
+  <img src="https://img.shields.io/badge/Spring_Boot-3.2+-6db33f" alt="Spring Boot">
+  <img src="https://img.shields.io/badge/PostgreSQL-15+-336791" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow" alt="Status">
 </div>
 
-API REST desenvolvida em **Spring Boot** para gerenciamento de finanças compartilhadas. Fornece endpoints seguros para autenticação, gestão de grupos, controle de despesas e geração de relatórios.
+**API REST** desenvolvida em **Spring Boot** para o FinBoost+. Fornece endpoints seguros para autenticação, gestão de grupos financeiros e controle de despesas compartilhadas.
+
+<details>
+<summary><strong>📚 Sumário</strong></summary>
+
+- [🚀 Funcionalidades Principais](#-funcionalidades-principais)
+- [🛠️ Tecnologias](#️-tecnologias)
+- [📁 Estrutura Resumida](#-estrutura-resumida)
+- [📘 Documentação da API (OpenAPI / Scalar)](#-documentação-da-api-openapi--scalar)
+- [⚡ Execução Rápida](#-execução-rápida)
+- [🧪 Testes](#-testes)
+- [📡 Endpoints Principais](#-endpoints-principais)
+- [🐳 Docker & Containerização](#-docker--containerização)
+- [🔧 Variáveis de Ambiente](#-variáveis-de-ambiente)
+- [🤝 Contribuindo](#-contribuindo)
+- [📞 Suporte](#-suporte)
+
+</details>
 
 ---
 
-## 📋 Índice
+## 🚀 **Funcionalidades Principais**
 
-- [Tecnologias](#-tecnologias)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Configuração](#-configuração)
-- [Execução](#-execução)
-- [Endpoints](#-endpoints-principais)
-- [Testes](#-testes)
-- [Docker](#-docker)
+- 🔐 **Autenticação JWT** - Login e registro seguros
+- 👥 **Gestão de Grupos** - Criação e gerenciamento de grupos financeiros
+- 💰 **Controle de Despesas** - Registro e divisão automática de gastos
+- 📊 **Relatórios** - Saldos e estatísticas em tempo real
+- 🔒 **Segurança** - Spring Security com controle de acesso
 
 ---
 
-## 🛠️ Tecnologias
+## 🛠️ **Tecnologias**
 
-### Core
-- **☕ Java 17** - Linguagem principal
-- **🍃 Spring Boot 3.2+** - Framework web
-- **📦 Maven 3.8+** - Gerenciamento de dependências
+### **Core**
+- **Java 21+** - Linguagem principal
+- **Spring Boot 3.5+** - Framework web
+- **Spring Security** - Autenticação e autorização
+- **PostgreSQL** - Banco de dados principal
 
-### Dependências Principais
-- **🔐 Spring Security 6** - Autenticação e autorização
-- **🗄️ Spring Data JPA** - Acesso a dados
-- **🔄 Hibernate 6** - ORM
-- **🐘 PostgreSQL** - Banco de dados
-- **🎯 Spring Validation** - Validação de dados
-- **📊 Spring Boot Actuator** - Monitoramento
-
-### Desenvolvimento & Testes
-- **🧪 JUnit 5** - Testes unitários
-- **🎭 Mockito** - Mocking para testes
-- **🗃️ H2 Database** - Banco em memória para testes
-- **📱 TestContainers** - Testes de integração
+### **Desenvolvimento**
+- **Maven** - Gerenciamento de dependências
+- **JUnit 5** - Testes unitários
+- **Mockito** - Mocking para testes
+- **H2** - Banco em memória para testes
 
 ---
 
-## 📁 Estrutura do Projeto
+## 📁 **Estrutura Resumida**
 
-```plaintext
+```
 backend/
-├── 📁 src/
-│   ├── 📁 main/
-│   │   ├── 📁 java/com/projeto/controle/
-│   │   │   ├── 📁 controller/           # Controladores REST
-│   │   │   │   ├── AuthController.java
-│   │   │   │   ├── UserController.java
-│   │   │   │   ├── GroupController.java
-│   │   │   │   └── ExpenseController.java
-│   │   │   ├── 📁 service/              # Lógica de negócio
-│   │   │   │   ├── AuthService.java
-│   │   │   │   ├── UserService.java
-│   │   │   │   ├── GroupService.java
-│   │   │   │   └── ExpenseService.java
-│   │   │   ├── 📁 model/                # Entidades JPA
-│   │   │   │   ├── User.java
-│   │   │   │   ├── Group.java
-│   │   │   │   ├── Expense.java
-│   │   │   │   └── UserGroup.java
-│   │   │   ├── 📁 repository/           # Repositórios
-│   │   │   │   ├── UserRepository.java
-│   │   │   │   ├── GroupRepository.java
-│   │   │   │   └── ExpenseRepository.java
-│   │   │   ├── 📁 dto/                  # Data Transfer Objects
-│   │   │   │   ├── request/
-│   │   │   │   └── response/
-│   │   │   ├── 📁 config/               # Configurações
-│   │   │   │   ├── SecurityConfig.java
-│   │   │   │   ├── JwtConfig.java
-│   │   │   │   └── DatabaseConfig.java
-│   │   │   ├── 📁 security/             # Segurança
-│   │   │   │   ├── JwtAuthenticationFilter.java
-│   │   │   │   ├── JwtTokenProvider.java
-│   │   │   │   └── CustomUserDetailsService.java
-│   │   │   ├── 📁 exception/            # Tratamento de exceções
-│   │   │   │   ├── GlobalExceptionHandler.java
-│   │   │   │   └── CustomExceptions.java
-│   │   │   └── Application.java         # Classe principal
-│   │   └── 📁 resources/
-│   │       ├── application.yml          # Configurações
-│   │       ├── application-dev.yml      # Ambiente de desenvolvimento
-│   │       ├── application-prod.yml     # Ambiente de produção
-│   │       └── 📁 db/migration/         # Scripts Flyway
-│   │           ├── V001__Create_users_table.sql
-│   │           ├── V002__Create_groups_table.sql
-│   │           └── V003__Create_expenses_table.sql
-│   └── 📁 test/                         # Testes
-│       ├── 📁 java/com/projeto/controle/
-│       │   ├── 📁 controller/           # Testes de controller
-│       │   ├── 📁 service/              # Testes de service
-│       │   └── 📁 repository/           # Testes de repository
-│       └── 📁 resources/
-│           └── application-test.yml     # Configurações de teste
-├── pom.xml                              # Dependências Maven
-├── Dockerfile                           # Container Docker
-└── README.md                            # Este arquivo
+├── 📁 src/main/java/com/projeto/finboost/
+│   ├── 🎮 controller/     # Endpoints REST
+│   ├── 🔧 service/        # Lógica de negócio  
+│   ├── 🗄️ model/          # Entidades JPA
+│   ├── 🔍 repository/     # Acesso a dados
+│   ├── 📦 dto/           # Data Transfer Objects
+│   ├── ⚙️ config/        # Configurações
+│   └── 🔐 security/      # Segurança JWT
+├── 📁 src/main/resources/
+│   ├── application.yml    # Configurações principais
+│   └── 🗃️ db/migration/   # Scripts de banco
+└── 📁 src/test/          # Testes automatizados
+```
+
+> 📖 **Documentação completa:** Veja nossa [documentação técnica](https://finboostplus.github.io/finboostplus-app/) para detalhes de arquitetura, APIs e guias avançados.
+
+---
+
+## 📘 **Documentação da API (OpenAPI / Scalar)**
+
+URLs após subir a aplicação:
+- 🎯 **Scalar (Recomendado)**: `http://localhost:8080/docs/scalar`
+- 📚 **Swagger UI**: `http://localhost:8080/swagger-ui.html`
+- 🔧 **OpenAPI JSON**: `http://localhost:8080/v3/api-docs`
+
+Autenticação JWT no Scalar:
+1. Obtenha um token via `POST /api/auth/login`
+2. Clique em Authorize
+3. Informe: `Bearer <seu_token>`
+4. Teste endpoints protegidos normalmente
+
+Anotações para documentar endpoints:
+```java
+@Tag(name = "Usuários", description = "Operações de usuário")
+@Operation(summary = "Cria usuário", description = "Registra um novo usuário")
+@ApiResponses({
+  @ApiResponse(responseCode = "201", description = "Criado"),
+  @ApiResponse(responseCode = "400", description = "Dados inválidos"),
+  @ApiResponse(responseCode = "401", description = "Não autorizado")
+})
+```
+
+Vantagens rápidas do Scalar:
+- UI moderna + dark mode nativo
+- Busca global (Ctrl+K) e exemplos interativos
+- Melhor UX para leitura de modelos e testes
+
+Dependências (pom.xml):
+```xml
+<dependency>
+  <groupId>org.springdoc</groupId>
+  <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+  <version>2.7.0</version>
+</dependency>
+<dependency>
+  <groupId>org.springdoc</groupId>
+  <artifactId>springdoc-openapi-starter-common</artifactId>
+  <version>2.7.0</version>
+</dependency>
+```
+
+Propriedades relevantes:
+```properties
+springdoc.api-docs.path=/v3/api-docs
+springdoc.swagger-ui.path=/swagger-ui.html
+springdoc.swagger-ui.enabled=true
+springdoc.swagger-ui.disable-swagger-default-url=true
+springdoc.swagger-ui.config-url=/v3/api-docs/swagger-config
+springdoc.swagger-ui.url=/v3/api-docs
 ```
 
 ---
 
-## ⚙️ Configuração
+## ⚡ **Execução Rápida**
 
-### 1. Variáveis de Ambiente
-
-Crie um arquivo `.env` na raiz do backend:
-
-```env
-# Database
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=controle_financeiro
-DB_USER=seu_usuario
-DB_PASSWORD=sua_senha
-
-# JWT
-JWT_SECRET=sua_chave_secreta_jwt_muito_longa_e_segura
-JWT_EXPIRATION=86400000
-
-# Email (opcional)
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=seu_email@gmail.com
-MAIL_PASSWORD=sua_senha_app
-```
-
-### 2. Configuração do Banco de Dados
-
-```sql
--- Criar banco de dados
-CREATE DATABASE controle_financeiro;
-
--- Criar usuário (opcional)
-CREATE USER controle_user WITH PASSWORD 'sua_senha';
-GRANT ALL PRIVILEGES ON DATABASE controle_financeiro TO controle_user;
-```
-
-### 3. Configuração do `application.yml`
-
-```yaml
-server:
-  port: 8080
-
-spring:
-  datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:controle_financeiro}
-    username: ${DB_USER:postgres}
-    password: ${DB_PASSWORD:password}
-  
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: true
-
-  flyway:
-    enabled: true
-    baseline-on-migrate: true
-
-jwt:
-  secret: ${JWT_SECRET:default_secret_key}
-  expiration: ${JWT_EXPIRATION:86400000}
-```
-
----
-
-## 🚀 Execução
-
-### Pré-requisitos
-- Java 17+
+### **Pré-requisitos**
+- Java 21+
 - Maven 3.8+
-- PostgreSQL 15+
+- PostgreSQL 15+ (ou use Docker)
 
-### Comandos
-
+### **1. Configurar Banco de Dados**
 ```bash
-# Instalar dependências
-./mvnw clean install
+# Opção 1: Docker (Recomendado)
+docker run --name postgres-finboost \
+  -e POSTGRES_DB=finboost \
+  -e POSTGRES_USER=finboost \
+  -e POSTGRES_PASSWORD=dev123 \
+  -p 5432:5432 -d postgres:15
 
-# Executar aplicação
+# Opção 2: PostgreSQL local
+createdb finboost
+```
+
+### **2. Configurar Aplicação**
+```bash
+# Copiar arquivo de configuração
+cp src/main/resources/application.yml.example src/main/resources/application.yml
+
+# Editar configurações do banco (se necessário)
+nano src/main/resources/application.yml
+```
+
+### **3. Executar Backend**
+```bash
+# Instalar dependências e executar
+./mvnw clean install
 ./mvnw spring-boot:run
 
-# Executar com profile específico
-./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
-
-# Executar com debug
-./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
-
-# Gerar JAR
-./mvnw clean package
-
-# Executar JAR
-java -jar target/controle-financeiro-backend-1.0.0.jar
-```
-
-### Verificação da Aplicação
-
-```bash
-# Health check
-curl http://localhost:8080/actuator/health
-
-# Swagger UI (se habilitado)
-# Acesse: http://localhost:8080/swagger-ui.html
+# ✅ API rodando em: http://localhost:8080
 ```
 
 ---
 
-## 🔗 Endpoints Principais
+## 🧪 **Testes**
 
-### Autenticação
-```http
-POST /api/auth/register     # Cadastro
-POST /api/auth/login        # Login
-POST /api/auth/refresh      # Refresh token
-```
-
-### Usuários
-```http
-GET    /api/users/profile   # Perfil do usuário
-PUT    /api/users/profile   # Atualizar perfil
-DELETE /api/users/account   # Deletar conta
-```
-
-### Grupos
-```http
-GET    /api/groups          # Listar grupos
-POST   /api/groups          # Criar grupo
-GET    /api/groups/{id}     # Detalhes do grupo
-PUT    /api/groups/{id}     # Atualizar grupo
-DELETE /api/groups/{id}     # Deletar grupo
-POST   /api/groups/{id}/members/{userId}  # Adicionar membro
-```
-
-### Despesas
-```http
-GET    /api/expenses        # Listar despesas
-POST   /api/expenses        # Criar despesa
-GET    /api/expenses/{id}   # Detalhes da despesa
-PUT    /api/expenses/{id}   # Atualizar despesa
-DELETE /api/expenses/{id}   # Deletar despesa
-```
-
-### Relatórios
-```http
-GET /api/reports/group/{groupId}/summary    # Resumo do grupo
-GET /api/reports/user/balance               # Saldo do usuário
-GET /api/reports/group/{groupId}/expenses   # Despesas por período
-```
-
----
-
-## 🧪 Testes
-
-### Executar Testes
 ```bash
-# Todos os testes
+# Executar todos os testes
 ./mvnw test
-
-# Testes unitários apenas
-./mvnw test -Dtest="*UnitTest"
-
-# Testes de integração apenas
-./mvnw test -Dtest="*IntegrationTest"
 
 # Testes com cobertura
 ./mvnw test jacoco:report
 
-# Testes de uma classe específica
-./mvnw test -Dtest="UserServiceTest"
-```
-
-### Estrutura de Testes
-- **Unit Tests**: Testam componentes isolados
-- **Integration Tests**: Testam integração entre componentes
-- **Repository Tests**: Testam acesso a dados
-- **Controller Tests**: Testam endpoints REST
-
-### Relatórios
-- **Cobertura**: `target/site/jacoco/index.html`
-- **Surefire**: `target/surefire-reports/`
-
----
-
-## 🐳 Docker
-
-### Construir Imagem
-```bash
-# Construir imagem
-docker build -t controle-financeiro-backend .
-
-# Executar container
-docker run -p 8080:8080 --env-file .env controle-financeiro-backend
-```
-
-### Docker Compose
-```yaml
-version: '3.8'
-services:
-  backend:
-    build: .
-    ports:
-      - "8080:8080"
-    environment:
-      - DB_HOST=postgres
-      - DB_NAME=controle_financeiro
-      - DB_USER=postgres
-      - DB_PASSWORD=password
-    depends_on:
-      - postgres
-  
-  postgres:
-    image: postgres:15
-    environment:
-      - POSTGRES_DB=controle_financeiro
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
-volumes:
-  postgres_data:
+# Ver relatório de cobertura
+open target/site/jacoco/index.html
 ```
 
 ---
 
-## 📊 Monitoramento
+## 📡 **Endpoints Principais**
 
-### Actuator Endpoints
 ```bash
-# Métricas da aplicação
-curl http://localhost:8080/actuator/metrics
+# Autenticação
+POST /api/auth/register    # Cadastro
+POST /api/auth/login       # Login
 
-# Informações da aplicação
-curl http://localhost:8080/actuator/info
+# Grupos
+GET  /api/groups          # Listar grupos
+POST /api/groups          # Criar grupo
 
-# Beans gerenciados
-curl http://localhost:8080/actuator/beans
+# Despesas  
+GET  /api/expenses        # Listar despesas
+POST /api/expenses        # Criar despesa
+
+# Health Check
+GET  /actuator/health     # Status da API
 ```
 
-### Logs
+> 📋 **Documentação da API:** Veja `/docs/scalar` (UI moderna) ou `/swagger-ui.html`.
+
+---
+
+## 🐳 **Docker & Containerização**
+
+Compose (app + banco):
 ```bash
-# Alterar nível de log em runtime
-curl -X POST http://localhost:8080/actuator/loggers/com.projeto.controle \
-  -H "Content-Type: application/json" \
-  -d '{"configuredLevel": "DEBUG"}'
+docker compose up --build
+# ou
+docker-compose up -d
+```
+Verificar:
+```bash
+curl http://localhost:8080/actuator/health
+```
+
+Build da imagem isolada:
+```bash
+# Build local
+docker build -t finboostplus/backend .
+
+# Build para arquitetura específica (ex: deploy amd64 a partir de Mac ARM)
+docker build --platform=linux/amd64 -t finboostplus/backend:amd64 .
+```
+
+Push (exemplo):
+```bash
+# Ajuste o registry
+docker tag finboostplus/backend ghcr.io/finboostplus/backend:latest
+docker push ghcr.io/finboostplus/backend:latest
+```
+
+Multi-arch com buildx (opcional):
+```bash
+docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/finboostplus/backend:latest --push .
 ```
 
 ---
 
-## 🔧 Troubleshooting
+## 🔧 **Variáveis de Ambiente**
 
-### Problemas Comuns
+Crie um arquivo `.env` (opcional):
 
-1. **Erro de conexão com banco**
-   - Verifique se PostgreSQL está rodando
-   - Confirme credenciais no `application.yml`
+```env
+# Banco de Dados
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=finboost
+DB_USER=finboost
+DB_PASSWORD=dev123
 
-2. **Erro de JWT**
-   - Verifique se `JWT_SECRET` está configurado
-   - Confirme se token não expirou
-
-3. **Erro de permissões**
-   - Verifique roles e authorities do usuário
-   - Confirme configuração do Spring Security
-
-### Logs Úteis
-```bash
-# Logs em tempo real
-./mvnw spring-boot:run | grep ERROR
-
-# Logs do banco
-tail -f /var/log/postgresql/postgresql-15-main.log
+# JWT
+JWT_SECRET=sua_chave_secreta_muito_longa_aqui
+JWT_EXPIRATION=86400000
 ```
 
 ---
 
-## 🤝 Contribuição
+## 🤝 **Contribuindo**
 
-1. Siga os padrões de código do projeto
+1. Siga as [convenções do projeto](../CONTRIBUTING.md)
 2. Escreva testes para novas funcionalidades
-3. Documente endpoints no Swagger
-4. Mantenha cobertura de testes > 80%
+3. Mantenha cobertura > 80%
+4. Use padrões de commit: `feat:` `fix:` `test:`
 
 ---
+
+## 📞 **Suporte**
+
+- 🐛 **Issues:** [GitHub Issues](../../issues)
+- 📖 **Docs:** [Documentação Técnica](../docs)
+- 💬 **Discord:** [Nosso servidor](link-discord)
+
+---
+
+> Arquivos README.Docker.md e README-SCALAR.md foram consolidados aqui para reduzir duplicação.
 
 <div align="center">
-  <strong>🔧 Backend desenvolvido com Spring Boot</strong>
+  <strong>🔧 API Spring Boot - FinBoost+</strong><br/>
+  <em>Desenvolvido pelo Grupo 7 - +Prati & Codifica</em>
 </div>
-

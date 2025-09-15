@@ -191,3 +191,54 @@ Criação de eventos com controle de despesas, divisão proporcional entre parti
 “Fiquei no prejuízo porque ninguém me pagou o que ficou devendo no churrasco.”
 
 ---
+
+## Histórico de Versões
+
+| Versão | Data              | Autor | Justificativa das Mudanças |
+|--------|-------------------|-------|---------------------------|
+| **v1.0** | **Julho de 2025** | **Equipe FinBoost+** | **Versão inicial das personas** - Definição das 4 personas principais para o MVP (Marina - Gastadora Impulsiva, Gabriel - Estudante Consciente, João e Letícia - Casal Organizado, Marcos e Vanessa - Família) baseadas em pesquisa de usuários e validação das necessidades reais. Inclui também 4 personas futuras para expansão do produto. Estrutura focada em resolver problemas de controle financeiro compartilhado com contextos de vida realistas e objetivos mensuráveis. |
+
+### **Características da Versão v1.0**
+
+**Personas Principais (MVP):**
+- **Marina, 26 anos** - Freelancer com renda instável e gastos impulsivos
+- **Gabriel, 22 anos** - Estudante/estagiário consciente mas com pouco tempo
+- **João e Letícia** - Casal organizado que divide despesas domésticas  
+- **Marcos e Vanessa** - Família com filha e orçamento variável
+
+**Personas Futuras:**
+- Carlos (Profissional Autônomo)
+- Rafael (Planejador Financeiro)
+- Equipe Casa Conectada (República)
+- Organização de Eventos
+
+**Metodologia Aplicada:**
+- Validação através de user stories específicas
+- Contextos diversos (individual, casal, família)
+- Foco em dores financeiras compartilhadas
+
+### **Validação das Personas**
+
+**Critérios de Representatividade:**
+- Diferentes perfis econômicos e idades
+- Variação de contextos de uso (individual/grupal)
+- Problemas financeiros distintos mas relacionados
+- Objetivos mensuráveis e alcançáveis pelo MVP
+
+**Alinhamento com MVP:**
+- Todas as 4 personas principais são atendidas pelas funcionalidades essenciais
+- User stories derivadas diretamente das dores identificadas
+- Cenários de uso cobrem os principais fluxos do sistema
+- Personas futuras orientam roadmap de expansão
+
+---
+
+### **Metadados do Documento**
+
+**Documento:** Personas - FinBoost+ Sistema de Controle Financeiro Compartilhado  
+**Versão Atual:** v1.0  
+**Data da Última Atualização:** 15 de Agosto de 2025  
+**Próxima Revisão Prevista:** Após testes de usabilidade com usuários reais  
+**Status:** Baseline para desenvolvimento de funcionalidades  
+**Tipo:** Documentação de UX/Produto  
+**Público:** Equipe completa (Produto, UX, Desenvolvimento)  

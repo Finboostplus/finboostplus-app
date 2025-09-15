@@ -4,11 +4,11 @@ import InputUI from '../../ui/Input';
 import SelectUI from '../../ui/Select';
 
 export default function GroupFilters({
-  search,
-  onlyOwner,
-  sortOrder,
-  onFilterChange,
-}) {
+                                       search,
+                                       onlyOwner,
+                                       sortOrder,
+                                       onFilterChange,
+                                     }) {
   const handleSearchChange = e => {
     onFilterChange({ search: e.target.value, onlyOwner, sortOrder });
   };
@@ -54,11 +54,10 @@ export default function GroupFilters({
           value={sortOrder}
           onChange={handleSortChange}
           className="w-full md:w-auto px-4 py-2 rounded-lg border bg-surface text-text focus:outline-none focus:ring-2 focus:ring-primary transition-colors cursor-pointer"
-          options={[
-            { value: 'asc', label: 'Mais antigos' },
-            { value: 'desc', label: 'Mais recentes' },
-          ]}
-        />
+        >
+          <option value="asc">Mais antigos</option>
+          <option value="desc">Mais recentes</option>
+        </SelectUI>
       </div>
     </div>
   );

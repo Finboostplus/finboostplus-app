@@ -1,0 +1,37 @@
+/* Cores da caixa e mensagem */
+@theme {
+  --color-error: rgba(220, 53, 69); /* Vermelho suave */
+  --color-warning: rgba(255, 193, 7); /* Amarelo ouro */
+  --color-success: rgba(40, 167, 69); /* Verde suave */
+  --color-info: rgba(23, 162, 184); /* Azul petróleo */
+
+  /* Animação de entrada */
+  --animate-enter: enter-toast 1s ease forwards;
+
+  /* Corrigido: animação de entrada */
+  @keyframes enter-toast {
+    from {
+      opacity: 0;
+      right: -100%;
+    }
+    to {
+      opacity: 1;
+      right: 30px; /* antes estava apenas "20", faltava unidade */
+    }
+  }
+
+  /* Animação de saída */
+  --animate-out: out-toast 1s ease forwards;
+
+  /* Corrigido: animação de saída */
+  @keyframes out-toast {
+    from {
+      opacity: 1;
+      right: 30px;
+    }
+    to {
+      opacity: 0;
+      right: -100%;
+    }
+  }
+}

@@ -5,12 +5,14 @@ export function createMockGroups(userId) {
     {
       id: 'grp-bffs',
       name: 'BFFs da Escola 💖',
+      description:
+        'Grupo para dividir gastos de passeios e eventos com as melhores amigas.',
       ownerId: userId,
       createdAt: '2025-07-01T10:15:00',
       members: [
-        { name: 'Luna Martins', color: '#ff69b4' },
-        { name: 'Mel', color: '#9370DB' },
-        { name: 'Bia', color: '#FFB6C1' },
+        { name: 'Luna Martins', color: '#ff69b4', isAdmin: true },
+        { name: 'Mel', color: '#9370DB', isAdmin: false },
+        { name: 'Bia', color: '#FFB6C1', isAdmin: false },
       ],
       status: 45.0,
       totalBalance: 45.0,
@@ -31,12 +33,14 @@ export function createMockGroups(userId) {
     {
       id: 'grp-creative',
       name: 'Estúdio Criativo 🎨',
+      description:
+        'Equipe de design e desenvolvimento para projetos criativos e colaborações.',
       ownerId: 'user-jade',
       createdAt: '2025-06-20T14:30:00',
       members: [
-        { name: 'Luna Martins', color: '#ff69b4' },
-        { name: 'Noah', color: '#4682B4' },
-        { name: 'Jade', color: '#8A2BE2' },
+        { name: 'Luna Martins', color: '#ff69b4', isAdmin: false },
+        { name: 'Noah', color: '#4682B4', isAdmin: true },
+        { name: 'Jade', color: '#8A2BE2', isAdmin: false },
       ],
       status: 100.0,
       totalBalance: 100.0,
@@ -57,11 +61,12 @@ export function createMockGroups(userId) {
     {
       id: 'grp-cafe',
       name: 'Mood Café ☕',
+      description: 'Para organizar encontros e gastos no nosso café favorito.',
       ownerId: userId,
       createdAt: '2025-07-15T09:00:00',
       members: [
-        { name: 'Luna Martins', color: '#ff69b4' },
-        { name: 'Tati', color: '#D2691E' },
+        { name: 'Luna Martins', color: '#ff69b4', isAdmin: true },
+        { name: 'Tati', color: '#D2691E', isAdmin: false },
       ],
       status: 0.0,
       totalBalance: 0.0,
@@ -80,13 +85,14 @@ export function createMockGroups(userId) {
     {
       id: 'grp-fam',
       name: 'Família Carvalho 🏡',
+      description: 'Gerenciar despesas e compras coletivas da família.',
       ownerId: 'user-mae',
       createdAt: '2025-05-10T16:45:00',
       members: [
-        { name: 'Luna Martins', color: '#ff69b4' },
-        { name: 'Mãe', color: '#DA70D6' },
-        { name: 'Papai', color: '#4169E1' },
-        { name: 'Sofia', color: '#FFD700' },
+        { name: 'Luna Martins', color: '#ff69b4', isAdmin: false },
+        { name: 'Mãe', color: '#DA70D6', isAdmin: true },
+        { name: 'Papai', color: '#4169E1', isAdmin: false },
+        { name: 'Sofia', color: '#FFD700', isAdmin: false },
       ],
       status: 0.0,
       totalBalance: 0.0,

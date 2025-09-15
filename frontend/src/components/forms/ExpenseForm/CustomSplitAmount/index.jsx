@@ -1,37 +1,56 @@
-import InputUI from '../../../ui/Input';
+import { useFormExpense } from '../useForm';
+import CurrencyInputUI from '../../../ui/CurrencyInput';
+import { formatBRL } from '../../../../utils/formatters';
 
-export default function CustomSplitAmount() {
+export default function CustomSplitAmount({ members }) {
+  const {
+    divisionAmount,
+    updateMemberShare,
+    remainingDifference,
+    redistributeEvenly,
+  } = useFormExpense();
+
   return (
-    <>
-      {/* <!-- Valores por pessoa (estáticos) --> */}
-      <div className="col-span-2 mt-4">
-        <p className="font-semibold">Valores por pessoa</p>
-        <div className="flex flex-col gap-2 mt-2">
-          <div className="flex items-center gap-2">
-            <span className="w-28">Marina (Eu)</span>
-            <InputUI
-              type="number"
+    <div className="col-span-2 mt-4">
+      <p className="font-semibold">Valores por pessoa</p>
+      <div className="flex flex-col gap-2 mt-2">
+        {members.map(({ id, name }) => (
+          <div key={id || name} className="flex items-center gap-2">
+            <span className="w-1/2">{name}</span>
+            <CurrencyInputUI
+              name={name}
+              value={divisionAmount[name]?.value ?? ''}
+              onValueChange={(_, __, values) => {
+                updateMemberShare(name, values);
+              }}
               className="w-full p-2 border rounded"
-              placeholder="R$"
-              step="0.01"
             />
           </div>
-          <div className="flex items-center gap-2">
-            <span className="w-28">João</span>
-            <InputUI
-              type="number"
-              className="w-full p-2 border rounded"
-              placeholder="R$"
-              step="0.01"
-            />
-          </div>
-        </div>
-
-        {/* <!-- Status de validação (simples) --> */}
-        <div className="mt-4 p-2 rounded bg-yellow-100 text-yellow-700">
-          Total dividido: R$ 0,00 – verifique os valores
-        </div>
+        ))}
       </div>
-    </>
+
+      <div
+        className={`mt-4 p-2 rounded ${
+          Math.abs(remainingDifference) < 0.01
+            ? 'bg-green-100 text-green-700'
+            : 'bg-yellow-100 text-yellow-700'
+        }`}
+      >
+        {Math.abs(remainingDifference) < 0.01 ? (
+          '✓ Distribuição correta'
+        ) : (
+          <>
+            <p>⚠️ Diferença: {formatBRL(remainingDifference)}</p>
+            <button
+              type="button"
+              onClick={redistributeEvenly}
+              className="mt-2 text-sm text-white bg-primary/70 hover:bg-primary transition rounded-md p-2"
+            >
+              Redistribuir igualmente
+            </button>
+          </>
+        )}
+      </div>
+    </div>
   );
 }

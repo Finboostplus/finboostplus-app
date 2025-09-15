@@ -6,6 +6,8 @@ import ExpensesList from './ExpensesList';
 import ModalButton from '../../../components/ModalButton';
 import Expenses from '../../Expenses';
 import { formatBRL } from '../../../utils/formatters';
+import { FiSettings } from 'react-icons/fi';
+import { Menu, MenuItem } from '@headlessui/react';
 
 export default function GroupDetails() {
   const [showBalances, setShowBalances] = useState(true);
@@ -29,6 +31,20 @@ export default function GroupDetails() {
           >
             {group.name}
           </h1>
+          <div>
+            <Menu>
+              <MenuItem
+                className={
+                  ' cursor-pointer flex p-2 rounded-md items-center bg-primary/70 hover:bg-primary text-white max-sm:justify-center gap-2'
+                }
+                as="a"
+                href={`/groups/${group.id}/settings`}
+              >
+                <FiSettings className="text-2xl text-white  cursor-pointer" />
+                Configurações
+              </MenuItem>
+            </Menu>
+          </div>
         </header>
 
         <section

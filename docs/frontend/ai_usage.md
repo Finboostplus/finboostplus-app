@@ -22,6 +22,10 @@ Este documento descreve o uso de ferramentas de Inteligência Artificial (IA) du
   **Fornecedor**: Stitch AI  
   **Descrição do uso**: Sugestões de design de telas (wireframes) para páginas como Cadastro, Login, Home, Grupos, etc.
 
+- **Nome da ferramenta**: Copilot  
+  **Fornecedor**: Microsoft
+  **Descrição do uso**: Configurações e geração de testes unitários para componentes básicos e de integração.
+
 ## Aplicações da IA no Projeto
 
 As principais áreas com auxílio de IA incluem:
@@ -32,7 +36,7 @@ As principais áreas com auxílio de IA incluem:
 - [x] Estruturação de projeto frontend (React + Zustand/Jotai)
 - [x] Modelagem de dados mockados
 - [x] Escrita de documentação e naming
-- [ ] Criação de testes automatizados (planejado para etapas futuras)
+- [x] Criação de testes automatizados (planejado para etapas futuras)
 
 ## Casos de Uso Específicos
 
@@ -77,6 +81,12 @@ As principais áreas com auxílio de IA incluem:
 - **Data**: 30/07/2025
 - **Ferramenta**: DeepSeek
 - **Contribuição**: Implementação de contratos de API usando `zod` com validação segura, mesmo sem TypeScript.
+
+### Criação de Testes Automatizados
+
+- **Data**: 06/08/2025
+- **Ferramenta**: Copilot
+- **Contibuição**: Criação dos arquivos de teste: Button.test.jsx, Header.test.jsx, Logo.test.jsx e  LoginForm.test.jsx. Além dos arquivos de documentação: TESTING_GUIDE.md, FOLDER_STRUTURE.md e /__tests__/README.md.
 
 ## Revisão e Validação
 
