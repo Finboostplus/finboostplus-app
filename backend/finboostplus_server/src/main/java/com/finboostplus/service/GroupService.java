@@ -2,9 +2,7 @@ package com.finboostplus.service;
 
 
 import com.finboostplus.DTO.*;
-import com.finboostplus.exception.GroupNotFoundException;
-import com.finboostplus.exception.OwnerLeaveNotAllowedException;
-import com.finboostplus.exception.MemberHasPendingExpensesException;
+import com.finboostplus.exception.*;
 import com.finboostplus.model.*;
 import com.finboostplus.projection.ExpenseProjection;
 import com.finboostplus.projection.GroupProjection;
@@ -22,8 +20,6 @@ import com.finboostplus.model.User;
 import com.finboostplus.repository.GroupMemberRepository;
 import com.finboostplus.repository.GroupRepository;
 import com.finboostplus.repository.UserRepository;
-import com.finboostplus.exception.ForbiddenResourceException;
-import com.finboostplus.exception.UserNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -80,7 +76,7 @@ public class GroupService {
         Long userId = user.get().getId();
         boolean isValid = groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateOrDeleteGroup(
                 userId, id);
-        if (isValid == true) {
+        if (isValid) {
             Optional<Group> optional = groupRepository.findById(id);
             Group group = optional.get();
             if (groupDto.name() != null && !groupDto.name().equals("")) {
@@ -94,17 +90,6 @@ public class GroupService {
             throw new ForbiddenResourceException("Usuário sem permissão");
         }
     }
-
-    public boolean addMemberGroup(Long id, String email) {
-
-        return false;
-    }
-    
-    // public List<Group> listGroupCreator(Long userId, Pageable pageable){
-    //
-    // return groupRepository.listaGrupoUsuario(userId,pageable);
-    // }
-
 
     public GroupDetailsDTO getExpenseGroupById(Long groupId){
 
@@ -157,8 +142,6 @@ public class GroupService {
         String username = userService.authenticated();
         Long userId = userRepository.findByEmailIgnoreCase(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!")).getId();
-        groupRepository.findById(groupId)
-                .orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
         boolean isMember = groupMemberRepository.isUserMemberOfGroup(userId, groupId) ==true;
         if (isMember) {
             return groupMemberRepository.findMembersByGroupId(groupId);
@@ -166,7 +149,6 @@ public class GroupService {
             throw new ForbiddenResourceException("Usuário sem permissão");
         }
     }
-
     public void leaveGroup(Long groupId) {
         User user = userRepository.findByEmailIgnoreCase(userService.authenticated())
                 .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
