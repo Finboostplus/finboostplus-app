@@ -141,6 +141,14 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                         """, nativeQuery = true)
         void updateExpenseStatus(@Param("expenseId") Long expenseId, @Param("status") String status);
 
+        @Modifying
+        @Query(value = """
+                        UPDATE expenses
+                        SET status = :status
+                        WHERE id = :expenseId
+                        """, nativeQuery = true)
+        void setPaidExpense(@Param("expenseId") Long expenseId, @Param("status") String status);
+
         @Query(value = """
                         SELECT EXISTS(
                            SELECT 1
@@ -160,4 +168,12 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                            )
                         """, nativeQuery = true)
         boolean groupHasPendingExpenses(Long groupId);
+
+        @Query(value = """
+                        SELECT EXISTS(
+                           SELECT 1
+                              FROM user_expense_divisions e WHERE e.expense_id = :expenseId AND (e.status = 'PENDING' OR e.status = 'UNPAID')
+                           )
+                        """, nativeQuery = true)
+        boolean isExpensePaid(Long expenseId);
 }

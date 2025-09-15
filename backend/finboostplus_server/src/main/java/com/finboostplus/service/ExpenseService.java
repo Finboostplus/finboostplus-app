@@ -1,6 +1,5 @@
 package com.finboostplus.service;
 
-import com.finboostplus.DTO.*;
 import com.finboostplus.enums.Status;
 import com.finboostplus.exception.*;
 import com.finboostplus.model.*;
@@ -17,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.finboostplus.DTO.*;
 
 @Service
 public class ExpenseService {
@@ -46,25 +46,26 @@ public class ExpenseService {
 
         private List<String> authLevels = List.of("OWNER", "ADMIN");
 
-        // public Expense addNewExpense(Long idGroup, Long idCategory, ExpenseRequestDTO expDto) {
+        // public Expense addNewExpense(Long idGroup, Long idCategory, ExpenseRequestDTO
+        // expDto) {
         //
-        //         Expense expense = new Expense();
-        //         String userName = userService.authenticated();
-        //         User user = userService.getUser(userName);
-        //         Group group = groupService.getGroup(idGroup);
-        //         Category category = categoryService.getCategory(idCategory);
+        // Expense expense = new Expense();
+        // String userName = userService.authenticated();
+        // User user = userService.getUser(userName);
+        // Group group = groupService.getGroup(idGroup);
+        // Category category = categoryService.getCategory(idCategory);
         //
-        //         if (user != null) {
-        //                 if (groupMemberService.getUserOnwerAdmin(user.getId(), idGroup, authLevels)
-        //                                 && group != null) {
-        //                         expense = expDto.expDToToExpense();
-        //                         expense.setGroup(group);
-        //                         expense.setCategory(category);
+        // if (user != null) {
+        // if (groupMemberService.getUserOnwerAdmin(user.getId(), idGroup, authLevels)
+        // && group != null) {
+        // expense = expDto.expDToToExpense();
+        // expense.setGroup(group);
+        // expense.setCategory(category);
         //
-        //                         return expenseRepository.save(expense);
-        //                 }
-        //         }
-        //         return null;
+        // return expenseRepository.save(expense);
+        // }
+        // }
+        // return null;
         // }
 
         public List<ExpenseProjection> listExpenseDTOGroupById(Long groupId) {
@@ -223,6 +224,7 @@ public class ExpenseService {
                 throw new ForbiddenResourceException("Acesso negado");
         }
 
+        @Transactional
         public boolean updateExpenseStatus(Long memberId, Long groupId, Long expenseId, ExpenseUpdateDTO expenseDTO) {
                 String username = userService.authenticated();
                 Optional<User> onwerUser = userRepository.findByEmailIgnoreCase(username);
@@ -235,20 +237,21 @@ public class ExpenseService {
 
                 boolean isOwner = groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateOrDeleteGroup(
                                 onwerUserId, groupId);
-                if (!isOwner || isOwner == false)
-                        throw new RuntimeException("Erro ao verificar permissão do usuário");
+                if (isOwner == false)
+                        throw new ForbiddenResourceException(
+                                        "Usuário não possui autoridade para alterar o status da despesa");
 
                 boolean isMember = groupMemberRepository.isUserMemberOfGroup(memberId, groupId);
-                if (!isMember || isMember == false) {
-                        throw new RuntimeException("Membro não pertence ao grupo");
+                if (isMember == false) {
+                        throw new ForbiddenResourceException("Membro não pertence ao grupo");
                 }
 
                 boolean memberHasExpense = userExpenseDivisionRepository.existsByUserIdAndExpenseId(memberId,
                                 expenseId);
-                if (!memberHasExpense || memberHasExpense == false) {
-                        throw new RuntimeException("Usuário não possui essa despesa nesse grupo");
+                if (memberHasExpense == false) {
+                        throw new ForbiddenResourceException("Usuário não está associado a essa despesa");
                 }
-                
+
                 Expense expense = expenseRepository.findById(expenseId)
                                 .orElseThrow(() -> new ExpenseNotFoundException("Despesa não encontrada"));
 
@@ -256,14 +259,20 @@ public class ExpenseService {
                                 .findByExpenseIdAndGroupId(memberId, expenseId);
                 if (userExpenseDivision != null && userExpenseDivision.getStatus() != Status.PAID) {
                         userExpenseDivision.setStatus(Status.PAID);
-                } 
-                 else if (userExpenseDivision != null && userExpenseDivision.getStatus() == Status.PAID && expense.getDeadlineDate().isBefore(LocalDate.now())) {
-                         userExpenseDivision.setStatus(Status.PENDING);
-                 } else {
-                         userExpenseDivision.setStatus(Status.UNPAID);
-                 }
-                return (
-                        userExpenseDivisionRepository.save(userExpenseDivision) != null ? true : false
-                );
+                } else if (userExpenseDivision != null && userExpenseDivision.getStatus() == Status.PAID
+                                && expense.getDeadlineDate().isBefore(LocalDate.now())) {
+                        userExpenseDivision.setStatus(Status.PENDING);
+                        expenseRepository.setPaidExpense(expenseId, "PENDING");
+                } else {
+                        userExpenseDivision.setStatus(Status.UNPAID);
+                        expenseRepository.setPaidExpense(expenseId, "UNPAID");
+                }
+
+                boolean isExpensePaid = expenseRepository.isExpensePaid(expenseId);
+                if (isExpensePaid == false) {
+                        expenseRepository.setPaidExpense(expenseId, "PAID");
+                }
+
+                return (userExpenseDivisionRepository.save(userExpenseDivision) != null ? true : false);
         }
 }
