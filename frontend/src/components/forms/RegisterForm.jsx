@@ -13,7 +13,6 @@ export default function RegisterForm() {
   // Mostra os erros via toast
   useEffect(() => {
     if (actionData?.errors) {
-      console.log(errors);
       Object.values(actionData.errors).forEach(({ title, message }) => {
         customToast(title, message, 'error');
       });

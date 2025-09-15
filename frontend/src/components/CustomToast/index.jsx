@@ -26,4 +26,5 @@ export const customToast = (title, message, type = 'info') =>
     autoClose: true,
     duration: 5000,
     className: contextClass[type] + ' border-2 border-b-0',
+    toastId: type + '-' + message,
   });
