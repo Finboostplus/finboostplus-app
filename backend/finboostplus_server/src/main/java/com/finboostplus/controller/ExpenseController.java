@@ -2,6 +2,7 @@ package com.finboostplus.controller;
 
 
 import com.finboostplus.DTO.ExpenseCreateDTO;
+import com.finboostplus.DTO.ExpenseDivDTO;
 import com.finboostplus.DTO.ExpenseUpdateDTO;
 import com.finboostplus.enums.Status;
 import com.finboostplus.projection.GroupExpenseProjection;
@@ -14,8 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("groups/{groupId}/expenses")
@@ -52,6 +51,17 @@ public class ExpenseController {
         return expenseService.updateExpense(dto, groupId, expenseId)?
             new ResponseEntity<String>("Despesa atualizada com sucesso!", HttpStatus.OK):
             new ResponseEntity<String>("",HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("{expenseId}")
+    public ResponseEntity<Object> getDetailsExpense(@PathVariable Long groupId,
+                                                   @PathVariable Long expenseId){
+
+        ExpenseDivDTO expenseDivDTO = expenseService.getDetailsExpense(groupId,expenseId);
+        if(expenseDivDTO != null){
+            return  ResponseEntity.ok(expenseDivDTO);
+        }
+        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("Despesa não encontrada");
     }
 
 }

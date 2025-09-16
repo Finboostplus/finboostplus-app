@@ -1,12 +1,10 @@
 package com.finboostplus.repository;
 
-import com.finboostplus.DTO.ExpenseDTO;
-import com.finboostplus.DTO.GroupExpenseDTO;
-import com.finboostplus.enums.Status;
+import com.finboostplus.DTO.ExpenseDivDTO;
 import com.finboostplus.model.Expense;
-import com.finboostplus.model.Group;
 import com.finboostplus.projection.ExpenseProjection;
 import com.finboostplus.projection.GroupExpenseProjection;
+import com.finboostplus.projection.UserExpenseDivisionProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +12,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -166,4 +163,30 @@ public interface ExpenseRepository extends JpaRepository<Expense,Long> {
       )
    """, nativeQuery = true)
    boolean groupHasPendingExpenses(Long groupId);
+
+   @Query(value = """
+           SELECT ud.user_id as userId, 
+                 u.user_name as UserName ,
+           	   ud.partial_value as partialValue,
+           	   ud.status
+           FROM expenses e
+           INNER JOIN user_expense_divisions ud
+           ON e.id = ud.expense_id
+           INNER JOIN users u
+           ON u.id = ud.user_id
+           where e.group_id =:groupId and e.id =:expenseId;
+           """, nativeQuery = true)
+  List<UserExpenseDivisionProjection> listUsersExpenseDivision(Long groupId, Long expenseId);
+
+   @Query(value = """
+           SELECT id ,
+                title,
+          description,
+               status,
+             creat_at, 
+             value as total 
+                       from expenses
+                   where id =:expenseId and group_id =:groupId ;    
+           """ , nativeQuery = true)
+   ExpenseDivDTO getExpenseDivProjection(Long groupId , Long expenseId);
 }

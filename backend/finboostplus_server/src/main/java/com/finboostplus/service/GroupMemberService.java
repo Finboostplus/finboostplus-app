@@ -80,4 +80,20 @@ public class GroupMemberService {
 
         return groupMemberRepository.isUserOnwerOrAdmin(userId,groupId,authLevels);
     }
+
+
+    public boolean switchAuthGroup(User user, Group group, int auth){
+        GroupMember userAuth = new GroupMember();
+        userAuth.setUser(user);
+        userAuth.setGroup(group);
+        userAuth.setAuthorization(this.AUTHORITIES.get(auth));
+        userAuth.setEntryDate(Instant.now());
+        userAuth.setId(new GroupMemberId(user.getId(),group.getId()));
+        return groupMemberRepository.save(userAuth) != null? true : false;
+    }
+
+    boolean isUserMemberOfGroup(long userId, long groupId){
+
+        return groupMemberRepository.isUserMemberOfGroup(userId,groupId);
+    }
 }

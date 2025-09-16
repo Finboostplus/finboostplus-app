@@ -6,6 +6,7 @@ import com.finboostplus.exception.*;
 import com.finboostplus.model.*;
 import com.finboostplus.projection.ExpenseProjection;
 import com.finboostplus.projection.GroupExpenseProjection;
+import com.finboostplus.projection.UserExpenseDivisionProjection;
 import com.finboostplus.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,27 +48,6 @@ public class ExpenseService {
    private List<String> authLevels = List.of("OWNER", "ADMIN");
 
 
-   public Expense addNewExpense(Long idGroup, Long idCategory, ExpenseRequestDTO expDto){
-
-       Expense expense = new Expense();
-       String userName = userService.authenticated();
-       User user = userService.getUser(userName);
-       Group group = groupService.getGroup(idGroup);
-       Category category = categoryService.getCategory(idCategory);
-
-       if(user != null){
-           if(groupMemberService.getUserOnwerAdmin(user.getId(),idGroup,authLevels)
-             && group != null){
-               expense = expDto.expDToToExpense();
-               expense.setGroup(group);
-               expense.setCategory(category);
-
-               return expenseRepository.save(expense);
-           }
-       }
-       return null;
-   }
-
    public List<ExpenseProjection> listExpenseDTOGroupById(Long groupId){
 
        String userName = userService.authenticated();
@@ -85,21 +65,32 @@ public class ExpenseService {
 
     @Transactional
     public boolean createNewExpense(ExpenseCreateDTO expenseDTO, Long groupId) {
-        //Validação da divisão de valores
+        // 1. Validação da divisão de valores
         if (!isValuesCompatibles(expenseDTO.expenseValue(), expenseDTO.expenseDivision())) {
             throw new ValuesIncompatiblesException(
                     "O total da divisão da despesa é incompatível com o valor da despesa");
         }
-        isExpenseCreationorUpdateAllowed(groupId);
 
-        // Busca entidades relacionadas
+        // 2. Autenticação e verificação de permissões
+        String userName = userService.authenticated();
+        User user = userRepository.findByEmailIgnoreCase(userName)
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+
+        boolean hasAuthority = groupMemberRepository
+                .isUserOnwerOrAdmin(user.getId(), groupId, authLevels);
+
+        if (!hasAuthority) {
+            throw new ForbiddenResourceException("Usuário não tem permissão para criar despesas no grupo");
+        }
+
+        // 3. Busca entidades relacionadas
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
 
         Category category = categoryRepository.findById(expenseDTO.categoryId())
                 .orElseThrow(() -> new CategoryNotFoundException("Categoria não encontrada"));
 
-        // Validação da lista de membros
+        // 4. Validação da lista de membros
         for (MembersExpenseDivisionCreateDTO member : expenseDTO.expenseDivision()) {
             if (!groupMemberRepository.isUserMemberOfGroup(member.id(), groupId)) {
                 throw new ForbiddenResourceException("Membro da despesa não pertence ao grupo");
@@ -108,7 +99,7 @@ public class ExpenseService {
 
         Status status = expenseDTO.deadlineDate().isAfter(LocalDate.now()) ? Status.PENDING : Status.UNPAID;
 
-        // Criação da despesa
+        // 5. Criação da despesa
         Expense expense = new Expense(
                 expenseDTO.title(),
                 expenseDTO.description(),
@@ -121,7 +112,7 @@ public class ExpenseService {
 
         expense = expenseRepository.save(expense);
 
-        // Criação da divisão da despesa entre membros
+        // 6. Criação da divisão da despesa entre membros
         for (MembersExpenseDivisionCreateDTO member : expenseDTO.expenseDivision()) {
             UserExpenseDivisionId userExpenseDivisionId =
                     new UserExpenseDivisionId(member.id(), expense.getId());
@@ -191,8 +182,6 @@ public class ExpenseService {
             throw new ForbiddenResourceException("Usuário não tem permissão para atualizar dados de despesas no grupo");
         }
     }
-
-
     public Page<GroupExpenseProjection> getAllGroupExpenses (Long groupId, Status status, boolean allMemberExpenses, boolean allGroupMembersExpenses, Pageable pageable ){
         String userName = userService.authenticated();
         User user = userRepository.findByEmailIgnoreCase(userName)
@@ -219,6 +208,38 @@ public class ExpenseService {
             }
         }
         throw new ForbiddenResourceException("Acesso negado");
+    }
+
+    public ExpenseDivDTO getDetailsExpense(Long groupId , Long expenseId){
+
+        String userName = userService.authenticated();
+        User user = userRepository.findByEmailIgnoreCase(userName)
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+
+        boolean hasAuthority = groupMemberRepository
+                .isUserOnwerOrAdmin(user.getId(), groupId, authLevels);
+        if (!hasAuthority) {
+            throw new ForbiddenResourceException("Usuário não tem permissão para visualizar detelhes da despesa");
+        }
+
+        Group group = groupRepository.findById(groupId).
+                orElseThrow(()-> new GroupNotFoundException("Grupo não encontrado"));
+
+        Expense expense = expenseRepository.findById(expenseId).orElseThrow(
+                ()-> new ForbiddenResourceException("Despesa nao encontrada"));
+
+        List<UserExpenseDivisionProjection> listUsarios = expenseRepository.listUsersExpenseDivision(group.getId(),expenseId);
+
+        ExpenseDivDTO expenseDivDTO = new ExpenseDivDTO(expense.getId(),expense.getTitle(),expense.getDescription(),expense.getStatus(),expense.getValue(), listUsarios );
+        if (expenseDivDTO == null){
+            throw  new ExpenseNotFoundException("Despesa não localizada");
+
+        }else{
+           listUsarios = expenseRepository.listUsersExpenseDivision(group.getId(),expenseId);
+
+            return expenseDivDTO;
+        }
+
     }
 
 }
