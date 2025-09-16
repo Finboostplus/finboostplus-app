@@ -4,8 +4,10 @@ import {
   Transition,
   TransitionChild,
 } from '@headlessui/react';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import ButtonUI from '../../ui/Button';
+import { useActionData, useRevalidator } from 'react-router';
+import { customToast } from '../../CustomToast';
 
 /**
  * Componente Modal reutilizável.
@@ -17,7 +19,20 @@ import ButtonUI from '../../ui/Button';
  *
  * @returns {JSX.Element | null} O JSX do modal, ou `null` se não estiver aberto.
  */
-export default function Modal({ children, isOpen, fnClose }) {
+export default function Modal({ children, isOpen, setIsOpen, fnClose }) {
+  const actionData = useActionData();
+  const revalidator = useRevalidator();
+  useEffect(() => {
+    if (actionData?.errors) {
+      const nameField = actionData.errors?.name;
+      customToast(nameField.title, nameField.message, 'error');
+    } else if (actionData?.success) {
+      const { data: notification } = actionData;
+      customToast(notification.title, notification.message, 'success');
+      setIsOpen(false);
+    }
+    revalidator.revalidate();
+  }, [actionData]);
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog onClose={fnClose} className="fixed z-50 inset-0">

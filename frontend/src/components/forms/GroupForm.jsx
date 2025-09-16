@@ -2,20 +2,12 @@ import { Form, useNavigation, useActionData } from 'react-router';
 import InputUI from '../ui/Input';
 import ButtonUI from '../ui/Button';
 import TextareaUI from '../ui/Textarea';
-import { useEffect } from 'react';
-import { customToast } from '../CustomToast';
 
 export default function GroupForm() {
   const navigation = useNavigation();
   const actionData = useActionData();
   const isSubmitting = navigation.state === 'submitting';
   const values = actionData?.values || {};
-
-  useEffect(() => {
-    if (!actionData?.errors) return;
-    const nameField = actionData.errors?.name;
-    customToast(nameField.title, nameField.message, 'error');
-  }, [actionData]);
 
   return (
     <Form

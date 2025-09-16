@@ -24,7 +24,12 @@ export const registerAction = async ({ request }) => {
     }
 
     return { success, errors, value: data };
+  } else {
+    /* Caso passe da validação */
+    const notification = {
+      title: 'Novo cadastro',
+      message: 'Usuário cadastrado com sucesso!',
+    };
+    return { success, data: notification };
   }
-  /* Se não ocorreu nenhum erro */
-  console.log(data);
 };
