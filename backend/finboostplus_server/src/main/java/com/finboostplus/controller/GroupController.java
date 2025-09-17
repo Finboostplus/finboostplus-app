@@ -90,27 +90,27 @@ public class GroupController {
         return new ResponseEntity<>(group.get(), HttpStatus.OK);
     }
 
-    @PostMapping("/{groupId}/expenses/category/{catId}")
-    public ResponseEntity<Object> addNewExpense(
-            @PathVariable Long groupId,
-            @PathVariable Long catId,
-            @RequestBody ExpenseRequestDTO dto){
-
-        Expense expense =   expenseService.addNewExpense(groupId,catId,dto);
-
-        if(expense != null){
-            ExpenseResponseDTO expdto = new ExpenseResponseDTO(
-                    expense.getId(),
-                    expense.getTitle(),
-                    expense.getDescription(),
-                    expense.getValue(),
-                    expense.getDeadlineDate(),
-                    expense.getCreatAt());
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(expdto);
-        }
-        return ResponseEntity.badRequest().body("Não foi possível a criação da nova Despesa ");
-    }
+    // @PostMapping("/{groupId}/expenses/category/{catId}")
+    // public ResponseEntity<Object> addNewExpense(
+    //         @PathVariable Long groupId,
+    //         @PathVariable Long catId,
+    //         @RequestBody ExpenseRequestDTO dto){
+    //
+    //     Expense expense =   expenseService.addNewExpense(groupId,catId,dto);
+    //
+    //     if(expense != null){
+    //         ExpenseResponseDTO expdto = new ExpenseResponseDTO(
+    //                 expense.getId(),
+    //                 expense.getTitle(),
+    //                 expense.getDescription(),
+    //                 expense.getValue(),
+    //                 expense.getDeadlineDate(),
+    //                 expense.getCreatAt());
+    //
+    //         return ResponseEntity.status(HttpStatus.CREATED).body(expdto);
+    //     }
+    //     return ResponseEntity.badRequest().body("Não foi possível a criação da nova Despesa ");
+    // }
 
     @GetMapping("/{groupId}/members")
     public ResponseEntity<List<GroupMemberResponseDTO>> findAllMembersByGroupId(@PathVariable long groupId) {
