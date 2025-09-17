@@ -5,26 +5,37 @@ import InputUI from '../ui/Input';
 import ButtonUI from '../ui/Button';
 import CheckboxUI from '../ui/Checkbox';
 import { customToast } from '../CustomToast';
+
 export default function RegisterForm() {
   const navigate = useNavigate();
   const actionData = useActionData();
   const errors = actionData?.errors || {};
   const values = actionData?.values || {};
 
-  // Mostra os erros via toast
+  // Mostra os erros e sucessos via toast
   useEffect(() => {
-    if (actionData?.errors) {
-      Object.values(actionData.errors).forEach(({ title, message }) => {
+    if (!actionData) return;
+
+    if (actionData.success) {
+      // Sucesso no cadastro
+      const { data: notification, value } = actionData;
+      customToast(
+        notification?.title ?? 'Usuário cadastrado com sucesso',
+        notification?.message ?? value ?? '',
+        'success'
+      );
+      navigate('/');
+      return;
+    }
+
+    if (actionData.errors) {
+      Object.values(actionData.errors).forEach(err => {
+        const title = err?.title ?? 'Erro';
+        const message = err?.message ?? 'Ocorreu um erro inesperado.';
         customToast(title, message, 'error');
       });
-    } else if (actionData?.success) {
-      const { data: notification } = actionData;
-      customToast(notification.title, notification.message, 'success');
-      navigate('/');
     }
-  }, [actionData]);
-
-  //Senhas não coincidem
+  }, [actionData, navigate]);
 
   const fields = [
     {
