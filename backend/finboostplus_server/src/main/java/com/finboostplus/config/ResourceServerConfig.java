@@ -3,6 +3,7 @@ package com.finboostplus.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -44,7 +45,7 @@ public class ResourceServerConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         // === ROTAS PÚBLICAS ===
                         // Cadastro de usuário (POST /user)
-                        .requestMatchers(AntPathRequestMatcher.antMatcher("POST", "/user")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/user")).permitAll()
 
                         // Documentação da API
                         .requestMatchers(

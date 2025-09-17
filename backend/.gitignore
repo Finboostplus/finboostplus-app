@@ -1,0 +1,190 @@
+# ==============================================
+# Java and JVM
+# ==============================================
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*
+
+# ==============================================
+# Maven
+# ==============================================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# ==============================================
+# Spring Boot
+# ==============================================
+*.log
+*.gz
+logs/
+spring.log
+application-*.properties
+application-*.yml
+!application.properties
+!application.yml
+!application-example.properties
+!application-example.yml
+
+# ==============================================
+# Environment Variables
+# ==============================================
+.env
+.env.local
+.env.*.local
+*.env
+
+# ==============================================
+# Database
+# ==============================================
+*.db
+*.sqlite
+*.sqlite3
+*.h2.db
+*.trace.db
+*.lock.db
+
+# ==============================================
+# IDE and Editor files
+# ==============================================
+.vscode/
+.idea/
+*.iws
+*.iml
+*.ipr
+*.swp
+*.swo
+*~
+
+# IntelliJ IDEA
+out/
+.idea_modules/
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+tmp/
+*.tmp
+*.bak
+local.properties
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+# ==============================================
+# Operating System
+# ==============================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ==============================================
+# Security and Sensitive Data
+# ==============================================
+*.key
+*.pem
+*.p12
+*.jks
+*.keystore
+*.truststore
+secrets/
+credentials/
+private/
+
+# ==============================================
+# Testing and Coverage
+# ==============================================
+coverage/
+test-results/
+junit.xml
+*.lcov
+jacoco.xml
+
+# ==============================================
+# Temporary and Cache files
+# ==============================================
+*.tmp
+*.temp
+.cache/
+temp/
+cache/
+
+# ==============================================
+# Docker
+# ==============================================
+.dockerignore
+docker-compose.override.yml
+docker-compose.local.yml
+
+# ==============================================
+# Monitoring and Profiling
+# ==============================================
+*.hprof
+*.dump
+javacore*
+Snap*
+core.*
+
+# ==============================================
+# Build tools and CI/CD
+# ==============================================
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+build/
