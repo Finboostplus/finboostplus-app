@@ -1,16 +1,16 @@
 package com.finboostplus.service;
 
+import com.finboostplus.DTO.SwitchAuthorityRequestDTO;
 import com.finboostplus.DTO.UserCreateDTO;
 import com.finboostplus.DTO.UserUpdateDTO;
-import com.finboostplus.exception.EmailAlreadyRegisteredException;
-import com.finboostplus.exception.ForbiddenResourceException;
-import com.finboostplus.exception.MemberHasPendingExpensesException;
-import com.finboostplus.exception.UserNotFoundException;
+import com.finboostplus.exception.*;
+import com.finboostplus.model.Group;
 import com.finboostplus.model.Role;
 import com.finboostplus.projection.UserDetailsProjection;
 import com.finboostplus.repository.RoleRepository;
 import com.finboostplus.repository.GroupMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,6 +46,13 @@ public class UserService implements UserDetailsService {
     @Autowired
     UserExpenseDivisionRepository userExpenseDivisionRepository;
 
+    @Autowired
+    @Lazy
+    GroupService groupService;
+
+    @Autowired
+    @Lazy
+    GroupMemberService groupMemberService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -143,6 +150,41 @@ public class UserService implements UserDetailsService {
 
         // Excluir usuário
         userRepository.deleteById(user.getId());
+    }
+
+    public boolean switchAuthority(Long newOwnerId , Long groupId , SwitchAuthorityRequestDTO authDTO  ) {
+        List<String> authLevels = List.of("OWNER", "ADMIN", "USER");
+        String setAuthority = authDTO.setAuthority();
+        String authority = authDTO.authority();
+
+        // Verifica se receberam os niveis de auth corretamente
+        if (!authLevels.contains(authority.toUpperCase().trim()) && authLevels.contains(setAuthority.toUpperCase().trim())) {
+            throw new ValuesIncompatiblesException("Os valores recebidos não coincidem com os valores suportados");
+        }
+        //Verifica se o usuário que fara a tranferencia de autoridade esta logado
+        String userName = authenticated();
+        User user = userRepository.findByEmailIgnoreCase(userName)
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+
+        //Verifica se o usuario que recebera a nova autoridade esta cadastro e se esta
+        User newUserAuth = userRepository.findById(newOwnerId)
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+
+        Group group = groupService.getGroup(groupId);
+        if (group == null) {
+            throw new GroupNotFoundException("Grupo não encontrado");
+        }
+
+        if (userRepository.isUserAndGroupAndAuthorityValidToUpdateGroup(user.getId(), group.getId()) < 0) {
+            throw new ForbiddenResourceException("Usuário não tem permissão para realizar essa operação");
+        } else if (!groupMemberService.isUserMemberOfGroup(newUserAuth.getId(), group.getId())) {
+            throw new UserNotFoundException("Usuário não pertence a este grupo");
+        } else if (groupMemberService.switchAuthGroup(newUserAuth, group, authLevels.indexOf(setAuthority))
+                && groupMemberService.switchAuthGroup(user, group, authLevels.indexOf(authority))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
