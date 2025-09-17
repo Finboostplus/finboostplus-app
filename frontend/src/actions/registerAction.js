@@ -27,4 +27,10 @@ export const registerAction = async ({ request }) => {
   }
   /* Se não ocorreu nenhum erro */
   console.log(data);
+  return {
+    success,
+    errors: null,
+    value:
+      'Agora você já pode acessar sua conta e começar a organizar suas finanças.',
+  };
 };
