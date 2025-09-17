@@ -25,6 +25,9 @@ export const groupAction = async ({ request }) => {
 
     return { success, errors, value: data };
   }
-  /* Se não ocorreu nenhum erro */
-  console.log(data);
+  const notification = {
+    title: 'Criar novo grupo',
+    message: 'Grupo criado com sucesso!!!',
+  };
+  return { success, data: notification };
 };

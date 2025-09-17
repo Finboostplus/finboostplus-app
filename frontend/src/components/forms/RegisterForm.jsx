@@ -1,25 +1,30 @@
 import { Menu, MenuItem } from '@headlessui/react';
 import { useEffect } from 'react';
-import { Form, useActionData } from 'react-router';
+import { Form, useActionData, useNavigate } from 'react-router';
 import InputUI from '../ui/Input';
 import ButtonUI from '../ui/Button';
 import CheckboxUI from '../ui/Checkbox';
 import { customToast } from '../CustomToast';
+
 export default function RegisterForm() {
+  const navigate = useNavigate();
   const actionData = useActionData();
   const errors = actionData?.errors || {};
   const values = actionData?.values || {};
 
-  // Mostra os erros via toast
+  // Mostra os erros e sucessos via toast
   useEffect(() => {
     if (!actionData) return;
 
     if (actionData.success) {
+      // Sucesso no cadastro
+      const { data: notification, value } = actionData;
       customToast(
-        'Usuário cadastrado com sucesso',
-        actionData.value ?? '',
+        notification?.title ?? 'Usuário cadastrado com sucesso',
+        notification?.message ?? value ?? '',
         'success'
       );
+      navigate('/');
       return;
     }
 
@@ -30,36 +35,36 @@ export default function RegisterForm() {
         customToast(title, message, 'error');
       });
     }
-  }, [actionData]);
+  }, [actionData, navigate]);
 
   const fields = [
     {
       id: 'fullName',
-      name: 'fullName',
       label: 'Nome completo',
       type: 'text',
       placeholder: 'Digite seu nome completo',
+      autoComplete: 'name',
     },
     {
       id: 'email',
-      name: 'email',
       label: 'Email',
       type: 'email',
       placeholder: 'Digite seu email',
+      autoComplete: 'email',
     },
     {
       id: 'password',
-      name: 'password',
       label: 'Senha',
       type: 'password',
       placeholder: 'Digite sua senha',
+      autoComplete: 'new-password',
     },
     {
       id: 'confirmPassword',
-      name: 'confirmPassword',
       label: 'Confirmar senha',
       type: 'password',
       placeholder: 'Confirme sua senha',
+      autoComplete: 'new-password',
     },
   ];
 
@@ -70,7 +75,7 @@ export default function RegisterForm() {
         className="w-full flex flex-col items-center gap-6 bg-surface p-6 rounded-2xl shadow-md border border-neutral transition-colors"
         aria-label="Formulário de cadastro"
       >
-        {fields.map(({ id, label, type, placeholder }) => (
+        {fields.map(({ id, label, type, placeholder, autoComplete }) => (
           <div key={id} className="w-full flex flex-col gap-2">
             <label htmlFor={id} className="text-sm font-medium text-text">
               {label}
@@ -82,9 +87,10 @@ export default function RegisterForm() {
               required
               defaultValue={values[id] || ''}
               placeholder={placeholder}
-              className={`w-full h-11 rounded-xl border px-4 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition ${
-                errors[id] ? 'border-error' : 'border-muted'
-              }`}
+              autoComplete={autoComplete}
+              className={`w-full h-11 rounded-xl border px-4 text-sm text-text placeholder:text-muted 
+                focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition 
+                ${errors[id] ? 'border-error' : 'border-muted'}`}
             />
           </div>
         ))}
@@ -105,7 +111,7 @@ export default function RegisterForm() {
         <ButtonUI
           title="Cadastrar"
           type="submit"
-          className="w-full py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-secondary transition-colors"
+          className="w-full py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-secondary transition-colors cursor-pointer"
         />
       </Form>
 

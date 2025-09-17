@@ -19,6 +19,7 @@ export default function ModalButton({ modalChildren }) {
         fnClose={() => setIsOpenModal(false)}
         children={modalChildren}
         isOpen={isOpenModal}
+        setIsOpen={setIsOpenModal}
       />
       <ButtonUI
         type="button"

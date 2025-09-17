@@ -5,6 +5,7 @@ import CustomSplitAmount from './CustomSplitAmount';
 import { useFormExpense } from './useForm';
 import { useEffect, useState, useCallback } from 'react';
 import userData from '../../../mockData/user/user.data';
+import { customToast } from '../../CustomToast';
 
 export default function ExpenseForm() {
   const params = useParams();
@@ -63,7 +64,11 @@ export default function ExpenseForm() {
 
         console.log('Dados da despesa preparados:', expenseData);
         // await api.post('/expenses', expenseData);
-        alert('Despesa adicionada com sucesso!');
+        customToast(
+          'Nova despesa',
+          'Despesa adicionada com sucesso!',
+          'success'
+        );
       } catch (err) {
         console.error(err);
         alert(`Erro: ${err.message}`);
