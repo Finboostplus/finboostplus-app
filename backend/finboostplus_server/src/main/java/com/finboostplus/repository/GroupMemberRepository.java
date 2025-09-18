@@ -39,7 +39,7 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
 
 
     @Query(nativeQuery = true, value = """
-        SELECT u.user_name FROM users u
+        SELECT u.id, u.user_name, gm.auth_level as authority FROM users u
         inner join group_members gm
         on gm.user_id = u.id
         WHERE gm.group_id = :groupId
