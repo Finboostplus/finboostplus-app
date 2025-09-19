@@ -175,7 +175,7 @@ public class UserService implements UserDetailsService {
             throw new GroupNotFoundException("Grupo não encontrado");
         }
 
-        if (userRepository.isUserAndGroupAndAuthorityValidToUpdateGroup(user.getId(), group.getId()) < 0) {
+        if (!groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateOrDeleteGroup(user.getId(), group.getId())) {
             throw new ForbiddenResourceException("Usuário não tem permissão para realizar essa operação");
         } else if (!groupMemberService.isUserMemberOfGroup(newUserAuth.getId(), group.getId())) {
             throw new UserNotFoundException("Usuário não pertence a este grupo");
