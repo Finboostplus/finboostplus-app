@@ -268,11 +268,39 @@ public class ExpenseService {
                         expenseRepository.setPaidExpense(expenseId, "UNPAID");
                 }
 
-                boolean isExpensePaid = expenseRepository.isExpensePaid(expenseId);
+                boolean isExpensePaid = userExpenseDivisionRepository.isExpensePaid(expenseId);
                 if (isExpensePaid == false) {
                         expenseRepository.setPaidExpense(expenseId, "PAID");
                 }
 
                 return (userExpenseDivisionRepository.save(userExpenseDivision) != null ? true : false);
+        }
+
+        @Transactional
+        public void deleteExpense(Long expenseId, Long groupId) {
+                String username = userService.authenticated();
+                Optional<User> onwerUser = userRepository.findByEmailIgnoreCase(username);
+                if (onwerUser.isEmpty()) {
+                        throw new UserNotFoundException("Usuário não encontrado");
+                }
+
+                Group group = groupService.getGroup(groupId);
+                if (group == null) {
+                        throw new GroupNotFoundException("Grupo não encontrado");
+                }
+                Long onwerUserId = onwerUser.get().getId();
+
+                boolean isOwner = groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateOrDeleteGroup(
+                                onwerUserId, groupId);
+                if (isOwner == false)
+                        throw new ForbiddenResourceException(
+                                        "Usuário não possui autoridade para deletar a despesa");
+
+                Expense expense = expenseRepository.findById(expenseId)
+                                .orElseThrow(() -> new ExpenseNotFoundException("Despesa não encontrada"));
+
+                // boolean isExpensePaid = expenseRepository.isExpensePaid(expenseId);
+                userExpenseDivisionRepository.deleteExpenseById(expenseId);
+                expenseRepository.deleteExpenseById(expenseId);
         }
 }

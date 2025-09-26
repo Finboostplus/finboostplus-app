@@ -36,4 +36,20 @@ public interface UserExpenseDivisionRepository extends JpaRepository<UserExpense
                         )
                         """)
         boolean existsByUserIdAndExpenseId(Long userId, Long expenseId);
+
+        @Modifying
+        @Query(value = """
+                        DELETE FROM user_expense_divisions ued
+                        WHERE expense_id = :expenseId
+                        """, nativeQuery = true)
+        void deleteExpenseById(@Param("expenseId") Long expenseId);
+
+        @Query(value = """
+                        SELECT EXISTS(
+                           SELECT 1
+                              FROM user_expense_divisions e WHERE e.expense_id = :expenseId AND (e.status = 'PENDING' OR e.status = 'UNPAID')
+                           )
+                        """, nativeQuery = true)
+        boolean isExpensePaid(Long expenseId);
+
 }
