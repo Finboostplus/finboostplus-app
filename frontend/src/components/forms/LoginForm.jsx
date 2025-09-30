@@ -34,6 +34,7 @@ export default function LoginForm() {
             id="email"
             name="email"
             type="email"
+            autoComplete="email"
             defaultValue={values.email || ''}
             placeholder="Digite seu email"
             required
@@ -49,6 +50,7 @@ export default function LoginForm() {
             id="password"
             name="password"
             type="password"
+            autoComplete="current-password"
             defaultValue={values.password || ''}
             placeholder="Digite sua senha"
             required
