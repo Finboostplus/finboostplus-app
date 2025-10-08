@@ -23,107 +23,116 @@ import lombok.Data;
 @SequenceGenerator(name = "seq_user", sequenceName = "seq_user", allocationSize = 1, initialValue = 1)
 public class User implements UserDetails {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @Column(name = "user_name", nullable = false)
-    private String name;
-    @Column(name = "e_mail", nullable = false, unique = true)
-    private String email;
+        @Column(name = "user_name", nullable = false)
+        private String name;
+        @Column(name = "e_mail", nullable = false, unique = true)
+        private String email;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+        @Column(name = "password", nullable = false)
+        private String password;
 
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+        @Column(name = "created_at", nullable = false)
+        private Instant createdAt;
 
-    @Column(name = "theme_color", nullable = false)
-    private String themeColor;
+        @Column(name = "theme_color", nullable = false)
+        private String themeColor;
 
-    @ManyToMany
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+        @Column(name = "active", nullable = false)
+        private boolean active;
 
-    //
-    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
-    // private Set<MemberGroup> memberGroups = new HashSet<>();
+        @ManyToMany
+        @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+        private Set<Role> roles = new HashSet<>();
 
-    public User(String name, String email, String password, String themeColor) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.themeColor = themeColor;
-        this.createdAt = Instant.now();
-    }
+        //
+        // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
+        // private Set<MemberGroup> memberGroups = new HashSet<>();
 
-    public static User dtoToUser(UserCreateDTO dto) {
-
-        return new User(dto.name(), dto.email(), dto.password(), dto.themeColor());
-    }
-
-    public void addRole(Role role) {
-        roles.add(role);
-    }
-
-    public boolean hasRole(String roleName) {
-        for (Role role : roles) {
-            if (role.getAuthority().equals(roleName)) {
-                return true;
-            }
+        public User(String name, String email, String password, String themeColor) {
+                this.name = name;
+                this.email = email;
+                this.password = password;
+                this.themeColor = themeColor;
+                this.createdAt = Instant.now();
+                this.active = false;
         }
-        return false;
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        public static User dtoToUser(UserCreateDTO dto) {
 
-        User user = (User) o;
+                return new User(dto.name(), dto.email(), dto.password(), dto.themeColor());
+        }
 
-        return Objects.equals(id, user.id);
-    }
+        public void addRole(Role role) {
+                roles.add(role);
+        }
 
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
+        public boolean hasRole(String roleName) {
+                for (Role role : roles) {
+                        if (role.getAuthority().equals(roleName)) {
+                                return true;
+                        }
+                }
+                return false;
+        }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
+        @Override
+        public boolean equals(Object o) {
+                if (this == o)
+                        return true;
+                if (o == null || getClass() != o.getClass())
+                        return false;
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
+                User user = (User) o;
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
+                return Objects.equals(id, user.id);
+        }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+        @Override
+        public int hashCode() {
+                return id != null ? id.hashCode() : 0;
+        }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+        @Override
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+                return roles;
+        }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+        @Override
+        public String getPassword() {
+                return password;
+        }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+        @Override
+        public String getUsername() {
+                return email;
+        }
+
+        @Override
+        public boolean isAccountNonExpired() {
+                return true;
+        }
+
+        @Override
+        public boolean isAccountNonLocked() {
+                return true;
+        }
+
+        @Override
+        public boolean isCredentialsNonExpired() {
+                return true;
+        }
+
+        @Override
+        public boolean isEnabled() {
+                return this.active;
+        }
+
+        // @Override
+        // public boolean isActive() {
+        //         return active;
+        // }
 }
