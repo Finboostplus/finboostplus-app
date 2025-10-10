@@ -103,6 +103,7 @@ public class UserService implements UserDetailsService {
                                                                                                                                   // assim
                                                 + validateUser.getUuid());
                 ;
+                System.out.print(validateUser.getUuid()); // Ajuda para ativar o usuário cadastrado
                 return userSaved.getId() != null;
         }
 
@@ -180,7 +181,6 @@ public class UserService implements UserDetailsService {
                 User user = userRepository.findByEmailIgnoreCase(userName)
                                 .orElseThrow(() -> new UserNotFoundException("Usuário nao encontrado"));
                 String newPassword = PasswordGenerator.generateRandomPassword();
-                System.out.println(newPassword);
                 emailService.enviarEmailTexto(user.getEmail(),
                                 "Esqueceu sua senha?",
                                 "Olá " + user.getName() + " sua nova senha é " + newPassword);

@@ -16,6 +16,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -176,4 +178,13 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                            )
                         """, nativeQuery = true)
         boolean isExpensePaid(Long expenseId);
+
+        @Query(value = """
+                        SELECT * FROM expenses
+                        WHERE deadline_date BETWEEN :creatAt AND :deadlineDate
+                        AND status != 'PAID'
+                        """, nativeQuery = true)
+        List<Expense> findByExpirationDateBetween(
+                        @Param("creatAt") Instant creatAt,
+                        @Param("deadlineDate") LocalDate deadlineDate);
 }
