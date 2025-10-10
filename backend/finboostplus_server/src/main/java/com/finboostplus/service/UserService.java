@@ -53,6 +53,7 @@ public class UserService implements UserDetailsService {
     @Autowired
     @Lazy
     GroupMemberService groupMemberService;
+    private EmailService emailService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -68,7 +69,6 @@ public class UserService implements UserDetailsService {
         for (UserDetailsProjection projection : result) {
             user.addRole(new Role(projection.getRoleId(), projection.getAuthority()));
         }
-
         return user;
     }
 
@@ -85,6 +85,9 @@ public class UserService implements UserDetailsService {
         roles.add(role);
         user.setRoles(roles);
         User userSaved = userRepository.save(user);
+        emailService.enviarEmailTexto(userSaved.getEmail(),
+                "Conta criada com sucesso!",
+                "Seja bem vindo(a) "+userSaved.getName()+" ao FinboostPlus!");
         return userSaved.getId() != null;
     }
 
