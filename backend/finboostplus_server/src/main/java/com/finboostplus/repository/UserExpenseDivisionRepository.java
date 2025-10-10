@@ -1,10 +1,14 @@
 package com.finboostplus.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import com.finboostplus.model.User;
 import com.finboostplus.model.UserExpenseDivision;
 
 @Repository
@@ -36,4 +40,10 @@ public interface UserExpenseDivisionRepository extends JpaRepository<UserExpense
                         )
                         """)
         boolean existsByUserIdAndExpenseId(Long userId, Long expenseId);
+
+        @Query(nativeQuery = true, value = """
+                        SELECT * from users WHERE id in
+                                ( SELECT user_id from user_expense_divisions WHERE expense_id = :expenseId AND status != 'PAID' )
+                                """)
+        List<User> findByExpenseId(Long expenseId);
 }
