@@ -1,6 +1,7 @@
 package com.finboostplus.controller;
 
 import com.finboostplus.DTO.ExpenseCreateDTO;
+import com.finboostplus.DTO.ExpenseDivDTO;
 import com.finboostplus.DTO.ExpenseUpdateDTO;
 import com.finboostplus.enums.Status;
 import com.finboostplus.model.UserExpenseDivision;
@@ -67,4 +68,14 @@ public class ExpenseController {
                 }
                 return ResponseEntity.badRequest().body("Não foi possivel atualizar o status da despesa");
         }
+    @GetMapping("{expenseId}")
+    public ResponseEntity<Object> getDetailsExpense(@PathVariable Long groupId,
+                                                    @PathVariable Long expenseId){
+
+        ExpenseDivDTO expenseDivDTO = expenseService.getDetailsExpense(groupId,expenseId);
+        if(expenseDivDTO != null){
+            return  ResponseEntity.ok(expenseDivDTO);
+        }
+        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("Despesa não encontrada");
+    }
 }
