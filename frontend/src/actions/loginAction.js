@@ -1,6 +1,7 @@
 // src/routes/loginAction.js
 import { loginUserFormSchema } from '../schemas/loginUser/form';
 import { z } from 'zod';
+import { login } from '../services/auth';
 
 export const loginAction = async ({ request }) => {
   const form = await request.formData();
@@ -25,6 +26,8 @@ export const loginAction = async ({ request }) => {
 
     return { success, errors, value: data };
   }
+  login(data.email, data.password);
   /* Se não ocorreu nenhum erro */
-  console.log(data);
+  console.log('login data', data);
+  return { success, data };
 };

@@ -1,5 +1,6 @@
 import { registerUserFormSchema } from '../schemas/registerUser/form';
 import { z } from 'zod';
+import { register } from '../services/auth';
 
 export const registerAction = async ({ request }) => {
   const form = await request.formData();
@@ -32,10 +33,20 @@ export const registerAction = async ({ request }) => {
     };
     // Utilizar console.log para debug:
     // console.log(data);
+    const newUser = {
+      name: data.fullName,
+      email: data.email,
+      password: data.password,
+      themeColor: '#FFF',
+    };
+
+    register(newUser);
     return {
       success,
       data: notification,
-      value: 'Agora você já pode acessar sua conta e começar a organizar suas finanças.',
+      value:
+        'Agora você já pode acessar sua conta e começar a organizar suas finanças.',
     };
   }
 };
+

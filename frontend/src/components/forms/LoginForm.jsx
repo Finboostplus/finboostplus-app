@@ -4,10 +4,12 @@ import InputUI from '../ui/Input';
 import { Menu, MenuItem } from '@headlessui/react';
 import { useEffect } from 'react';
 import { customToast } from '../CustomToast';
+import { useNavigate } from 'react-router';
 
 export default function LoginForm() {
   const actionData = useActionData();
   const values = actionData?.values || {};
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (actionData?.errors) {
@@ -17,7 +19,11 @@ export default function LoginForm() {
         'error'
       );
     }
-  }, [actionData]);
+    console.log('actionData', actionData);
+    if (actionData?.success) {
+      navigate('/');
+    }
+  }, [actionData, navigate]);
 
   return (
     <section className="w-full max-w-md mx-auto">
