@@ -18,6 +18,9 @@ services:
             - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
             - SPRING_MAIL_USERNAME=${MENSAGERIE_EMAIL}
             - SPRING_MAIL_PASSWORD=${MENSAGERIE_PASSWORD}
+            - SPRING_CLIENT_ID=${CLIENT_ID}
+            - SPRING_CLIENT_SECRET=${CLIENT_SECRET}
+            - CORS_ORIGINS=${CORS_ORIGINS}
     db:
         image: postgres
         restart: always
