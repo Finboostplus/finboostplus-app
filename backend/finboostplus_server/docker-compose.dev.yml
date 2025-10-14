@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - 8080:8080
+      env_file:
+      - .env
     depends_on:
       db:
         condition: service_healthy
@@ -15,8 +17,10 @@ services:
     environment:
       # Variáveis de conexão (application.properties usa placeholders)
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/finboostplus
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=1234
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_MAIL_USERNAME=${MENSAGERIE_EMAIL}
+      - SPRING_MAIL_PASSWORD=${MENSAGERIE_PASSWORD}
       # Ajuste CORS adicional se necessário
       - CORS_ORIGINS=http://localhost:3000,http://localhost:5173
     # Opcional: definir perfil
@@ -28,8 +32,8 @@ services:
       - db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=finboostplus
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=1234
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - 5432:5432
     healthcheck:
