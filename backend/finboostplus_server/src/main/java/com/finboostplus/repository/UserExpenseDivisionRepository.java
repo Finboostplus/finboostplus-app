@@ -13,21 +13,15 @@ import com.finboostplus.model.UserExpenseDivision;
 
 @Repository
 public interface UserExpenseDivisionRepository extends JpaRepository<UserExpenseDivision, Long> {
-        @Modifying
-        @Query(value = """
-                        DELETE FROM user_expense_divisions
-                        WHERE user_id = :memberId
-                        """, nativeQuery = true)
-        void deleteExpenseRelationByMemberId(@Param("memberId") Long groupId);
 
         @Query(nativeQuery = true, value = """
-                           SELECT EXISTS(
-                                SELECT 1 from user_expense_divisions
-                                where user_id = :memberId and
-                                (status = 'UNPAID' or status = 'PENDING')
-                           )
+                        SELECT EXISTS(
+                             SELECT 1 from user_expense_divisions
+                             where user_id = :memberId and
+                             (status = 'UNPAID' or status = 'PENDING')
+                        )
                         """)
-        boolean hasUserAnyExpense(long memberId);
+        boolean hasAnyUserExpense(long memberId);
 
         @Query(nativeQuery = true, value = """
                         SELECT * FROM user_expense_divisions WHERE user_id = :userId AND expense_id = :expenseId
@@ -45,5 +39,12 @@ public interface UserExpenseDivisionRepository extends JpaRepository<UserExpense
                         SELECT * from users WHERE id in
                                 ( SELECT user_id from user_expense_divisions WHERE expense_id = :expenseId AND status != 'PAID' )
                                 """)
-        List<User> findByExpenseId(Long expenseId);
+        List<User> findUserByExpenseId(Long expenseId);
+
+        @Modifying
+        @Query(nativeQuery = true, value = """
+                        DELETE FROM user_expense_divisions
+                        WHERE user_id = :memberId
+                        """)
+        void deleteExpenseRelationByMemberId(@Param("memberId") Long userId);
 }

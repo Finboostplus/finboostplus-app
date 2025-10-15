@@ -15,6 +15,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.finboostplus.DTO.*;
@@ -72,7 +73,9 @@ public class ExpenseService {
         public List<ExpenseProjection> listExpenseDTOGroupById(Long groupId) {
 
                 String userName = userService.authenticated();
-                User user = userService.getUser(userName);
+                User user = userRepository
+                                .findByEmailIgnoreCase(userService.authenticated())
+                                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
                 Group group = groupService.getGroup(groupId);
                 List<ExpenseProjection> expenseProjections = null;
                 if (user != null && group != null) {
@@ -276,35 +279,39 @@ public class ExpenseService {
 
                 return (userExpenseDivisionRepository.save(userExpenseDivision) != null ? true : false);
         }
-    public ExpenseDivDTO getDetailsExpense(Long groupId , Long expenseId){
 
-        String userName = userService.authenticated();
-        User user = userRepository.findByEmailIgnoreCase(userName)
-                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+        public ExpenseDivDTO getDetailsExpense(Long groupId, Long expenseId) {
 
-        boolean hasAuthority = groupMemberRepository
-                .isUserOnwerOrAdmin(user.getId(), groupId, authLevels);
-        if (!hasAuthority) {
-            throw new ForbiddenResourceException("Usuário não tem permissão para visualizar detelhes da despesa");
+                String userName = userService.authenticated();
+                User user = userRepository.findByEmailIgnoreCase(userName)
+                                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+
+                boolean hasAuthority = groupMemberRepository
+                                .isUserOnwerOrAdmin(user.getId(), groupId, authLevels);
+                if (!hasAuthority) {
+                        throw new ForbiddenResourceException(
+                                        "Usuário não tem permissão para visualizar detelhes da despesa");
+                }
+
+                Group group = groupRepository.findById(groupId)
+                                .orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
+
+                Expense expense = expenseRepository.findById(expenseId).orElseThrow(
+                                () -> new ForbiddenResourceException("Despesa nao encontrada"));
+
+                List<UserExpenseDivisionProjection> listUsarios = expenseRepository
+                                .listUsersExpenseDivision(group.getId(), expenseId);
+
+                ExpenseDivDTO expenseDivDTO = new ExpenseDivDTO(expense.getId(), expense.getTitle(),
+                                expense.getDescription(), expense.getStatus(), expense.getValue(), listUsarios);
+                if (expenseDivDTO == null) {
+                        throw new ExpenseNotFoundException("Despesa não localizada");
+
+                } else {
+                        listUsarios = expenseRepository.listUsersExpenseDivision(group.getId(), expenseId);
+
+                        return expenseDivDTO;
+                }
+
         }
-
-        Group group = groupRepository.findById(groupId).
-                orElseThrow(()-> new GroupNotFoundException("Grupo não encontrado"));
-
-        Expense expense = expenseRepository.findById(expenseId).orElseThrow(
-                ()-> new ForbiddenResourceException("Despesa nao encontrada"));
-
-        List<UserExpenseDivisionProjection> listUsarios = expenseRepository.listUsersExpenseDivision(group.getId(),expenseId);
-
-        ExpenseDivDTO expenseDivDTO = new ExpenseDivDTO(expense.getId(),expense.getTitle(),expense.getDescription(),expense.getStatus(),expense.getValue(), listUsarios );
-        if (expenseDivDTO == null){
-            throw  new ExpenseNotFoundException("Despesa não localizada");
-
-        }else{
-            listUsarios = expenseRepository.listUsersExpenseDivision(group.getId(),expenseId);
-
-            return expenseDivDTO;
-        }
-
-    }
 }

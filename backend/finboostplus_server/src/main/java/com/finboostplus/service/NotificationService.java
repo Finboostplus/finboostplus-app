@@ -21,7 +21,7 @@ public class NotificationService {
         private UserExpenseDivisionRepository userExpenseDivisionRepository;
 
         public void notifyExpenseExpiring(Expense expense) {
-                List<User> users = userExpenseDivisionRepository.findByExpenseId(expense.getId());
+                List<User> users = userExpenseDivisionRepository.findUserByExpenseId(expense.getId());
                 long daysUntilExpiration = ChronoUnit.DAYS.between(
                                 LocalDate.now(),
                                 expense.getDeadlineDate());

@@ -1,5 +1,19 @@
 package com.finboostplus.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.finboostplus.DTO.UserCreateDTO;
 import com.finboostplus.DTO.UserUpdateDTO;
 import com.finboostplus.config.TokenRevocationUtil;
@@ -7,26 +21,14 @@ import com.finboostplus.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
-import org.springframework.web.bind.annotation.*;
-
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/user")
@@ -70,51 +72,6 @@ public class UserController {
                         return new ResponseEntity<>("Cadastro feito com sucesso!", HttpStatus.CREATED);
                 }
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        @PreAuthorize("hasRole('USER')")
-        @GetMapping("/whoareyou")
-        @Operation(summary = "Verificar usuário logado", description = """
-                        Retorna informações do usuário atualmente autenticado no sistema.
-
-                        Este endpoint é protegido e requer autenticação JWT válida.
-                        Útil para verificar se o token está válido e obter dados do usuário logado.
-                        """, security = @SecurityRequirement(name = "bearerAuth"))
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "Informações do usuário logado", content = @Content(mediaType = "text/plain", schema = @Schema(type = "string"), examples = @ExampleObject(value = "O usuário logado possui o e-mail: joao.silva@email.com"))),
-                        @ApiResponse(responseCode = "401", description = "Token JWT inválido ou expirado"),
-                        @ApiResponse(responseCode = "403", description = "Acesso negado - Role USER necessária")
-        })
-        public String getReturnAuthorized() {
-                return authenticated();
-        }
-
-        @PreAuthorize("hasRole('OWNER')")
-        @GetMapping("/no")
-        @Operation(summary = "Endpoint restrito (Demo)", description = """
-                        Endpoint de demonstração que requer role OWNER.
-
-                        Este endpoint serve como exemplo de controle de acesso granular,
-                        onde apenas usuários com role 'OWNER' podem acessar.
-                        """, security = @SecurityRequirement(name = "bearerAuth"))
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "Acesso autorizado para OWNER", content = @Content(mediaType = "text/plain", schema = @Schema(type = "string"), examples = @ExampleObject(value = "Acesso autorizado!"))),
-                        @ApiResponse(responseCode = "401", description = "Token JWT inválido ou expirado"),
-                        @ApiResponse(responseCode = "403", description = "Acesso negado - Role OWNER necessária")
-        })
-        public String getReturnNotAuthorized() {
-                return "Aqui não está autorizado!";
-        }
-
-        private String authenticated() {
-                try {
-                        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                        Jwt jwtPrincipal = (Jwt) authentication.getPrincipal();
-                        return jwtPrincipal.getClaim("username");
-                } catch (Exception e) {
-                        throw new UsernameNotFoundException("Não foi encontrado o usuário");
-                }
-
         }
 
         @PreAuthorize("hasRole('USER')")
@@ -167,7 +124,7 @@ public class UserController {
                                                         }
                                                         """)
                         })) @Valid @RequestBody UserUpdateDTO dto) {
-                boolean userIsSaved = userService.updateUser(authenticated(), dto);
+                boolean userIsSaved = userService.updateUser(dto);
                 if (userIsSaved) {
                         TokenRevocationUtil.revokeCurrentUserTokens(authorizationService);
                         return new ResponseEntity<>(HttpStatus.OK);
@@ -175,6 +132,7 @@ public class UserController {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
+        @PreAuthorize("hasRole('USER')")
         @DeleteMapping
         public ResponseEntity<Void> deleteProfile() {
                 userService.deleteCurrentUserProfile();
@@ -187,6 +145,9 @@ public class UserController {
                 userService.forgotPassword(userName);
                 return ResponseEntity.noContent().build();
         }
+
+        // @PreAuthorize("hasRole('USER')")
+        // changePassword
 
         @GetMapping(value = "/userValidate/{uuid}")
         public String validateUser(@PathVariable("uuid") String uuid) {
