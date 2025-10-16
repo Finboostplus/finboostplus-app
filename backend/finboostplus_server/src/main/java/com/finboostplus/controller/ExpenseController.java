@@ -68,6 +68,12 @@ public class ExpenseController {
                 }
                 return ResponseEntity.badRequest().body("Não foi possivel atualizar o status da despesa");
         }
+
+        @DeleteMapping("{expenseId}")
+        public ResponseEntity<Void> deleteExpense(@PathVariable Long expenseId, @PathVariable Long groupId) {
+                expenseService.deleteExpense(expenseId, groupId);
+                return ResponseEntity.noContent().build();
+        }
     @GetMapping("{expenseId}")
     public ResponseEntity<Object> getDetailsExpense(@PathVariable Long groupId,
                                                     @PathVariable Long expenseId){

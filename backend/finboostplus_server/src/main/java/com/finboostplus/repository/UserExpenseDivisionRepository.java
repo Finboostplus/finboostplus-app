@@ -13,6 +13,12 @@ import com.finboostplus.model.UserExpenseDivision;
 
 @Repository
 public interface UserExpenseDivisionRepository extends JpaRepository<UserExpenseDivision, Long> {
+        @Modifying
+        @Query(value = """
+                        DELETE FROM user_expense_divisions
+                        WHERE user_id = :memberId
+                        """, nativeQuery = true)
+        void deleteExpenseRelationByMemberId(@Param("memberId") Long groupId);
 
         @Query(nativeQuery = true, value = """
                         SELECT EXISTS(
@@ -21,7 +27,7 @@ public interface UserExpenseDivisionRepository extends JpaRepository<UserExpense
                              (status = 'UNPAID' or status = 'PENDING')
                         )
                         """)
-        boolean hasAnyUserExpense(long memberId);
+        boolean hasUserAnyExpense(long memberId);
 
         @Query(nativeQuery = true, value = """
                         SELECT * FROM user_expense_divisions WHERE user_id = :userId AND expense_id = :expenseId
@@ -34,6 +40,22 @@ public interface UserExpenseDivisionRepository extends JpaRepository<UserExpense
                         )
                         """)
         boolean existsByUserIdAndExpenseId(Long userId, Long expenseId);
+
+        @Modifying
+        @Query(value = """
+                        DELETE FROM user_expense_divisions ued
+                        WHERE expense_id = :expenseId
+                        """, nativeQuery = true)
+        void deleteExpenseById(@Param("expenseId") Long expenseId);
+
+        @Query(value = """
+                        SELECT EXISTS(
+                           SELECT 1
+                              FROM user_expense_divisions e WHERE e.expense_id = :expenseId AND (e.status = 'PENDING' OR e.status = 'UNPAID')
+                           )
+                        """, nativeQuery = true)
+        boolean isExpensePaid(Long expenseId);
+
 
         @Query(nativeQuery = true, value = """
                         SELECT * from users WHERE id in

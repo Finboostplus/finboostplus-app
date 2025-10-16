@@ -5,7 +5,6 @@ import com.finboostplus.exception.*;
 import com.finboostplus.model.*;
 import com.finboostplus.projection.ExpenseProjection;
 import com.finboostplus.projection.GroupExpenseProjection;
-import com.finboostplus.projection.UserExpenseDivisionProjection;
 import com.finboostplus.repository.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,7 +14,6 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.finboostplus.DTO.*;
@@ -280,38 +278,31 @@ public class ExpenseService {
                 return (userExpenseDivisionRepository.save(userExpenseDivision) != null ? true : false);
         }
 
-        public ExpenseDivDTO getDetailsExpense(Long groupId, Long expenseId) {
+        @Transactional
+        public void deleteExpense(Long expenseId, Long groupId) {
+                String username = userService.authenticated();
+                Optional<User> onwerUser = userRepository.findByEmailIgnoreCase(username);
+                if (onwerUser.isEmpty()) {
+                        throw new UserNotFoundException("Usuário não encontrado");
+                }
 
-                String userName = userService.authenticated();
-                User user = userRepository.findByEmailIgnoreCase(userName)
-                                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+                Group group = groupService.getGroup(groupId);
+                if (group == null) {
+                        throw new GroupNotFoundException("Grupo não encontrado");
+                }
+                Long onwerUserId = onwerUser.get().getId();
 
-                boolean hasAuthority = groupMemberRepository
-                                .isUserOnwerOrAdmin(user.getId(), groupId, authLevels);
-                if (!hasAuthority) {
+                boolean isOwner = groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateOrDeleteGroup(
+                                onwerUserId, groupId);
+                if (isOwner == false)
                         throw new ForbiddenResourceException(
-                                        "Usuário não tem permissão para visualizar detelhes da despesa");
-                }
+                                        "Usuário não possui autoridade para deletar a despesa");
 
-                Group group = groupRepository.findById(groupId)
-                                .orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
+                Expense expense = expenseRepository.findById(expenseId)
+                                .orElseThrow(() -> new ExpenseNotFoundException("Despesa não encontrada"));
 
-                Expense expense = expenseRepository.findById(expenseId).orElseThrow(
-                                () -> new ForbiddenResourceException("Despesa nao encontrada"));
-
-                List<UserExpenseDivisionProjection> listUsarios = expenseRepository
-                                .listUsersExpenseDivision(group.getId(), expenseId);
-
-                ExpenseDivDTO expenseDivDTO = new ExpenseDivDTO(expense.getId(), expense.getTitle(),
-                                expense.getDescription(), expense.getStatus(), expense.getValue(), listUsarios);
-                if (expenseDivDTO == null) {
-                        throw new ExpenseNotFoundException("Despesa não localizada");
-
-                } else {
-                        listUsarios = expenseRepository.listUsersExpenseDivision(group.getId(), expenseId);
-
-                        return expenseDivDTO;
-                }
-
+                // boolean isExpensePaid = expenseRepository.isExpensePaid(expenseId);
+                userExpenseDivisionRepository.deleteExpenseById(expenseId);
+                expenseRepository.deleteExpenseById(expenseId);
         }
 }

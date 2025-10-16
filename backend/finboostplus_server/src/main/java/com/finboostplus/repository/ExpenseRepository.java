@@ -8,6 +8,7 @@ import com.finboostplus.model.Group;
 import com.finboostplus.projection.ExpenseProjection;
 import com.finboostplus.projection.GroupExpenseProjection;
 import com.finboostplus.projection.UserExpenseDivisionProjection;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
+import com.finboostplus.model.Expense;
 
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
@@ -192,6 +194,13 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                            )
                         """, nativeQuery = true)
         boolean isExpensePaid(Long expenseId);
+
+        @Modifying
+        @Query(value = """
+                        DELETE FROM expenses
+                        WHERE id = :expenseId
+                        """, nativeQuery = true)
+        void deleteExpenseById(@Param("expenseId") Long expenseId);
 
         @Query(value = """
                         SELECT * FROM expenses
