@@ -33,9 +33,16 @@ export default function Modal({ children, isOpen, setIsOpen, fnClose }) {
     }
     revalidator.revalidate();
   }, [actionData]);
+
+  function handleClose() {
+    const answer = confirm('Você realmente deseja fechar o modal?');
+    if (!answer) return;
+    fnClose();
+  }
+
   return (
     <Transition show={isOpen} as={Fragment}>
-      <Dialog onClose={fnClose} className="fixed z-50 inset-0">
+      <Dialog onClose={handleClose} className="fixed z-50 inset-0">
         <div className="fixed inset-0 flex items-center justify-center p-4">
           {/* BACKDROP COM ANIMAÇÃO */}
           <TransitionChild
@@ -71,13 +78,13 @@ export default function Modal({ children, isOpen, setIsOpen, fnClose }) {
             >
               <ButtonUI
                 title="×"
-                fnClick={fnClose}
+                fnClick={handleClose}
                 className="text-3xl font-extrabold text-white bg-[var(--color-error)] 
                            w-10 h-10 rounded-lg absolute top-3 right-3 opacity-80 
                            hover:opacity-100 transition-opacity cursor-pointer shadow-md flex justify-center"
                 ariaLabel="Fechar modal"
               />
-              {children}
+              <div className="p-6 sm:p-8">{children}</div>
             </DialogPanel>
           </TransitionChild>
         </div>

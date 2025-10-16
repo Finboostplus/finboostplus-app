@@ -10,8 +10,12 @@ import ActiveGroups from './ActiveGroups';
 import StatBox, { FavoriteCategory } from './Stats';
 import userData from '../../mockData/user/user.data';
 import { formatBRL } from '../../utils/formatters';
+import Modal from '../../components/ModalButton/Modal';
+import { useState } from 'react';
+import ProfileContent from './ProfileContent';
 
 export default function Profile() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const current_user = userData;
 
   return (
@@ -62,6 +66,7 @@ export default function Profile() {
           <ActionButton
             icon={<FaEdit className="text-primary" />}
             label="Editar Perfil"
+            onClick={() => setIsModalOpen(true)}
           />
           <ActionButton
             icon={<FaQuestionCircle className="text-primary" />}
@@ -73,13 +78,24 @@ export default function Profile() {
           />
         </div>
       </section>
+      <Modal
+        fnClose={() => setIsModalOpen(false)}
+        isOpen={isModalOpen}
+        children={
+          <ProfileContent
+            current_user={current_user}
+            setIsModalOpen={setIsModalOpen}
+          />
+        }
+      />
     </main>
   );
 }
 
-function ActionButton({ icon, label }) {
+function ActionButton({ icon, label, onClick }) {
   return (
     <ButtonUI
+      fnClick={onClick}
       icon={icon}
       type="button"
       title={label}

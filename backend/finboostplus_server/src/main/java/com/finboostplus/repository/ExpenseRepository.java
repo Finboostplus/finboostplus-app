@@ -7,6 +7,7 @@ import com.finboostplus.model.Expense;
 import com.finboostplus.model.Group;
 import com.finboostplus.projection.ExpenseProjection;
 import com.finboostplus.projection.GroupExpenseProjection;
+import com.finboostplus.projection.UserExpenseDivisionProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -161,6 +164,19 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                         """, nativeQuery = true)
         boolean memberHasPendingExpenses(Long memberId, Long groupId);
 
+    @Query(value = """
+           SELECT ud.user_id as userId, 
+                 u.user_name as UserName ,
+           	   ud.partial_value as partialValue,
+           	   ud.status
+           FROM expenses e
+           INNER JOIN user_expense_divisions ud
+           ON e.id = ud.expense_id
+           INNER JOIN users u
+           ON u.id = ud.user_id
+           where e.group_id =:groupId and e.id =:expenseId;
+           """, nativeQuery = true)
+    List<UserExpenseDivisionProjection> listUsersExpenseDivision(Long groupId, Long expenseId);
         @Query(value = """
                         SELECT EXISTS(
                            SELECT 1
@@ -176,4 +192,13 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                            )
                         """, nativeQuery = true)
         boolean isExpensePaid(Long expenseId);
+
+        @Query(value = """
+                        SELECT * FROM expenses
+                        WHERE deadline_date BETWEEN :creatAt AND :deadlineDate
+                        AND status != 'PAID'
+                        """, nativeQuery = true)
+        List<Expense> findByExpirationDateBetween(
+                        @Param("creatAt") Instant creatAt,
+                        @Param("deadlineDate") LocalDate deadlineDate);
 }

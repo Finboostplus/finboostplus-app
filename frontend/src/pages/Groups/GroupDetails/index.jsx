@@ -23,14 +23,21 @@ export default function GroupDetails() {
   return (
     <div className="flex flex-col min-h-screen bg-neutral font-principal transition-colors">
       <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 overflow-auto">
-        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-          <h1
-            className="text-2xl sm:text-3xl font-semibold text-text"
-            role="heading"
-            aria-level="1"
-          >
-            {group.name}
-          </h1>
+        {/* Título principal */}
+        <header className="flex flex-col-reverse sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+          <div className="flex flex-col">
+            <h1
+              className="text-2xl sm:text-3xl font-semibold text-text"
+              role="heading"
+              aria-level="1"
+            >
+              {group.name}
+            </h1>
+            <p className="text-sm text-muted mt-1">
+              Visualize os saldos entre membros e acompanhe as despesas do
+              grupo.
+            </p>
+          </div>
           <div>
             <Menu>
               <MenuItem
@@ -38,15 +45,16 @@ export default function GroupDetails() {
                   ' cursor-pointer flex p-2 rounded-md items-center bg-primary/70 hover:bg-primary text-white max-sm:justify-center gap-2'
                 }
                 as="a"
+                title="Configurações do grupo"
                 href={`/groups/${group.id}/settings`}
               >
-                <FiSettings className="text-2xl text-white  cursor-pointer" />
-                Configurações
+                <FiSettings className="text-2xl text-white cursor-pointer" />
               </MenuItem>
             </Menu>
           </div>
         </header>
 
+        {/* Total do grupo */}
         <section
           className="bg-surface p-4 sm:p-6 rounded-lg shadow-md mb-8 flex flex-col items-center sm:items-start text-center sm:text-left transition-colors"
           aria-labelledby="group-total-heading"
@@ -68,6 +76,7 @@ export default function GroupDetails() {
             <p className="text-muted text-base sm:text-lg">acumulado do mês</p>
           </div>
 
+          {/* Botões Saldos / Despesas */}
           <div className="flex flex-col sm:flex-row gap-4 mt-6 w-full sm:w-auto">
             <ButtonUI
               fnClick={() => setShowBalances(true)}
@@ -86,6 +95,7 @@ export default function GroupDetails() {
           </div>
         </section>
 
+        {/* Listas */}
         {showBalances ? (
           <BalancesList group={group} />
         ) : (
@@ -93,6 +103,7 @@ export default function GroupDetails() {
         )}
       </main>
 
+      {/* Modal para adicionar despesas */}
       <ModalButton modalChildren={<Expenses />} />
     </div>
   );

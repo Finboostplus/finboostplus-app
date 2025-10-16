@@ -5,6 +5,7 @@ import com.finboostplus.exception.*;
 import com.finboostplus.model.*;
 import com.finboostplus.projection.ExpenseProjection;
 import com.finboostplus.projection.GroupExpenseProjection;
+import com.finboostplus.projection.UserExpenseDivisionProjection;
 import com.finboostplus.repository.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -275,4 +276,35 @@ public class ExpenseService {
 
                 return (userExpenseDivisionRepository.save(userExpenseDivision) != null ? true : false);
         }
+    public ExpenseDivDTO getDetailsExpense(Long groupId , Long expenseId){
+
+        String userName = userService.authenticated();
+        User user = userRepository.findByEmailIgnoreCase(userName)
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+
+        boolean hasAuthority = groupMemberRepository
+                .isUserOnwerOrAdmin(user.getId(), groupId, authLevels);
+        if (!hasAuthority) {
+            throw new ForbiddenResourceException("Usuário não tem permissão para visualizar detelhes da despesa");
+        }
+
+        Group group = groupRepository.findById(groupId).
+                orElseThrow(()-> new GroupNotFoundException("Grupo não encontrado"));
+
+        Expense expense = expenseRepository.findById(expenseId).orElseThrow(
+                ()-> new ForbiddenResourceException("Despesa nao encontrada"));
+
+        List<UserExpenseDivisionProjection> listUsarios = expenseRepository.listUsersExpenseDivision(group.getId(),expenseId);
+
+        ExpenseDivDTO expenseDivDTO = new ExpenseDivDTO(expense.getId(),expense.getTitle(),expense.getDescription(),expense.getStatus(),expense.getValue(), listUsarios );
+        if (expenseDivDTO == null){
+            throw  new ExpenseNotFoundException("Despesa não localizada");
+
+        }else{
+            listUsarios = expenseRepository.listUsersExpenseDivision(group.getId(),expenseId);
+
+            return expenseDivDTO;
+        }
+
+    }
 }

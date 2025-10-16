@@ -1,11 +1,12 @@
 // src/routes/loginAction.js
 import { loginUserFormSchema } from '../schemas/loginUser/form';
 import { z } from 'zod';
+import { login } from '../services/auth';
 
 export const loginAction = async ({ request }) => {
   const form = await request.formData();
   const formData = Object.fromEntries(form);
-  const { success, error, data } = loginUserFormSchema.safeParse(formData);
+  let { success, error, data } = loginUserFormSchema.safeParse(formData);
   if (!success) {
     const errors = {};
     if (error instanceof z.ZodError) {
@@ -26,5 +27,11 @@ export const loginAction = async ({ request }) => {
     return { success, errors, value: data };
   }
   /* Se não ocorreu nenhum erro */
-  console.log(data);
+  /* Logar aqui */
+  data = {
+    username: data.email,
+    password: data.password,
+  };
+  const response = await login(data);
+  return response;
 };
