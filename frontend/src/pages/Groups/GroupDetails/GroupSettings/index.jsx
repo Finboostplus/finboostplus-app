@@ -82,8 +82,8 @@ export default function GroupSettings() {
               rows={6}
               id="groupDescription"
               name="groupDescription"
-              placeholder="Digite a descrição do grupo."
-              className="w-full rounded-lg border border-muted px-4 py-3 text-text bg-surface focus:outline-none focus:ring-2 focus:ring-primary transition"
+              placeholder="Digite uma nova descrição para o grupo."
+              className="w-full resize-none rounded-lg border border-muted px-4 py-3 text-text bg-surface focus:outline-none focus:ring-2 focus:ring-primary transition"
             />
           </div>
         </section>
