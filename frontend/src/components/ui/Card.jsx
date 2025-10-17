@@ -1,3 +1,3 @@
-export default function CardUI({ className, children }) {
-  return <div className={className}>{children}</div>;
+export default function CardUI(props) {
+  return <div {...props}>{props.children}</div>;
 }

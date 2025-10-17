@@ -1,5 +1,7 @@
 import { registerUserFormSchema } from '../schemas/registerUser/form';
 import { z } from 'zod';
+import { register } from '../services/auth';
+import { getavatarBackgroundColorRandom } from '../mockData/colorsPallete/colors';
 
 export const registerAction = async ({ request }) => {
   const form = await request.formData();
@@ -31,11 +33,10 @@ export const registerAction = async ({ request }) => {
       message: 'Usuário cadastrado com sucesso!',
     };
     // Utilizar console.log para debug:
-    // console.log(data);
-    return {
-      success,
-      data: notification,
-      value: 'Agora você já pode acessar sua conta e começar a organizar suas finanças.',
-    };
+    delete data.terms;
+    delete data.confirmPassword;
+    data.themeColor = getavatarBackgroundColorRandom();
+    const response = await register(data);
+    return response;
   }
 };

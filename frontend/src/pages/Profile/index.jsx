@@ -11,7 +11,13 @@ import StatBox, { FavoriteCategory } from './Stats';
 import userData from '../../mockData/user/user.data';
 import { formatBRL } from '../../utils/formatters';
 
+import { useState } from 'react';
+import ProfileContent from './ProfileContent';
+import { Link } from 'react-router';
+import Modal from '../../components/Modal';
+
 export default function Profile() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const current_user = userData;
 
   return (
@@ -34,12 +40,14 @@ export default function Profile() {
 
       {/* Estatísticas */}
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-        <StatBox
-          number={current_user.groups.length}
-          label="Grupos"
-          color="border-b-4 border-primary"
-          icon={<FaUsers className="text-primary size-9" />}
-        />
+        <Link to={'/groups'} className="group">
+          <StatBox
+            number={current_user.groups.length}
+            label="Grupos"
+            color="border-b-4 border-primary group-hover:bg-muted/10"
+            icon={<FaUsers className="text-primary size-9" />}
+          />
+        </Link>
         <StatBox
           icon={<FaMoneyBillWave className="text-success size-9" />}
           number={formatBRL(current_user.dashboard.totalMonthlySpent)}
@@ -62,6 +70,7 @@ export default function Profile() {
           <ActionButton
             icon={<FaEdit className="text-primary" />}
             label="Editar Perfil"
+            onClick={() => setIsModalOpen(true)}
           />
           <ActionButton
             icon={<FaQuestionCircle className="text-primary" />}
@@ -73,17 +82,28 @@ export default function Profile() {
           />
         </div>
       </section>
+      <Modal
+        fnClose={() => setIsModalOpen(false)}
+        isOpen={isModalOpen}
+        children={
+          <ProfileContent
+            current_user={current_user}
+            setIsModalOpen={setIsModalOpen}
+          />
+        }
+      />
     </main>
   );
 }
 
-function ActionButton({ icon, label }) {
+function ActionButton({ icon, label, onClick }) {
   return (
     <ButtonUI
+      fnClick={onClick}
       icon={icon}
       type="button"
       title={label}
-      className="flex items-center gap-3 w-full p-4 rounded-xl border-l-4 border-primary bg-background hover:bg-muted cursor-pointer"
+      className="flex items-center gap-3 w-full p-4 rounded-xl border-l-4 border-primary bg-background hover:bg-muted/10 cursor-pointer"
       aria-label={label}
     />
   );

@@ -1,16 +1,16 @@
 // src/routes/ProtectedRoute.jsx
+import { useCookies } from 'react-cookie';
 import { Navigate, Outlet, useLocation } from 'react-router';
 
-// Verifica se há token salvo (ajuste conforme sua lógica real)
-const isAuthenticated = () => true; //Boolean(localStorage.getItem('token'));
-
-const ProtectedRoute = () => {
+export default function ProtectedRoute() {
+  const [cookies] = useCookies(['access_token']);
   const location = useLocation();
-  return isAuthenticated() ? (
+
+  const isAuthenticated = Boolean(cookies.access_token);
+
+  return isAuthenticated ? (
     <Outlet />
   ) : (
-    <Navigate to="/login" replace state={{ from: location }} />
+    <Navigate to="/login" replace state={{ from: location.pathname }} />
   );
-};
-
-export default ProtectedRoute;
+}
