@@ -13,13 +13,6 @@ import com.finboostplus.model.UserExpenseDivision;
 
 @Repository
 public interface UserExpenseDivisionRepository extends JpaRepository<UserExpenseDivision, Long> {
-        @Modifying
-        @Query(value = """
-                        DELETE FROM user_expense_divisions
-                        WHERE user_id = :memberId
-                        """, nativeQuery = true)
-        void deleteExpenseRelationByMemberId(@Param("memberId") Long groupId);
-
         @Query(nativeQuery = true, value = """
                         SELECT EXISTS(
                              SELECT 1 from user_expense_divisions
@@ -27,12 +20,12 @@ public interface UserExpenseDivisionRepository extends JpaRepository<UserExpense
                              (status = 'UNPAID' or status = 'PENDING')
                         )
                         """)
-        boolean hasUserAnyExpense(long memberId);
+        boolean doesUserHasAnyExpense(long memberId);
 
         @Query(nativeQuery = true, value = """
                         SELECT * FROM user_expense_divisions WHERE user_id = :userId AND expense_id = :expenseId
                             """)
-        UserExpenseDivision findByExpenseIdAndGroupId(Long userId, Long expenseId);
+        UserExpenseDivision findByMemberIdAndExpenseId(Long userId, Long expenseId);
 
         @Query(nativeQuery = true, value = """
                         SELECT EXISTS (
@@ -41,21 +34,13 @@ public interface UserExpenseDivisionRepository extends JpaRepository<UserExpense
                         """)
         boolean existsByUserIdAndExpenseId(Long userId, Long expenseId);
 
-        @Modifying
-        @Query(value = """
-                        DELETE FROM user_expense_divisions ued
-                        WHERE expense_id = :expenseId
-                        """, nativeQuery = true)
-        void deleteExpenseById(@Param("expenseId") Long expenseId);
-
-        @Query(value = """
+        @Query(nativeQuery = true, value = """
                         SELECT EXISTS(
                            SELECT 1
                               FROM user_expense_divisions e WHERE e.expense_id = :expenseId AND (e.status = 'PENDING' OR e.status = 'UNPAID')
                            )
-                        """, nativeQuery = true)
+                        """)
         boolean isExpensePaid(Long expenseId);
-
 
         @Query(nativeQuery = true, value = """
                         SELECT * from users WHERE id in
@@ -65,8 +50,15 @@ public interface UserExpenseDivisionRepository extends JpaRepository<UserExpense
 
         @Modifying
         @Query(nativeQuery = true, value = """
+                        DELETE FROM user_expense_divisions ued
+                        WHERE expense_id = :expenseId
+                        """)
+        void deleteExpenseById(@Param("expenseId") Long expenseId);
+
+        @Modifying
+        @Query(nativeQuery = true, value = """
                         DELETE FROM user_expense_divisions
                         WHERE user_id = :memberId
                         """)
-        void deleteExpenseRelationByMemberId(@Param("memberId") Long userId);
+        void deleteExpenseRelationByMemberId(@Param("memberId") Long groupId);
 }

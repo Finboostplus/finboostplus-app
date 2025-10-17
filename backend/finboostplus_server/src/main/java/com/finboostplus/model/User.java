@@ -33,7 +33,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @SequenceGenerator(name = "seq_user", sequenceName = "seq_user", allocationSize = 1, initialValue = 1)
 public class User implements UserDetails {
-
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;

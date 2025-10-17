@@ -34,7 +34,6 @@ import jakarta.validation.Valid;
 @RequestMapping("/user")
 @Tag(name = "Usuários", description = "Operações relacionadas ao gerenciamento de usuários e perfis no sistema FinBoost Plus")
 public class UserController {
-
         @Autowired
         UserService userService;
 
@@ -151,7 +150,6 @@ public class UserController {
 
         @GetMapping(value = "/userValidate/{uuid}")
         public String validateUser(@PathVariable("uuid") String uuid) {
-                userService.validateUser(uuid);
-                return null;
+                return userService.validateUser(uuid);
         }
 }

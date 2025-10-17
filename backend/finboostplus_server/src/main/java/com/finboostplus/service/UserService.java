@@ -27,6 +27,7 @@ import com.finboostplus.exception.EmailAlreadyRegisteredException;
 import com.finboostplus.exception.ForbiddenResourceException;
 import com.finboostplus.exception.GroupNotFoundException;
 import com.finboostplus.exception.MemberHasPendingExpensesException;
+import com.finboostplus.exception.UserAlreadyRegisteredOnGroupException;
 import com.finboostplus.exception.UserNotFoundException;
 import com.finboostplus.exception.ValuesIncompatiblesException;
 import com.finboostplus.model.Group;
@@ -43,7 +44,6 @@ import com.finboostplus.util.PasswordGenerator;
 
 @Service
 public class UserService implements UserDetailsService {
-
         @Autowired
         UserRepository userRepository;
 
@@ -76,7 +76,6 @@ public class UserService implements UserDetailsService {
                 if (result.size() == 0) {
                         throw new UsernameNotFoundException("Email não encontrado");
                 }
-
                 User user = new User();
                 user.setEmail(result.get(0).getUsername());
                 user.setPassword(result.get(0).getPassword());
@@ -88,9 +87,9 @@ public class UserService implements UserDetailsService {
 
         @Transactional
         public boolean saveUser(UserCreateDTO dto) {
-                Optional<User> userEmailExists = userRepository.findByEmailIgnoreCase(dto.email());
-                if (userEmailExists.isPresent()) {
-                        throw new EmailAlreadyRegisteredException("E-mail já cadastrado");
+                Optional<User> userOptional = userRepository.findByEmailIgnoreCase(dto.email());
+                if (userOptional.isPresent()) {
+                        throw new UserAlreadyRegisteredOnGroupException("Email já cadastrado");
                 }
                 User user = User.dtoToUser(dto);
                 PasswordEncoder passwordEncoder = passwordEncoder();
@@ -120,12 +119,8 @@ public class UserService implements UserDetailsService {
 
         @Transactional
         public boolean updateUser(UserUpdateDTO dto) {
-                String email = authenticated();
-                Optional<User> userOptional = userRepository.findByEmailIgnoreCase(email);
-                if (userOptional.isEmpty()) {
-                        throw new UserNotFoundException("Usuário nao encontrado");
-                }
-                User user = userOptional.get();
+                User user = userRepository.findByEmailIgnoreCase(authenticated())
+                                .orElseThrow(() -> new UserNotFoundException("Usuário nao encontrado"));
                 if (!dto.name().equals(user.getName())) {
                         user.setName(dto.name());
                 }
@@ -162,7 +157,7 @@ public class UserService implements UserDetailsService {
                         throw new ForbiddenResourceException(
                                         "Usuário é proprietário de grupos ativos e não pode ser removido");
                 }
-                if (userExpenseDivisionRepository.hasAnyUserExpense(user.getId())) {
+                if (userExpenseDivisionRepository.doesUserHasAnyExpense(user.getId())) {
                         throw new MemberHasPendingExpensesException(
                                         "Não é possível excluir o perfil com despesas pendentes");
                 }
@@ -184,17 +179,23 @@ public class UserService implements UserDetailsService {
         }
 
         public String validateUser(String uuid) {
-                ValidateUser validateUser = validateUserRepository.findByUuid(UUID.fromString(uuid)).get();
-                if (validateUser == null || validateUser.getExpirationDate().isBefore(Instant.now())) {
+                Optional<ValidateUser> validateUser = Optional
+                                .of(validateUserRepository.findByUuid(UUID.fromString(uuid)).get());
+                if (validateUser.isEmpty()) {
+                        return "Token inválido ou expirado";
+                } else if (validateUser.isPresent() && validateUser.get().getExpirationDate().isBefore(Instant.now())) {
                         return "Token inválido ou expirado";
                 }
-                User user = validateUser.getUser();
+                User user = validateUser.get().getUser();
+                if (user.isEnabled()) {
+                        throw new ForbiddenResourceException("Usuário já habilitado");
+                }
                 user.setActive(true);
-
-                validateUserRepository.delete(validateUser);
-                return null;
+                validateUserRepository.delete(validateUser.get());
+                return "";
         }
 
+        @Transactional
         public boolean switchAuthority(Long newOwnerId, Long groupId, SwitchAuthorityRequestDTO authDTO) {
                 List<String> authLevels = List.of("OWNER", "ADMIN", "USER");
                 String setAuthority = authDTO.setAuthority();
@@ -213,7 +214,7 @@ public class UserService implements UserDetailsService {
                 if (group == null) {
                         throw new GroupNotFoundException("Grupo não encontrado");
                 }
-                if (!groupMemberRepository.isUserAndGroupAndAuthorityValidToUpdateOrDeleteGroup(user.getId(),
+                if (!groupMemberRepository.isUserGroupOwner(user.getId(),
                                 group.getId())) {
                         throw new ForbiddenResourceException("Usuário não tem permissão para realizar essa operação");
                 } else if (!groupMemberService.isUserMemberOfGroup(newUserAuth.getId(), group.getId())) {

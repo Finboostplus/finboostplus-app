@@ -13,7 +13,6 @@ import com.finboostplus.repository.UserExpenseDivisionRepository;
 
 @Service
 public class NotificationService {
-
         @Autowired
         private EmailService emailService;
 
@@ -25,7 +24,6 @@ public class NotificationService {
                 long daysUntilExpiration = ChronoUnit.DAYS.between(
                                 LocalDate.now(),
                                 expense.getDeadlineDate());
-
                 for (User user : users) {
                         emailService.enviarEmailTexto(user.getEmail(), "Despesa perto de expirar", "Sua despesa "
                                         + expense.getTitle() + " vence em " + daysUntilExpiration + " dias");
