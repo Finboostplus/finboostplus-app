@@ -7,16 +7,19 @@ import jakarta.validation.constraints.Size;
 import java.time.Instant;
 
 public record GroupCreateDTO(
-        @NotBlank(message = "O nome de grupo é obrigatório") @Size(max = 100, message = "O nome do grupo deve ter no máximo 100 caracteres") String name,
+        @NotBlank(message = "O nome de grupo é obrigatório") 
+        @Size(max = 100, message = "O nome do grupo deve ter no máximo 100 caracteres") 
+        String name,
 
-        @NotBlank(message = "A descrição é obrigatória") @Size(max = 100, message = "A descrição do grupo deve ter no máximo 100 caracteres") String description) {
-    public Group groupDtoToGroup(long userId) {
+        @NotBlank(message = "A descrição é obrigatória") 
+        @Size(max = 100, message = "A descrição do grupo deve ter no máximo 100 caracteres") 
+        String description) {
 
-        Group group = new Group();
-        group.setName(name);
-        group.setDescription(description);
-        group.setCreatedAt(Instant.now());
-        return group;
-    }
-
+        public Group groupDtoToGroup() {
+                Group group = new Group();
+                group.setName(name);
+                group.setDescription(description);
+                group.setCreatedAt(Instant.now());
+                return group;
+        }
 }

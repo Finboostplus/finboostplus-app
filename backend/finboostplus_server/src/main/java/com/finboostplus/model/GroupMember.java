@@ -1,24 +1,29 @@
 package com.finboostplus.model;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.time.Instant;
+import java.util.Objects;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.Objects;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "group_members")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@EntityListeners(AuditingEntityListener.class)
 public class GroupMember {
-
     @EmbeddedId
     private GroupMemberId id = new GroupMemberId();
 
@@ -38,7 +43,6 @@ public class GroupMember {
     @Column(name = "entry_date")
     @CreatedDate
     private Instant entryDate;
-
 
     @Override
     public boolean equals(Object o) {

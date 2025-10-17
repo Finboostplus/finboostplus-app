@@ -18,9 +18,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "validate_user")
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "validate_user")
 @EqualsAndHashCode(of = "id")
 public class ValidateUser {
         @Id

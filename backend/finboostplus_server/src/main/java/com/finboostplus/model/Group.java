@@ -1,15 +1,24 @@
 package com.finboostplus.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.time.Instant;
+import java.util.Set;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.Instant;
-import java.util.Set;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "groups")
@@ -20,32 +29,18 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 public class Group {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_group")
-    private Long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_group")
+        private Long id;
 
-    private String name;
+        private String name;
 
-    private String description;
+        private String description;
 
-    @Column(name = "created_at")
-    @CreatedDate
-    private Instant createdAt;
+        @CreatedDate
+        @Column(name = "created_at")
+        private Instant createdAt;
 
-    // @OneToMany(mappedBy = "group" , cascade = CascadeType.ALL, orphanRemoval =
-    // true)
-    // private Set<MemberGroup> memberGroups = new HashSet<>();
-
-    // public Set<MemberGroup> getMemberGroups() {
-    // return memberGroups;
-    // }
-    //
-    // public void setMemberGroups(HashSet<MemberGroup> memberGroups) {
-    // this.memberGroups = memberGroups;
-    // }
-
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-
-    public Set<Expense> expenses;
-
+        @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+        public Set<Expense> expenses;
 }

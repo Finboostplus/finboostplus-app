@@ -47,6 +47,7 @@ export default function RegisterForm() {
       type: 'text',
       placeholder: 'Digite seu nome completo',
       autoComplete: 'name',
+      name: 'name',
     },
     {
       id: 'email',
@@ -54,6 +55,7 @@ export default function RegisterForm() {
       type: 'email',
       placeholder: 'Digite seu email',
       autoComplete: 'email',
+      name: 'email',
     },
     {
       id: 'password',
@@ -61,6 +63,7 @@ export default function RegisterForm() {
       type: 'password',
       placeholder: 'Digite sua senha',
       autoComplete: 'new-password',
+      name: 'password',
     },
     {
       id: 'confirmPassword',
@@ -68,6 +71,7 @@ export default function RegisterForm() {
       type: 'password',
       placeholder: 'Confirme sua senha',
       autoComplete: 'new-password',
+      name: 'confirmPassword',
     },
   ];
 

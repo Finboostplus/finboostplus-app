@@ -41,7 +41,11 @@ export default function LoginForm() {
     } else if (actionData.error) {
       customToast(actionData.title, actionData.error, 'error');
     }
-  }, [actionData]);
+    console.log('actionData', actionData);
+    if (actionData?.success) {
+      navigate('/');
+    }
+  }, [actionData, navigate]);
 
   return (
     <section className="w-full max-w-md mx-auto">
