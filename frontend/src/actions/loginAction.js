@@ -32,6 +32,7 @@ export const loginAction = async ({ request }) => {
     username: data.email,
     password: data.password,
   };
+  console.log(data);
   const response = await login(data);
   return response;
 };

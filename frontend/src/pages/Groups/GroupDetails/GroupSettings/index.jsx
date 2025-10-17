@@ -3,18 +3,17 @@ import {
   FiFileText,
   FiSave,
   FiSettings,
-  FiTrash2,
   FiUserPlus,
   FiUsers,
 } from 'react-icons/fi';
 import { useLoaderData } from 'react-router';
 import InputUI from '../../../../components/ui/Input';
-import { Menu, MenuButton, MenuItem } from '@headlessui/react';
+import { Menu, MenuItem } from '@headlessui/react';
 import TextareaUI from '../../../../components/ui/Textarea';
 import ButtonUI from '../../../../components/ui/Button';
-import SelectUI from '../../../../components/ui/Select';
-import Modal from '../../../../components/ModalButton/Modal';
+
 import { useDeferredValue, useMemo, useState } from 'react';
+import Modal from '../../../../components/Modal';
 
 export default function GroupSettings() {
   const group = useLoaderData();
@@ -23,19 +22,7 @@ export default function GroupSettings() {
     <div className="min-h-screen bg-neutral p-4 sm:p-6 lg:p-10 flex justify-center font-principal">
       <main className="w-full max-w-3xl space-y-8 sm:space-y-10 text-text">
         {/* Título */}
-        <header className="flex flex-row-reverse sm:items-center sm:justify-between gap-4 mb-6">
-          <Menu>
-            <MenuItem
-              className={
-                ' cursor-pointer flex p-2 rounded-md items-center bg-primary/70 hover:bg-primary text-white max-sm:justify-center gap-2'
-              }
-              as="a"
-              title="Retornar"
-              href={`/groups/${group.id}`}
-            >
-              <FiArrowLeft className="text-2xl text-white  cursor-pointer" />
-            </MenuItem>
-          </Menu>
+        <header className="flex  sm:items-center sm:justify-between gap-4 mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:gap-3">
             <FiSettings className="text-primary w-7 h-7 sm:w-8 sm:h-8" />
             <div className="flex flex-col">
@@ -92,12 +79,17 @@ export default function GroupSettings() {
 
         {/* Botões finais */}
         <section className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-evenly w-full sm:max-w-xs mx-auto">
-          <ButtonUI
-            icon={<FiTrash2 className="w-5 h-5 sm:w-6 sm:h-6" />}
-            title="Excluir"
-            ariaLabel="Excluir grupo"
-            className="flex-1 p-2 flex items-center justify-center gap-2 rounded-lg border border-error text-white bg-error/70 hover:bg-error transition disabled:opacity-50 cursor-pointer"
-          />
+          <Menu>
+            <MenuItem
+              className="flex-1 p-2 flex items-center justify-center gap-2 rounded-lg bg-gray-500 hover:bg-gray-600 text-white transition disabled:opacity-50 cursor-pointer"
+              as="a"
+              title="Retornar"
+              href={`/groups/${group.id}`}
+            >
+              <FiArrowLeft className="text-2xl text-white  cursor-pointer" />
+              Retornar
+            </MenuItem>
+          </Menu>
           <ButtonUI
             icon={<FiSave className="w-5 h-5 sm:w-6 sm:h-6" />}
             title="Salvar"
@@ -140,59 +132,83 @@ function ListMembers({ group }) {
   const [searchMember, setSearchMember] = useState('');
   const deferredSearch = useDeferredValue(searchMember);
 
-  const filteredMember = useMemo(() => {
+  const filteredMembers = useMemo(() => {
+    const query = deferredSearch.toLowerCase().trim();
     return group.members.filter(member =>
-      member.name.toLowerCase().includes(deferredSearch.toLowerCase())
+      member.name.toLowerCase().includes(query)
     );
   }, [deferredSearch, group.members]);
 
   return (
-    <div>
+    <section
+      aria-labelledby="group-members-heading"
+      className="bg-surface p-4 sm:p-6 rounded-lg  transition-colors"
+    >
       {/* Título e subtítulo */}
-      <div className="mb-4">
-        <h2 className="text-xl sm:text-2xl font-semibold text-text">
+      <header className="mb-5">
+        <h2
+          id="group-members-heading"
+          className="text-xl sm:text-2xl font-semibold text-text"
+        >
           Membros do grupo ({group.members.length})
         </h2>
-        <p className="text-sm  text-muted dark:text-muted-dark mt-1">
-          Aqui você pode visualizar todos os membros e seus cargos no grupo.
+        <p className="text-sm text-muted dark:text-muted-dark mt-1">
+          Visualize todos os membros e seus cargos no grupo.
         </p>
-      </div>
+      </header>
 
-      {/* Busca */}
-      <div className="mb-4">
+      {/* Campo de busca */}
+      <div className="mb-6">
         <InputUI
-          placeholder="Buscar por..."
-          onInput={({ target: { value } }) => setSearchMember(value)}
+          placeholder="Buscar membro..."
+          value={searchMember}
+          onChange={({ target }) => setSearchMember(target.value)}
+          aria-label="Buscar membro pelo nome"
         />
       </div>
 
       {/* Lista de membros */}
-      <ul className="divide-y divide-neutral">
-        {filteredMember.map(m => (
-          <li
-            key={m.id + m.name}
-            className="py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 flex-wrap"
-          >
-            <button className="flex items-center gap-4 w-full text-left">
-              {/* Avatar */}
-              <div
-                style={{ backgroundColor: m.color }}
-                className="w-10 h-10 flex justify-center items-center rounded-full text-white font-bold flex-shrink-0"
-              >
-                {m.name[0]?.toUpperCase() || '?'}
+      {filteredMembers.length > 0 ? (
+        <ul className="divide-y divide-neutral/40">
+          {filteredMembers.map(member => (
+            <li
+              key={member.id}
+              className="py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 transition-colors hover:bg-neutral/10 rounded-md px-2"
+            >
+              {/* Membro */}
+              <div className="flex items-center gap-4 w-full">
+                {/* Avatar */}
+                <div
+                  style={{ backgroundColor: member.color }}
+                  className="w-10 h-10 flex justify-center items-center rounded-full text-white font-bold shadow-sm flex-shrink-0"
+                  aria-hidden="true"
+                >
+                  {member.name[0]?.toUpperCase() || '?'}
+                </div>
+
+                {/* Nome + Cargo */}
+                <div className="min-w-0">
+                  <p className="font-medium text-text truncate">
+                    {member.name}
+                  </p>
+                  <small
+                    className={`font-semibold capitalize ${
+                      member.isAdmin ? 'text-primary' : 'text-muted'
+                    }`}
+                  >
+                    {member.isAdmin ? 'Administrador' : 'Membro'}
+                  </small>
+                </div>
               </div>
 
-              {/* Info */}
-              <div className="min-w-0">
-                <p className="font-medium text-text truncate">{m.name}</p>
-                <small className="font-semibold capitalize text-primary">
-                  {m.isAdmin ? 'Administrador' : 'Membro'}
-                </small>
-              </div>
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+              {/* Ações futuras (opcional) */}
+              {/* <ButtonUI size="sm" title="Ver perfil" /> */}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-center text-muted mt-6">Nenhum membro encontrado.</p>
+      )}
+    </section>
   );
 }

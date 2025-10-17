@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const registerUserFormSchema = z
   .object({
-    fullName: z
+    name: z
       .string()
       .min(3, { message: 'O nome completo deve ter no mínimo 3 caracteres' })
       .max(30, { message: 'O nome completo deve ter no máximo 30 caracteres' })

@@ -16,3 +16,9 @@ export const avatarBackgroundColors = [
   '#475569', // Cinza azulado (neutro elegante)
   '#6B7280', // Cinza médio (fallback)
 ];
+
+export function getavatarBackgroundColorRandom() {
+  const index = Math.floor(Math.random() * avatarBackgroundColors.length);
+  const color = avatarBackgroundColors[index];
+  return color;
+}

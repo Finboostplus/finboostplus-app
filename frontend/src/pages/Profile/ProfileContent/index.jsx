@@ -4,6 +4,7 @@ import InputUI from '../../../components/ui/Input';
 import { BlockPicker } from 'react-color';
 import { avatarBackgroundColors } from '../../../mockData/colorsPallete/colors';
 import { Form } from 'react-router';
+import { customToast } from '../../../components/CustomToast';
 
 export default function ProfileContent({ current_user, setIsModalOpen }) {
   const [userData, setUserData] = useState({
@@ -18,7 +19,7 @@ export default function ProfileContent({ current_user, setIsModalOpen }) {
     e.preventDefault();
 
     if (!userData.username.trim() || !userData.email.trim()) {
-      alert('Por favor, preencha todos os campos.');
+      customToast('', 'Por favor, preencha todos os campos.', 'warning');
       return;
     }
 
@@ -52,7 +53,7 @@ export default function ProfileContent({ current_user, setIsModalOpen }) {
           {/* Avatar Preview */}
           <div
             style={{ backgroundColor: userData.color }}
-            className="w-24 h-24 rounded-full flex items-center justify-center font-bold text-white text-3xl shadow-lg border border-white/20 transition-transform duration-300 hover:scale-105"
+            className="w-24 h-24 rounded-full transition-[background] flex items-center justify-center font-bold text-white text-3xl shadow-lg border border-white/20  duration-300 hover:scale-105"
           >
             {userData.username[0]?.toUpperCase() || '?'}
           </div>
@@ -116,13 +117,13 @@ export default function ProfileContent({ current_user, setIsModalOpen }) {
             type="button"
             fnClick={() => setIsModalOpen(false)}
             title="Cancelar"
-            className="py-2 px-5 bg-gray-500 hover:bg-gray-600 text-white rounded-md transition-all duration-200"
+            className="py-2 px-5 bg-gray-500 hover:bg-gray-600 text-white rounded-md transition-all duration-200 cursor-pointer"
           />
           <ButtonUI
             type="submit"
             title={isSubmitting ? 'Salvando...' : 'Atualizar perfil'}
             disabled={isSubmitting}
-            className={`py-2 px-5 rounded-md text-white transition-all duration-200 ${
+            className={`py-2 px-5 rounded-md text-white transition-all duration-200 cursor-pointer ${
               isSubmitting
                 ? 'bg-primary/60 cursor-not-allowed'
                 : 'bg-primary hover:bg-primary/90'

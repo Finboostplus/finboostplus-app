@@ -4,8 +4,10 @@ import SwitchTheme from './SwitchTheme';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import userData from '../../../mockData/user/user.data';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router';
 
 export default function DropdownMenu() {
+  const navigate = useNavigate();
   const [, , removeCookies] = useCookies();
   const current_user = userData;
   const firstLetter = current_user.username?.[0]?.toUpperCase() ?? '?';
@@ -18,6 +20,7 @@ export default function DropdownMenu() {
     // navigate('/login');
     removeCookies('refresh_token', { path: '/' });
     removeCookies('access_token', { path: '/' });
+    navigate('/login');
   };
 
   return (

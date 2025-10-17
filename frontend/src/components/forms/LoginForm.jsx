@@ -88,7 +88,7 @@ export default function LoginForm() {
         <Button
           title="Entrar"
           type="submit"
-          className="w-full py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-secondary transition-colors"
+          className="w-full py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-secondary transition-colors cursor-pointer"
         />
 
         <input type="hidden" name="type" value="login" />
