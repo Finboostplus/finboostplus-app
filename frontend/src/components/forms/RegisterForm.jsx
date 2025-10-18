@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Form, useActionData } from 'react-router';
 import InputUI from '../ui/Input';
 import ButtonUI from '../ui/Button';
 import CheckboxUI from '../ui/Checkbox';
 import { customToast } from '../CustomToast';
+import { useAuthStore } from '../../context/store/auth';
 
 export default function RegisterForm() {
+  const isLoading = useAuthStore(state => state.isLoading);
   const actionData = useActionData();
   const errors = actionData?.errors || {};
   const values = actionData?.values || {};
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Mostra os erros e sucessos via toast
   useEffect(() => {
     if (!actionData) return;
 
     // Resetar isSubmitting quando a resposta chegar
-    setIsSubmitting(false);
+    /*  setIsSubmitting(false); */
 
     if (actionData.errors) {
       Object.values(actionData.errors).forEach(err => {
@@ -26,17 +26,6 @@ export default function RegisterForm() {
         customToast(title, message, 'error');
       });
       return;
-    }
-
-    if (actionData.success) {
-      customToast(
-        'Tudo certo!',
-        `Seu cadastro foi concluído com sucesso 😄
-        Foi enviado no seu email um link para ativação da conta`,
-        'success'
-      );
-    } else if (actionData.error) {
-      customToast(actionData.title, actionData.error, 'error');
     }
   }, [actionData]);
 
@@ -75,7 +64,6 @@ export default function RegisterForm() {
     <section className="w-full max-w-md mx-auto">
       <Form
         method="post"
-        onSubmit={() => setIsSubmitting(true)}
         className="w-full flex flex-col items-center gap-6 bg-surface p-6 rounded-2xl shadow-md border border-neutral transition-colors"
         aria-label="Formulário de cadastro"
       >
@@ -96,7 +84,7 @@ export default function RegisterForm() {
               className={`w-full h-11 rounded-xl border px-4 text-sm text-text placeholder:text-muted 
                 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition 
                 ${errors[id] ? 'border-error' : 'border-muted'}`}
-              disabled={isSubmitting}
+              disabled={isLoading}
             />
           </div>
         ))}
@@ -108,7 +96,7 @@ export default function RegisterForm() {
             name="terms"
             defaultChecked={values.terms || false}
             className="mt-1 h-4 w-8 rounded border-gray-300 text-primary focus:ring-primary"
-            disabled={isSubmitting}
+            disabled={isLoading}
           />
           <label htmlFor="terms" className="text-sm text-text">
             Aceitar os termos de uso e política de privacidade
@@ -117,9 +105,9 @@ export default function RegisterForm() {
 
         {/* Botão submit */}
         <ButtonUI
-          title={isSubmitting ? 'Cadastrando...' : 'Cadastrar'}
+          title={isLoading ? 'Cadastrando...' : 'Cadastrar'}
           type="submit"
-          disabled={isSubmitting}
+          disabled={isLoading}
           className="w-full py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-secondary transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         />
       </Form>

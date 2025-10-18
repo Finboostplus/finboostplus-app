@@ -19,7 +19,7 @@ export const login = ({ username, password }) => {
     .catch(error => {
       let success = false,
         title;
-      console.log(error);
+
       let { code, message } = error;
 
       message = message || 'Ocorreu um erro no servidor.';
@@ -28,22 +28,22 @@ export const login = ({ username, password }) => {
         if (error.response) {
           title = 'Erro: ';
           // O servidor respondeu com um status code 4xx ou 5xx
-          return { success, title, error: message };
+          throw { success, title, error: message };
         } else if (error.request) {
           // A requisição foi feita, mas nenhuma resposta foi recebida (geralmente erro de rede)
           title = 'Erro(' + code + '): ' + 'Erro de conexão ou timeout';
           message =
             'Verifique sua conexão com a internet ou tente novamente mais tarde.';
 
-          return { success, title, error: message };
+          throw { success, title, error: message };
         } else {
           // Algo aconteceu ao configurar a requisição (erro de código do lado do cliente)
           title = 'Erro de configuração da requisição:';
-          return { success, title, error: message };
+          throw { success, title, error: message };
         }
       } else {
         title = 'Erro inesperado: ';
-        return { success, title, error: message };
+        throw { success, title, error: message };
       }
     });
 };
@@ -64,21 +64,21 @@ export const register = data => {
         if (error.response) {
           title = 'Erro:';
           // O servidor respondeu com um status code 4xx ou 5xx
-          return { success, title, error: message };
+          throw { success, title, error: message };
         } else if (error.request) {
           // A requisição foi feita, mas nenhuma resposta foi recebida (geralmente erro de rede)
           title = 'Erro(' + code + '): ' + 'Erro de conexão ou timeout';
           message =
             'Verifique sua conexão com a internet ou tente novamente mais tarde.';
-          return { success, title, error: message };
+          throw { success, title, error: message };
         } else {
           // Algo aconteceu ao configurar a requisição (erro de código do lado do cliente)
           title = 'Erro de configuração da requisição:';
-          return { success, title, error: message };
+          throw { success, title, error: message };
         }
       } else {
         title = 'Erro inesperado: ';
-        return { success, title, error: message };
+        throw { success, title, error: message };
       }
     });
 };
