@@ -16,9 +16,6 @@ export default function RegisterForm() {
   useEffect(() => {
     if (!actionData) return;
 
-    // Resetar isSubmitting quando a resposta chegar
-    /*  setIsSubmitting(false); */
-
     if (actionData.errors) {
       Object.values(actionData.errors).forEach(err => {
         const title = err?.title ?? 'Erro';
