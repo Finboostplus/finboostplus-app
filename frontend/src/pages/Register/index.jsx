@@ -1,7 +1,15 @@
+import { Navigate } from 'react-router';
 import RegisterForm from '../../components/forms/RegisterForm';
 import CardUI from '../../components/ui/Card';
+import { useAuthStore } from '../../context/store/auth';
 
 export default function Register() {
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated());
+
+  if (isAuthenticated) {
+    return <Navigate to="/" replace state={{ from: location.pathname }} />;
+  }
+
   return (
     <CardUI className="min-h-screen">
       <div className="flex flex-col items-start w-full max-w-4xl px-4 mx-auto">

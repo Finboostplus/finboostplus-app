@@ -1,7 +1,7 @@
 // src/routes/loginAction.js
 import { loginUserFormSchema } from '../schemas/loginUser/form';
 import { z } from 'zod';
-import { login } from '../services/auth';
+import { useAuthStore } from '../context/store/auth';
 
 export const loginAction = async ({ request }) => {
   const form = await request.formData();
@@ -28,11 +28,7 @@ export const loginAction = async ({ request }) => {
   }
   /* Se não ocorreu nenhum erro */
   /* Logar aqui */
-  data = {
-    username: data.email,
-    password: data.password,
-  };
-  console.log(data);
-  const response = await login(data);
+
+  const response = await useAuthStore.getState().login(data);
   return response;
 };

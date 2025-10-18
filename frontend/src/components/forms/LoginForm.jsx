@@ -1,14 +1,13 @@
-import { Form, useActionData, useNavigate } from 'react-router';
+import { Form, useActionData } from 'react-router';
 import Button from '../ui/Button';
 import InputUI from '../ui/Input';
 import { Menu, MenuItem } from '@headlessui/react';
 import { useEffect } from 'react';
 import { customToast } from '../CustomToast';
-import { useCookies } from 'react-cookie';
+import { useAuthStore } from '../../context/store/auth';
 
 export default function LoginForm() {
-  const navigate = useNavigate();
-  const [, setCookie] = useCookies(['access_token', 'refresh_token']);
+  const isLoading = useAuthStore(state => state.isLoading);
   const actionData = useActionData();
   const values = actionData?.values || {};
 
@@ -16,30 +15,13 @@ export default function LoginForm() {
     if (!actionData) return;
 
     if (actionData.errors) {
+      /* Validação dos erros do formulário */
       Object.values(actionData.errors).forEach(err => {
         const title = err?.title ?? 'Erro';
         const message = err?.message ?? 'Ocorreu um erro inesperado.';
         customToast(title, message, 'error');
       });
       return;
-    }
-
-    if (actionData.success) {
-      const { access_token, refresh_token, expires_in } = actionData.value;
-
-      // ⚠️ httpOnly não pode ser setado no front-end
-      setCookie('access_token', access_token, {
-        path: '/',
-        maxAge: expires_in,
-      });
-      setCookie('refresh_token', refresh_token, {
-        path: '/',
-      });
-
-      customToast('Login realizado', 'Bem-vindo!', 'success');
-      navigate('/');
-    } else if (actionData.error) {
-      customToast(actionData.title, actionData.error, 'error');
     }
   }, [actionData]);
 
@@ -63,7 +45,8 @@ export default function LoginForm() {
             defaultValue={values.email || ''}
             placeholder="Digite seu email"
             required
-            className="w-full h-11 rounded-xl border border-muted px-4 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
+            disabled={isLoading}
+            className="w-full h-11 rounded-xl border border-muted px-4 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition disabled:opacity-60"
           />
         </div>
 
@@ -80,15 +63,21 @@ export default function LoginForm() {
             defaultValue={values.password || ''}
             placeholder="Digite sua senha"
             required
-            className="w-full h-11 rounded-xl border border-muted px-4 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
+            disabled={isLoading}
+            className="w-full h-11 rounded-xl border border-muted px-4 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition disabled:opacity-60"
           />
         </div>
 
         {/* Botão */}
         <Button
-          title="Entrar"
+          title={isLoading ? 'Entrando...' : 'Entrar'}
           type="submit"
-          className="w-full py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-secondary transition-colors cursor-pointer"
+          disabled={isLoading}
+          className={`w-full py-2 rounded-xl text-sm font-semibold transition-colors cursor-pointer ${
+            isLoading
+              ? 'bg-muted text-text cursor-not-allowed'
+              : 'bg-primary text-white hover:bg-secondary'
+          }`}
         />
 
         <input type="hidden" name="type" value="login" />

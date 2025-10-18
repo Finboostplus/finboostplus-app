@@ -1,7 +1,8 @@
 import { registerUserFormSchema } from '../schemas/registerUser/form';
 import { z } from 'zod';
-import { register } from '../services/auth';
+
 import { getavatarBackgroundColorRandom } from '../mockData/colorsPallete/colors';
+import { useAuthStore } from '../context/store/auth';
 
 export const registerAction = async ({ request }) => {
   const form = await request.formData();
@@ -27,16 +28,11 @@ export const registerAction = async ({ request }) => {
 
     return { success, errors, value: data };
   } else {
-    // Sucesso na validação
-    const notification = {
-      title: 'Novo cadastro',
-      message: 'Usuário cadastrado com sucesso!',
-    };
-    // Utilizar console.log para debug:
+    /* Deu tudo certo com a validação */
     delete data.terms;
     delete data.confirmPassword;
     data.themeColor = getavatarBackgroundColorRandom();
-    const response = await register(data);
+    const response = await useAuthStore.getState().register(data);
     return response;
   }
 };
