@@ -1,5 +1,5 @@
 import { useStore } from 'zustand';
-import { useThemeStore } from '../../context/store/theme';
+import { useThemeStore } from '../../context/stores/theme';
 
 export default function LogoImage({ className }) {
   const { logo_image } = useStore(useThemeStore);

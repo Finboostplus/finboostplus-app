@@ -1,7 +1,7 @@
 // src/routes/loginAction.js
 import { loginUserFormSchema } from '../schemas/loginUser/form';
 import { z } from 'zod';
-import { useAuthStore } from '../context/store/auth';
+import { useAuthStore } from '../context/stores/auth';
 
 export const loginAction = async ({ request }) => {
   const form = await request.formData();

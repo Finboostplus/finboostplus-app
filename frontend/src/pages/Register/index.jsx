@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router';
 import RegisterForm from '../../components/forms/RegisterForm';
 import CardUI from '../../components/ui/Card';
-import { useAuthStore } from '../../context/store/auth';
+import { useAuthStore } from '../../context/stores/auth';
 
 export default function Register() {
   const isAuthenticated = useAuthStore(state => state.isAuthenticated());

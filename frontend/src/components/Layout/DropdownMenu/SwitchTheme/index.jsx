@@ -1,6 +1,6 @@
 import { Switch } from '@headlessui/react';
 import { useStore } from 'zustand';
-import { useThemeStore } from '../../../../context/store/theme';
+import { useThemeStore } from '../../../../context/stores/theme';
 
 export default function SwitchTheme() {
   const { theme, toggleTheme } = useStore(useThemeStore);
