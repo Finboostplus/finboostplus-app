@@ -1,4 +1,4 @@
-import { useAuthStore } from '../../context/store/auth';
+import { useAuthStore } from '../../context/stores/auth';
 import LogoImage from '../Logo';
 import DropdownMenu from './DropdownMenu';
 import { Menu, MenuItem } from '@headlessui/react';

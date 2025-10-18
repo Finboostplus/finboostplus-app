@@ -5,12 +5,14 @@ export let BASEURL =
     ? import.meta.env.VITE_BASEURL_DEV
     : import.meta.env.VITE_BASEURL_PROD;
 
+const CREDENTIALS = import.meta.env.VITE_CLIENT_CREDENTIALS_BASE64;
+
 // Cria uma instância do Axios com a URL base da API
 const api = axios.create({
   baseURL: BASEURL,
   withCredentials: true,
   headers: {
-    Authorization: 'Basic bXljbGllbnRpZDpteWNsaWVudHNlY3JldA==',
+    Authorization: `Basic ${CREDENTIALS}`,
   },
 });
 

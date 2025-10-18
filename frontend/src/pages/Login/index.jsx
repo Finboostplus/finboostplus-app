@@ -1,7 +1,7 @@
 import LoginForm from '../../components/forms/LoginForm';
 import CardUI from '../../components/ui/Card';
 import { Navigate } from 'react-router';
-import { useAuthStore } from '../../context/store/auth';
+import { useAuthStore } from '../../context/stores/auth';
 
 export default function Login() {
   const isAuthenticated = useAuthStore(state => state.isAuthenticated());

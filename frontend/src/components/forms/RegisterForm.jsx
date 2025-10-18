@@ -4,7 +4,7 @@ import InputUI from '../ui/Input';
 import ButtonUI from '../ui/Button';
 import CheckboxUI from '../ui/Checkbox';
 import { customToast } from '../CustomToast';
-import { useAuthStore } from '../../context/store/auth';
+import { useAuthStore } from '../../context/stores/auth';
 
 export default function RegisterForm() {
   const isLoading = useAuthStore(state => state.isLoading);

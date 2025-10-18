@@ -4,7 +4,7 @@ import InputUI from '../ui/Input';
 import { Menu, MenuItem } from '@headlessui/react';
 import { useEffect } from 'react';
 import { customToast } from '../CustomToast';
-import { useAuthStore } from '../../context/store/auth';
+import { useAuthStore } from '../../context/stores/auth';
 
 export default function LoginForm() {
   const isLoading = useAuthStore(state => state.isLoading);

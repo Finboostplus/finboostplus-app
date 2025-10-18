@@ -50,6 +50,7 @@ export const login = ({ username, password }) => {
 
 // Registro de usuário que envia nome, email e senha
 export const register = data => {
+  console.log({ data });
   return api
     .post('/user', data)
     .then(({ data }) => ({ success: true, value: data }))

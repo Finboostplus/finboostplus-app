@@ -3,7 +3,7 @@ import { navItems } from './navItems';
 import SwitchTheme from './SwitchTheme';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import userData from '../../../mockData/user/user.data';
-import { useAuthStore } from '../../../context/store/auth';
+import { useAuthStore } from '../../../context/stores/auth';
 
 export default function DropdownMenu() {
   const logout = useAuthStore(state => state.logout);

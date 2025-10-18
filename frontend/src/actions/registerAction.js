@@ -2,7 +2,7 @@ import { registerUserFormSchema } from '../schemas/registerUser/form';
 import { z } from 'zod';
 
 import { getavatarBackgroundColorRandom } from '../mockData/colorsPallete/colors';
-import { useAuthStore } from '../context/store/auth';
+import { useAuthStore } from '../context/stores/auth';
 
 export const registerAction = async ({ request }) => {
   const form = await request.formData();
@@ -32,7 +32,7 @@ export const registerAction = async ({ request }) => {
     delete data.terms;
     delete data.confirmPassword;
     data.themeColor = getavatarBackgroundColorRandom();
-    const response = await useAuthStore.getState().register(data);
-    return response;
+    await useAuthStore.getState().register(data);
+    return;
   }
 };
