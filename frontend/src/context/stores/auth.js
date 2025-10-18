@@ -3,6 +3,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import { login, register } from '../../services/auth';
 import { jwtDecode } from 'jwt-decode';
 import { customToast } from '../../components/CustomToast';
+import { SecureLS } from '../../utils/localStorageEncryption';
 
 export const useAuthStore = create()(
   persist(
@@ -84,7 +85,11 @@ export const useAuthStore = create()(
     }),
     {
       name: 'access_token',
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => ({
+        getItem: key => SecureLS.get(key), // já descriptografa
+        setItem: (key, value) => SecureLS.set(key, value), // já criptografa
+        removeItem: key => SecureLS.remove(key),
+      })),
       partialize: state => ({
         token: state.token,
         user: state.user,
