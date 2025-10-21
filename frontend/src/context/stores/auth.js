@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { login, register } from '../../services/auth';
+import { login, refreshToken, register } from '../../services/auth';
 import { jwtDecode } from 'jwt-decode';
 import { customToast } from '../../components/CustomToast';
 import { SecureLS } from '../../utils/localStorageEncryption';
@@ -9,8 +9,24 @@ export const useAuthStore = create()(
   persist(
     (set, get) => ({
       token: null,
+      refreshToken: null,
       user: null,
       isLoading: false,
+      setRefreshToken: ({ access_token, refresh_token, token_type }) => {
+        const access_tokenDecoded = jwtDecode(access_token);
+        const { sub, username, authorities: roles, exp } = access_tokenDecoded;
+        const newCredentials = {
+          token: `${token_type} ${access_token}`,
+          refreshToken: refresh_token,
+          user: {
+            sub,
+            username,
+            roles,
+            exp,
+          },
+        };
+        set(newCredentials);
+      },
       isAuthenticated: () => !!get().token,
       login: async data => {
         set({ isLoading: true });
@@ -37,7 +53,8 @@ export const useAuthStore = create()(
           };
 
           set({
-            token: jwtData.access_token,
+            token: `${jwtData.token_type || ''} ${jwtData.access_token}`,
+            refreshToken: jwtData.refresh_token,
             user,
           });
           delete response.value;
@@ -78,7 +95,9 @@ export const useAuthStore = create()(
       logout: () => {
         set({
           token: null,
+          refreshToken: null,
           user: null,
+          isLoading: false,
         });
         window.location.href = '/login';
       },
@@ -93,6 +112,7 @@ export const useAuthStore = create()(
       partialize: state => ({
         token: state.token,
         user: state.user,
+        refreshToken: state.refreshToken,
       }),
     }
   )

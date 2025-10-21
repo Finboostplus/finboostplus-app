@@ -5,9 +5,7 @@ import { RouterProvider } from 'react-router';
 import { routes } from './routes/routes.jsx';
 import { MdCheckCircle, MdError, MdInfo, MdWarning } from 'react-icons/md';
 import { ToastContainer } from 'react-toastify';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-const queryClient = new QueryClient();
+import QCProvider from './libs/ReactQuery/main.jsx';
 
 // Registrar o service worker da PWA
 if ('serviceWorker' in navigator) {
@@ -25,7 +23,7 @@ if ('serviceWorker' in navigator) {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
+    <QCProvider>
       <RouterProvider router={routes} />
       <ToastContainer
         position="top-right"
@@ -48,6 +46,6 @@ createRoot(document.getElementById('root')).render(
           }
         }}
       />
-    </QueryClientProvider>
+    </QCProvider>
   </StrictMode>
 );

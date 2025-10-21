@@ -6,6 +6,7 @@ import { loginAction } from '../actions/loginAction';
 import { registerAction } from '../actions/registerAction';
 import { groupAction } from '../actions/groupAction';
 import { groupSettingsLoader } from '../pages/Groups/GroupDetails/GroupSettings/groupSettingsLoader';
+import { getAllGroupsLoader } from '../loaders/AllGroupsLoader';
 
 const App = lazy(() => import('../App'));
 const Layout = lazy(() => import('../components/Layout'));
@@ -46,7 +47,12 @@ export const routes = createBrowserRouter([
           {
             path: 'groups',
             children: [
-              { index: true, element: <Groups />, action: groupAction },
+              {
+                index: true,
+                element: <Groups />,
+                action: groupAction,
+                loader: getAllGroupsLoader,
+              },
               {
                 path: ':group-id',
                 element: <GroupDetails />,
