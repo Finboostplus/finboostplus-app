@@ -12,9 +12,14 @@ export const useAuthStore = create()(
       refreshToken: null,
       user: null,
       isLoading: false,
-      setRefreshToken: ({ access_token, refresh_token, token_type }) => {
+      setRefreshToken: ({
+        access_token,
+        refresh_token,
+        token_type,
+        expires_in,
+      }) => {
         const access_tokenDecoded = jwtDecode(access_token);
-        const { sub, username, authorities: roles, exp } = access_tokenDecoded;
+        const { sub, username, authorities: roles } = access_tokenDecoded;
         const newCredentials = {
           token: `${token_type} ${access_token}`,
           refreshToken: refresh_token,
@@ -22,7 +27,7 @@ export const useAuthStore = create()(
             sub,
             username,
             roles,
-            exp,
+            exp: expires_in,
           },
         };
         set(newCredentials);
@@ -39,17 +44,12 @@ export const useAuthStore = create()(
           const response = await login(loginData);
           const { value: jwtData } = response;
           const access_tokenDecoded = jwtDecode(jwtData.access_token);
-          const {
-            sub,
-            username,
-            authorities: roles,
-            exp,
-          } = access_tokenDecoded;
+          const { sub, username, authorities: roles } = access_tokenDecoded;
           const user = {
             sub,
             username,
             roles,
-            exp,
+            exp: jwtData.expires_in,
           };
 
           set({
@@ -63,9 +63,10 @@ export const useAuthStore = create()(
         } catch (e) {
           set({
             token: null,
+            refreshToken: null,
             user: null,
+            isLoading: false,
           });
-
           const { title, error } = e;
           customToast(title, error, 'error');
           return;
