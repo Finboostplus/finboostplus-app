@@ -9,13 +9,13 @@ import { formatBRL } from '../../utils/formatters';
 import ModalButton from '../../components/Modal/ModalButton';
 import { useQuery } from '@tanstack/react-query';
 import { getGroups } from '../../services/groups';
-import { ReactQuery_keys } from '../../libs/ReactQuery/keys';
+import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
 
 export default function Groups() {
   const [currentUser, setCurrentUser] = useState(userData);
   const loaderData = useLoaderData();
   const { data: groups } = useQuery({
-    queryKey: [ReactQuery_keys.groups.all],
+    queryKey: [REACTQUERY_KEYS.GROUPS.ALL],
     initialData: loaderData,
     queryFn: getGroups,
   });
