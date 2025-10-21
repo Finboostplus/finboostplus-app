@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { login, refreshToken, register } from '../../services/auth';
+import { login, register } from '../../services/auth';
 import { jwtDecode } from 'jwt-decode';
 import { customToast } from '../../components/CustomToast';
 import { SecureLS } from '../../utils/localStorageEncryption';
