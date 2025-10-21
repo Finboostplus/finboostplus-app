@@ -27,6 +27,10 @@ const refreshAuthLogic = async failedRequest => {
   /* Função para trocar access token */
   try {
     const refresh_token = useAuthStore.getState().refreshToken;
+    if (!refreshToken) {
+      throw new Error('Refresh Token não disponível.');
+    }
+    /* const { exp: jwt_expiration } = useAuthStore.getState().user; */
     const newCredentials = await refreshToken(refresh_token);
     useAuthStore.getState().setRefreshToken(newCredentials);
   } catch (error) {
