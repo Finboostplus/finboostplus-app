@@ -1,13 +1,9 @@
 package com.finboostplus.repository;
 
-import com.finboostplus.DTO.ExpenseDTO;
-import com.finboostplus.DTO.GroupExpenseDTO;
-import com.finboostplus.enums.Status;
-import com.finboostplus.model.Expense;
-import com.finboostplus.model.Group;
-import com.finboostplus.projection.ExpenseProjection;
-import com.finboostplus.projection.GroupExpenseProjection;
-import com.finboostplus.projection.UserExpenseDivisionProjection;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,11 +11,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.List;
+import com.finboostplus.model.Expense;
+import com.finboostplus.projection.ExpenseProjection;
+import com.finboostplus.projection.GroupExpenseProjection;
+import com.finboostplus.projection.UserExpenseDivisionProjection;
 
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
@@ -49,9 +45,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                         FROM expenses e
                         INNER JOIN user_expense_divisions ued ON ued.expense_id = e.id
                         INNER JOIN groups g ON g.id = e.group_id
-                        INNER JOIN users u ON u.id = ued.user_id
                         WHERE g.id = :groupId
-                          AND u.id = :memberId
+                          AND ued.user_id = :memberId
                         ORDER BY
                             CASE
                                 WHEN e.deadline_date < NOW() THEN 3
@@ -72,9 +67,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                         FROM expenses e
                         INNER JOIN user_expense_divisions ued ON ued.expense_id = e.id
                         INNER JOIN groups g ON g.id = e.group_id
-                        INNER JOIN users u ON u.id = ued.user_id
                         WHERE g.id = :groupId
-                          AND u.id = :memberId
+                          AND ued.user_id = :memberId
                           AND ued.status = :status
                         ORDER BY
                             CASE
@@ -162,21 +156,22 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                              AND (ued.status = 'PENDING' OR ued.status = 'UNPAID')
                         )
                         """, nativeQuery = true)
-        boolean memberHasPendingExpenses(Long memberId, Long groupId);
+        boolean doesMemberHasPendingExpenses(Long memberId, Long groupId);
 
-    @Query(value = """
-           SELECT ud.user_id as userId, 
-                 u.user_name as UserName ,
-           	   ud.partial_value as partialValue,
-           	   ud.status
-           FROM expenses e
-           INNER JOIN user_expense_divisions ud
-           ON e.id = ud.expense_id
-           INNER JOIN users u
-           ON u.id = ud.user_id
-           where e.group_id =:groupId and e.id =:expenseId;
-           """, nativeQuery = true)
-    List<UserExpenseDivisionProjection> listUsersExpenseDivision(Long groupId, Long expenseId);
+        @Query(nativeQuery = true, value = """
+                        SELECT ud.user_id as userId,
+                              u.user_name as UserName ,
+                        	   ud.partial_value as partialValue,
+                        	   ud.status
+                        FROM expenses e
+                        INNER JOIN user_expense_divisions ud
+                        ON e.id = ud.expense_id
+                        INNER JOIN users u
+                        ON u.id = ud.user_id
+                        where e.group_id =:groupId and e.id =:expenseId;
+                        """)
+        List<UserExpenseDivisionProjection> listUsersExpenseDivision(Long groupId, Long expenseId);
+
         @Query(value = """
                         SELECT EXISTS(
                            SELECT 1
@@ -192,6 +187,13 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                            )
                         """, nativeQuery = true)
         boolean isExpensePaid(Long expenseId);
+
+        @Modifying
+        @Query(value = """
+                        DELETE FROM expenses
+                        WHERE id = :expenseId
+                        """, nativeQuery = true)
+        void deleteExpenseById(@Param("expenseId") Long expenseId);
 
         @Query(value = """
                         SELECT * FROM expenses

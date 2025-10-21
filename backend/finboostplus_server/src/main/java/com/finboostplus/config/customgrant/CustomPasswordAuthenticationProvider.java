@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
@@ -31,7 +32,6 @@ import org.springframework.security.oauth2.server.authorization.context.Authoriz
 import org.springframework.security.oauth2.server.authorization.token.DefaultOAuth2TokenContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
-import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.util.Assert;
 
 import com.finboostplus.exception.ForbiddenResourceException;
@@ -71,27 +71,28 @@ public class CustomPasswordAuthenticationProvider implements AuthenticationProvi
 
                 CustomPasswordAuthenticationToken customPasswordAuthenticationToken = (CustomPasswordAuthenticationToken) authentication;
                 OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(
-                        customPasswordAuthenticationToken);
+                                customPasswordAuthenticationToken);
                 RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
                 username = customPasswordAuthenticationToken.getUsername();
                 password = customPasswordAuthenticationToken.getPassword();
+
+                UserDetails userDetails = null;
+                try {
+                        userDetails = userDetailsService.loadUserByUsername(username);
+                } catch (UsernameNotFoundException e) {
+                        throw new OAuth2AuthenticationException("Credenciais inválidas");
+                }
+
+                if (!passwordEncoder.matches(password, userDetails.getPassword())
+                                || !userDetails.getUsername().equals(username)) {
+                        throw new OAuth2AuthenticationException("Credenciais inválidas");
+                }
 
                 User user = userRepository.findByEmailIgnoreCase(username)
                                 .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
 
                 if (!user.isEnabled()) {
                         throw new ForbiddenResourceException("Usuário desabilitado");
-                }
-
-                UserDetails userDetails = null;
-                try {
-                        userDetails = userDetailsService.loadUserByUsername(username);
-                } catch (UsernameNotFoundException e) {
-                        throw new OAuth2AuthenticationException("Invalid credentials");
-                }
-
-                if (!passwordEncoder.matches(password, userDetails.getPassword()) || !userDetails.getUsername().equals(username)) {
-                        throw new OAuth2AuthenticationException("Invalid credentials");
                 }
 
                 authorizedScopes = userDetails.getAuthorities().stream()
@@ -101,7 +102,8 @@ public class CustomPasswordAuthenticationProvider implements AuthenticationProvi
 
                 // ----------- set details ON THE clientPrincipal (fix class-cast issue)
                 // ----------
-                CustomUserAuthorities customPasswordUser = new CustomUserAuthorities(username, userDetails.getAuthorities());
+                CustomUserAuthorities customPasswordUser = new CustomUserAuthorities(username,
+                                userDetails.getAuthorities());
                 clientPrincipal.setDetails(customPasswordUser);
 
                 var newcontext = SecurityContextHolder.createEmptyContext();

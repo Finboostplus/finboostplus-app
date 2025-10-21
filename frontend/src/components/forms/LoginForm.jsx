@@ -23,6 +23,28 @@ export default function LoginForm() {
       });
       return;
     }
+
+    if (actionData.success) {
+      const { access_token, refresh_token, expires_in } = actionData.value;
+
+      // httpOnly não pode ser setado no front-end
+      setCookie('access_token', access_token, {
+        path: '/',
+        maxAge: expires_in,
+      });
+      setCookie('refresh_token', refresh_token, {
+        path: '/',
+      });
+
+      customToast('Login realizado', 'Bem-vindo!', 'success');
+      navigate('/');
+    } else if (actionData.error) {
+      customToast(actionData.title, actionData.error, 'error');
+    }
+    console.log('actionData', actionData);
+    if (actionData?.success) {
+      navigate('/');
+    }
   }, [actionData]);
 
   return (
