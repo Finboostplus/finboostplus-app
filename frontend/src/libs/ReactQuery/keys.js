@@ -1,5 +1,5 @@
-export const ReactQuery_keys = {
-  groups: {
-    all: 'allGroups',
+export const REACTQUERY_KEYS = {
+  GROUPS: {
+    ALL: 'allGroups',
   },
 };
