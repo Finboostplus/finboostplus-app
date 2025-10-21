@@ -1,12 +1,11 @@
 // src/routes/ProtectedRoute.jsx
-import { useCookies } from 'react-cookie';
+
 import { Navigate, Outlet, useLocation } from 'react-router';
+import { useAuthStore } from '../context/stores/auth';
 
 export default function ProtectedRoute() {
-  const [cookies] = useCookies(['access_token']);
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated());
   const location = useLocation();
-
-  const isAuthenticated = Boolean(cookies.access_token);
 
   return isAuthenticated ? (
     <Outlet />

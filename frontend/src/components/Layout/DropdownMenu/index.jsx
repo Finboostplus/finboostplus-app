@@ -3,25 +3,12 @@ import { navItems } from './navItems';
 import SwitchTheme from './SwitchTheme';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import userData from '../../../mockData/user/user.data';
-import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router';
+import { useAuthStore } from '../../../context/stores/auth';
 
 export default function DropdownMenu() {
-  const navigate = useNavigate();
-  const [, , removeCookies] = useCookies();
+  const logout = useAuthStore(state => state.logout);
   const current_user = userData;
   const firstLetter = current_user.username?.[0]?.toUpperCase() ?? '?';
-
-  // Exemplo de função de logout (você pode adaptar)
-  const handleLogout = () => {
-    console.log('Usuário deslogado!');
-    // Exemplo:
-    // removeTokens();
-    // navigate('/login');
-    removeCookies('refresh_token', { path: '/' });
-    removeCookies('access_token', { path: '/' });
-    navigate('/login');
-  };
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -55,7 +42,7 @@ export default function DropdownMenu() {
                 if (isDanger) {
                   return (
                     <button
-                      onClick={handleLogout}
+                      onClick={logout}
                       className={`${base} ${
                         active ? `${activeBg} ${activeText}` : baseText
                       } hover:opacity-90 focus:outline-none cursor-pointer`}
