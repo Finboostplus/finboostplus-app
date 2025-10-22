@@ -14,21 +14,22 @@ import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
 export default function Groups() {
   const [currentUser, setCurrentUser] = useState(userData);
   const loaderData = useLoaderData();
-  const { data: groups } = useQuery({
+  /*  const { data: groups } = useQuery({
     queryKey: [REACTQUERY_KEYS.GROUPS.ALL],
     initialData: loaderData,
     queryFn: getGroups,
   });
-  console.log(groups);
+  console.log(groups); */
   useEffect(() => {
+    /*  console.log(currentUser);
     const newCurrentUser = userData;
     userData.groups.forEach(g => {
       delete g.icon;
       delete g.status;
       delete g.statusColor;
-    });
-    newCurrentUser.groups = groups.content;
-    setCurrentUser(newCurrentUser);
+    }); */
+    /* newCurrentUser.groups = groups.content; */
+    /*  setCurrentUser(userData); */
   }, []);
 
   const [filters, setFilters] = useState({
