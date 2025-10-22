@@ -4,12 +4,17 @@ import SwitchTheme from './SwitchTheme';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import userData from '../../../mockData/user/user.data';
 import { useAuthStore } from '../../../context/stores/auth';
+import { useNavigate } from 'react-router';
 
 export default function DropdownMenu() {
+  const navigate = useNavigate();
   const logout = useAuthStore(state => state.logout);
   const current_user = userData;
   const firstLetter = current_user.username?.[0]?.toUpperCase() ?? '?';
-
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
   return (
     <Menu as="div" className="relative inline-block text-left">
       {/* Botão do avatar */}
@@ -42,7 +47,7 @@ export default function DropdownMenu() {
                 if (isDanger) {
                   return (
                     <button
-                      onClick={logout}
+                      onClick={handleLogout}
                       className={`${base} ${
                         active ? `${activeBg} ${activeText}` : baseText
                       } hover:opacity-90 focus:outline-none cursor-pointer`}

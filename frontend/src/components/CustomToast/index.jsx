@@ -23,7 +23,7 @@ export const customToast = (title, message, type = 'info') =>
   toast(<MyCustomToast title={title} message={message} />, {
     ariaLabel: 'field' + title,
     type,
-    autoClose: 3000,
+    autoClose: 1300,
     className: contextClass[type] + ' border-2 border-b-0',
     toastId: type + '-' + message,
   });
