@@ -26,7 +26,6 @@ export const loginAction = async ({ request }) => {
 
     return { success, errors, value: data };
   }
-  login(data.email, data.password);
   /* Se não ocorreu nenhum erro */
   /* Logar aqui */
 
