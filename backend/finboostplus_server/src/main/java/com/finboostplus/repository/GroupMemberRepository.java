@@ -37,7 +37,7 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
         boolean isUserMemberOfGroup(long userId, long groupId);
 
         @Query(nativeQuery = true, value = """
-                        SELECT u.id, u.user_name, gm.auth_level as authority FROM users u
+                        SELECT u.id, u.user_name, u.theme_color, gm.auth_level as authority FROM users u
                         inner join group_members gm
                         on gm.user_id = u.id
                         WHERE gm.group_id = :groupId
