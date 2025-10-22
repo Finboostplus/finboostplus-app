@@ -100,7 +100,6 @@ export const useAuthStore = create()(
           user: null,
           isLoading: false,
         });
-        window.location.href = '/login';
       },
     }),
     {

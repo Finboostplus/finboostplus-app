@@ -20,54 +20,55 @@ const GroupSettings = lazy(
   () => import('../pages/Groups/GroupDetails/GroupSettings')
 );
 const NotFound = lazy(() => import('../pages/Notfound'));
-export const routes = createBrowserRouter([
-  // Rotas públicas (login e registro)
-  {
-    element: <Layout />,
-    children: [
-      {
-        path: '/login',
-        element: <Login />,
-        action: loginAction,
-      },
-      { path: '/register', element: <Register />, action: registerAction },
-    ],
-  },
-  // Rotas privadas (todas as outras)
-  {
-    path: '/',
-    element: <ProtectedRoute />, // <== Aqui é onde protegemos tudo
-    errorElement: <NotFound />,
-    children: [
-      {
-        element: <Layout />,
-        children: [
-          { index: true, element: <App /> }, // Redirecionamento ou página inicial
-          { path: 'dashboard', element: <Dashboard /> },
-          {
-            path: 'groups',
-            children: [
-              {
-                index: true,
-                element: <Groups />,
-                action: groupAction,
-                loader: getAllGroupsLoader,
-              },
-              {
-                path: ':group-id',
-                element: <GroupDetails />,
-                loader: groupDetailsLoader,
-              },
-              {
-                path: ':group-id/settings',
-                element: <GroupSettings />,
-                loader: groupSettingsLoader,
-              },
-            ],
-          },
-          { path: 'profile', element: <Profile /> },
-        ],
-      },
-    ],
-  },
-]);
+export const createAppRouter = () =>
+  createBrowserRouter([
+    // Rotas públicas (login e registro)
+    {
+      element: <Layout />,
+      children: [
+        {
+          path: '/login',
+          element: <Login />,
+          action: loginAction,
+        },
+        { path: '/register', element: <Register />, action: registerAction },
+      ],
+    },
+    // Rotas privadas (todas as outras)
+    {
+      path: '/',
+      element: <ProtectedRoute />, // <== Aqui é onde protegemos tudo
+      errorElement: <NotFound />,
+      children: [
+        {
+          element: <Layout />,
+          children: [
+            { index: true, element: <App /> }, // Redirecionamento ou página inicial
+            { path: 'dashboard', element: <Dashboard /> },
+            {
+              path: 'groups',
+              children: [
+                {
+                  index: true,
+                  element: <Groups />,
+                  action: groupAction,
+                  loader: getAllGroupsLoader,
+                },
+                {
+                  path: ':group-id',
+                  element: <GroupDetails />,
+                  loader: groupDetailsLoader,
+                },
+                {
+                  path: ':group-id/settings',
+                  element: <GroupSettings />,
+                  loader: groupSettingsLoader,
+                },
+              ],
+            },
+            { path: 'profile', element: <Profile /> },
+          ],
+        },
+      ],
+    },
+  ]);

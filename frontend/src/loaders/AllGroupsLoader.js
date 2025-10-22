@@ -1,5 +1,5 @@
 import { REACTQUERY_KEYS } from '../libs/ReactQuery/keys';
-import { queryClient } from '../libs/ReactQuery/main';
+import { queryClient } from '../libs/ReactQuery/queryClient';
 import { getGroups } from '../services/groups';
 
 export async function getAllGroupsLoader() {

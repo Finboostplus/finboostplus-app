@@ -8,7 +8,7 @@ export default function LogoImage({ className }) {
     <div className="flex flex-col">
       <img src={logo_image} alt="Logo" className={className} />
       <p className="text-[0.7rem] ml-4 text-muted italic font-principal">
-        Controle seus gastos de forma simples e compartilhada
+        Assuma o controle. Sem esforço.
       </p>
     </div>
   );

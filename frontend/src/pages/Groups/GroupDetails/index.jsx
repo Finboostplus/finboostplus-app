@@ -2,8 +2,8 @@ import { useLoaderData } from 'react-router';
 import { useState } from 'react';
 import { FiSettings, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
-import ButtonUI from '../../../components/ui/Button';
-import BalancesList from './BalancesList';
+/* import ButtonUI from '../../../components/ui/Button';
+import BalancesList from './BalancesList'; */
 import ExpensesList from './ExpensesList';
 
 import Expenses from '../../Expenses';
@@ -12,15 +12,15 @@ import ModalButton from '../../../components/Modal/ModalButton';
 
 export default function GroupDetails() {
   const group = useLoaderData();
-  const [showBalances, setShowBalances] = useState(true);
+  /*  const [showBalances, setShowBalances] = useState(true); */
 
   // classes reutilizáveis
-  const baseBtn =
+  /*  const baseBtn =
     'cursor-pointer font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-full transition duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50';
   const activeBtn =
     'bg-primary text-white hover:bg-primary/90 focus:ring-primary';
   const inactiveBtn =
-    'bg-neutral text-text hover:bg-neutral/80 focus:ring-muted';
+    'bg-neutral text-text hover:bg-neutral/80 focus:ring-muted'; */
 
   return (
     <div className="flex flex-col min-h-screen bg-neutral font-principal transition-colors">
@@ -106,7 +106,7 @@ export default function GroupDetails() {
           </div>
 
           {/* Botões: Saldos / Despesas */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-6 w-full sm:w-auto">
+          {/*  <div className="flex flex-col sm:flex-row gap-4 mt-6 w-full sm:w-auto">
             <ButtonUI
               fnClick={() => setShowBalances(true)}
               title="Saldos"
@@ -121,16 +121,17 @@ export default function GroupDetails() {
               }`}
               aria-label="Ver despesas recentes do grupo"
             />
-          </div>
+          </div> */}
         </section>
 
         {/* Conteúdo principal */}
         <section className="animate-fadeIn">
-          {showBalances ? (
+          <ExpensesList group={group} />
+          {/* {showBalances ? (
             <BalancesList group={group} />
           ) : (
             <ExpensesList group={group} />
-          )}
+          )} */}
         </section>
       </main>
 
