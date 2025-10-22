@@ -9,7 +9,7 @@ export function createDashboardData(userData) {
 
   return {
     totalBalance: 312.4, // você pode calcular com base nos grupos se quiser
-    totalMonthlySpent: 428.9, // idem
+    totalMonthlySpent: 0, // idem
     recentExpenses: getAllRecentExpenses(groups),
     chartsData,
   };

@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { Link } from 'react-router';
+import { useState, useMemo, useEffect } from 'react';
+import { Link, useLoaderData } from 'react-router';
 import GroupFilters from '../../components/Filters/Groups';
 import { useFilteredGroups } from '../../components/Filters/Groups/useFilteredGroups';
 import GroupForm from '../../components/forms/GroupForm';
@@ -7,9 +7,30 @@ import CardUI from '../../components/ui/Card';
 import userData from '../../mockData/user/user.data';
 import { formatBRL } from '../../utils/formatters';
 import ModalButton from '../../components/Modal/ModalButton';
+import { useQuery } from '@tanstack/react-query';
+import { getGroups } from '../../services/groups';
+import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
 
 export default function Groups() {
-  const currentUser = userData;
+  const [currentUser, setCurrentUser] = useState(userData);
+  const loaderData = useLoaderData();
+  /*  const { data: groups } = useQuery({
+    queryKey: [REACTQUERY_KEYS.GROUPS.ALL],
+    initialData: loaderData,
+    queryFn: getGroups,
+  });
+  console.log(groups); */
+  useEffect(() => {
+    /*  console.log(currentUser);
+    const newCurrentUser = userData;
+    userData.groups.forEach(g => {
+      delete g.icon;
+      delete g.status;
+      delete g.statusColor;
+    }); */
+    /* newCurrentUser.groups = groups.content; */
+    /*  setCurrentUser(userData); */
+  }, []);
 
   const [filters, setFilters] = useState({
     search: '',

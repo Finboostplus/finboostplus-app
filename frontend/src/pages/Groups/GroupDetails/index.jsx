@@ -90,7 +90,7 @@ export default function GroupDetails() {
             id="group-total-heading"
             className="text-xl sm:text-2xl font-light text-text"
           >
-            Total do grupo
+            Total de despesas
           </h2>
 
           <div className="mt-2">

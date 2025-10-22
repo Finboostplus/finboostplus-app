@@ -9,8 +9,29 @@ export const useAuthStore = create()(
   persist(
     (set, get) => ({
       token: null,
+      refreshToken: null,
       user: null,
       isLoading: false,
+      setRefreshToken: ({
+        access_token,
+        refresh_token,
+        token_type,
+        expires_in,
+      }) => {
+        const access_tokenDecoded = jwtDecode(access_token);
+        const { sub, username, authorities: roles } = access_tokenDecoded;
+        const newCredentials = {
+          token: `${token_type} ${access_token}`,
+          refreshToken: refresh_token,
+          user: {
+            sub,
+            username,
+            roles,
+            exp: expires_in,
+          },
+        };
+        set(newCredentials);
+      },
       isAuthenticated: () => !!get().token,
       login: async data => {
         set({ isLoading: true });
@@ -23,21 +44,17 @@ export const useAuthStore = create()(
           const response = await login(loginData);
           const { value: jwtData } = response;
           const access_tokenDecoded = jwtDecode(jwtData.access_token);
-          const {
-            sub,
-            username,
-            authorities: roles,
-            exp,
-          } = access_tokenDecoded;
+          const { sub, username, authorities: roles } = access_tokenDecoded;
           const user = {
             sub,
             username,
             roles,
-            exp,
+            exp: jwtData.expires_in,
           };
 
           set({
-            token: jwtData.access_token,
+            token: `${jwtData.token_type || ''} ${jwtData.access_token}`,
+            refreshToken: jwtData.refresh_token,
             user,
           });
           delete response.value;
@@ -46,9 +63,10 @@ export const useAuthStore = create()(
         } catch (e) {
           set({
             token: null,
+            refreshToken: null,
             user: null,
+            isLoading: false,
           });
-
           const { title, error } = e;
           customToast(title, error, 'error');
           return;
@@ -78,7 +96,9 @@ export const useAuthStore = create()(
       logout: () => {
         set({
           token: null,
+          refreshToken: null,
           user: null,
+          isLoading: false,
         });
         window.location.href = '/login';
       },
@@ -93,6 +113,7 @@ export const useAuthStore = create()(
       partialize: state => ({
         token: state.token,
         user: state.user,
+        refreshToken: state.refreshToken,
       }),
     }
   )

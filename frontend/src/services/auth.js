@@ -1,5 +1,5 @@
-import api from './api';
 import { isAxiosError } from 'axios';
+import { apiAuthentication } from './api';
 
 // Função de login que envia email e senha para a API
 export const login = ({ username, password }) => {
@@ -9,91 +9,130 @@ export const login = ({ username, password }) => {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
   };
-  return api
+  return apiAuthentication
     .post(
       'oauth2/token',
       { username, password, grant_type: 'password' },
       config
     )
-    .then(({ data }) => ({ success: true, value: data }))
+    .then(({ data }) => ({ value: data }))
     .catch(error => {
-      let success = false,
-        title;
-
-      let { code, message } = error;
-
-      message = message || 'Ocorreu um erro no servidor.';
+      let title = 'Erro';
+      let message = 'Ocorreu um erro inesperado.';
 
       if (isAxiosError(error)) {
+        // --- Caso 1: O servidor respondeu com status 4xx ou 5xx ---
         if (error.response) {
-          title = 'Erro: ';
-          // O servidor respondeu com um status code 4xx ou 5xx
-          throw { success, title, error: message };
-        } else if (error.request) {
-          // A requisição foi feita, mas nenhuma resposta foi recebida (geralmente erro de rede)
-          title = 'Erro(' + code + '): ' + 'Erro de conexão ou timeout';
-          message =
-            'Verifique sua conexão com a internet ou tente novamente mais tarde.';
+          const status = error.response.status;
+          const serverMessage =
+            error.response.data?.message ||
+            error.response.data?.error ||
+            error.message;
 
-          throw { success, title, error: message };
+          title = `Erro ${status}`;
+          message = serverMessage || 'Erro ao processar sua solicitação.';
+
+          // --- Caso 2: Requisição feita, mas sem resposta (problema de rede, timeout, CORS) ---
+        } else if (error.request) {
+          title = 'Erro de Conexão';
+          message =
+            'Não foi possível se conectar ao servidor. Verifique sua internet e tente novamente.';
+
+          // --- Caso 3: Algo deu errado na configuração da requisição ---
         } else {
-          // Algo aconteceu ao configurar a requisição (erro de código do lado do cliente)
-          title = 'Erro de configuração da requisição:';
-          throw { success, title, error: message };
+          title = 'Erro Interno';
+          message =
+            'Houve um problema ao preparar a requisição. Tente novamente mais tarde.';
         }
+
+        // --- Caso 4: Erro não relacionado ao Axios ---
       } else {
-        title = 'Erro inesperado: ';
-        throw { success, title, error: message };
+        title = 'Erro Desconhecido';
+        message = (error && error.message) || 'Ocorreu um erro inesperado.';
       }
+
+      // Retorna de forma padronizada
+      throw {
+        title,
+        error: message,
+      };
     });
 };
 
 // Registro de usuário que envia nome, email e senha
-export const register = data => {
-  console.log({ data });
-  return api
-    .post('/user', data)
-    .then(({ data }) => ({ success: true, value: data }))
-    .catch(error => {
-      let success = false,
-        title;
+export const register = async data => {
+  try {
+    const { data: result } = await apiAuthentication.post('/user', data);
+    return { value: result };
+  } catch (error) {
+    let title = 'Erro';
+    let message = 'Ocorreu um erro inesperado.';
 
-      let { code, message } = error;
-      message = message || 'Ocorreu um erro no servidor.';
+    if (isAxiosError(error)) {
+      // --- Caso 1: O servidor respondeu com status 4xx ou 5xx ---
+      if (error.response) {
+        const status = error.response.status;
+        const serverMessage =
+          error.response.data?.message ||
+          error.response.data?.error ||
+          error.message;
 
-      if (isAxiosError(error)) {
-        if (error.response) {
-          title = 'Erro:';
-          // O servidor respondeu com um status code 4xx ou 5xx
-          throw { success, title, error: message };
-        } else if (error.request) {
-          // A requisição foi feita, mas nenhuma resposta foi recebida (geralmente erro de rede)
-          title = 'Erro(' + code + '): ' + 'Erro de conexão ou timeout';
-          message =
-            'Verifique sua conexão com a internet ou tente novamente mais tarde.';
-          throw { success, title, error: message };
-        } else {
-          // Algo aconteceu ao configurar a requisição (erro de código do lado do cliente)
-          title = 'Erro de configuração da requisição:';
-          throw { success, title, error: message };
-        }
+        title = `Erro ${status}`;
+        message = serverMessage || 'Erro ao processar sua solicitação.';
+
+        // --- Caso 2: Requisição feita, mas sem resposta (problema de rede, timeout, CORS) ---
+      } else if (error.request) {
+        title = 'Erro de Conexão';
+        message =
+          'Não foi possível se conectar ao servidor. Verifique sua internet e tente novamente.';
+
+        // --- Caso 3: Algo deu errado na configuração da requisição ---
       } else {
-        title = 'Erro inesperado: ';
-        throw { success, title, error: message };
+        title = 'Erro Interno';
+        message =
+          'Houve um problema ao preparar a requisição. Tente novamente mais tarde.';
       }
-    });
+
+      // --- Caso 4: Erro não relacionado ao Axios ---
+    } else {
+      title = 'Erro Desconhecido';
+      message = (error && error.message) || 'Ocorreu um erro inesperado.';
+    }
+
+    // Retorna de forma padronizada
+    throw {
+      title,
+      error: message,
+    };
+  }
 };
 
 // Encerra a sessão do usuário
 export const logout = async () => {
-  const response = await api.post('/auth/logout');
+  const response = await apiAuthentication.post('/auth/logout');
 
   return response.data;
 };
 
 // Atualiza o token de autenticação
-export const refreshToken = async () => {
-  const response = await api.post('/auth/refresh');
-
-  return response.data;
+export const refreshToken = async refresh_token => {
+  try {
+    const config = {
+      headers: {
+        // Cabeçalho para o corpo da requisição
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    };
+    const response = await apiAuthentication.post(
+      '/oauth2/token',
+      {
+        refresh_token,
+        grant_type: 'refresh_token',
+      },
+      config
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
