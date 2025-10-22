@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,8 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.finboostplus.DTO.SwitchAuthorityRequestDTO;
 import com.finboostplus.DTO.UserCreateDTO;
+import com.finboostplus.DTO.UserDataDTO;
+import com.finboostplus.DTO.UserExpensesDTO;
 import com.finboostplus.DTO.UserUpdateDTO;
-import com.finboostplus.exception.EmailAlreadyRegisteredException;
 import com.finboostplus.exception.ForbiddenResourceException;
 import com.finboostplus.exception.GroupNotFoundException;
 import com.finboostplus.exception.MemberHasPendingExpensesException;
@@ -40,190 +43,205 @@ import com.finboostplus.repository.RoleRepository;
 import com.finboostplus.repository.UserExpenseDivisionRepository;
 import com.finboostplus.repository.UserRepository;
 import com.finboostplus.repository.ValidateUserRepository;
+import com.finboostplus.repository.ExpenseRepository;
 import com.finboostplus.util.PasswordGenerator;
 
 @Service
 public class UserService implements UserDetailsService {
-        @Autowired
-        UserRepository userRepository;
+	@Autowired
+	UserRepository userRepository;
 
-        @Autowired
-        RoleRepository roleRepository;
+	@Autowired
+	RoleRepository roleRepository;
 
-        @Autowired
-        GroupMemberRepository groupMemberRepository;
+	@Autowired
+	GroupMemberRepository groupMemberRepository;
 
-        @Autowired
-        UserExpenseDivisionRepository userExpenseDivisionRepository;
+	@Autowired
+	UserExpenseDivisionRepository userExpenseDivisionRepository;
 
-        @Autowired
-        @Lazy
-        GroupService groupService;
+	@Autowired
+	@Lazy
+	GroupService groupService;
 
-        @Autowired
-        @Lazy
-        GroupMemberService groupMemberService;
+	@Autowired
+	@Lazy
+	GroupMemberService groupMemberService;
 
-        @Autowired
-        private EmailService emailService;
+	@Autowired
+	private EmailService emailService;
 
-        @Autowired
-        ValidateUserRepository validateUserRepository;
+	@Autowired
+	ValidateUserRepository validateUserRepository;
 
-        @Override
-        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                List<UserDetailsProjection> result = userRepository.searchUserAndRolesByEmail(username);
-                if (result.size() == 0) {
-                        throw new UsernameNotFoundException("Email não encontrado");
-                }
-                User user = new User();
-                user.setEmail(result.get(0).getUsername());
-                user.setPassword(result.get(0).getPassword());
-                for (UserDetailsProjection projection : result) {
-                        user.addRole(new Role(projection.getRoleId(), projection.getAuthority()));
-                }
-                return user;
-        }
+	@Autowired
+	ExpenseRepository expenseRepository;
 
-        @Transactional
-        public boolean saveUser(UserCreateDTO dto) {
-                Optional<User> userOptional = userRepository.findByEmailIgnoreCase(dto.email());
-                if (userOptional.isPresent()) {
-                        throw new UserAlreadyRegisteredOnGroupException("Email já cadastrado");
-                }
-                User user = User.dtoToUser(dto);
-                PasswordEncoder passwordEncoder = passwordEncoder();
-                user.setPassword(passwordEncoder.encode(dto.password()));
-                Role role = roleRepository.findByAuthority("ROLE_USER");
-                Set<Role> roles = new HashSet<>();
-                roles.add(role);
-                user.setRoles(roles);
-                User userSaved = userRepository.save(user);
-                ValidateUser validateUser = new ValidateUser();
-                validateUser.setUser(userSaved);
-                validateUser.setUuid(UUID.randomUUID());
-                validateUser.setExpirationDate(Instant.now().plusSeconds(900));
-                validateUserRepository.save(validateUser);
-                emailService.enviarEmailTexto(userSaved.getEmail(),
-                                "Conta criada com sucesso!",
-                                "Seja bem vindo(a) " + userSaved.getName() + " ao FinboostPlus!\n" +
-                                                "Para ativar sua conta, acesse o link: http://localhost:8080/user/userValidate/" // Futuramente:
-                                                                                                                                 // https://finboostplus.com.br
-                                                                                                                                 // ou
-                                                                                                                                 // algo
-                                                                                                                                 // assim
-                                                + validateUser.getUuid());
-                System.out.print(validateUser.getUuid()); // Ajuda para ativar o usuário cadastrado
-                return userSaved.getId() != null;
-        }
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		List<UserDetailsProjection> result = userRepository.searchUserAndRolesByEmail(username);
+		if (result.size() == 0) {
+			throw new UsernameNotFoundException("Email não encontrado");
+		}
+		User user = new User();
+		user.setEmail(result.get(0).getUsername());
+		user.setPassword(result.get(0).getPassword());
+		for (UserDetailsProjection projection : result) {
+			user.addRole(new Role(projection.getRoleId(), projection.getAuthority()));
+		}
+		return user;
+	}
 
-        @Transactional
-        public boolean updateUser(UserUpdateDTO dto) {
-                User user = userRepository.findByEmailIgnoreCase(authenticated())
-                                .orElseThrow(() -> new UserNotFoundException("Usuário nao encontrado"));
-                if (!dto.name().equals(user.getName())) {
-                        user.setName(dto.name());
-                }
-                if (!dto.email().equals(user.getEmail())) {
-                        user.setEmail(dto.email());
-                }
-                if (!dto.themeColor().equals(user.getThemeColor()) && dto.themeColor() != null) {
-                        user.setThemeColor(dto.themeColor());
-                }
-                User userUpdated = userRepository.save(user);
-                return userUpdated.getId() != null;
-        }
+	public UserDataDTO getUserData() {
+		return userRepository.getUserData(authenticated())
+				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+	}
 
-        public PasswordEncoder passwordEncoder() {
-                return new BCryptPasswordEncoder();
-        }
+	public Page<UserExpensesDTO> getAllUserExpenses(Pageable pageable) {
+		User user = userRepository.findByEmailIgnoreCase(authenticated())
+				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+		return expenseRepository.getAllUserExpenses(user.getId(), pageable);
+	}
 
-        public String authenticated() {
-                try {
-                        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                        Jwt jwtPrincipal = (Jwt) authentication.getPrincipal();
-                        return jwtPrincipal.getClaim("username");
-                } catch (Exception e) {
-                        throw new UsernameNotFoundException("Não foi encontrado o usuário");
-                }
-        }
+	@Transactional
+	public boolean saveUser(UserCreateDTO dto) {
+		Optional<User> userOptional = userRepository.findByEmailIgnoreCase(dto.email());
+		if (userOptional.isPresent()) {
+			throw new UserAlreadyRegisteredOnGroupException("Email já cadastrado");
+		}
+		User user = User.dtoToUser(dto);
+		PasswordEncoder passwordEncoder = passwordEncoder();
+		user.setPassword(passwordEncoder.encode(dto.password()));
+		Role role = roleRepository.findByAuthority("ROLE_USER");
+		Set<Role> roles = new HashSet<>();
+		roles.add(role);
+		user.setRoles(roles);
+		User userSaved = userRepository.save(user);
+		ValidateUser validateUser = new ValidateUser();
+		validateUser.setUser(userSaved);
+		validateUser.setUuid(UUID.randomUUID());
+		validateUser.setExpirationDate(Instant.now().plusSeconds(900));
+		validateUserRepository.save(validateUser);
+		emailService.enviarEmailTexto(userSaved.getEmail(),
+				"Conta criada com sucesso!",
+				"Seja bem vindo(a) " + userSaved.getName() + " ao FinboostPlus!\n" +
+						"Para ativar sua conta, acesse o link: http://localhost:8080/user/userValidate/" // Futuramente:
+																	// https://finboostplus.com.br
+																	// ou
+																	// algo
+																	// assim
+						+ validateUser.getUuid());
+		System.out.print(validateUser.getUuid()); // Ajuda para ativar o usuário cadastrado
+		return userSaved.getId() != null;
+	}
 
-        @Transactional
-        public void deleteCurrentUserProfile() {
-                final User user = userRepository
-                                .findByEmailIgnoreCase(authenticated())
-                                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
-                if (groupMemberRepository.isUserOwnerOfAnyGroup(user.getId())) {
-                        throw new ForbiddenResourceException(
-                                        "Usuário é proprietário de grupos ativos e não pode ser removido");
-                }
-                if (userExpenseDivisionRepository.doesUserHasAnyExpense(user.getId())) {
-                        throw new MemberHasPendingExpensesException(
-                                        "Não é possível excluir o perfil com despesas pendentes");
-                }
-                userExpenseDivisionRepository.deleteExpenseRelationByMemberId(user.getId());
-                groupMemberRepository.deleteGroupsRelationByMemberId(user.getId());
-                userRepository.deleteById(user.getId());
-        }
+	@Transactional
+	public boolean updateUser(UserUpdateDTO dto) {
+		User user = userRepository.findByEmailIgnoreCase(authenticated())
+				.orElseThrow(() -> new UserNotFoundException("Usuário nao encontrado"));
+		if (!dto.name().equals(user.getName())) {
+			user.setName(dto.name());
+		}
+		if (!dto.email().equals(user.getEmail())) {
+			user.setEmail(dto.email());
+		}
+		if (!dto.themeColor().equals(user.getThemeColor()) && dto.themeColor() != null) {
+			user.setThemeColor(dto.themeColor());
+		}
+		User userUpdated = userRepository.save(user);
+		return userUpdated.getId() != null;
+	}
 
-        @Transactional
-        public void forgotPassword(String userName) {
-                User user = userRepository.findByEmailIgnoreCase(userName)
-                                .orElseThrow(() -> new UserNotFoundException("Usuário nao encontrado"));
-                String newPassword = PasswordGenerator.generateRandomPassword();
-                emailService.enviarEmailTexto(user.getEmail(),
-                                "Esqueceu sua senha?",
-                                "Olá " + user.getName() + " sua nova senha é " + newPassword);
-                PasswordEncoder passwordEncoder = passwordEncoder();
-                user.setPassword(passwordEncoder.encode(newPassword));
-        }
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-        public String validateUser(String uuid) {
-                Optional<ValidateUser> validateUser = Optional
-                                .of(validateUserRepository.findByUuid(UUID.fromString(uuid)).get());
-                if (validateUser.isEmpty()) {
-                        return "Token inválido ou expirado";
-                } else if (validateUser.isPresent() && validateUser.get().getExpirationDate().isBefore(Instant.now())) {
-                        return "Token inválido ou expirado";
-                }
-                User user = validateUser.get().getUser();
-                if (user.isEnabled()) {
-                        throw new ForbiddenResourceException("Usuário já habilitado");
-                }
-                user.setActive(true);
-                validateUserRepository.delete(validateUser.get());
-                return "";
-        }
+	public String authenticated() {
+		try {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			Jwt jwtPrincipal = (Jwt) authentication.getPrincipal();
+			return jwtPrincipal.getClaim("username");
+		} catch (Exception e) {
+			throw new UsernameNotFoundException("Não foi encontrado o usuário");
+		}
+	}
 
-        @Transactional
-        public boolean switchAuthority(Long newOwnerId, Long groupId, SwitchAuthorityRequestDTO authDTO) {
-                List<String> authLevels = List.of("OWNER", "ADMIN", "USER");
-                String setAuthority = authDTO.setAuthority();
-                String authority = authDTO.authority();
+	@Transactional
+	public void deleteCurrentUserProfile() {
+		final User user = userRepository
+				.findByEmailIgnoreCase(authenticated())
+				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
+		if (groupMemberRepository.isUserOwnerOfAnyGroup(user.getId())) {
+			throw new ForbiddenResourceException(
+					"Usuário é proprietário de grupos ativos e não pode ser removido");
+		}
+		if (userExpenseDivisionRepository.doesUserHasAnyExpense(user.getId())) {
+			throw new MemberHasPendingExpensesException(
+					"Não é possível excluir o perfil com despesas pendentes");
+		}
+		userExpenseDivisionRepository.deleteExpenseRelationByMemberId(user.getId());
+		groupMemberRepository.deleteGroupsRelationByMemberId(user.getId());
+		userRepository.deleteById(user.getId());
+	}
 
-                if (!authLevels.contains(authority.toUpperCase().trim())
-                                && authLevels.contains(setAuthority.toUpperCase().trim())) {
-                        throw new ValuesIncompatiblesException(
-                                        "Os valores recebidos não coincidem com os valores suportados");
-                }
-                User user = userRepository.findByEmailIgnoreCase(authenticated())
-                                .orElseThrow(() -> new UserNotFoundException("Usuário nao encontrado"));
-                User newUserAuth = userRepository.findById(newOwnerId)
-                                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
-                Group group = groupService.getGroup(groupId);
-                if (group == null) {
-                        throw new GroupNotFoundException("Grupo não encontrado");
-                }
-                if (!groupMemberRepository.isUserGroupOwner(user.getId(),
-                                group.getId())) {
-                        throw new ForbiddenResourceException("Usuário não tem permissão para realizar essa operação");
-                } else if (!groupMemberService.isUserMemberOfGroup(newUserAuth.getId(), group.getId())) {
-                        throw new UserNotFoundException("Usuário não pertence a este grupo");
-                } else if (groupMemberService.switchAuthGroup(newUserAuth, group, authLevels.indexOf(setAuthority))
-                                && groupMemberService.switchAuthGroup(user, group, authLevels.indexOf(authority))) {
-                        return true;
-                } else {
-                        return false;
-                }
-        }
+	@Transactional
+	public void forgotPassword(String userName) {
+		User user = userRepository.findByEmailIgnoreCase(userName)
+				.orElseThrow(() -> new UserNotFoundException("Usuário nao encontrado"));
+		String newPassword = PasswordGenerator.generateRandomPassword();
+		emailService.enviarEmailTexto(user.getEmail(),
+				"Esqueceu sua senha?",
+				"Olá " + user.getName() + " sua nova senha é " + newPassword);
+		PasswordEncoder passwordEncoder = passwordEncoder();
+		user.setPassword(passwordEncoder.encode(newPassword));
+	}
+
+	public String validateUser(String uuid) {
+		Optional<ValidateUser> validateUser = Optional
+				.of(validateUserRepository.findByUuid(UUID.fromString(uuid)).get());
+		if (validateUser.isEmpty()) {
+			return "Token inválido ou expirado";
+		} else if (validateUser.isPresent() && validateUser.get().getExpirationDate().isBefore(Instant.now())) {
+			return "Token inválido ou expirado";
+		}
+		User user = validateUser.get().getUser();
+		if (user.isEnabled()) {
+			throw new ForbiddenResourceException("Usuário já habilitado");
+		}
+		user.setActive(true);
+		validateUserRepository.delete(validateUser.get());
+		return "";
+	}
+
+	@Transactional
+	public boolean switchAuthority(Long newOwnerId, Long groupId, SwitchAuthorityRequestDTO authDTO) {
+		List<String> authLevels = List.of("OWNER", "ADMIN", "USER");
+		String setAuthority = authDTO.setAuthority();
+		String authority = authDTO.authority();
+
+		if (!authLevels.contains(authority.toUpperCase().trim())
+				&& authLevels.contains(setAuthority.toUpperCase().trim())) {
+			throw new ValuesIncompatiblesException(
+					"Os valores recebidos não coincidem com os valores suportados");
+		}
+		User user = userRepository.findByEmailIgnoreCase(authenticated())
+				.orElseThrow(() -> new UserNotFoundException("Usuário nao encontrado"));
+		User newUserAuth = userRepository.findById(newOwnerId)
+				.orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+		Group group = groupService.getGroup(groupId);
+		if (group == null) {
+			throw new GroupNotFoundException("Grupo não encontrado");
+		}
+		if (!groupMemberRepository.isUserGroupOwner(user.getId(),
+				group.getId())) {
+			throw new ForbiddenResourceException("Usuário não tem permissão para realizar essa operação");
+		} else if (!groupMemberService.isUserMemberOfGroup(newUserAuth.getId(), group.getId())) {
+			throw new UserNotFoundException("Usuário não pertence a este grupo");
+		} else if (groupMemberService.switchAuthGroup(newUserAuth, group, authLevels.indexOf(setAuthority))
+				&& groupMemberService.switchAuthGroup(user, group, authLevels.indexOf(authority))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
