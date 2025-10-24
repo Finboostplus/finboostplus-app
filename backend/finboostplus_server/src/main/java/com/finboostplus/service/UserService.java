@@ -1,5 +1,6 @@
 package com.finboostplus.service;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
@@ -45,6 +46,7 @@ import com.finboostplus.repository.UserRepository;
 import com.finboostplus.repository.ValidateUserRepository;
 import com.finboostplus.repository.ExpenseRepository;
 import com.finboostplus.util.PasswordGenerator;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -78,6 +80,7 @@ public class UserService implements UserDetailsService {
 	ExpenseRepository expenseRepository;
 
 	@Override
+    @Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		List<UserDetailsProjection> result = userRepository.searchUserAndRolesByEmail(username);
 		if (result.size() == 0) {
@@ -93,8 +96,14 @@ public class UserService implements UserDetailsService {
 	}
 
 	public UserDataDTO getUserData() {
-		return userRepository.getUserData(authenticated())
-				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+        Optional<User> optionalUser = userRepository.getUserData(authenticated());
+		if(optionalUser.isEmpty()){
+            throw  new UserNotFoundException("suário não encontrado");
+        }
+        User user = optionalUser.get();
+
+        UserDataDTO dto = new UserDataDTO(user);
+        return dto;
 	}
 
 	public Page<UserExpensesDTO> getAllUserExpenses(Pageable pageable) {
@@ -104,13 +113,35 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Transactional
-	public boolean saveUser(UserCreateDTO dto) {
+	public boolean saveUser(UserCreateDTO dto ,MultipartFile file) {
 		Optional<User> userOptional = userRepository.findByEmailIgnoreCase(dto.email());
 		if (userOptional.isPresent()) {
 			throw new UserAlreadyRegisteredOnGroupException("Email já cadastrado");
 		}
 		User user = User.dtoToUser(dto);
-		PasswordEncoder passwordEncoder = passwordEncoder();
+
+        List<String> listaImage = List.of("image/png","image/jpeg","iamge/jpg");
+
+        if(file != null){
+
+            if(!listaImage.contains(file.getContentType())){
+                throw  new ValuesIncompatiblesException("Formato de arquivo não permitido");
+            }
+            long tamanhoMaximo = 1 * 1024 * 1024;
+
+            if(file.getSize() > tamanhoMaximo){
+                throw  new ValuesIncompatiblesException("Tamanho de arquivo acima do permitido maximo (1M)");
+            }
+
+            try {
+                user.setImagem(file.getBytes());
+                user.setTipoImagem(file.getContentType());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        PasswordEncoder passwordEncoder = passwordEncoder();
 		user.setPassword(passwordEncoder.encode(dto.password()));
 		Role role = roleRepository.findByAuthority("ROLE_USER");
 		Set<Role> roles = new HashSet<>();

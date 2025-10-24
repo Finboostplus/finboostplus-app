@@ -6,21 +6,12 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.finboostplus.DTO.UserCreateDTO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -59,6 +50,13 @@ public class User implements UserDetails {
         @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
         private Set<Role> roles = new HashSet<>();
 
+
+    @Column(name = "imagem", columnDefinition = "bytea")
+    private byte[] imagem;
+
+    private String tipoImagem;
+
+
         public User(String name, String email, String password, String themeColor) {
                 this.name = name;
                 this.email = email;
@@ -67,6 +65,7 @@ public class User implements UserDetails {
                 this.createdAt = Instant.now();
                 this.active = false;
         }
+
 
         public static User dtoToUser(UserCreateDTO dto) {
                 return new User(dto.name(), dto.email(), dto.password(), dto.themeColor());
@@ -97,7 +96,7 @@ public class User implements UserDetails {
                 return Objects.equals(id, user.id);
         }
 
-        @Override
+    @Override
         public int hashCode() {
                 return id != null ? id.hashCode() : 0;
         }
@@ -136,4 +135,6 @@ public class User implements UserDetails {
         public boolean isEnabled() {
                 return this.active;
         }
+
+
 }
