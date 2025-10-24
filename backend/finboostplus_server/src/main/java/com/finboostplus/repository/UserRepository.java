@@ -38,9 +38,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	boolean isUserAuthorityValidToGroup(long userId, long groupId, List<String> authorities);
 
 	@Query(nativeQuery = true, value = """
-				SELECT user_name, e_mail, theme_color
+			SELECT user_name, e_mail, theme_color
 				FROM users
 				WHERE e_mail = :email
 			""")
 	Optional<UserDataDTO> getUserData(String email);
+
+	@Query(nativeQuery = true, value = """
+			SELECT password FROM users WHERE e_mail = :email
+			""")
+	String doesPasswordMatch(String email);
 }

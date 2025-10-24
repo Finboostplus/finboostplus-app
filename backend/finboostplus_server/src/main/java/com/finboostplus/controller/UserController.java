@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.finboostplus.DTO.ChangePasswordDTO;
 import com.finboostplus.DTO.UserCreateDTO;
 import com.finboostplus.DTO.UserDataDTO;
 import com.finboostplus.DTO.UserExpensesDTO;
@@ -165,8 +167,12 @@ public class UserController {
 		return ResponseEntity.noContent().build();
 	}
 
-	// @PreAuthorize("hasRole('USER')")
-	// changePassword
+	@PreAuthorize("hasRole('USER')")
+	@PatchMapping("change-password")
+	public ResponseEntity<String> changePassword(@RequestBody ChangePasswordDTO passwordChange){
+		userService.changePassword(passwordChange);
+		return ResponseEntity.ok("Senha alterada com sucesso!");
+	}
 
 	@GetMapping(value = "/userValidate/{uuid}")
 	public String validateUser(@PathVariable("uuid") String uuid) {
