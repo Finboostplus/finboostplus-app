@@ -112,13 +112,9 @@ public class UserService implements UserDetailsService {
 		return expenseRepository.getAllUserExpenses(user.getId(), pageable);
 	}
 
-	@Transactional
-	public boolean saveUser(UserCreateDTO dto ,MultipartFile file) {
-		Optional<User> userOptional = userRepository.findByEmailIgnoreCase(dto.email());
-		if (userOptional.isPresent()) {
-			throw new UserAlreadyRegisteredOnGroupException("Email já cadastrado");
-		}
-		User user = User.dtoToUser(dto);
+    public String saveImage(MultipartFile file){
+        User user = userRepository.findByEmailIgnoreCase(authenticated())
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
         List<String> listaImage = List.of("image/png","image/jpeg","iamge/jpg");
 
@@ -140,6 +136,22 @@ public class UserService implements UserDetailsService {
                 throw new RuntimeException(e);
             }
         }
+        User userSaved = userRepository.save(user);
+        if(userSaved != null){
+
+            return "Imagem Salva com Sucesso";
+        }
+
+        return "Não foi possível salvar a imagem";
+
+    }
+	@Transactional
+	public boolean saveUser(UserCreateDTO dto ) {
+		Optional<User> userOptional = userRepository.findByEmailIgnoreCase(dto.email());
+		if (userOptional.isPresent()) {
+			throw new UserAlreadyRegisteredOnGroupException("Email já cadastrado");
+		}
+		User user = User.dtoToUser(dto);
 
         PasswordEncoder passwordEncoder = passwordEncoder();
 		user.setPassword(passwordEncoder.encode(dto.password()));

@@ -40,7 +40,7 @@ public class UserController {
 	@Autowired
 	OAuth2AuthorizationService authorizationService;
 
-	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping()
 	@Operation(summary = "Criar novo usuário", description = """
 			Cria um novo perfil de usuário no sistema FinBoost Plus.
 
@@ -57,34 +57,34 @@ public class UserController {
 			@ApiResponse(responseCode = "400", description = "Dados inválidos ou email já existe", content = @Content(mediaType = "text/plain", schema = @Schema(type = "string"), examples = @ExampleObject(value = "Erro de validação"))),
 			@ApiResponse(responseCode = "422", description = "Erro de validação dos campos obrigatórios")
 	})
-	public ResponseEntity<String> saveProfile(
+    public ResponseEntity<String> saveProfile(
             @Parameter(description = "Dados do usuário para cadastro", required = true, content = @Content(schema = @Schema(implementation = UserCreateDTO.class), examples = @ExampleObject(name = "Exemplo de usuário", value = """
-					{
-						"name": "João Silva",
-						"email": "joao.silva@email.com",
-						"password": "minhasenha123",
-						"themeColor": "blue"
-					}
-					""")))  @RequestParam("name")String name,
-                            @RequestParam("email")String email,
-                            @RequestParam("password")String password,
-                            @RequestParam("themeColor")String themeColor,
-                            @RequestParam(value = "file", required = false) MultipartFile file) {
-
-
-        UserCreateDTO dto = new UserCreateDTO(name, email, password, themeColor);
-		boolean userIsSaved = userService.saveUser(dto , file);
-		if (userIsSaved) {
-			return new ResponseEntity<>("Cadastro feito com sucesso!", HttpStatus.CREATED);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
+                                        {
+                                        	"name": "João Silva",
+                                        	"email": "joao.silva@email.com",
+                                        	"password": "minhasenha123",
+                                        	"themeColor": "blue"
+                                        }
+                                        """))) @Valid @RequestBody UserCreateDTO dto) {
+        boolean userIsSaved = userService.saveUser(dto);
+        if (userIsSaved) {
+            return new ResponseEntity<>("Cadastro feito com sucesso!", HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 
 	@GetMapping("/me")
 	public ResponseEntity<UserDataDTO> getUserData() {
 		UserDataDTO user = userService.getUserData();
 		return ResponseEntity.ok(user);
 	}
+
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String>addImagUser(@RequestParam MultipartFile file){
+
+        return ResponseEntity.ok(userService.saveImage(file));
+    }
+
 
 	@GetMapping("/me/expenses")
 	public ResponseEntity<Page<UserExpensesDTO>> getAllUserExpenses(@RequestParam(name = "page", defaultValue = "0") Integer page,
