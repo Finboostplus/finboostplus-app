@@ -22,6 +22,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.finboostplus.DTO.ChangePasswordDTO;
 import com.finboostplus.DTO.SwitchAuthorityRequestDTO;
 import com.finboostplus.DTO.UserCreateDTO;
 import com.finboostplus.DTO.UserDataDTO;
@@ -29,6 +30,7 @@ import com.finboostplus.DTO.UserExpensesDTO;
 import com.finboostplus.DTO.UserUpdateDTO;
 import com.finboostplus.exception.ForbiddenResourceException;
 import com.finboostplus.exception.GroupNotFoundException;
+import com.finboostplus.exception.InvalidCredentialsException;
 import com.finboostplus.exception.MemberHasPendingExpensesException;
 import com.finboostplus.exception.UserAlreadyRegisteredOnGroupException;
 import com.finboostplus.exception.UserNotFoundException;
@@ -38,12 +40,12 @@ import com.finboostplus.model.Role;
 import com.finboostplus.model.User;
 import com.finboostplus.model.ValidateUser;
 import com.finboostplus.projection.UserDetailsProjection;
+import com.finboostplus.repository.ExpenseRepository;
 import com.finboostplus.repository.GroupMemberRepository;
 import com.finboostplus.repository.RoleRepository;
 import com.finboostplus.repository.UserExpenseDivisionRepository;
 import com.finboostplus.repository.UserRepository;
 import com.finboostplus.repository.ValidateUserRepository;
-import com.finboostplus.repository.ExpenseRepository;
 import com.finboostplus.util.PasswordGenerator;
 
 @Service
@@ -154,6 +156,21 @@ public class UserService implements UserDetailsService {
 
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	public void changePassword(ChangePasswordDTO passwordChange) {
+		User user = userRepository.findByEmailIgnoreCase(authenticated())
+				.orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+		PasswordEncoder passwordEncoder = passwordEncoder();
+		String encodedOldPassword = userRepository.doesPasswordMatch(user.getEmail());
+		boolean doesPasswordMatch = passwordEncoder.matches(passwordChange.oldPassword(), encodedOldPassword);
+		if (doesPasswordMatch) {
+			String encodedNewPassword = passwordEncoder.encode(passwordChange.newPassword());
+			user.setPassword(encodedNewPassword);
+			userRepository.save(user);
+			return;
+		}
+		throw new InvalidCredentialsException("Credenciais Inválidas");
 	}
 
 	public String authenticated() {
