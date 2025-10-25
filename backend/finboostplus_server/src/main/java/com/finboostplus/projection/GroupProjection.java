@@ -10,6 +10,10 @@ public interface GroupProjection {
 
 	String getDescription();
 
+	String getAuthority();
+
+	String getIcon();
+
 	@Value("#{T(java.time.LocalDate).ofInstant(target.created_at, T(java.time.ZoneId).of('America/Sao_Paulo'))}")
 	LocalDate getCreatedAt();
 

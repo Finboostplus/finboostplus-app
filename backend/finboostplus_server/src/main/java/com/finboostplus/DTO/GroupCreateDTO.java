@@ -13,12 +13,15 @@ public record GroupCreateDTO(
 
         @NotBlank(message = "A descrição é obrigatória") 
         @Size(max = 100, message = "A descrição do grupo deve ter no máximo 100 caracteres") 
-        String description) {
+        String description,
+
+	String icon) {
 
         public Group groupDtoToGroup() {
                 Group group = new Group();
                 group.setName(name);
                 group.setDescription(description);
+		group.setIcon(icon);
                 group.setCreatedAt(Instant.now());
                 return group;
         }

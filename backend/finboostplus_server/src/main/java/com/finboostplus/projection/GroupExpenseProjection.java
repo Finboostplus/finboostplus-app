@@ -10,6 +10,10 @@ public interface GroupExpenseProjection {
 
         BigDecimal getValue();
 
+	Long getGroupId();
+
+	String getGroupName();
+
         String getStatus();
 
         LocalDate getDeadlineDate();
