@@ -33,7 +33,7 @@ export default function GroupDetails() {
               role="heading"
               aria-level={1}
             >
-              {group.name}
+              {group?.name}
             </h1>
             <p className="text-sm text-muted mt-1">
               Visualize os saldos entre membros e acompanhe as despesas do
@@ -54,7 +54,7 @@ export default function GroupDetails() {
               <MenuItem>
                 {({ active }) => (
                   <a
-                    href={`/groups/${group.id}/settings`}
+                    href={`/groups/${group?.id}/settings`}
                     className={`${
                       active ? 'bg-primary/10 text-primary' : 'text-text'
                     } flex items-center gap-2 px-4 py-2 text-sm rounded-md transition-colors cursor-pointer`}
@@ -96,11 +96,11 @@ export default function GroupDetails() {
           <div className="mt-2">
             <p
               className={`text-4xl sm:text-5xl font-bold ${
-                group.totalBalance >= 0 ? 'text-success' : 'text-red-500'
+                group.totalExpenses <= 0 ? 'text-success' : 'text-red-500'
               } mb-1`}
               aria-live="polite"
             >
-              {formatBRL(group.totalBalance)}
+              {formatBRL(group.totalExpenses)}
             </p>
             <p className="text-muted text-base sm:text-lg">acumulado do mês</p>
           </div>
@@ -126,7 +126,7 @@ export default function GroupDetails() {
 
         {/* Conteúdo principal */}
         <section className="animate-fadeIn">
-          <ExpensesList group={group} />
+          {/*   <ExpensesList group={group} /> */}
           {/* {showBalances ? (
             <BalancesList group={group} />
           ) : (

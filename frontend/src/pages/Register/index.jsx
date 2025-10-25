@@ -4,10 +4,10 @@ import CardUI from '../../components/ui/Card';
 import { useAuthStore } from '../../context/stores/auth';
 
 export default function Register() {
-  const isAuthenticated = useAuthStore(state => state.isAuthenticated());
+  const isAuthenticated = useAuthStore(state => !!state.token);
 
   if (isAuthenticated) {
-    return <Navigate to="/" replace state={{ from: location.pathname }} />;
+    return <Navigate to="/" replace />;
   }
 
   return (

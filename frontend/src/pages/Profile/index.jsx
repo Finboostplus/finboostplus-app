@@ -16,7 +16,13 @@ import ProfileContent from './ProfileContent';
 import { Link } from 'react-router';
 import Modal from '../../components/Modal';
 
+import useMeQuery from '../../hooks/ReactQuery/useMeQuery';
+import { useGroupsQuery } from '../../hooks/ReactQuery/useGroupsQuery';
+
 export default function Profile() {
+  const { data: user } = useMeQuery();
+  const { data: groups } = useGroupsQuery();
+  const groupsLength = groups?.content.length;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const current_user = userData;
 
@@ -26,14 +32,14 @@ export default function Profile() {
       <header className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
         <div className="flex items-center gap-4">
           <div
-            style={{ backgroundColor: current_user.color }}
+            style={{ backgroundColor: user?.themeColor }}
             className="w-14 h-14 rounded-full flex items-center justify-center font-bold text-white text-xl shadow-md"
           >
-            {current_user.username[0]}
+            {user?.name[0].toUpperCase()}
           </div>
           <div>
-            <h1 className="text-xl font-semibold">{current_user.username}</h1>
-            <p className="text-sm text-muted">{current_user.email}</p>
+            <h1 className="text-xl font-semibold">{user?.name}</h1>
+            <p className="text-sm text-muted">{user?.email}</p>
           </div>
         </div>
       </header>
@@ -42,7 +48,7 @@ export default function Profile() {
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
         <Link to={'/groups'} className="group">
           <StatBox
-            number={current_user.groups.length}
+            number={groupsLength}
             label="Grupos"
             color="border-b-4 border-primary group-hover:bg-muted/10"
             icon={<FaUsers className="text-primary size-9" />}
@@ -67,19 +73,21 @@ export default function Profile() {
       <section>
         <h2 className="text-lg font-semibold mb-3">Configurações e Suporte</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <ActionButton
-            icon={<FaEdit className="text-primary" />}
-            label="Editar Perfil"
+          <ButtonUI
             onClick={() => setIsModalOpen(true)}
-          />
-          <ActionButton
-            icon={<FaQuestionCircle className="text-primary" />}
-            label="Ajuda e Suporte"
-          />
-          <ActionButton
-            icon={<FaInfoCircle className="text-primary" />}
-            label="Sobre o App"
-          />
+            className="flex items-center gap-3 w-full p-4 rounded-xl border-l-4 border-primary bg-background hover:bg-muted/10 cursor-pointer "
+          >
+            <FaEdit className="text-primary w-10" />
+            <span>Editar Perfil</span>
+          </ButtonUI>
+          <ButtonUI className="flex items-center gap-3 w-full p-4 rounded-xl border-l-4 border-primary bg-background hover:bg-muted/10 cursor-pointer">
+            <FaQuestionCircle className="text-primary" />
+            <span>Ajuda e Suporte</span>
+          </ButtonUI>
+          <ButtonUI className="flex items-center gap-3 w-full p-4 rounded-xl border-l-4 border-primary bg-background hover:bg-muted/10 cursor-pointer">
+            <FaInfoCircle className="text-primary" />
+            <span>Sobre o App</span>
+          </ButtonUI>
         </div>
       </section>
       <Modal
@@ -93,18 +101,5 @@ export default function Profile() {
         }
       />
     </main>
-  );
-}
-
-function ActionButton({ icon, label, onClick }) {
-  return (
-    <ButtonUI
-      fnClick={onClick}
-      icon={icon}
-      type="button"
-      title={label}
-      className="flex items-center gap-3 w-full p-4 rounded-xl border-l-4 border-primary bg-background hover:bg-muted/10 cursor-pointer"
-      aria-label={label}
-    />
   );
 }

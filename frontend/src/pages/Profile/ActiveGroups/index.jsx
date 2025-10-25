@@ -1,14 +1,15 @@
-import userData from '../../../mockData/user/user.data';
+import { useGroupsQuery } from '../../../hooks/ReactQuery/useGroupsQuery';
 
 export default function ActiveGroups() {
-  const current_user = userData;
+  /*  const groups = useGroupStore(store => store.groups); */
+  const { data: groups } = useGroupsQuery();
   const groupLimit = 4;
-  const groupsToShow = current_user.groups.slice(0, groupLimit);
-  const hasMoreGroups = current_user.groups.length > groupLimit;
+  const groupsToShow = groups?.content.slice(0, groupLimit);
+  const hasMoreGroups = groups?.content.length > groupLimit;
 
   return (
     <div className="flex flex-wrap gap-2">
-      {groupsToShow.map(group => (
+      {groupsToShow?.map(group => (
         <a
           key={group.id}
           href={`/groups/${group.id}`}
@@ -25,7 +26,7 @@ export default function ActiveGroups() {
           className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium font-principal border border-primary/30 hover:bg-primary/20 transition-colors"
           aria-label="Ver todos os grupos"
         >
-          +{current_user.groups.length - groupLimit} mais
+          +{groups.length - groupLimit} mais
         </a>
       )}
     </div>

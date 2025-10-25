@@ -1,11 +1,14 @@
 // src/routes/loginAction.js
 import { createGroupFormSchema } from '../schemas/createGroup/form';
 import { z } from 'zod';
+import { createGroup } from '../services/groups';
+import { customToast } from '../components/CustomToast';
 
 export const groupAction = async ({ request }) => {
   const form = await request.formData();
   const formData = Object.fromEntries(form);
   const { success, error, data } = createGroupFormSchema.safeParse(formData);
+  console.log(data);
   if (!success) {
     const errors = {};
     if (error instanceof z.ZodError) {
@@ -25,9 +28,11 @@ export const groupAction = async ({ request }) => {
 
     return { success, errors, value: data };
   }
-  const notification = {
-    title: 'Criar novo grupo',
-    message: 'Grupo criado com sucesso!!!',
-  };
-  return { success, data: notification };
+
+  try {
+    /* await createGroup(data); */
+    customToast('Grupo criado', 'Grupo criado com sucesso', 'error');
+  } catch (error) {
+    customToast('Error', error.message, 'error');
+  }
 };

@@ -5,5 +5,6 @@ export const createGroupFormSchema = z.object({
     .string()
     .min(3, 'O nome do grupo deve ter pelo menos 3 caracteres')
     .describe('Nome do grupo'),
+  icon: z.string(),
   description: z.string().optional(),
 });

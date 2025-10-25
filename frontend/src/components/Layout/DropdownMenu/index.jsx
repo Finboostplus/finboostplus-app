@@ -2,26 +2,25 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { navItems } from './navItems';
 import SwitchTheme from './SwitchTheme';
 import { FaMoon, FaSun } from 'react-icons/fa';
-import userData from '../../../mockData/user/user.data';
-import { useAuthStore } from '../../../context/stores/auth';
-import { useNavigate } from 'react-router';
+import { useLogout } from '../../../hooks/useLogout';
+import useMeQuery from '../../../hooks/ReactQuery/useMeQuery';
 
 export default function DropdownMenu() {
-  const navigate = useNavigate();
-  const logout = useAuthStore(state => state.logout);
-  const current_user = userData;
-  const firstLetter = current_user.username?.[0]?.toUpperCase() ?? '?';
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+  const logout = useLogout();
+  const { data: user, isLoading, error } = useMeQuery();
+  const firstLetter = user?.name[0]?.toUpperCase() ?? '?';
+
   return (
-    <Menu as="div" className="relative inline-block text-left">
+    <Menu
+      as="div"
+      title={`Abrir menu de ${user?.name}`}
+      className="relative inline-block text-left"
+    >
       {/* Botão do avatar */}
       <MenuButton
         className="w-10 h-10 flex items-center justify-center rounded-full font-bold shadow-md text-white hover:opacity-90 transition focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer"
-        style={{ backgroundColor: current_user.color }}
-        aria-label={`Abrir menu do usuário ${current_user.username}`}
+        style={{ backgroundColor: user?.themeColor }}
+        aria-label={`Abrir menu do usuário ${user?.name}`}
       >
         <span aria-hidden="true">{firstLetter}</span>
       </MenuButton>
@@ -47,7 +46,7 @@ export default function DropdownMenu() {
                 if (isDanger) {
                   return (
                     <button
-                      onClick={handleLogout}
+                      onClick={() => logout()}
                       className={`${base} ${
                         active ? `${activeBg} ${activeText}` : baseText
                       } hover:opacity-90 focus:outline-none cursor-pointer`}

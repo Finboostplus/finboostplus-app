@@ -13,9 +13,10 @@ export default function ModalButton({ modalChildren }) {
         isOpen={isOpenModal}
         setIsOpen={setIsOpenModal}
       />
+
       <ButtonUI
         type="button"
-        fnClick={() => setIsOpenModal(true)}
+        onClick={() => setIsOpenModal(true)}
         className="
       fixed 
       bottom-5 right-6
@@ -33,8 +34,9 @@ export default function ModalButton({ modalChildren }) {
       cursor-pointer
       focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-60
     "
-        title="+"
-      />
+      >
+        <span>+</span>
+      </ButtonUI>
     </>
   );
 }

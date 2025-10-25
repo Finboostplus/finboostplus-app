@@ -33,6 +33,7 @@ const refreshAuthLogic = async failedRequest => {
     /* const { exp: jwt_expiration } = useAuthStore.getState().user; */
     const newCredentials = await refreshToken(refresh_token);
     useAuthStore.getState().setRefreshToken(newCredentials);
+    console.log('REFRESH TOKEN');
   } catch (error) {
     console.error('Erro ao fazer o refresh', error);
     useAuthStore.getState().logout();

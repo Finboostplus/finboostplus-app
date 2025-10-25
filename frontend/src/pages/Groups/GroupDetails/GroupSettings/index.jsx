@@ -90,12 +90,17 @@ export default function GroupSettings() {
               Retornar
             </MenuItem>
           </Menu>
+
           <ButtonUI
-            icon={<FiSave className="w-5 h-5 sm:w-6 sm:h-6" />}
             title="Salvar"
             ariaLabel="Salvar alterações"
             className="flex-1 p-2 flex items-center justify-center gap-2 rounded-lg bg-primary/70 text-white hover:bg-primary transition disabled:opacity-50 cursor-pointer"
-          />
+          >
+            <div>
+              <FiSave className="w-5 h-5 sm:w-6 sm:h-6" />
+            </div>
+            <span>Salvar</span>
+          </ButtonUI>
         </section>
       </main>
     </div>
@@ -112,11 +117,14 @@ function MembersInfo({ group }) {
           Visualizar membros ({group.members.length})
         </h2>
         <ButtonUI
-          fnClick={() => setIsOpen(true)}
-          icon={<FiUserPlus className="w-6 h-6 sm:w-7 sm:h-7 rounded-2xl" />}
+          onClick={() => setIsOpen(true)}
           className="flex cursor-pointer items-center gap-1 text-white bg-primary w-10 h-10 justify-center rounded-full font-semibold hover:text-secondary transition disabled:opacity-50 disabled:cursor-not-allowed"
           type="button"
-        />
+        >
+          <div>
+            <FiUserPlus className="w-6 h-6 sm:w-7 sm:h-7 rounded-2xl" />
+          </div>
+        </ButtonUI>
       </div>
 
       <Modal

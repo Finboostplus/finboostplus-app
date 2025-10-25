@@ -78,13 +78,14 @@ export default function Modal({ children, isOpen, setIsOpen, fnClose }) {
                 data-testid="modal-panel"
               >
                 <ButtonUI
-                  title="×"
-                  fnClick={handleCloseAttempt}
+                  aria-label="Fechar modal"
+                  onClick={handleCloseAttempt}
                   className="text-3xl font-extrabold text-white bg-[var(--color-error)] 
-                             w-10 h-10 rounded-lg absolute top-3 right-3 opacity-80 
-                             hover:opacity-100 transition-opacity cursor-pointer shadow-md flex justify-center"
-                  ariaLabel="Fechar modal"
-                />
+                w-10 h-10 rounded-lg absolute top-3 right-3 opacity-80 
+                hover:opacity-100 transition-opacity cursor-pointer shadow-md flex justify-center"
+                >
+                  <span>x</span>
+                </ButtonUI>
                 <div className="p-6 sm:p-8">{children}</div>
               </DialogPanel>
             </TransitionChild>
@@ -130,15 +131,17 @@ export function ConfirmModal({
 
             <div className="flex justify-center gap-3">
               <ButtonUI
-                title={confirmLabel}
-                fnClick={onConfirm}
+                onClick={onConfirm}
                 className="bg-error text-white px-4 py-2 rounded-lg hover:opacity-90 transition cursor-pointer"
-              />
+              >
+                <span>{confirmLabel}</span>
+              </ButtonUI>
               <ButtonUI
-                title={cancelLabel}
-                fnClick={onCancel}
+                onClick={onCancel}
                 className="bg-primary text-white  px-4 py-2 rounded-lg hover:bg-gray-400 transition cursor-pointer"
-              />
+              >
+                <span>{cancelLabel}</span>
+              </ButtonUI>
             </div>
           </DialogPanel>
         </div>

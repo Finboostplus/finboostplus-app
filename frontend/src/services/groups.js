@@ -1,8 +1,12 @@
+import { useAuthStore } from '../context/stores/auth';
+import { REACTQUERY_KEYS } from '../libs/ReactQuery/keys';
+import { queryClient } from '../libs/ReactQuery/queryClient';
 import { apiApplication } from './api';
 
 // Busca todos os grupos
 export const getGroups = async () => {
   try {
+    const userName = queryClient.getQueryData([REACTQUERY_KEYS.USER.ME]).name;
     const response = await apiApplication.get('/groups');
 
     // Para cada grupo, pega os membros
@@ -11,6 +15,13 @@ export const getGroups = async () => {
         const { data: members } = await apiApplication.get(
           `groups/${group.id}/members`
         );
+        members.some(member => {
+          if (member.authority === 'OWNER') {
+            if (member.name === userName) {
+              group['ownerId'] = member.name;
+            }
+          }
+        });
         return { ...group, members }; // adiciona members ao grupo
       })
     );
@@ -23,10 +34,14 @@ export const getGroups = async () => {
 };
 
 // Cria um novo grupo
-export const addGroup = async group => {
-  const response = await api.post('/groups', group);
-
-  return response.data;
+export const createGroup = async group => {
+  try {
+    const response = await apiApplication.post('/groups', group);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Erro ao criar um grupo');
+  }
 };
 
 // Atualiza um grupo existente pelo id

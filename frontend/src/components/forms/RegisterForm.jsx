@@ -105,12 +105,14 @@ export default function RegisterForm() {
         </div>
 
         {/* Botão submit */}
+
         <ButtonUI
-          title={isLoading ? 'Cadastrando...' : 'Cadastrar'}
           type="submit"
           disabled={isLoading}
           className="w-full py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-secondary transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-        />
+        >
+          <span>{isLoading ? 'Cadastrando...' : 'Cadastrar'}</span>
+        </ButtonUI>
       </Form>
 
       {/* Link para login */}

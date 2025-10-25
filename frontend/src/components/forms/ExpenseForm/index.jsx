@@ -103,16 +103,17 @@ export default function ExpenseForm() {
 
         <div className="col-span-2 mt-4">
           <ButtonUI
-            title={isSubmitting ? 'Enviando...' : 'Adicionar Despesa'}
+            disabled={!isDistributionValid || isSubmitting}
+            aria-disabled={!isDistributionValid || isSubmitting}
             type="submit"
             className={`bg-primary hover:bg-secondary text-white py-3 px-6 rounded w-full sm:w-auto font-semibold transition ${
               !isDistributionValid || isSubmitting
                 ? 'opacity-50 cursor-not-allowed disabled:bg-gray-400'
                 : ''
             }`}
-            disabled={!isDistributionValid || isSubmitting}
-            aria-disabled={!isDistributionValid || isSubmitting}
-          />
+          >
+            <span>{isSubmitting ? 'Enviando...' : 'Adicionar Despesa'}</span>
+          </ButtonUI>
         </div>
       </Form>
     </div>

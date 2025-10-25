@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Link, useLoaderData } from 'react-router';
+import { Link } from 'react-router';
 import GroupFilters from '../../components/Filters/Groups';
 import { useFilteredGroups } from '../../components/Filters/Groups/useFilteredGroups';
 import GroupForm from '../../components/forms/GroupForm';
@@ -7,48 +7,42 @@ import CardUI from '../../components/ui/Card';
 import userData from '../../mockData/user/user.data';
 import { formatBRL } from '../../utils/formatters';
 import ModalButton from '../../components/Modal/ModalButton';
-import { useQuery } from '@tanstack/react-query';
-import { getGroups } from '../../services/groups';
-import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
+import { useGroupsQuery } from '../../hooks/ReactQuery/useGroupsQuery';
+import useMeQuery from '../../hooks/ReactQuery/useMeQuery';
 
 export default function Groups() {
-  const [currentUser, setCurrentUser] = useState(userData);
-  const loaderData = useLoaderData();
-  /*  const { data: groups } = useQuery({
-    queryKey: [REACTQUERY_KEYS.GROUPS.ALL],
-    initialData: loaderData,
-    queryFn: getGroups,
-  });
-  console.log(groups); */
-  useEffect(() => {
-    /*  console.log(currentUser);
-    const newCurrentUser = userData;
-    userData.groups.forEach(g => {
-      delete g.icon;
-      delete g.status;
-      delete g.statusColor;
-    }); */
-    /* newCurrentUser.groups = groups.content; */
-    /*  setCurrentUser(userData); */
-  }, []);
+  const { data: user } = useMeQuery();
+  const { data: groups, isLoading } = useGroupsQuery();
 
+  // Atualiza currentUser quando a query de user carregar
+  useEffect(() => {
+    console.log(user, groups);
+  }, [user, groups]);
+
+  // Estado de filtros
   const [filters, setFilters] = useState({
     search: '',
     onlyOwner: false,
     sortOrder: 'desc',
   });
 
-  const filteredGroups = useFilteredGroups(
-    currentUser.groups,
-    currentUser.id,
-    filters
-  );
+  if (isLoading) return <div>Carregando...</div>;
+  /*  if (!groups?.content?.length)
+    return (
+      <div className="text-center mt-12 text-muted">
+        <p className="text-lg font-medium">Nenhum grupo encontrado</p>
+        <p className="text-sm mt-1">Crie um novo grupo para começar a usar.</p>
+      </div>
+    ); */
 
-  // número total e filtrado de grupos (para UX)
-  const totalGroups = currentUser.groups.length;
+  // Grupos filtrados
+  const filteredGroups = useFilteredGroups(groups.content, user.name, filters);
+
+  // Número total e filtrado de grupos
+  const totalGroups = groups.content.length;
   const totalFiltered = filteredGroups.length;
 
-  // título dinâmico (ex: "3 grupos encontrados de 5")
+  // Título dinâmico
   const title = useMemo(() => {
     if (filters.search || filters.onlyOwner)
       return `Grupos (${totalFiltered}/${totalGroups})`;
@@ -61,7 +55,6 @@ export default function Groups() {
         {/* Cabeçalho */}
         <header className="mb-6 flex items-center justify-between flex-wrap gap-4">
           <h1 className="text-2xl font-bold text-text">{title}</h1>
-          {/* Modal para adicionar um novo grupo */}
           <ModalButton modalChildren={<GroupForm />} />
         </header>
 
@@ -79,36 +72,36 @@ export default function Groups() {
             {filteredGroups.map(group => (
               <Link
                 key={group.id}
-                to={`/groups/${group.id}`}
+                to={`/groups/${group?.id}`}
                 className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg block"
-                aria-label={`Grupo ${group.name} com ${group.members.length} membros`}
+                aria-label={`Grupo ${group?.name} com ${group?.members?.length} membros`}
               >
                 <CardUI
-                  style={{ borderColor: currentUser.color }}
-                  className={`relative  border-primary p-6 rounded-2xl shadow-sm bg-surface hover:shadow-md cursor-pointer border-l-4 h-full transition-colors duration-200 ease-in-out`}
+                  style={{ borderColor: user?.themeColor }}
+                  className="relative border-primary p-6 rounded-2xl shadow-sm bg-surface hover:shadow-md cursor-pointer border-l-4 h-full transition-colors duration-200 ease-in-out"
                 >
                   {/* Nome + Ícone */}
                   <div className="flex items-center gap-3 mb-3 text-lg text-primary font-semibold">
-                    <span className="text-2xl">{group.icon}</span>
-                    <h3 className="truncate">{group.name}</h3>
+                    <span className="text-2xl">{group?.icon}</span>
+                    <h3 className="truncate">{group?.name}</h3>
                   </div>
 
                   {/* Quantidade de membros */}
                   <p className="text-sm text-muted mb-4">
-                    {group.members.length} membro
-                    {group.members.length > 1 ? 's' : ''}
+                    {group?.members?.length} membro
+                    {group?.members?.length > 1 ? 's' : ''}
                   </p>
 
                   {/* Avatares dos membros */}
                   <div className="relative mb-4 h-8">
-                    {group.members.map(({ name, color }, idx) => (
+                    {group?.members?.map(({ name, themeColor }, idx) => (
                       <span
                         key={idx}
                         className="text-white text-sm w-8 h-8 rounded-full flex items-center justify-center absolute border-2 border-surface shadow-md"
                         style={{
-                          backgroundColor: color,
+                          backgroundColor: themeColor,
                           left: `${idx * 1.2}rem`,
-                          zIndex: group.members.length - idx,
+                          zIndex: group?.members.length - idx,
                         }}
                         aria-label={`Membro: ${name}`}
                         title={name}
@@ -121,10 +114,12 @@ export default function Groups() {
                   {/* Status financeiro */}
                   <p
                     className={`text-sm font-semibold select-none ${
-                      group.status >= 0 ? 'text-green-500' : 'text-red-500'
+                      group?.totalExpenses <= 0
+                        ? 'text-green-500'
+                        : 'text-red-500'
                     }`}
                   >
-                    Saldo: {formatBRL(group.status)}
+                    Despesas: {formatBRL(group.totalExpenses)}
                   </p>
                 </CardUI>
               </Link>
