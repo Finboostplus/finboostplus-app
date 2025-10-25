@@ -30,25 +30,27 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			""")
 	Page<UserExpensesDTO> getAllUserExpenses(Long userId, Pageable pageable);
 
-	@Query(nativeQuery = true, value = """
-			SELECT expenses.id, expenses.title,	expenses.description,
-				categories.name as categoryName,
-				COALESCE(SUM(expenses.value), 0) AS total
-				FROM group_members
-				INNER JOIN groups ON group_members.group_id = groups.id
-				INNER JOIN users ON group_members.user_id = users.id
-				LEFT JOIN expenses ON expenses.group_id = groups.id
-				INNER JOIN categories ON categories.id = expenses.category_id
-				WHERE users.id =:memberId
-				AND groups.id = :groupId
-				GROUP BY expenses.id,categories.name
-			""")
-	List<ExpenseProjection> listExpensesGroupById(Long memberId, Long groupId);
+	// @Query(nativeQuery = true, value = """
+	// 		SELECT expenses.id, expenses.title,	expenses.description,
+	// 			categories.name as categoryName,
+	// 			COALESCE(SUM(expenses.value), 0) AS total
+	// 			FROM group_members
+	// 			INNER JOIN groups ON group_members.group_id = groups.id
+	// 			INNER JOIN users ON group_members.user_id = users.id
+	// 			LEFT JOIN expenses ON expenses.group_id = groups.id
+	// 			INNER JOIN categories ON categories.id = expenses.category_id
+	// 			WHERE users.id =:memberId
+	// 			AND groups.id = :groupId
+	// 			GROUP BY expenses.id,categories.name
+	// 		""")
+	// List<ExpenseProjection> listExpensesGroupById(Long memberId, Long groupId);
 
 	@Query(value = """
 			SELECT
 			    e.id AS id,
 			    e.title AS title,
+			    g.id as group_id,
+			    g.name as group_name,
 			    ued.partial_value AS value,
 			    ued.status AS status,
 			    e.deadline_date AS deadline_date
@@ -71,6 +73,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			SELECT
 			    e.id AS id,
 			    e.title AS title,
+			    g.id as group_id,
+			    g.name as group_name,
 			    ued.partial_value AS value,
 			    ued.status AS status,
 			    e.deadline_date AS deadline_date
@@ -96,6 +100,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			   e.id AS id,
 			   e.title AS title,
 			   e.value AS value,
+			   g.id as group_id,
+			   g.name as group_name,
 			   e.status AS status,
 			   e.deadline_date AS deadline_date
 			FROM expenses e
@@ -119,6 +125,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			   e.id AS id,
 			   e.title AS title,
 			   e.value AS value,
+			   g.id as group_id,
+			   g.name as group_name,
 			   e.status AS status,
 			   e.deadline_date AS deadline_date
 			FROM expenses e

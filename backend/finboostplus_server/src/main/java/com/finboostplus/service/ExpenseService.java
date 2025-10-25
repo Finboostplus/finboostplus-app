@@ -160,42 +160,7 @@ public class ExpenseService {
 		List<UserExpenseDivisionProjection> listUsarios = expenseRepository
 				.listUsersExpenseDivision(group.getId(), expenseId);
 		return new UserExpenseDivisionDTO(expense.getId(), expense.getTitle(),
-				expense.getDescription(), expense.getStatus(), expense.getValue(), listUsarios);
-	}
-
-	@Transactional(readOnly = true)
-	public List<ExpenseProjection> listExpenseDTOGroupById(Long groupId) {
-		User user = userRepository
-				.findByEmailIgnoreCase(userService.authenticated())
-				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
-		Group group = groupService.getGroup(groupId);
-		List<ExpenseProjection> expenseProjections = null;
-		boolean isUserMemberOfGroup = groupMemberRepository.isUserMemberOfGroup(user.getId(), group.getId());
-		if (user != null && group != null && isUserMemberOfGroup) {
-			expenseProjections = expenseRepository.listExpensesGroupById(user.getId(), groupId);
-			return expenseProjections;
-		}
-		return null;
-	}
-
-	@Transactional
-	public boolean updateExpense(ExpenseUpdateDTO expenseDTO, Long groupId, Long expenseId) {
-		isUserAllowed(groupId);
-		Category category = categoryRepository.findById(expenseDTO.categoryId())
-				.orElseThrow(() -> new CategoryNotFoundException("Categoria não encontrada"));
-		Expense expense = expenseRepository.findById(expenseId)
-				.orElseThrow(() -> new ExpenseNotFoundException("Despesa não encontrada"));
-		expense.setTitle(expenseDTO.title());
-		expense.setDescription(expenseDTO.description());
-		expense.setDeadlineDate(expenseDTO.deadlineDate());
-		expense.setCategory(category);
-		if (expense.getStatus() != Status.PAID) {
-			String status = expenseDTO.deadlineDate().isAfter(LocalDate.now()) ? Status.PENDING.name()
-					: Status.UNPAID.name();
-			expense.setStatus(Status.valueOf(status));
-			expenseRepository.updateExpenseStatus(expenseId, status);
-		}
-		return true;
+				expense.getDescription(), groupId, group.getName(), expense.getStatus(), expense.getValue(), listUsarios);
 	}
 
 	@Transactional(readOnly = true)
@@ -220,6 +185,41 @@ public class ExpenseService {
 		}
 		return expenseRepository.getAllGroupExpensesFiltered(user.getId(), groupId,
 				status.name(), pageable);
+	}
+	//
+	// @Transactional(readOnly = true)
+	// public List<ExpenseProjection> listExpenseGroupById(Long groupId) {
+	// 	User user = userRepository
+	// 			.findByEmailIgnoreCase(userService.authenticated())
+	// 			.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
+	// 	Group group = groupService.getGroup(groupId);
+	// 	List<ExpenseProjection> expenseProjections = null;
+	// 	boolean isUserMemberOfGroup = groupMemberRepository.isUserMemberOfGroup(user.getId(), group.getId());
+	// 	if (user != null && group != null && isUserMemberOfGroup) {
+	// 		expenseProjections = expenseRepository.listExpensesGroupById(user.getId(), groupId);
+	// 		return expenseProjections;
+	// 	}
+	// 	return null;
+	// }
+
+	@Transactional
+	public boolean updateExpense(ExpenseUpdateDTO expenseDTO, Long groupId, Long expenseId) {
+		isUserAllowed(groupId);
+		Category category = categoryRepository.findById(expenseDTO.categoryId())
+				.orElseThrow(() -> new CategoryNotFoundException("Categoria não encontrada"));
+		Expense expense = expenseRepository.findById(expenseId)
+				.orElseThrow(() -> new ExpenseNotFoundException("Despesa não encontrada"));
+		expense.setTitle(expenseDTO.title());
+		expense.setDescription(expenseDTO.description());
+		expense.setDeadlineDate(expenseDTO.deadlineDate());
+		expense.setCategory(category);
+		if (expense.getStatus() != Status.PAID) {
+			String status = expenseDTO.deadlineDate().isAfter(LocalDate.now()) ? Status.PENDING.name()
+					: Status.UNPAID.name();
+			expense.setStatus(Status.valueOf(status));
+			expenseRepository.updateExpenseStatus(expenseId, status);
+		}
+		return true;
 	}
 
 	@Transactional
