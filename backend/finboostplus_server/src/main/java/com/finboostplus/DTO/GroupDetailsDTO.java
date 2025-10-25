@@ -4,5 +4,5 @@ import java.util.List;
 
 import com.finboostplus.projection.ExpenseProjection;
 
-public record GroupDetailsDTO(Long id, String name, List<ExpenseProjection> expense) {
+public record GroupDetailsDTO(Long id, String name, String icon, List<ExpenseProjection> expense) {
 }

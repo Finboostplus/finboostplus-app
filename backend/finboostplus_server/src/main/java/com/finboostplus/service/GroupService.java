@@ -75,25 +75,28 @@ public class GroupService {
 			if (groupDto.description() != null) {
 				group.setDescription(groupDto.description());
 			}
+			if (groupDto.icon() != null) {
+				group.setIcon(groupDto.icon());
+			}
 			return Optional.ofNullable(groupRepository.save(group));
 		}
 		throw new ForbiddenResourceException("Usuário sem permissão");
 	}
 
-	@Transactional(readOnly = true)
-	public GroupDetailsDTO getGroupExpensesById(Long groupId) {
-		User user = userRepository
-				.findByEmailIgnoreCase(userService.authenticated())
-				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
-		Group group = getGroup(groupId);
-		if (group != null) {
-			List<ExpenseProjection> expenseList = expenseRepository.listExpensesGroupById(user.getId(),
-					groupId);
-			GroupDetailsDTO dto = new GroupDetailsDTO(group.getId(), group.getName(), expenseList);
-			return dto;
-		}
-		return null;
-	}
+	// @Transactional(readOnly = true)
+	// public GroupDetailsDTO getGroupExpensesById(Long groupId) {
+	// 	User user = userRepository
+	// 			.findByEmailIgnoreCase(userService.authenticated())
+	// 			.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
+	// 	Group group = getGroup(groupId);
+	// 	if (group != null) {
+	// 		List<ExpenseProjection> expenseList = expenseRepository.listExpensesGroupById(user.getId(),
+	// 				groupId);
+	// 		GroupDetailsDTO dto = new GroupDetailsDTO(group.getId(), group.getName(), expenseList);
+	// 		return dto;
+	// 	}
+	// 	return null;
+	// }
 
 	@Transactional(readOnly = true)
 	public Page<GroupProjection> listUserGroupsPaged(Pageable pageable) {

@@ -37,6 +37,8 @@ public class Group {
 
         private String description;
 
+	private String icon;
+
         @CreatedDate
         @Column(name = "created_at")
         private Instant createdAt;
