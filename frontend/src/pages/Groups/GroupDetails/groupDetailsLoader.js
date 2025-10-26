@@ -1,45 +1,50 @@
 import { REACTQUERY_KEYS } from '../../../libs/ReactQuery/keys';
 import { queryClient } from '../../../libs/ReactQuery/queryClient';
-import { apiApplication } from '../../../services/api';
 import { getGroups } from '../../../services/groups';
 
-// Função para buscar do servidor
-async function fetchGroup() {
-  const { data } = await getGroups();
-  return data;
-}
+export async function groupDetailsLoader({ params, request }) {
+  const { group_id } = params;
 
-export async function groupDetailsLoader({ params }) {
-  const groupId = Number(params['group-id']);
+  const url = new URL(request.url);
+  const page = url.searchParams.get('page');
+  const size = url.searchParams.get('size');
+  return { group_id, page, size };
+  // 1️⃣ Tenta pegar o cache dos grupos (paginado)
+  let allGroups = queryClient.getQueryData([REACTQUERY_KEYS.GROUPS.ALL, page]);
 
-  // 1️⃣ Tenta pegar do cache específico de detalhes
+  // 2️⃣ Se não existir, busca do servidor e popula o cache
+  if (!allGroups) {
+    allGroups = await queryClient.fetchQuery({
+      queryKey: [REACTQUERY_KEYS.GROUPS.ALL, page, size],
+      queryFn: () => getGroups(page, size),
+    });
+  }
+
+  // 3️⃣ Tenta pegar o grupo específico do cache de DETAILS
   let group = queryClient.getQueryData([
     REACTQUERY_KEYS.GROUPS.DETAILS,
-    groupId,
+    group_id,
   ]);
 
-  // 2️⃣ Se não existir, tenta filtrar do cache da lista
-  if (!group) {
-    const groupsData = queryClient.getQueryData([REACTQUERY_KEYS.GROUPS.ALL]);
-    group = groupsData?.content?.find(g => g.id === groupId);
+  // 4️⃣ Se não tiver cache específico, tenta encontrar dentro de ALL
+  if (!group && allGroups?.content) {
+    group = allGroups.content.find(g => String(g.id) === String(group_id));
 
-    // Se encontrou na lista, cria cache específico para detalhes
+    // 5️⃣ Se encontrou dentro de ALL, cria um cache separado para DETAILS
     if (group) {
       queryClient.setQueryData(
-        [REACTQUERY_KEYS.GROUPS.DETAILS, groupId],
+        [REACTQUERY_KEYS.GROUPS.DETAILS, group_id],
         group
       );
     }
   }
 
-  // 3️⃣ Se ainda não tiver, busca do servidor e popula o cache de detalhes
+  // 6️⃣ Se ainda não achou, busca no servidor
   if (!group) {
-    try {
-      group = await fetchGroup();
-      queryClient.setQueryData([REACTQUERY_KEYS.GROUPS.ALL], group);
-    } catch (err) {
-      throw new Response('Grupo não encontrado', { status: 404 });
-    }
+    group = await queryClient.fetchQuery({
+      queryKey: [REACTQUERY_KEYS.GROUPS.DETAILS, group_id],
+      queryFn: () => getGroupById(group_id),
+    });
   }
 
   return group;

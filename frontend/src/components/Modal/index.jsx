@@ -15,6 +15,10 @@ export default function Modal({ children, isOpen, setIsOpen, fnClose }) {
   const revalidator = useRevalidator();
 
   useEffect(() => {
+    if (actionData?.modalClose) {
+      setIsOpen(false);
+      return;
+    }
     if (actionData?.errors) {
       const nameField = actionData.errors?.name;
       customToast(nameField.title, nameField.message, 'error');
@@ -127,7 +131,7 @@ export function ConfirmModal({
             className="bg-[var(--color-surface)] text-[var(--color-text)]
                        rounded-2xl p-6 shadow-xl text-center max-w-sm w-full"
           >
-            <p className="text-lg mb-6 text-text">{message}</p>
+            <p className="text-sm mb-6 text-text">{message}</p>
 
             <div className="flex justify-center gap-3">
               <ButtonUI

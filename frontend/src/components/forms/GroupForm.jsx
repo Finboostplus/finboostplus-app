@@ -3,7 +3,6 @@ import { Form, useNavigation, useActionData } from 'react-router';
 import InputUI from '../ui/Input';
 import ButtonUI from '../ui/Button';
 import TextareaUI from '../ui/Textarea';
-import { MdCategory } from 'react-icons/md';
 import { categoryIcons } from '../../mockData/groupIcons/icons';
 
 export default function GroupForm() {
@@ -13,14 +12,14 @@ export default function GroupForm() {
   const values = actionData?.values || {};
 
   const [groupName, setGroupName] = useState(values.name || '');
-  // 👉 define "outros" como padrão, caso values.icon esteja vazio
   const [selectedIcon, setSelectedIcon] = useState(values.icon || 'outros');
 
   const isDisabled = isSubmitting || groupName.trim() === '';
 
-  // obtém o componente do ícone selecionado (ou o padrão)
-  const selectedIconObj = categoryIcons.find(icon => icon.key === selectedIcon)
-    ?.icon || <MdCategory />;
+  // Pega o ícone do objeto ou fallback "outros"
+  const entry = categoryIcons[selectedIcon] || categoryIcons.outros;
+  const IconComponent = entry.icon;
+  const iconColor = entry.color;
 
   return (
     <Form
@@ -37,16 +36,16 @@ export default function GroupForm() {
         </p>
       </div>
 
-      {/* Campo: Nome + Preview do ícone */}
+      {/* Nome + Preview do ícone */}
       <div className="flex flex-col space-y-2">
         <label htmlFor="name" className="text-sm font-medium">
           Nome do grupo <span className="text-primary">*</span>
         </label>
 
         <div className="flex items-center gap-3">
-          {/* Ícone de preview */}
+          {/* Preview do ícone */}
           <div className="w-10 h-10 flex items-center justify-center rounded-lg border border-zinc-300 dark:border-surface-dark bg-neutral dark:bg-neutral-dark text-primary text-xl">
-            {selectedIconObj}
+            <IconComponent size={24} color={iconColor} />
           </div>
 
           {/* Campo de texto */}
@@ -63,7 +62,7 @@ export default function GroupForm() {
         </div>
       </div>
 
-      {/* Campo: Descrição */}
+      {/* Descrição */}
       <div className="flex flex-col space-y-2">
         <label htmlFor="description" className="text-sm font-medium">
           Descrição
@@ -78,26 +77,29 @@ export default function GroupForm() {
         />
       </div>
 
-      {/* Campo: Ícone */}
+      {/* Seleção de ícone */}
       <div className="flex flex-col space-y-2">
         <label className="text-sm font-medium">Ícone do grupo</label>
         <input type="hidden" name="icon" value={selectedIcon} />
 
         <div className="grid grid-cols-5 sm:grid-cols-7 md:grid-cols-8 gap-3 mt-2">
-          {categoryIcons.map(icon => (
-            <ButtonUI
-              key={icon.key}
-              type="button"
-              onClick={() => setSelectedIcon(icon.key)}
-              className={`flex items-center justify-center w-10 h-10 rounded-lg border transition-all duration-150 cursor-pointer ${
-                selectedIcon === icon.key
-                  ? 'bg-primary text-white border-primary shadow-sm scale-105'
-                  : 'bg-neutral dark:bg-neutral-dark text-text dark:text-text-dark border-zinc-300 dark:border-surface-dark hover:border-primary/60 hover:scale-105'
-              }`}
-            >
-              {icon.icon}
-            </ButtonUI>
-          ))}
+          {Object.keys(categoryIcons).map(key => {
+            const { icon: Icon, color } = categoryIcons[key];
+            return (
+              <ButtonUI
+                key={key}
+                type="button"
+                onClick={() => setSelectedIcon(key)}
+                className={`flex items-center justify-center w-10 h-10 rounded-lg border transition-all duration-150 cursor-pointer ${
+                  selectedIcon === key
+                    ? 'bg-primary text-white border-primary shadow-sm scale-105'
+                    : 'bg-neutral dark:bg-neutral-dark text-text dark:text-text-dark border-zinc-300 dark:border-surface-dark hover:border-primary/60 hover:scale-105'
+                }`}
+              >
+                <Icon size={20} color={color} />
+              </ButtonUI>
+            );
+          })}
         </div>
 
         {selectedIcon && (
@@ -108,7 +110,7 @@ export default function GroupForm() {
         )}
       </div>
 
-      {/* Ações */}
+      {/* Botão submit */}
       <div className="flex justify-end pt-4 dark:border-surface-dark">
         <ButtonUI
           type="submit"

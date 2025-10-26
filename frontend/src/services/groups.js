@@ -1,13 +1,14 @@
-import { useAuthStore } from '../context/stores/auth';
 import { REACTQUERY_KEYS } from '../libs/ReactQuery/keys';
 import { queryClient } from '../libs/ReactQuery/queryClient';
 import { apiApplication } from './api';
 
 // Busca todos os grupos
-export const getGroups = async () => {
+export const getGroups = async (page, size) => {
   try {
     const userName = queryClient.getQueryData([REACTQUERY_KEYS.USER.ME]).name;
-    const response = await apiApplication.get('/groups');
+    const response = await apiApplication.get(
+      `/groups?page=${page}&size=${size}`
+    );
 
     // Para cada grupo, pega os membros
     const groupsWithMembers = await Promise.all(
@@ -44,6 +45,17 @@ export const createGroup = async group => {
   }
 };
 
+export const getGroupExpensesById = async id => {
+  try {
+    const response = await apiApplication.get(`/groups/${id}/expenses`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Erro ao obter grupo - id:', id);
+  }
+};
+
 // Atualiza um grupo existente pelo id
 export const updateGroup = async (id, group) => {
   const response = await api.put(`/groups/${id}`, group);
@@ -53,7 +65,6 @@ export const updateGroup = async (id, group) => {
 
 // Remove um grupo pelo id
 export const deleteGroup = async id => {
-  const response = await api.delete(`/groups/${id}`);
-
+  const response = await apiApplication.delete(`/groups/${id}`);
   return response.data;
 };

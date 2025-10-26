@@ -62,12 +62,12 @@ export const createAppRouter = () =>
                   action: groupAction,
                 },
                 {
-                  path: ':group-id',
+                  path: ':group_id',
                   element: <GroupDetails />,
-                  loader: groupDetailsLoader,
+                  /* loader: groupDetailsLoader, */
                 },
                 {
-                  path: ':group-id/settings',
+                  path: ':group_id/settings',
                   element: <GroupSettings />,
                   loader: groupSettingsLoader,
                 },

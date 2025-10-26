@@ -19,7 +19,7 @@ export default function ExpenseForm() {
 
   // Inicializa membros do grupo
   useEffect(() => {
-    setMembers(groupMembers.map(m => m.name));
+    /* setMembers(groupMembers.map(m => m.name)); */
   }, [groupMembers, setMembers]);
 
   // Reseta store ao desmontar

@@ -47,6 +47,19 @@ export const apiApplication = axios.create({
   withCredentials: true,
 });
 
+// Intercepta respostas
+apiApplication.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response?.status === 401) {
+      const resetStore = useAuthStore.getState().reset;
+      resetStore?.();
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
 apiApplication.interceptors.request.use(config => {
   const token = useAuthStore.getState().token;
   if (token) {
