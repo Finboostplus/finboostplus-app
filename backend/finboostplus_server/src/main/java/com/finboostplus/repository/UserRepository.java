@@ -38,7 +38,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	boolean isUserAuthorityValidToGroup(long userId, long groupId, List<String> authorities);
 
 	@Query(nativeQuery = true, value = """
-			SELECT user_name, e_mail, theme_color
+			SELECT id, user_name, e_mail, theme_color
 				FROM users
 				WHERE e_mail = :email
 			""")
