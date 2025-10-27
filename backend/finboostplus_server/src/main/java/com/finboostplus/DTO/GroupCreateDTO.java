@@ -11,8 +11,7 @@ public record GroupCreateDTO(
         @Size(max = 100, message = "O nome do grupo deve ter no máximo 100 caracteres") 
         String name,
 
-        @NotBlank(message = "A descrição é obrigatória") 
-        @Size(max = 100, message = "A descrição do grupo deve ter no máximo 100 caracteres") 
+        @Size(min = 0, max = 100, message = "A descrição do grupo deve ter no máximo 100 caracteres") 
         String description,
 
 	String icon) {

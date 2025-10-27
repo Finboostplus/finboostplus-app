@@ -31,18 +31,18 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 	Page<UserExpensesDTO> getAllUserExpenses(Long userId, Pageable pageable);
 
 	// @Query(nativeQuery = true, value = """
-	// 		SELECT expenses.id, expenses.title,	expenses.description,
-	// 			categories.name as categoryName,
-	// 			COALESCE(SUM(expenses.value), 0) AS total
-	// 			FROM group_members
-	// 			INNER JOIN groups ON group_members.group_id = groups.id
-	// 			INNER JOIN users ON group_members.user_id = users.id
-	// 			LEFT JOIN expenses ON expenses.group_id = groups.id
-	// 			INNER JOIN categories ON categories.id = expenses.category_id
-	// 			WHERE users.id =:memberId
-	// 			AND groups.id = :groupId
-	// 			GROUP BY expenses.id,categories.name
-	// 		""")
+	// SELECT expenses.id, expenses.title, expenses.description,
+	// categories.name as categoryName,
+	// COALESCE(SUM(expenses.value), 0) AS total
+	// FROM group_members
+	// INNER JOIN groups ON group_members.group_id = groups.id
+	// INNER JOIN users ON group_members.user_id = users.id
+	// LEFT JOIN expenses ON expenses.group_id = groups.id
+	// INNER JOIN categories ON categories.id = expenses.category_id
+	// WHERE users.id =:memberId
+	// AND groups.id = :groupId
+	// GROUP BY expenses.id,categories.name
+	// """)
 	// List<ExpenseProjection> listExpensesGroupById(Long memberId, Long groupId);
 
 	@Query(value = """
@@ -109,7 +109,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			INNER JOIN groups g ON g.id = e.group_id
 			INNER JOIN users u ON u.id = ued.user_id
 			WHERE g.id = :groupId
-			   GROUP BY e.id, e.title, e.value, e.status, e.deadline_date
+			   GROUP BY e.id, e.title, e.value, e.status, g.id, g.name, e.deadline_date
 			      ORDER BY
 			      CASE
 			      WHEN e.deadline_date < NOW() THEN 3
@@ -135,7 +135,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			INNER JOIN users u ON u.id = ued.user_id
 			WHERE g.id = :groupId
 			AND ued.status = :status
-			   GROUP BY e.id, e.title, e.value, e.status, e.deadline_date
+			   GROUP BY e.id, e.title, e.value, e.status, g.id, g.name, e.deadline_date
 			   ORDER BY
 			      CASE
 			         WHEN e.deadline_date < NOW() THEN 3
@@ -178,15 +178,13 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
 	@Query(nativeQuery = true, value = """
 			SELECT ud.user_id as userId,
-			      u.user_name as UserName ,
-				   ud.partial_value as partialValue,
-				   ud.status
+			       u.user_name as userName,
+			       ud.partial_value as partialValue,
+			       ud.status
 			FROM expenses e
-			INNER JOIN user_expense_divisions ud
-			ON e.id = ud.expense_id
-			INNER JOIN users u
-			ON u.id = ud.user_id
-			where e.group_id =:groupId and e.id =:expenseId;
+			INNER JOIN user_expense_divisions ud ON e.id = ud.expense_id
+			INNER JOIN users u ON u.id = ud.user_id
+			WHERE e.group_id = :groupId AND e.id = :expenseId
 			""")
 	List<UserExpenseDivisionProjection> listUsersExpenseDivision(Long groupId, Long expenseId);
 

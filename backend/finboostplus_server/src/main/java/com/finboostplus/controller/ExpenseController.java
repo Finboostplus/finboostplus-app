@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.finboostplus.DTO.ExpenseCreateDTO;
-import com.finboostplus.DTO.UserExpenseDivisionDTO;
 import com.finboostplus.DTO.ExpenseUpdateDTO;
+import com.finboostplus.DTO.UserExpenseDivisionDTO;
 import com.finboostplus.enums.Status;
 import com.finboostplus.projection.GroupExpenseProjection;
 import com.finboostplus.service.ExpenseService;
@@ -28,75 +28,70 @@ import com.finboostplus.service.ExpenseService;
 import jakarta.validation.Valid;
 
 @RestController
+@PreAuthorize("hasRole('USER')")
 @RequestMapping("groups/{groupId}/expenses")
 public class ExpenseController {
 
-        @Autowired
-        ExpenseService expenseService;
+	@Autowired
+	ExpenseService expenseService;
 
-        @PreAuthorize("hasRole('USER')")
-        @PostMapping
-        public ResponseEntity<String> createNewExpense(@Valid @RequestBody ExpenseCreateDTO dto,
-                        @PathVariable Long groupId) {
-                return expenseService.createNewExpense(dto, groupId)
-                                ? new ResponseEntity<String>("Despesa criada com sucesso!", HttpStatus.CREATED)
-                                : new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);
-        }
+	@PostMapping
+	public ResponseEntity<String> createNewExpense(@Valid @RequestBody ExpenseCreateDTO dto,
+			@PathVariable Long groupId) {
+		return expenseService.createNewExpense(dto, groupId)
+				? new ResponseEntity<String>("Despesa criada com sucesso!", HttpStatus.CREATED)
+				: new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);
+	}
 
-        @PreAuthorize("hasRole('USER')")
-        @GetMapping("{expenseId}")
-        public ResponseEntity<Object> getExpenseDetails(@PathVariable Long groupId,
-                        @PathVariable Long expenseId) {
-                UserExpenseDivisionDTO expenseDivDTO = expenseService.getExpenseDetails(groupId, expenseId);
-                if (expenseDivDTO != null) {
-                        return ResponseEntity.ok(expenseDivDTO);
-                }
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Despesa não encontrada");
-        }
+	@GetMapping("{expenseId}")
+	public ResponseEntity<Object> getExpenseDetails(@PathVariable Long groupId,
+			@PathVariable Long expenseId) {
+		UserExpenseDivisionDTO expenseDivDTO = expenseService.getExpenseInfoDetails(groupId, expenseId);
+		if (expenseDivDTO != null) {
+			return ResponseEntity.ok(expenseDivDTO);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Despesa não encontrada");
+	}
 
-        @PreAuthorize("hasRole('USER')")
-        @GetMapping
-        public ResponseEntity<Page<GroupExpenseProjection>> getAllGroupExpenses(
-                        @PathVariable Long groupId,
-                        @RequestParam(required = false) Status status,
-                        @RequestParam(defaultValue = "true") boolean allMemberExpenses,
-                        @RequestParam(defaultValue = "false") boolean allGroupMembersExpenses,
-                        @RequestParam(name = "page", defaultValue = "0") Integer page,
-                        @RequestParam(name = "size", defaultValue = "4") Integer size) {
-                Pageable pageable = PageRequest.of(page, size);
-                Page<GroupExpenseProjection> expenses = expenseService.getAllGroupExpenses(
-                                groupId, status, allMemberExpenses, allGroupMembersExpenses, pageable);
-                return ResponseEntity.ok(expenses);
-        }
+	@GetMapping
+	public ResponseEntity<Page<GroupExpenseProjection>> getAllGroupExpenses(
+			@PathVariable Long groupId,
+			@RequestParam(required = false) Status status,
+			@RequestParam(defaultValue = "true") boolean allMemberExpenses,
+			@RequestParam(defaultValue = "false") boolean allGroupMembersExpenses,
+			@RequestParam(name = "page", defaultValue = "0") Integer page,
+			@RequestParam(name = "size", defaultValue = "4") Integer size) {
+		Pageable pageable = PageRequest.of(page, size);
+		Page<GroupExpenseProjection> expenses = expenseService.getAllGroupExpenses(
+				groupId, status, allMemberExpenses, allGroupMembersExpenses, pageable);
+		return ResponseEntity.ok(expenses);
+	}
 
-        @PreAuthorize("hasRole('USER')")
-        @PutMapping("{expenseId}")
-        public ResponseEntity<String> updateExpense(@Valid @RequestBody ExpenseUpdateDTO dto,
-                        @PathVariable Long groupId, @PathVariable Long expenseId) {
-                return expenseService.updateExpense(dto, groupId, expenseId)
-                                ? new ResponseEntity<String>("Despesa atualizada com sucesso!", HttpStatus.OK)
-                                : new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);
-        }
+	@PutMapping("{expenseId}")
+	public ResponseEntity<String> updateExpense(@Valid @RequestBody ExpenseUpdateDTO dto,
+			@PathVariable Long groupId, @PathVariable Long expenseId) {
+		return expenseService.updateExpense(dto, groupId, expenseId)
+				? new ResponseEntity<String>("Despesa atualizada com sucesso!", HttpStatus.OK)
+				: new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);
+	}
 
-        @PreAuthorize("hasRole('USER')")
-        @PatchMapping("/{expenseId}/member/{memberId}")
-        public ResponseEntity<Object> updateMemberExpenseStatus(
-                        @PathVariable Long memberId,
-                        @PathVariable Long groupId,
-                        @PathVariable Long expenseId,
-                        ExpenseUpdateDTO dto) {
-                boolean isUpdated = expenseService.updateExpenseStatus(memberId, groupId,
-                                expenseId, dto);
-                if (isUpdated) {
-                        return ResponseEntity.status(HttpStatus.OK).body("Atualizado com sucesso!");
-                }
-                return ResponseEntity.badRequest().body("Não foi possivel atualizar o status da despesa");
-        }
+	@PatchMapping("/{expenseId}/member/{memberId}")
+	public ResponseEntity<Object> updateMemberExpenseStatus(
+			@PathVariable Long memberId,
+			@PathVariable Long groupId,
+			@PathVariable Long expenseId,
+			ExpenseUpdateDTO dto) {
+		boolean isUpdated = expenseService.updateExpenseStatus(memberId, groupId,
+				expenseId, dto);
+		if (isUpdated) {
+			return ResponseEntity.status(HttpStatus.OK).body("Atualizado com sucesso!");
+		}
+		return ResponseEntity.badRequest().body("Não foi possivel atualizar o status da despesa");
+	}
 
-        @PreAuthorize("hasRole('USER')")
-        @DeleteMapping("{expenseId}")
-        public ResponseEntity<Void> deleteExpense(@PathVariable Long expenseId, @PathVariable Long groupId) {
-                expenseService.deleteExpense(expenseId, groupId);
-                return ResponseEntity.noContent().build();
-        }
+	@DeleteMapping("{expenseId}")
+	public ResponseEntity<Void> deleteExpense(@PathVariable Long expenseId, @PathVariable Long groupId) {
+		expenseService.deleteExpense(expenseId, groupId);
+		return ResponseEntity.noContent().build();
+	}
 }

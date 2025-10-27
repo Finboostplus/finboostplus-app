@@ -144,7 +144,7 @@ public class ExpenseService {
 	}
 
 	@Transactional(readOnly = true)
-	public UserExpenseDivisionDTO getExpenseDetails(Long groupId, Long expenseId) {
+	public UserExpenseDivisionDTO getExpenseInfoDetails(Long groupId, Long expenseId) {
 		User user = userRepository.findByEmailIgnoreCase(userService.authenticated())
 				.orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
 		boolean hasAuthority = groupMemberRepository
@@ -157,10 +157,14 @@ public class ExpenseService {
 				.orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
 		Expense expense = expenseRepository.findById(expenseId).orElseThrow(
 				() -> new ForbiddenResourceException("Despesa nao encontrada"));
-		List<UserExpenseDivisionProjection> listUsarios = expenseRepository
-				.listUsersExpenseDivision(group.getId(), expenseId);
+		List<UserExpenseDivisionProjection> memberList = getExpenseDivisionDetails(group.getId(), expenseId);
 		return new UserExpenseDivisionDTO(expense.getId(), expense.getTitle(),
-				expense.getDescription(), groupId, group.getName(), expense.getStatus(), expense.getValue(), listUsarios);
+				expense.getDescription(), groupId, group.getName(), expense.getStatus(),
+				expense.getValue(), expense.getCreatedAt(), memberList);
+	}
+
+	private List<UserExpenseDivisionProjection> getExpenseDivisionDetails(Long groupId, Long expenseId) {
+		return expenseRepository.listUsersExpenseDivision(groupId, expenseId);
 	}
 
 	@Transactional(readOnly = true)
@@ -189,17 +193,19 @@ public class ExpenseService {
 	//
 	// @Transactional(readOnly = true)
 	// public List<ExpenseProjection> listExpenseGroupById(Long groupId) {
-	// 	User user = userRepository
-	// 			.findByEmailIgnoreCase(userService.authenticated())
-	// 			.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
-	// 	Group group = groupService.getGroup(groupId);
-	// 	List<ExpenseProjection> expenseProjections = null;
-	// 	boolean isUserMemberOfGroup = groupMemberRepository.isUserMemberOfGroup(user.getId(), group.getId());
-	// 	if (user != null && group != null && isUserMemberOfGroup) {
-	// 		expenseProjections = expenseRepository.listExpensesGroupById(user.getId(), groupId);
-	// 		return expenseProjections;
-	// 	}
-	// 	return null;
+	// User user = userRepository
+	// .findByEmailIgnoreCase(userService.authenticated())
+	// .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
+	// Group group = groupService.getGroup(groupId);
+	// List<ExpenseProjection> expenseProjections = null;
+	// boolean isUserMemberOfGroup =
+	// groupMemberRepository.isUserMemberOfGroup(user.getId(), group.getId());
+	// if (user != null && group != null && isUserMemberOfGroup) {
+	// expenseProjections = expenseRepository.listExpensesGroupById(user.getId(),
+	// groupId);
+	// return expenseProjections;
+	// }
+	// return null;
 	// }
 
 	@Transactional
