@@ -19,7 +19,9 @@ export default function ChartSwitcher() {
       {/* Cabeçalho */}
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold text-[var(--color-text)]">
-          Visualização Financeira
+          {activeChart === 'balance'
+            ? 'Visualização Financeira'
+            : 'Distribuição das Despesas por Categoria'}
         </h2>
 
         {/* Botão para alternar gráfico */}

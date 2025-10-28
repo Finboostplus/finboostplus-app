@@ -1,9 +1,14 @@
+import { REACTQUERY_KEYS } from '../libs/ReactQuery/keys';
+import { queryClient } from '../libs/ReactQuery/queryClient';
 import { apiApplication } from './api';
 
 // Busca todos os grupos
-export const getGroups = async () => {
+export const getGroups = async (page, size) => {
   try {
-    const response = await apiApplication.get('/groups');
+    const userName = queryClient.getQueryData([REACTQUERY_KEYS.USER.ME]).name;
+    const response = await apiApplication.get(
+      `/groups?page=${page}&size=${size}`
+    );
 
     // Para cada grupo, pega os membros
     const groupsWithMembers = await Promise.all(
@@ -11,6 +16,13 @@ export const getGroups = async () => {
         const { data: members } = await apiApplication.get(
           `groups/${group.id}/members`
         );
+        members.some(member => {
+          if (member.authority === 'OWNER') {
+            if (member.name === userName) {
+              group['ownerId'] = member.name;
+            }
+          }
+        });
         return { ...group, members }; // adiciona members ao grupo
       })
     );
@@ -23,10 +35,25 @@ export const getGroups = async () => {
 };
 
 // Cria um novo grupo
-export const addGroup = async group => {
-  const response = await api.post('/groups', group);
+export const createGroup = async group => {
+  try {
+    const response = await apiApplication.post('/groups', group);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Erro ao criar um grupo');
+  }
+};
 
-  return response.data;
+export const getGroupExpensesById = async id => {
+  try {
+    const response = await apiApplication.get(`/groups/${id}/expenses`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Erro ao obter grupo - id:', id);
+  }
 };
 
 // Atualiza um grupo existente pelo id
@@ -38,7 +65,6 @@ export const updateGroup = async (id, group) => {
 
 // Remove um grupo pelo id
 export const deleteGroup = async id => {
-  const response = await api.delete(`/groups/${id}`);
-
+  const response = await apiApplication.delete(`/groups/${id}`);
   return response.data;
 };

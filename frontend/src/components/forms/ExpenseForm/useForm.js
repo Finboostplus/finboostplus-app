@@ -16,10 +16,10 @@ export const useFormExpense = create((set, get) => ({
     set({ amount, divisionAmount, remainingDifference: 0 });
   },
 
-  setMembers: members => {
+  /*   setMembers: members => {
     const divisionAmount = calculateEqualShares(get().amount, members);
     set({ members, divisionAmount, remainingDifference: 0 });
-  },
+  }, */
 
   updateMemberShare: (member, raw) => {
     //raw:{float,formatted,value}

@@ -1,15 +1,7 @@
 import LoginForm from '../../components/forms/LoginForm';
 import CardUI from '../../components/ui/Card';
-import { Navigate } from 'react-router';
-import { useAuthStore } from '../../context/stores/auth';
 
 export default function Login() {
-  const isAuthenticated = useAuthStore(state => state.isAuthenticated());
-
-  if (isAuthenticated) {
-    return <Navigate to="/" replace state={{ from: location.pathname }} />;
-  }
-
   return (
     <CardUI className="bg-neutral min-h-screen">
       <div className="flex flex-col items-start w-full max-w-4xl px-4 mx-auto">

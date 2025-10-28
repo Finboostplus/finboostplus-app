@@ -1,4 +1,3 @@
-import ProtectedRoute from './ProtectedRoute';
 import { createBrowserRouter } from 'react-router';
 import { lazy } from 'react';
 import { groupDetailsLoader } from '../pages/Groups/GroupDetails/groupDetailsLoader';
@@ -6,7 +5,10 @@ import { loginAction } from '../actions/loginAction';
 import { registerAction } from '../actions/registerAction';
 import { groupAction } from '../actions/groupAction';
 import { groupSettingsLoader } from '../pages/Groups/GroupDetails/GroupSettings/groupSettingsLoader';
-import { getAllGroupsLoader } from '../loaders/AllGroupsLoader';
+
+import { loginLoader } from '../loaders/loginLoader';
+import { registerLoader } from '../loaders/registerLoader';
+import { protectRoutersLoader } from '../loaders/protectRoutersLoader';
 
 const App = lazy(() => import('../App'));
 const Layout = lazy(() => import('../components/Layout'));
@@ -30,15 +32,21 @@ export const createAppRouter = () =>
           path: '/login',
           element: <Login />,
           action: loginAction,
+          loader: loginLoader,
         },
-        { path: '/register', element: <Register />, action: registerAction },
+        {
+          path: '/register',
+          element: <Register />,
+          action: registerAction,
+          loader: registerLoader,
+        },
       ],
     },
     // Rotas privadas (todas as outras)
     {
       path: '/',
-      element: <ProtectedRoute />, // <== Aqui é onde protegemos tudo
       errorElement: <NotFound />,
+      loader: protectRoutersLoader,
       children: [
         {
           element: <Layout />,
@@ -52,15 +60,14 @@ export const createAppRouter = () =>
                   index: true,
                   element: <Groups />,
                   action: groupAction,
-                  loader: getAllGroupsLoader,
                 },
                 {
-                  path: ':group-id',
+                  path: ':group_id',
                   element: <GroupDetails />,
-                  loader: groupDetailsLoader,
+                  /* loader: groupDetailsLoader, */
                 },
                 {
-                  path: ':group-id/settings',
+                  path: ':group_id/settings',
                   element: <GroupSettings />,
                   loader: groupSettingsLoader,
                 },

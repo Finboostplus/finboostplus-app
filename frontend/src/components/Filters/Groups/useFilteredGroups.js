@@ -5,7 +5,7 @@ export function useFilteredGroups(groups, currentUserId, filters) {
 
   return useMemo(() => {
     return groups
-      .filter(
+      ?.filter(
         group =>
           (!onlyOwner || group.ownerId === currentUserId) &&
           group.name.toLowerCase().includes(search.trim().toLowerCase())

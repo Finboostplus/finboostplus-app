@@ -3,7 +3,51 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import { login, register } from '../../services/auth';
 import { jwtDecode } from 'jwt-decode';
 import { customToast } from '../../components/CustomToast';
+import CookieStorage from 'zustand-persist-cookie-storage';
 import { SecureLS } from '../../utils/localStorageEncryption';
+
+export const CustomCookieStorage = () => {
+  const base = CookieStorage({ expires: 7 }); // fallback padrão
+
+  return {
+    setItem: (name, value) => {
+      const base64String = SecureLS.Base64.encode(value);
+      try {
+        const parsed = JSON.parse(value);
+        const exp = parsed?.state?.user?.exp;
+
+        const expires =
+          typeof exp === 'number' && !isNaN(exp)
+            ? new Date(Date.now() + exp * 1000)
+            : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // fallback 7 dias
+        // Encode em UTF-8 e depois em Base64
+
+        return CookieStorage({ expires }).setItem(name, base64String);
+      } catch (error) {
+        console.warn('[CustomCookieStorage] Erro ao definir item:', error);
+        return base.setItem(name, base64String);
+      }
+    },
+
+    getItem: async name => {
+      try {
+        const store = await CookieStorage().getItem(name);
+        return SecureLS.Base64.decode(store);
+      } catch (error) {
+        console.warn('[CustomCookieStorage] Erro ao obter item:', error);
+        return null;
+      }
+    },
+
+    removeItem: name => {
+      try {
+        return base.removeItem(name);
+      } catch (error) {
+        console.warn('[CustomCookieStorage] Erro ao remover item:', error);
+      }
+    },
+  };
+};
 
 export const useAuthStore = create()(
   persist(
@@ -19,20 +63,20 @@ export const useAuthStore = create()(
         expires_in,
       }) => {
         const access_tokenDecoded = jwtDecode(access_token);
-        const { sub, username, authorities: roles } = access_tokenDecoded;
+        const { sub, authorities: roles } = access_tokenDecoded;
         const newCredentials = {
           token: `${token_type} ${access_token}`,
           refreshToken: refresh_token,
-          user: {
-            sub,
-            username,
-            roles,
-            exp: expires_in,
-          },
         };
         set(newCredentials);
+
+        const user = {
+          sub,
+          roles,
+          exp: expires_in,
+        };
+        set({ user });
       },
-      isAuthenticated: () => !!get().token,
       login: async data => {
         set({ isLoading: true });
         try {
@@ -43,30 +87,24 @@ export const useAuthStore = create()(
 
           const response = await login(loginData);
           const { value: jwtData } = response;
-          const access_tokenDecoded = jwtDecode(jwtData.access_token);
-          const { sub, username, authorities: roles } = access_tokenDecoded;
-          const user = {
-            sub,
-            username,
-            roles,
-            exp: jwtData.expires_in,
-          };
-
           set({
             token: `${jwtData.token_type || ''} ${jwtData.access_token}`,
             refreshToken: jwtData.refresh_token,
-            user,
           });
-          delete response.value;
+
+          const access_tokenDecoded = jwtDecode(jwtData.access_token);
+          const { sub, authorities: roles } = access_tokenDecoded;
+
+          const user = {
+            sub,
+            roles,
+            exp: jwtData.expires_in,
+          };
+          set({ user });
           customToast('Login realizado', 'Bem-vindo!', 'success');
-          return response;
+          /*   await useGroupStore.getState().getAllGroupUser(); */
+          return;
         } catch (e) {
-          set({
-            token: null,
-            refreshToken: null,
-            user: null,
-            isLoading: false,
-          });
           const { title, error } = e;
           customToast(title, error, 'error');
           return;
@@ -93,7 +131,7 @@ export const useAuthStore = create()(
           set({ isLoading: false });
         }
       },
-      logout: () => {
+      reset: () => {
         set({
           token: null,
           refreshToken: null,
@@ -103,12 +141,8 @@ export const useAuthStore = create()(
       },
     }),
     {
-      name: 'access_token',
-      storage: createJSONStorage(() => ({
-        getItem: key => SecureLS.get(key), // já descriptografa
-        setItem: (key, value) => SecureLS.set(key, value), // já criptografa
-        removeItem: key => SecureLS.remove(key),
-      })),
+      name: 'finboost-auth',
+      storage: createJSONStorage(CustomCookieStorage),
       partialize: state => ({
         token: state.token,
         user: state.user,

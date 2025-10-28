@@ -1,10 +1,11 @@
 import { Form, useActionData } from 'react-router';
-import Button from '../ui/Button';
+
 import InputUI from '../ui/Input';
 import { Menu, MenuItem } from '@headlessui/react';
 import { useEffect } from 'react';
 import { customToast } from '../CustomToast';
 import { useAuthStore } from '../../context/stores/auth';
+import ButtonUI from '../ui/Button';
 
 export default function LoginForm() {
   const isLoading = useAuthStore(state => state.isLoading);
@@ -69,8 +70,7 @@ export default function LoginForm() {
         </div>
 
         {/* Botão */}
-        <Button
-          title={isLoading ? 'Entrando...' : 'Entrar'}
+        <ButtonUI
           type="submit"
           disabled={isLoading}
           className={`w-full py-2 rounded-xl text-sm font-semibold transition-colors cursor-pointer ${
@@ -78,8 +78,9 @@ export default function LoginForm() {
               ? 'bg-muted text-text cursor-not-allowed'
               : 'bg-primary text-white hover:bg-secondary'
           }`}
-        />
-
+        >
+          <span>{isLoading ? 'Entrando...' : 'Entrar'}</span>
+        </ButtonUI>
         <input type="hidden" name="type" value="login" />
 
         <hr className="w-full border-t border-neutral mt-2" />

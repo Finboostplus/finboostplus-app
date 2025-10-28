@@ -33,6 +33,7 @@ const refreshAuthLogic = async failedRequest => {
     /* const { exp: jwt_expiration } = useAuthStore.getState().user; */
     const newCredentials = await refreshToken(refresh_token);
     useAuthStore.getState().setRefreshToken(newCredentials);
+    console.log('REFRESH TOKEN');
   } catch (error) {
     console.error('Erro ao fazer o refresh', error);
     useAuthStore.getState().logout();
@@ -45,6 +46,19 @@ export const apiApplication = axios.create({
   baseURL: BASEURL,
   withCredentials: true,
 });
+
+// Intercepta respostas
+apiApplication.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response?.status === 401) {
+      const resetStore = useAuthStore.getState().reset;
+      resetStore?.();
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
 
 apiApplication.interceptors.request.use(config => {
   const token = useAuthStore.getState().token;

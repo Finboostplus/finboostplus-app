@@ -24,11 +24,11 @@ export const loginAction = async ({ request }) => {
       errors.global = 'Ocorreu um erro inesperado.';
     }
 
-    return { success, errors, value: data };
+    return { errors, value: data };
   }
   /* Se não ocorreu nenhum erro */
   /* Logar aqui */
 
-  const response = await useAuthStore.getState().login(data);
-  return response;
+  await useAuthStore.getState().login(data);
+  return;
 };
