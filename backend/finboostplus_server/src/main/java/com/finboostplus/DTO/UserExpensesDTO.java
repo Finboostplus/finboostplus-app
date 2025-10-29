@@ -7,20 +7,24 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Value;
 
 public interface UserExpensesDTO {
-	Long getId();
+	Long getExpenseId();
 
 	String getTitle();
-
-	BigDecimal getPartialValue();
-
-	String getDescription();
 
 	Instant getCreatedAt();
 
 	@Value("#{T(java.time.LocalDate).ofInstant(target.created_at, T(java.time.ZoneId).of('America/Sao_Paulo'))}")
 	LocalDate getDeadlineDate();
 
+	String getCategory();
+
+	BigDecimal getPartialValue();
+
+	String getDescription();
+
 	String getStatus();
 
-	String getCategory();
+	Long getGroupId();
+
+	String getGroupName();
 }

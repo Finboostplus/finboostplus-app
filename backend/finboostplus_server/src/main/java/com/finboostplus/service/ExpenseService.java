@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.finboostplus.DTO.CategoryRegisterDTO;
 import com.finboostplus.DTO.ExpenseCreateDTO;
 import com.finboostplus.DTO.ExpenseUpdateDTO;
 import com.finboostplus.DTO.MembersExpenseDivisionCreateDTO;
@@ -29,7 +30,6 @@ import com.finboostplus.model.Group;
 import com.finboostplus.model.User;
 import com.finboostplus.model.UserExpenseDivision;
 import com.finboostplus.model.UserExpenseDivisionId;
-import com.finboostplus.projection.ExpenseProjection;
 import com.finboostplus.projection.GroupExpenseProjection;
 import com.finboostplus.projection.UserExpenseDivisionProjection;
 import com.finboostplus.repository.CategoryRepository;
@@ -125,6 +125,7 @@ public class ExpenseService {
 				expenseDTO.expenseValue(),
 				category,
 				group,
+				user.getId(),
 				expenseDTO.deadlineDate(),
 				status);
 		expense = expenseRepository.save(expense);
@@ -167,8 +168,15 @@ public class ExpenseService {
 		return expenseRepository.listUsersExpenseDivision(groupId, expenseId);
 	}
 
+	// @Transactional(readOnly = true)
+	// public UserTotalExpensesDTO getAllUserExpenses() {
+	// User user = userRepository.findByEmailIgnoreCase(userService.authenticated())
+	// .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+	//
+	// }
+
 	@Transactional(readOnly = true)
-	public Page<GroupExpenseProjection> getAllGroupExpenses(Long groupId, Status status, boolean allMemberExpenses,
+	public <T extends GroupExpenseProjection> Page<T> getAllGroupExpenses(Long groupId, Status status, boolean allMemberExpenses,
 			boolean allGroupMembersExpenses, Pageable pageable) {
 		User user = userRepository.findByEmailIgnoreCase(userService.authenticated())
 				.orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
@@ -179,15 +187,15 @@ public class ExpenseService {
 			allMemberExpenses = false;
 			if (groupMemberRepository.doesUserHasAnyAuthority(user.getId(), groupId, AUTHLEVELS)
 					&& status == null) {
-				return expenseRepository.getAllGroupExpensesOfAllMembers(groupId, pageable);
+				return (Page<T>) expenseRepository.getAllGroupExpensesOfAllMembers(user.getId(), groupId, pageable);
 			}
-			return expenseRepository.getAllGroupExpensesOfAllMembersFiltered(user.getId(), groupId,
+			return (Page<T>) expenseRepository.getAllGroupExpensesOfAllMembersFiltered(user.getId(), groupId,
 					status.name(), pageable);
 		}
 		if (allMemberExpenses == true && status == null) {
-			return expenseRepository.getAllGroupExpenses(user.getId(), groupId, pageable);
+			return (Page<T>) expenseRepository.getAllGroupExpenses(user.getId(), groupId, pageable);
 		}
-		return expenseRepository.getAllGroupExpensesFiltered(user.getId(), groupId,
+		return (Page<T>) expenseRepository.getAllGroupExpensesFiltered(user.getId(), groupId,
 				status.name(), pageable);
 	}
 	//
@@ -207,6 +215,13 @@ public class ExpenseService {
 	// }
 	// return null;
 	// }
+
+	@Transactional(readOnly = true)
+	public List<CategoryRegisterDTO> getCategoryRegister() {
+		User user = userRepository.findByEmailIgnoreCase(userService.authenticated())
+				.orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+		return expenseRepository.getExpensesByCategory(user.getId());
+	}
 
 	@Transactional
 	public boolean updateExpense(ExpenseUpdateDTO expenseDTO, Long groupId, Long expenseId) {

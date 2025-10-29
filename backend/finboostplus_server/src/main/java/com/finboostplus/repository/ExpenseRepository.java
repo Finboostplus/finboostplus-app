@@ -12,21 +12,34 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.finboostplus.DTO.CategoryRegisterDTO;
 import com.finboostplus.DTO.UserExpensesDTO;
 import com.finboostplus.model.Expense;
-import com.finboostplus.projection.ExpenseProjection;
-import com.finboostplus.projection.GroupExpenseProjection;
+import com.finboostplus.projection.GroupAuthorityExpenseProjection;
+import com.finboostplus.projection.GroupMemberExpenseProjection;
 import com.finboostplus.projection.UserExpenseDivisionProjection;
 
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 	@Query(nativeQuery = true, value = """
-			SELECT e.id, e.title, e.description, ued.partial_value, e.created_at, e.deadline_date, e.status, c.name as category
-				FROM expenses e
-				INNER JOIN user_expense_divisions ued ON ued.expense_id = e.id
-				INNER JOIN categories c ON c.id = e.category_id
-				WHERE ued.user_id = :userId
-				ORDER BY e.created_at DESC
+			SELECT
+				E.ID AS EXPENSE_ID,
+				E.TITLE,
+				E.CREATED_AT,
+				E.DEADLINE_DATE,
+				C.NAME AS CATEGORY,
+				E.DESCRIPTION,
+				E.STATUS,
+				UED.PARTIAL_VALUE,
+				G.ID AS GROUP_ID,
+				G.NAME AS GROUP_NAME
+			FROM
+				EXPENSES AS E
+				INNER JOIN GROUPS G ON G.ID = E.GROUP_ID
+				INNER JOIN USER_EXPENSE_DIVISIONS UED ON UED.EXPENSE_ID = E.ID
+				INNER JOIN CATEGORIES C ON C.ID = E.CATEGORY_ID
+			WHERE
+				UED.USER_ID = 1
 			""")
 	Page<UserExpensesDTO> getAllUserExpenses(Long userId, Pageable pageable);
 
@@ -45,106 +58,167 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 	// """)
 	// List<ExpenseProjection> listExpensesGroupById(Long memberId, Long groupId);
 
-	@Query(value = """
+	@Query(nativeQuery = true, value = """
 			SELECT
-			    e.id AS id,
-			    e.title AS title,
-			    g.id as group_id,
-			    g.name as group_name,
-			    ued.partial_value AS value,
-			    ued.status AS status,
-			    e.deadline_date AS deadline_date
-			FROM expenses e
-			INNER JOIN user_expense_divisions ued ON ued.expense_id = e.id
-			INNER JOIN groups g ON g.id = e.group_id
-			WHERE g.id = :groupId
-			  AND ued.user_id = :memberId
+				COUNT(C.ID) AS QUANTITY,
+				C.NAME AS CATEGORY
+			FROM
+				CATEGORIES C
+				INNER JOIN EXPENSES E ON E.CATEGORY_ID = C.ID
+				INNER JOIN USER_EXPENSE_DIVISIONS UED ON UED.EXPENSE_ID = E.ID
+			WHERE
+				UED.USER_ID = :userId
+			GROUP BY
+				C.ID,
+				C.NAME
 			ORDER BY
-			    CASE
-			        WHEN e.deadline_date < NOW() THEN 3
-			        WHEN e.deadline_date >= NOW() THEN 2
-			        ELSE 1
-			    END,
-			    e.deadline_date ASC
-			""", nativeQuery = true, countQuery = "Select count(*) from user_expense_divisions")
-	Page<GroupExpenseProjection> getAllGroupExpenses(Long memberId, Long groupId, Pageable pageable);
+				QUANTITY DESC
+			""")
+	List<CategoryRegisterDTO> getExpensesByCategory(Long userId);
 
 	@Query(nativeQuery = true, countQuery = "Select count(*) from user_expense_divisions", value = """
 			SELECT
-			    e.id AS id,
-			    e.title AS title,
-			    g.id as group_id,
-			    g.name as group_name,
-			    ued.partial_value AS value,
-			    ued.status AS status,
-			    e.deadline_date AS deadline_date
-			FROM expenses e
-			INNER JOIN user_expense_divisions ued ON ued.expense_id = e.id
-			INNER JOIN groups g ON g.id = e.group_id
-			WHERE g.id = :groupId
-			  AND ued.user_id = :memberId
-			  AND ued.status = :status
+			    E.ID AS EXPENSE_ID,
+			    E.TITLE AS TITLE,
+			    G.ID AS GROUP_ID,
+			    G.NAME AS GROUP_NAME,
+			    UED.PARTIAL_VALUE AS PARTIAL_VALUE,
+			    UED.STATUS AS STATUS,
+			    E.DEADLINE_DATE AS DEADLINE_DATE,
+			    G.ICON
+			FROM
+			    EXPENSES E
+			    INNER JOIN USER_EXPENSE_DIVISIONS UED ON UED.EXPENSE_ID = E.ID
+			    INNER JOIN GROUPS G ON G.ID = E.GROUP_ID
+			WHERE
+			    G.ID = :groupId
+			    AND UED.USER_ID = :memberId
 			ORDER BY
 			    CASE
-			        WHEN e.deadline_date < NOW() THEN 3
-			        WHEN e.deadline_date >= NOW() THEN 2
-			        ELSE 1
+			        WHEN E.DEADLINE_DATE < NOW() THEN 1
+			        WHEN DATE(E.DEADLINE_DATE) = DATE(NOW()) THEN 2
+			        WHEN E.DEADLINE_DATE > NOW() THEN 3
+			        ELSE 4
 			    END,
-			    e.deadline_date ASC
+			    E.DEADLINE_DATE ASC
 			""")
-	Page<GroupExpenseProjection> getAllGroupExpensesFiltered(Long memberId, Long groupId, String status,
+	Page<GroupMemberExpenseProjection> getAllGroupExpenses(Long memberId, Long groupId, Pageable pageable);
+
+	@Query(nativeQuery = true, countQuery = "Select count(*) from user_expense_divisions", value = """
+			SELECT
+			    E.ID AS EXPENSE_ID,
+			    E.TITLE AS TITLE,
+			    G.ID AS GROUP_ID,
+			    G.NAME AS GROUP_NAME,
+			    UED.PARTIAL_VALUE AS PARTIAL_VALUE,
+			    UED.STATUS AS STATUS,
+			    E.DEADLINE_DATE AS DEADLINE_DATE,
+			    G.ICON
+			FROM
+			    EXPENSES E
+			    INNER JOIN USER_EXPENSE_DIVISIONS UED ON UED.EXPENSE_ID = E.ID
+			    INNER JOIN GROUPS G ON G.ID = E.GROUP_ID
+			WHERE
+				G.ID = :groupId
+				AND UED.USER_ID = :memberId
+				AND UED.STATUS = :status
+			ORDER BY
+			    CASE
+			        WHEN E.DEADLINE_DATE < NOW() THEN 1
+			        WHEN DATE(E.DEADLINE_DATE) = DATE(NOW()) THEN 2
+			        WHEN E.DEADLINE_DATE > NOW() THEN 3
+			        ELSE 4
+			    END,
+			    E.DEADLINE_DATE ASC
+						""")
+	Page<GroupMemberExpenseProjection> getAllGroupExpensesFiltered(Long memberId, Long groupId, String status,
 			Pageable pageable);
 
 	@Query(nativeQuery = true, countQuery = "Select count(*) from user_expense_divisions", value = """
 			SELECT
-			   e.id AS id,
-			   e.title AS title,
-			   e.value AS value,
-			   g.id as group_id,
-			   g.name as group_name,
-			   e.status AS status,
-			   e.deadline_date AS deadline_date
-			FROM expenses e
-			INNER JOIN user_expense_divisions ued ON ued.expense_id = e.id
-			INNER JOIN groups g ON g.id = e.group_id
-			INNER JOIN users u ON u.id = ued.user_id
-			WHERE g.id = :groupId
-			   GROUP BY e.id, e.title, e.value, e.status, g.id, g.name, e.deadline_date
-			      ORDER BY
-			      CASE
-			      WHEN e.deadline_date < NOW() THEN 3
-			      WHEN e.deadline_date >= NOW() THEN 2
-			      ELSE 1
-			      END,
-			   e.deadline_date ASC;
-			  """)
-	Page<GroupExpenseProjection> getAllGroupExpensesOfAllMembers(Long groupId, Pageable pageable);
+				E.ID AS EXPENSE_ID,
+				E.TITLE AS TITLE,
+				G.ID AS GROUP_ID,
+				G.NAME AS GROUP_NAME,
+				COALESCE(UED_USER.PARTIAL_VALUE, 0) AS PARTIAL_VALUE,
+				COALESCE(E.VALUE, 0) AS TOTAL,
+				COALESCE(E.VALUE, 0) - COALESCE(UED_PAID.TOTAL_PAID, 0) AS REMAINING_VALUE,
+				E.DEADLINE_DATE AS DEADLINE_DATE,
+				G.ICON,
+				UED_USER.STATUS AS STATUS
+			FROM EXPENSES E
+			INNER JOIN GROUPS G ON G.ID = E.GROUP_ID
+
+			LEFT JOIN (
+				SELECT EXPENSE_ID, PARTIAL_VALUE, STATUS, USER_ID
+				FROM USER_EXPENSE_DIVISIONS
+				WHERE USER_ID = :userId
+			) UED_USER ON UED_USER.EXPENSE_ID = E.ID
+
+			LEFT JOIN (
+				SELECT EXPENSE_ID, SUM(PARTIAL_VALUE) AS TOTAL_PAID
+				FROM USER_EXPENSE_DIVISIONS
+				WHERE STATUS = 'PAID'
+				GROUP BY EXPENSE_ID
+			) UED_PAID ON UED_PAID.EXPENSE_ID = E.ID
+
+			WHERE G.ID = :groupId
+
+			ORDER BY
+			    CASE
+			        WHEN E.DEADLINE_DATE < NOW() THEN 1
+			        WHEN DATE(E.DEADLINE_DATE) = DATE(NOW()) THEN 2
+			        WHEN E.DEADLINE_DATE > NOW() THEN 3
+			        ELSE 4
+			    END,
+			    E.DEADLINE_DATE ASC
+									""")
+	Page<GroupAuthorityExpenseProjection> getAllGroupExpensesOfAllMembers(Long userId, Long groupId,
+			Pageable pageable);
 
 	@Query(nativeQuery = true, countQuery = "Select count(*) from user_expense_divisions", value = """
 			SELECT
-			   e.id AS id,
-			   e.title AS title,
-			   e.value AS value,
-			   g.id as group_id,
-			   g.name as group_name,
-			   e.status AS status,
-			   e.deadline_date AS deadline_date
-			FROM expenses e
-			INNER JOIN user_expense_divisions ued ON ued.expense_id = e.id
-			INNER JOIN groups g ON g.id = e.group_id
-			INNER JOIN users u ON u.id = ued.user_id
-			WHERE g.id = :groupId
-			AND ued.status = :status
-			   GROUP BY e.id, e.title, e.value, e.status, g.id, g.name, e.deadline_date
-			   ORDER BY
-			      CASE
-			         WHEN e.deadline_date < NOW() THEN 3
-			         WHEN e.deadline_date >= NOW() THEN 2
-			         ELSE 1
-			      END,
-			   e.deadline_date ASC;
+				E.ID AS EXPENSE_ID,
+				E.TITLE AS TITLE,
+				G.ID AS GROUP_ID,
+				G.NAME AS GROUP_NAME,
+				COALESCE(UED_USER.PARTIAL_VALUE, 0) AS PARTIAL_VALUE,
+				COALESCE(E.VALUE, 0) AS TOTAL,
+				COALESCE(E.VALUE, 0) - COALESCE(UED_PAID.TOTAL_PAID, 0) AS REMAINING_VALUE,
+				E.DEADLINE_DATE AS DEADLINE_DATE,
+				G.ICON,
+				UED_USER.STATUS AS STATUS
+			FROM EXPENSES E
+			INNER JOIN GROUPS G ON G.ID = E.GROUP_ID
+
+			LEFT JOIN (
+				SELECT EXPENSE_ID, PARTIAL_VALUE, STATUS, USER_ID
+				FROM USER_EXPENSE_DIVISIONS
+				WHERE USER_ID = :memberId
+			) UED_USER ON UED_USER.EXPENSE_ID = E.ID
+
+			LEFT JOIN (
+				SELECT EXPENSE_ID, SUM(PARTIAL_VALUE) AS TOTAL_PAID
+				FROM USER_EXPENSE_DIVISIONS
+				WHERE STATUS = 'PAID'
+				GROUP BY EXPENSE_ID
+			) UED_PAID ON UED_PAID.EXPENSE_ID = E.ID
+
+			WHERE G.ID = :groupId
+			AND (UED_USER.STATUS = :status
+			OR UED_USER.STATUS IS NULL)
+
+			ORDER BY
+			    CASE
+			        WHEN E.DEADLINE_DATE < NOW() THEN 1
+			        WHEN DATE(E.DEADLINE_DATE) = DATE(NOW()) THEN 2
+			        WHEN E.DEADLINE_DATE > NOW() THEN 3
+			        ELSE 4
+			    END,
+			    E.DEADLINE_DATE ASC
 			""")
-	Page<GroupExpenseProjection> getAllGroupExpensesOfAllMembersFiltered(Long memberId, Long groupId, String status,
+	Page<GroupAuthorityExpenseProjection> getAllGroupExpensesOfAllMembersFiltered(Long memberId, Long groupId,
+			String status,
 			Pageable pageable);
 
 	@Modifying

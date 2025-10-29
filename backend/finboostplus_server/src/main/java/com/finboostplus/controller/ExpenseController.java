@@ -1,5 +1,7 @@
 package com.finboostplus.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.finboostplus.DTO.CategoryDTO;
 import com.finboostplus.DTO.ExpenseCreateDTO;
 import com.finboostplus.DTO.ExpenseUpdateDTO;
 import com.finboostplus.DTO.UserExpenseDivisionDTO;
 import com.finboostplus.enums.Status;
-import com.finboostplus.projection.GroupExpenseProjection;
+import com.finboostplus.projection.GroupMemberExpenseProjection;
+import com.finboostplus.service.CategoryService;
 import com.finboostplus.service.ExpenseService;
 
 import jakarta.validation.Valid;
@@ -35,12 +39,20 @@ public class ExpenseController {
 	@Autowired
 	ExpenseService expenseService;
 
+	@Autowired
+	CategoryService categoryService;
+
 	@PostMapping
 	public ResponseEntity<String> createNewExpense(@Valid @RequestBody ExpenseCreateDTO dto,
 			@PathVariable Long groupId) {
 		return expenseService.createNewExpense(dto, groupId)
 				? new ResponseEntity<String>("Despesa criada com sucesso!", HttpStatus.CREATED)
 				: new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);
+	}
+
+	@GetMapping("/categories")
+	public ResponseEntity<List<CategoryDTO>> getCategory(){
+		return ResponseEntity.ok(categoryService.findAllCategories());
 	}
 
 	@GetMapping("{expenseId}")
@@ -54,7 +66,7 @@ public class ExpenseController {
 	}
 
 	@GetMapping
-	public ResponseEntity<Page<GroupExpenseProjection>> getAllGroupExpenses(
+	public ResponseEntity<Page<GroupMemberExpenseProjection>> getAllGroupExpenses(
 			@PathVariable Long groupId,
 			@RequestParam(required = false) Status status,
 			@RequestParam(defaultValue = "true") boolean allMemberExpenses,
@@ -62,7 +74,7 @@ public class ExpenseController {
 			@RequestParam(name = "page", defaultValue = "0") Integer page,
 			@RequestParam(name = "size", defaultValue = "4") Integer size) {
 		Pageable pageable = PageRequest.of(page, size);
-		Page<GroupExpenseProjection> expenses = expenseService.getAllGroupExpenses(
+		Page<GroupMemberExpenseProjection> expenses = expenseService.getAllGroupExpenses(
 				groupId, status, allMemberExpenses, allGroupMembersExpenses, pageable);
 		return ResponseEntity.ok(expenses);
 	}

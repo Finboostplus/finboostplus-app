@@ -7,5 +7,6 @@ import java.util.List;
 import com.finboostplus.enums.Status;
 import com.finboostplus.projection.UserExpenseDivisionProjection;
 
-public record UserExpenseDivisionDTO(Long id, String title, String description, Long groupId, String groupName, Status status, BigDecimal total, Instant createdAt, List<UserExpenseDivisionProjection> memberList) {
+public record UserExpenseDivisionDTO(Long expenseId, String title, String description, Long groupId, String groupName,
+		Status status, BigDecimal total, Instant createdAt, List<UserExpenseDivisionProjection> memberList) {
 }

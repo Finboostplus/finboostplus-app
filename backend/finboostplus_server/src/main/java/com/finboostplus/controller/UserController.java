@@ -1,9 +1,12 @@
 package com.finboostplus.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,12 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.finboostplus.DTO.CategoryRegisterDTO;
 import com.finboostplus.DTO.ChangePasswordDTO;
 import com.finboostplus.DTO.UserCreateDTO;
 import com.finboostplus.DTO.UserDataDTO;
 import com.finboostplus.DTO.UserExpensesDTO;
 import com.finboostplus.DTO.UserUpdateDTO;
 import com.finboostplus.config.TokenRevocationUtil;
+import com.finboostplus.service.ExpenseService;
 import com.finboostplus.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,6 +49,9 @@ import jakarta.validation.Valid;
 public class UserController {
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	ExpenseService expenseService;
 
 	@Autowired
 	OAuth2AuthorizationService authorizationService;
@@ -88,11 +96,21 @@ public class UserController {
 	}
 
 	@GetMapping("/me/expenses")
-	public ResponseEntity<Page<UserExpensesDTO>> getAllUserExpenses(@RequestParam(name = "page", defaultValue = "0") Integer page,
-                        @RequestParam(name = "size", defaultValue = "4") Integer size) {
-		Pageable pageable = PageRequest.of(page, size);
+	public ResponseEntity<Page<UserExpensesDTO>> getAllUserExpenses(
+			@RequestParam(name = "page", defaultValue = "0") Integer page,
+			@RequestParam(name = "size", defaultValue = "4") Integer size,
+			@RequestParam(name = "order", defaultValue = "DESC") String order) {
+		Pageable pageable = PageRequest.of(page, size, "ASC".equalsIgnoreCase(order)
+        ? Sort.by("created_at").ascending()
+        : Sort.by("created_at").descending());
 		Page<UserExpensesDTO> expenses = userService.getAllUserExpenses(pageable);
 		return ResponseEntity.ok(expenses);
+	}
+
+	@GetMapping("/me/classify-spending-by-category")
+	public ResponseEntity<List<CategoryRegisterDTO>> getCategoryRegister() {
+		List<CategoryRegisterDTO> category = expenseService.getCategoryRegister();
+		return ResponseEntity.ok(category);
 	}
 
 	@PreAuthorize("hasRole('USER')")
@@ -169,7 +187,7 @@ public class UserController {
 
 	@PreAuthorize("hasRole('USER')")
 	@PatchMapping("change-password")
-	public ResponseEntity<String> changePassword(@RequestBody ChangePasswordDTO passwordChange){
+	public ResponseEntity<String> changePassword(@RequestBody ChangePasswordDTO passwordChange) {
 		userService.changePassword(passwordChange);
 		return ResponseEntity.ok("Senha alterada com sucesso!");
 	}
