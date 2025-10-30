@@ -16,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -53,17 +54,21 @@ public class Expense {
         @JoinColumn(name = "group_id")
         private Group group;
 
+	@Column(name = "creator_id")
+	private Long creatorId;
+
         @Enumerated(EnumType.STRING)
         @Column(name = "status", nullable = false)
         private Status status;
 
-        public Expense(String title, String description, BigDecimal value, Category category, Group group,
+        public Expense(String title, String description, BigDecimal value, Category category, Group group, Long creatorId,
                         LocalDate deadlineDate, Status status) {
                 this.title = title;
                 this.description = description;
                 this.value = value;
                 this.category = category;
                 this.group = group;
+		this.creatorId = creatorId;
                 this.deadlineDate = deadlineDate;
                 this.createdAt = Instant.now();
                 this.status = status;

@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public interface GroupExpenseProjection {
-        Long getId();
+        Long getExpenseId();
 
         String getTitle();
 
-        BigDecimal getValue();
+        BigDecimal getPartialValue();
 
 	Long getGroupId();
 
@@ -18,3 +18,4 @@ public interface GroupExpenseProjection {
 
         LocalDate getDeadlineDate();
 }
+

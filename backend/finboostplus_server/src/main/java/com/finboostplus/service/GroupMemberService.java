@@ -47,6 +47,9 @@ public class GroupMemberService {
                 User groupNewMember = userRepository.findByEmailIgnoreCase(groupMemberDTO.email())
                                 .orElseThrow(() -> new UserNotFoundException(
                                                 "Usuário que se deseja inserir não foi encontrado"));
+		if (!groupNewMember.isEnabled()) {
+			throw new UserNotFoundException("Usuário não encontrado");
+		}
                 Group group = groupRepository.findById(Long.parseLong(String.valueOf(groupId)))
                                 .orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
                 boolean isUserGroupMember = groupMemberRepository.isUserMemberOfGroup(groupNewMember.getId(), groupId);

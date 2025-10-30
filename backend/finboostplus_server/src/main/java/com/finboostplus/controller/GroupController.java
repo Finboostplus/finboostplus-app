@@ -56,8 +56,8 @@ public class GroupController {
         @PreAuthorize("hasRole('USER')")
         @GetMapping
         public ResponseEntity<Page<GroupProjection>> listUserGroupsPaged(
-                        @RequestParam(defaultValue = "0") int page,
-                        @RequestParam(defaultValue = "10") int size) {
+                        @RequestParam(name = "page", defaultValue = "0") int page,
+                        @RequestParam(name = "size", defaultValue = "6") int size) {
                 Pageable pageable = PageRequest.of(page, size);
                 Page<GroupProjection> groupsDTO = groupService.listUserGroupsPaged(pageable);
                 return new ResponseEntity<>(groupsDTO, HttpStatus.OK);
