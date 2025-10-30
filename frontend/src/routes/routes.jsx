@@ -1,15 +1,14 @@
 import { createBrowserRouter } from 'react-router';
 import { lazy } from 'react';
-import { groupDetailsLoader } from '../pages/Groups/GroupDetails/groupDetailsLoader';
+import { groupAction } from '../actions/groupAction';
 import { loginAction } from '../actions/loginAction';
 import { registerAction } from '../actions/registerAction';
-import { groupAction } from '../actions/groupAction';
 import { groupSettingsLoader } from '../pages/Groups/GroupDetails/GroupSettings/groupSettingsLoader';
-
 import { loginLoader } from '../loaders/loginLoader';
 import { registerLoader } from '../loaders/registerLoader';
 import { protectRoutersLoader } from '../loaders/protectRoutersLoader';
 
+// Componentes lazy
 const App = lazy(() => import('../App'));
 const Layout = lazy(() => import('../components/Layout'));
 const Login = lazy(() => import('../pages/Login'));
@@ -22,60 +21,51 @@ const GroupSettings = lazy(
   () => import('../pages/Groups/GroupDetails/GroupSettings')
 );
 const NotFound = lazy(() => import('../pages/Notfound'));
-export const createAppRouter = () =>
-  createBrowserRouter([
-    // Rotas públicas (login e registro)
-    {
-      element: <Layout />,
-      children: [
-        {
-          path: '/login',
-          element: <Login />,
-          action: loginAction,
-          loader: loginLoader,
-        },
-        {
-          path: '/register',
-          element: <Register />,
-          action: registerAction,
-          loader: registerLoader,
-        },
-      ],
-    },
-    // Rotas privadas (todas as outras)
-    {
-      path: '/',
-      errorElement: <NotFound />,
-      loader: protectRoutersLoader,
-      children: [
-        {
-          element: <Layout />,
-          children: [
-            { index: true, element: <App /> }, // Redirecionamento ou página inicial
-            { path: 'dashboard', element: <Dashboard /> },
-            {
-              path: 'groups',
-              children: [
-                {
-                  index: true,
-                  element: <Groups />,
-                  action: groupAction,
-                },
-                {
-                  path: ':group_id',
-                  element: <GroupDetails />,
-                  /* loader: groupDetailsLoader, */
-                },
-                {
-                  path: ':group_id/settings',
-                  element: <GroupSettings />,
-                  loader: groupSettingsLoader,
-                },
-              ],
-            },
-            { path: 'profile', element: <Profile /> },
-          ],
-        },
-      ],
-    },
-  ]);
+
+// Export router diretamente (não como função)
+export const appRouter = createBrowserRouter([
+  {
+    element: <Layout />,
+    children: [
+      {
+        path: '/login',
+        element: <Login />,
+        action: loginAction,
+        loader: loginLoader,
+      },
+      {
+        path: '/register',
+        element: <Register />,
+        action: registerAction,
+        loader: registerLoader,
+      },
+    ],
+  },
+  {
+    path: '/',
+    errorElement: <NotFound />,
+    loader: protectRoutersLoader,
+    children: [
+      {
+        element: <Layout />,
+        children: [
+          { index: true, element: <App /> },
+          { path: 'dashboard', element: <Dashboard /> },
+          {
+            path: 'groups',
+            children: [
+              { index: true, element: <Groups />, action: groupAction },
+              { path: ':group_id', element: <GroupDetails /> },
+              {
+                path: ':group_id/settings',
+                element: <GroupSettings />,
+                loader: groupSettingsLoader,
+              },
+            ],
+          },
+          { path: 'profile', element: <Profile /> },
+        ],
+      },
+    ],
+  },
+]);
