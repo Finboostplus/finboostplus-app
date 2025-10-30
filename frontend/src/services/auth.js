@@ -15,7 +15,10 @@ export const login = ({ username, password }) => {
       { username, password, grant_type: 'password' },
       config
     )
-    .then(({ data }) => ({ value: data }))
+    .then(({ data }) => {
+      console.log(data);
+      return { value: data };
+    })
     .catch(error => {
       let title = 'Erro';
       let message = 'Ocorreu um erro inesperado.';
@@ -115,7 +118,7 @@ export const logout = async () => {
 };
 
 // Atualiza o token de autenticação
-export const refreshToken = async refresh_token => {
+export const getRefreshToken = async refresh_token => {
   try {
     const config = {
       headers: {

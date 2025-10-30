@@ -18,11 +18,11 @@ export default function LatestExpenses() {
         className="text-lg font-bold text-text mb-4"
       >
         Últimas Despesas{' '}
-        <span className="text-muted">({myExpenses.length})</span>
+        <span className="text-muted">({myExpenses?.length})</span>
       </h2>
 
       <Menu as="ul" className="space-y-4">
-        {myExpenses.map((expense, i) => (
+        {myExpenses?.map((expense, i) => (
           <li key={i}>
             <MenuItem
               as="a"

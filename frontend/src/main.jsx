@@ -2,7 +2,7 @@ import './index.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router';
-import { createAppRouter } from './routes/routes.jsx';
+import { appRouter } from './routes/routes.jsx';
 import { MdCheckCircle, MdError, MdInfo, MdWarning } from 'react-icons/md';
 import { ToastContainer } from 'react-toastify';
 import QCProvider from './libs/ReactQuery/main.jsx';
@@ -21,12 +21,10 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-const routes = createAppRouter();
-
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QCProvider>
-      <RouterProvider router={routes} />
+      <RouterProvider router={appRouter} />
       <ToastContainer
         position="top-right"
         limit={2}

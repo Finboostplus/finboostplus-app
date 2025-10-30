@@ -1,7 +1,7 @@
 import axios from 'axios';
 import createAuthRefreshInterceptor from '@esmkit/axios-auth-refresh';
 import { useAuthStore } from '../context/stores/auth';
-import { refreshToken } from './auth';
+import { refreshAuthLogic } from './refreshTokenInterceptor';
 
 export let BASEURL =
   import.meta.env.MODE === 'development'
@@ -23,42 +23,10 @@ export const apiAuthentication = axios.create({
 
 //API para obter dados durante o uso do app
 
-const refreshAuthLogic = async failedRequest => {
-  /* Função para trocar access token */
-  try {
-    const refresh_token = useAuthStore.getState().refreshToken;
-    if (!refreshToken) {
-      throw new Error('Refresh Token não disponível.');
-    }
-    /* const { exp: jwt_expiration } = useAuthStore.getState().user; */
-    const newCredentials = await refreshToken(refresh_token);
-    useAuthStore.getState().setRefreshToken(newCredentials);
-    console.log('REFRESH TOKEN');
-  } catch (error) {
-    console.error('Erro ao fazer o refresh', error);
-    useAuthStore.getState().logout();
-  } finally {
-    return failedRequest;
-  }
-};
-
 export const apiApplication = axios.create({
   baseURL: BASEURL,
   withCredentials: true,
 });
-
-// Intercepta respostas
-apiApplication.interceptors.response.use(
-  response => response,
-  error => {
-    if (error.response?.status === 401) {
-      const resetStore = useAuthStore.getState().reset;
-      resetStore?.();
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
-  }
-);
 
 apiApplication.interceptors.request.use(config => {
   const token = useAuthStore.getState().token;
@@ -69,4 +37,6 @@ apiApplication.interceptors.request.use(config => {
   return config;
 });
 
-createAuthRefreshInterceptor(apiApplication, refreshAuthLogic);
+createAuthRefreshInterceptor(apiApplication, failedRequest =>
+  refreshAuthLogic(failedRequest).catch(() => (window.location.href = '/login'))
+);

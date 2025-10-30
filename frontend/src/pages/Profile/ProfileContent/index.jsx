@@ -70,26 +70,29 @@ export default function ProfileContent({ setIsModalOpen }) {
     }
 
     setIsSubmitting(true);
-    try {
-      // Usando mutateAsync para esperar o resultado
-      await updateMeMutation.mutateAsync(data);
-      customToast(
-        'Perfil atualizado',
-        'Perfil atualizado com sucesso!',
-        'success'
-      );
+    // Usando mutateAsync para esperar o resultado
+    await updateMeMutation.mutateAsync(data, {
+      onSuccess: () => {
+        customToast(
+          'Perfil atualizado',
+          'Perfil atualizado com sucesso!',
+          'success'
+        );
+        // Se mudou o email, força logout
+        if (userData.email.value !== user.email) {
+          logout();
+          return; // tempo suficiente para o toast aparecer
+        }
 
-      // Se mudou o email, força logout
-      if (userData.email.value !== user.email) {
-        logout();
-      }
-
-      setIsModalOpen(false);
-    } catch {
-      customToast('Erro de atualização', 'Erro ao atualizar perfil', 'error');
-    } finally {
-      setIsSubmitting(false);
-    }
+        setIsModalOpen(false);
+      },
+      onError: () => {
+        customToast('Erro de atualização', 'Erro ao atualizar perfil', 'error');
+      },
+      onSettled: () => {
+        setIsSubmitting(false);
+      },
+    });
   };
 
   // Placeholder enquanto carrega user

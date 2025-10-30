@@ -14,7 +14,7 @@ function MyCustomToast({ title, message }) {
       <label className="font-bold first-letter:uppercase text-sm">
         {title}
       </label>
-      <span className="text-sm">{message}</span>
+      <span className="text-xs">{message}</span>
     </div>
   );
 }
