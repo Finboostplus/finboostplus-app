@@ -22,7 +22,6 @@ import com.finboostplus.exception.UserNotFoundException;
 import com.finboostplus.model.Group;
 import com.finboostplus.model.GroupMember;
 import com.finboostplus.model.User;
-import com.finboostplus.projection.ExpenseProjection;
 import com.finboostplus.projection.GroupProjection;
 import com.finboostplus.repository.ExpenseRepository;
 import com.finboostplus.repository.GroupMemberRepository;
@@ -85,17 +84,19 @@ public class GroupService {
 
 	// @Transactional(readOnly = true)
 	// public GroupDetailsDTO getGroupExpensesById(Long groupId) {
-	// 	User user = userRepository
-	// 			.findByEmailIgnoreCase(userService.authenticated())
-	// 			.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
-	// 	Group group = getGroup(groupId);
-	// 	if (group != null) {
-	// 		List<ExpenseProjection> expenseList = expenseRepository.listExpensesGroupById(user.getId(),
-	// 				groupId);
-	// 		GroupDetailsDTO dto = new GroupDetailsDTO(group.getId(), group.getName(), expenseList);
-	// 		return dto;
-	// 	}
-	// 	return null;
+	// User user = userRepository
+	// .findByEmailIgnoreCase(userService.authenticated())
+	// .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
+	// Group group = getGroup(groupId);
+	// if (group != null) {
+	// List<ExpenseProjection> expenseList =
+	// expenseRepository.listExpensesGroupById(user.getId(),
+	// groupId);
+	// GroupDetailsDTO dto = new GroupDetailsDTO(group.getId(), group.getName(),
+	// expenseList);
+	// return dto;
+	// }
+	// return null;
 	// }
 
 	@Transactional(readOnly = true)
@@ -115,16 +116,32 @@ public class GroupService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<GroupMemberResponseDTO> findAllMembersByGroupId(Long groupId) {
+	public GroupDetailsDTO getGroupDetails(Long groupId) {
+		User user = userRepository.findByEmailIgnoreCase(userService.authenticated())
+				.orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+		groupRepository.findById(groupId)
+				.orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
+		boolean isUserMemberOfGroup = groupMemberRepository.isUserMemberOfGroup(user.getId(), groupId);
+		if (isUserMemberOfGroup) {
+			return groupRepository.getGroupDetails(groupId, user.getId());
+		}
+		throw new ForbiddenResourceException("Acesso negado");
+	}
+
+	@Transactional(readOnly = true)
+	public Page<GroupMemberResponseDTO> findAllMembersByGroupId(Long groupId, Pageable pageable, String search) {
 		Long userId = userRepository.findByEmailIgnoreCase(userService.authenticated())
 				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!")).getId();
 		groupRepository.findById(groupId)
 				.orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
 		boolean isMember = groupMemberRepository.isUserMemberOfGroup(userId, groupId);
-		if (isMember) {
-			return groupMemberRepository.findMembersByGroupId(groupId);
+		if (!isMember) {
+			throw new ForbiddenResourceException("Usuário sem permissão");
 		}
-		throw new ForbiddenResourceException("Usuário sem permissão");
+		if (search.isBlank() || search.isEmpty()) {
+			return groupMemberRepository.findMembersByGroupId(groupId, pageable);
+		}
+		return groupMemberRepository.findMembersByGroupIdFiltered(groupId, pageable, search);
 	}
 
 	@Transactional
