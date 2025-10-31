@@ -14,9 +14,9 @@ export const getGroups = async (page = 0, size = 6) => {
     // Para cada grupo, pega os membros
     const groupsWithMembers = await Promise.all(
       response.data.content.map(async group => {
-        const { data: members } = await apiApplication.get(
-          `groups/${group.id}/members`
-        );
+        const {
+          data: { content: members },
+        } = await apiApplication.get(`groups/${group.id}/members`);
         members.some(member => {
           if (member.authority === 'OWNER') {
             if (member.id === userId) {
@@ -49,12 +49,11 @@ export const createGroup = async group => {
 export const getGroupById = async id => {
   try {
     const response = await apiApplication
-      .get(`/groups?id=${id}`)
-      .then(async ({ data: { content: group } }) => {
-        group = group[0];
-        const { data: members } = await apiApplication.get(
-          `groups/${group.id}/members`
-        );
+      .get(`/groups/${id}`)
+      .then(async ({ data: group }) => {
+        const {
+          data: { content: members },
+        } = await apiApplication.get(`groups/${group.id}/members`);
         group.members = members;
         return group;
       });

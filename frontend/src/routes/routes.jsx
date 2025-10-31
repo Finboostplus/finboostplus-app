@@ -9,9 +9,10 @@ import { registerLoader } from '../loaders/registerLoader';
 import { protectRoutersLoader } from '../loaders/protectRoutersLoader';
 import { groupDetailsLoader } from '../pages/Groups/GroupDetails/groupDetailsLoader';
 
-// Componentes lazy
-const App = lazy(() => import('../App'));
-const Layout = lazy(() => import('../components/Layout'));
+// Layout e App carregados normalmente
+import Layout from '../components/Layout';
+import App from '../App';
+
 const Login = lazy(() => import('../pages/Login'));
 const Register = lazy(() => import('../pages/Register'));
 const Dashboard = lazy(() => import('../pages/Dashboard'));
@@ -27,6 +28,7 @@ const NotFound = lazy(() => import('../pages/Notfound'));
 export const appRouter = createBrowserRouter([
   {
     element: <Layout />,
+    errorElement: <NotFound />, // <-- Captura qualquer erro de rota
     children: [
       {
         path: '/login',
@@ -40,15 +42,9 @@ export const appRouter = createBrowserRouter([
         action: registerAction,
         loader: registerLoader,
       },
-    ],
-  },
-  {
-    path: '/',
-    errorElement: <NotFound />,
-    loader: protectRoutersLoader,
-    children: [
       {
-        element: <Layout />,
+        path: '/',
+        loader: protectRoutersLoader,
         children: [
           { index: true, element: <App /> },
           { path: 'dashboard', element: <Dashboard /> },

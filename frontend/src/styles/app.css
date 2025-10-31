@@ -18,7 +18,7 @@ html {
 @custom-variant dark (html:where(.dark,.dark *));
 
 .dark {
-  --color-primary: #4a90e2; /* Azul médio – ainda confiável e suave */
+  --color-primary: #51a1fd; /* Azul médio – ainda confiável e suave */
   --color-secondary: #5bc0f8; /* Azul claro vibrante – destaque */
   --color-success: #2fd8a3; /* Verde claro – entradas */
   --color-error: #ff7a6b; /* Vermelho suave – saídas */
