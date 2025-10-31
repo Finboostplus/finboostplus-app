@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
-import { getGroupExpensesById, getGroups } from '../../services/groups';
+import { getGroupById, getGroups } from '../../services/groups';
 
-export function useGroupsQuery(page = 0, size = 10) {
+export function useGroupsQuery(page, size) {
   return useQuery({
     queryKey: [REACTQUERY_KEYS.GROUPS.ALL, page],
     queryFn: async () => await getGroups(page, size),
@@ -10,12 +10,12 @@ export function useGroupsQuery(page = 0, size = 10) {
     placeholderData: { content: [] },
   });
 }
-export function useGroupExpenseByIdQuery(id) {
+export function useGroupByIdQuery(id) {
   return useQuery({
     queryKey: [REACTQUERY_KEYS.GROUPS.ALL, id],
     enabled: !!id,
-    queryFn: async () => await getGroupExpensesById(id),
+    queryFn: async () => await getGroupById(id),
     staleTime: Infinity,
-    placeholderData: { content: [] },
+    placeholderData: { content: {} },
   });
 }

@@ -16,10 +16,6 @@ import { formatBRL } from '../../../utils/formatters';
 import ModalButton from '../../../components/Modal/ModalButton';
 
 import { CategoryIcon } from '../../../mockData/groupIcons/icons';
-import { useQuery } from '@tanstack/react-query';
-import { REACTQUERY_KEYS } from '../../../libs/ReactQuery/keys';
-import { getGroupExpensesById, getGroups } from '../../../services/groups';
-import { queryClient } from '../../../libs/ReactQuery/queryClient';
 import { ConfirmModal } from '../../../components/Modal';
 import { useDeleteGroupMutation } from '../../../hooks/ReactQuery/useDeleteGroupMutation';
 import { customToast } from '../../../components/CustomToast';
@@ -31,64 +27,11 @@ function useQueryParams() {
 
 export default function GroupDetails() {
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const group = useLoaderData();
   const navigate = useNavigate();
   const { group_id } = useParams();
   const deleteGroup = useDeleteGroupMutation(group_id);
-  const query = useQueryParams();
-  const page = query.get('page');
-  const size = query.get('size');
-  const {
-    data: group,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: [REACTQUERY_KEYS.GROUPS.DETAILS, group_id],
-    queryFn: async () => {
-      // 1️⃣ Tenta pegar o cache dos grupos (paginado)
-      let allGroups = queryClient.getQueryData([
-        REACTQUERY_KEYS.GROUPS.ALL,
-        page,
-      ]);
 
-      // 2️⃣ Se não existir, busca do servidor e popula o cache
-      if (!allGroups) {
-        allGroups = await queryClient.fetchQuery({
-          queryKey: [REACTQUERY_KEYS.GROUPS.ALL, page, size],
-          queryFn: () => getGroups(page, size),
-        });
-      }
-
-      // 3️⃣ Tenta pegar o grupo específico do cache de DETAILS
-      let group = queryClient.getQueryData([
-        REACTQUERY_KEYS.GROUPS.DETAILS,
-        group_id,
-      ]);
-
-      // 4️⃣ Se não tiver cache específico, tenta encontrar dentro de ALL
-      if (!group && allGroups?.content) {
-        group = allGroups.content.find(g => String(g.id) === String(group_id));
-
-        // 5️⃣ Se encontrou dentro de ALL, cria um cache separado para DETAILS
-        if (group) {
-          queryClient.setQueryData(
-            [REACTQUERY_KEYS.GROUPS.DETAILS, group_id],
-            group
-          );
-        }
-      }
-
-      // 6️⃣ Se ainda não achou, busca no servidor
-      if (!group) {
-        group = await queryClient.fetchQuery({
-          queryKey: [REACTQUERY_KEYS.GROUPS.DETAILS, group_id],
-          queryFn: () => getGroupExpensesById(group_id),
-        });
-      }
-      return group;
-    },
-    enabled: !!group_id,
-  });
   /*  const [showBalances, setShowBalances] = useState(true); */
 
   // classes reutilizáveis
@@ -98,9 +41,9 @@ export default function GroupDetails() {
     'bg-primary text-white hover:bg-primary/90 focus:ring-primary';
   const inactiveBtn =
     'bg-neutral text-text hover:bg-neutral/80 focus:ring-muted'; */
-  if (isLoading) return <p>Carregando grupo...</p>;
+  /*  if (isLoading) return <p>Carregando grupo...</p>;
   if (isError) return <p>Erro ao carregar grupo.</p>;
-  if (!group) return <p>Grupo não encontrado.</p>;
+  if (!group) return <p>Grupo não encontrado.</p>; */
   return (
     <div
       key={group_id}
@@ -126,7 +69,7 @@ export default function GroupDetails() {
             });
           }}
           confirmLabel="Excluir"
-          message={`Tem certeza de que deseja excluir o grupo "${group.name}"? Essa ação não pode ser desfeita.`}
+          message={`Tem certeza de que deseja excluir o grupo "${group?.name}"? Essa ação não pode ser desfeita.`}
         />
         {/* Cabeçalho */}
         <header className="flex flex-col-reverse sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
@@ -209,15 +152,24 @@ export default function GroupDetails() {
               {formatBRL(group?.totalExpenses)}
             </p>
             <p className="text-muted text-base sm:text-lg">acumulado do mês</p>
-            <hr className="h-2 w-full mt-2 text-muted" />
-            <div className="mt-2 flex gap-2 text-muted">
-              <div title="Descrição do grupo" className="break-all select-none">
-                <span className="text-xs font-bold uppercase">
-                  - Descrição -
-                </span>
-                <p className="ml-2 capitalize">{group?.description}</p>
-              </div>
-            </div>
+            {group?.description && (
+              <>
+                <hr className="my-3 border-t border-muted/50" />
+                <div className="mt-2 text-text">
+                  <div
+                    title="Descrição do grupo"
+                    className="rounded-xl bg-muted/10 p-3 shadow-sm border border-border/40 hover:bg-muted/20 transition-colors duration-200"
+                  >
+                    <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">
+                      Descrição
+                    </h4>
+                    <p className="text-sm leading-relaxed text-foreground/90 wrap-break-word">
+                      {group?.description}
+                    </p>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Botões: Saldos / Despesas */}

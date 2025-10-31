@@ -3,9 +3,10 @@ import { queryClient } from '../libs/ReactQuery/queryClient';
 import { apiApplication } from './api';
 
 // Busca todos os grupos
-export const getGroups = async (page, size) => {
+export const getGroups = async (page = 0, size = 6) => {
   try {
-    const userName = queryClient.getQueryData([REACTQUERY_KEYS.USER.ME]).name;
+    const userId = queryClient.getQueryData([REACTQUERY_KEYS.USER.ME]).id;
+
     const response = await apiApplication.get(
       `/groups?page=${page}&size=${size}`
     );
@@ -18,7 +19,7 @@ export const getGroups = async (page, size) => {
         );
         members.some(member => {
           if (member.authority === 'OWNER') {
-            if (member.name === userName) {
+            if (member.id === userId) {
               group['ownerId'] = member.name;
             }
           }
@@ -45,11 +46,19 @@ export const createGroup = async group => {
   }
 };
 
-export const getGroupExpensesById = async id => {
+export const getGroupById = async id => {
   try {
-    const response = await apiApplication.get(`/groups/${id}/expenses`);
-    console.log(response);
-    return response.data;
+    const response = await apiApplication
+      .get(`/groups?id=${id}`)
+      .then(async ({ data: { content: group } }) => {
+        group = group[0];
+        const { data: members } = await apiApplication.get(
+          `groups/${group.id}/members`
+        );
+        group.members = members;
+        return group;
+      });
+    return response;
   } catch (error) {
     console.error(error);
     throw new Error('Erro ao obter grupo - id:', id);
