@@ -7,6 +7,7 @@ import { groupSettingsLoader } from '../pages/Groups/GroupDetails/GroupSettings/
 import { loginLoader } from '../loaders/loginLoader';
 import { registerLoader } from '../loaders/registerLoader';
 import { protectRoutersLoader } from '../loaders/protectRoutersLoader';
+import { groupDetailsLoader } from '../pages/Groups/GroupDetails/groupDetailsLoader';
 
 // Componentes lazy
 const App = lazy(() => import('../App'));
@@ -55,7 +56,11 @@ export const appRouter = createBrowserRouter([
             path: 'groups',
             children: [
               { index: true, element: <Groups />, action: groupAction },
-              { path: ':group_id', element: <GroupDetails /> },
+              {
+                path: ':group_id',
+                element: <GroupDetails />,
+                loader: groupDetailsLoader,
+              },
               {
                 path: ':group_id/settings',
                 element: <GroupSettings />,

@@ -14,7 +14,7 @@ import Pagination from './Pagination';
 export default function Groups() {
   const { data: user } = useMeQuery();
   const [page, setPage] = useState(0);
-  const pageSize = 10; // itens por página
+  const pageSize = undefined; // itens por página
 
   const { data: groupsData, isLoading } = useGroupsQuery(page, pageSize);
   const groups = groupsData?.content || [];
@@ -63,7 +63,7 @@ export default function Groups() {
               {filteredGroups.map(group => (
                 <Link
                   key={group.id}
-                  to={`/groups/${group.id}?page=${page}&size=${pageSize}`}
+                  to={`/groups/${group.id}`}
                   className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg block"
                   aria-label={`Grupo ${group.name} com ${group.members?.length} membros`}
                 >
