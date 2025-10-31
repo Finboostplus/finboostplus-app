@@ -1,6 +1,10 @@
 import { Menu, MenuItem } from '@headlessui/react';
 import userData from '../../mockData/user/user.data';
-import { formatBRL } from '../../utils/formatters';
+import {
+  formatBRL,
+  formatDateBR,
+  formatRelativeDate,
+} from '../../utils/formatters';
 import useMeQuery from '../../hooks/ReactQuery/useMeQuery';
 
 export default function LatestExpenses() {
@@ -22,37 +26,42 @@ export default function LatestExpenses() {
       </h2>
 
       <Menu as="ul" className="space-y-4">
-        {myExpenses?.map((expense, i) => (
-          <li key={i}>
+        {myExpenses?.map(expense => (
+          <li key={expense?.id}>
             <MenuItem
               as="a"
               href={`/groups/${expense?.groupId}`}
-              key={expense?.id}
-              className="flex justify-between items-start bg-neutral rounded-lg p-4 border border-surface hover:shadow-sm transition-shadow cursor-pointer"
-              aria-label={`Despesa: ${expense?.group}`}
+              aria-label={`Despesa: ${expense?.title}`}
             >
-              <div>
-                <p
-                  className="font-semibold text-text"
-                  aria-label="Título da despesa"
-                >
-                  {expense?.title}
-                </p>
-                <p
-                  className="text-sm text-muted"
-                  aria-label="Data e grupo da despesa"
-                >
-                  data da criação {'->'} {expense?.createdAt} |{' '}
-                  {expense?.deadlineDate} {'<-'} Data do Vencimento
-                </p>
-              </div>
+              <div className="text-text bg-neutral border-surface  rounded-lg p-4 border hover:shadow-sm transition-shadow cursor-pointer ">
+                <div className="flex justify-between items-start">
+                  <p className="font-semibold" aria-label="Título da despesa">
+                    {expense?.title}
+                  </p>
+                  <p
+                    className="font-bold text-error"
+                    aria-label={`Valor da despesa: ${formatBRL(expense?.partialValue)}`}
+                  >
+                    {formatBRL(expense?.partialValue)}
+                  </p>
+                </div>
 
-              <p
-                className="font-bold text-error"
-                aria-label={`Valor da despesa: ${expense?.partialValue}`}
-              >
-                {formatBRL(expense?.partialValue)}
-              </p>
+                <div className="flex flex-wrap items-center justify-between mt-1 text-xs text-muted">
+                  <span className="font-medium text-primary/80">
+                    {expense?.groupName && `#${expense.groupName}`}
+                  </span>
+
+                  <div className="flex items-center gap-1">
+                    <span className="italic">
+                      criada {formatRelativeDate(expense?.createdAt)}
+                    </span>
+                    <span className="text-muted-foreground">•</span>
+                    <span className="font-semibold text-accent">
+                      vence {formatDateBR(expense?.deadlineDate)}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </MenuItem>
           </li>
         ))}

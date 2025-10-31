@@ -44,8 +44,13 @@ export default function Groups() {
       <main className="flex-1 max-w-[1200px] mx-auto">
         {/* Cabeçalho */}
         <header className="mb-6 flex items-center justify-between flex-wrap gap-4">
-          <h1 className="text-2xl font-bold text-text">{title}</h1>
-          <ModalButton modalChildren={<GroupForm />} />
+          <h1 className="text-3xl font-extrabold text-text tracking-tight">
+            {title}
+          </h1>
+          <ModalButton
+            modalChildren={<GroupForm />}
+            className="bg-primary text-white px-4 py-2 rounded-lg shadow hover:bg-primary/90 transition"
+          />
         </header>
 
         {/* Filtros */}
@@ -69,14 +74,14 @@ export default function Groups() {
                 >
                   <CardUI
                     style={{ borderColor: user?.themeColor }}
-                    className="relative border-primary p-6 rounded-2xl shadow-sm bg-surface hover:shadow-md cursor-pointer border-l-4 h-full transition-colors duration-200 ease-in-out"
+                    className="relative border-l-4 p-6 rounded-2xl shadow-md bg-surface hover:shadow-xl cursor-pointer transition-transform duration-200 ease-in-out hover:-translate-y-1"
                   >
                     {/* Nome + Ícone */}
-                    <div className="flex items-center gap-3 mb-3 text-lg text-primary font-semibold">
-                      <span className="text-2xl">
+                    <div className="flex items-center gap-3 mb-3 text-lg font-semibold text-primary">
+                      <span className="text-3xl">
                         <CategoryIcon categoryKey={group.icon} size={30} />
                       </span>
-                      <h3 className="truncate">{group.name}</h3>
+                      <h3 className="truncate text-xl">{group.name}</h3>
                     </div>
 
                     {/* Quantidade de membros */}
@@ -86,14 +91,14 @@ export default function Groups() {
                     </p>
 
                     {/* Avatares dos membros */}
-                    <div className="relative mb-4 h-8">
+                    <div className="relative mb-4 h-10">
                       {group.members?.map(({ name, themeColor }, idx) => (
                         <span
                           key={idx}
-                          className="text-white text-sm w-8 h-8 rounded-full flex items-center justify-center absolute border-2 border-surface shadow-md"
+                          className="text-white text-sm w-10 h-10 rounded-full flex items-center justify-center absolute border-2 border-surface shadow-md"
                           style={{
                             backgroundColor: themeColor,
-                            left: `${idx * 1.2}rem`,
+                            left: `${idx * 1.4}rem`,
                             zIndex: group.members.length - idx,
                           }}
                           aria-label={`Membro: ${name}`}

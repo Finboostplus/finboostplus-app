@@ -45,22 +45,28 @@ export default function Profile() {
       </header>
 
       {/* Estatísticas */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8 **:h-full **:select-none">
         <Link to={'/groups'} className="group">
           <StatBox
             number={groupsLength}
             label="Grupos"
             color="border-b-4 border-primary group-hover:bg-muted/10"
-            icon={<FaUsers className="text-primary size-9" />}
+            icon={<FaUsers className="text-primary text-2xl" />}
           />
         </Link>
+
         <StatBox
-          icon={<FaMoneyBillWave className="text-success size-9" />}
           number={formatBRL(current_user.dashboard.totalMonthlySpent)}
           label="Despesas"
           color="border-b-4 border-success"
+          icon={<FaMoneyBillWave className="text-success text-2xl" />}
         />
-        <FavoriteCategory topCategory={current_user.topCategory} />
+
+        <FavoriteCategory
+          topCategory={
+            user?.most_used_categorys || 'Nenhuma Despesa Registrada'
+          }
+        />
       </section>
 
       {/* Grupos ativos */}
