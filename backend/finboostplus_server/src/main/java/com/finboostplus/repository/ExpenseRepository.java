@@ -39,7 +39,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 				INNER JOIN USER_EXPENSE_DIVISIONS UED ON UED.EXPENSE_ID = E.ID
 				INNER JOIN CATEGORIES C ON C.ID = E.CATEGORY_ID
 			WHERE
-				UED.USER_ID = 1
+				UED.USER_ID = :userId
 			""")
 	Page<UserExpensesDTO> getAllUserExpenses(Long userId, Pageable pageable);
 

@@ -13,7 +13,6 @@ public interface UserExpensesDTO {
 
 	Instant getCreatedAt();
 
-	@Value("#{T(java.time.LocalDate).ofInstant(target.created_at, T(java.time.ZoneId).of('America/Sao_Paulo'))}")
 	LocalDate getDeadlineDate();
 
 	String getCategory();
