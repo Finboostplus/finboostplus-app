@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.finboostplus.DTO.CategoryDTO;
 import com.finboostplus.DTO.GroupCreateDTO;
 import com.finboostplus.DTO.GroupDetailsDTO;
 import com.finboostplus.DTO.GroupMemberDTO;
@@ -30,6 +31,7 @@ import com.finboostplus.DTO.SwitchAuthorityRequestDTO;
 import com.finboostplus.model.Group;
 import com.finboostplus.projection.GroupProjection;
 import com.finboostplus.repository.UserRepository;
+import com.finboostplus.service.CategoryService;
 import com.finboostplus.service.ExpenseService;
 import com.finboostplus.service.GroupMemberService;
 import com.finboostplus.service.GroupService;
@@ -51,10 +53,18 @@ public class GroupController {
 	GroupMemberService groupMemberService;
 
 	@Autowired
+	CategoryService categoryService;
+
+	@Autowired
 	ExpenseService expenseService;
 
 	@Autowired
 	UserRepository userRepository;
+
+	@GetMapping("/expenses/categories")
+	public ResponseEntity<List<CategoryDTO>> getCategory() {
+		return ResponseEntity.ok(categoryService.findAllCategories());
+	}
 
 	@GetMapping
 	public ResponseEntity<Page<GroupProjection>> listUserGroupsPaged(

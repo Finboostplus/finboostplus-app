@@ -152,16 +152,17 @@ public class ExpenseService {
 				.doesUserHasAnyAuthority(user.getId(), groupId, AUTHLEVELS);
 		if (!hasAuthority) {
 			throw new ForbiddenResourceException(
-					"Usuário não tem permissão para visualizar detelhes da despesa");
+					"Acesso negado");
 		}
 		Group group = groupRepository.findById(groupId)
 				.orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
 		Expense expense = expenseRepository.findById(expenseId).orElseThrow(
 				() -> new ForbiddenResourceException("Despesa nao encontrada"));
+		Category category = expense.getCategory();
 		List<UserExpenseDivisionProjection> memberList = getExpenseDivisionDetails(group.getId(), expenseId);
 		return new UserExpenseDivisionDTO(expense.getId(), expense.getTitle(),
 				expense.getDescription(), groupId, group.getName(), expense.getStatus(),
-				expense.getValue(), expense.getCreatedAt(), memberList);
+				expense.getValue(), category.getId(), category.getName(), expense.getCreatedAt(), memberList);
 	}
 
 	private List<UserExpenseDivisionProjection> getExpenseDivisionDetails(Long groupId, Long expenseId) {
