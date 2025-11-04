@@ -18,7 +18,7 @@ export default function ChartSwitcher() {
     <div className="w-full bg-surface p-4 rounded-2xl shadow-md space-y-4 mb-6 transition-colors">
       {/* Cabeçalho */}
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-[var(--color-text)]">
+        <h2 className="text-xl font-semibold text-text">
           {activeChart === 'balance'
             ? 'Visualização Financeira'
             : 'Distribuição das Despesas por Categoria'}
@@ -34,11 +34,47 @@ export default function ChartSwitcher() {
           <span className="text-sm">{buttonLabel}</span>
         </button>
       </div>
-
-      {/* Área do gráfico */}
-      <div className=" w-full h-72">
-        {activeChart === 'balance' ? <BalanceChart /> : <ExpenseChart />}
-      </div>
+      <GraphicArea activeChart={activeChart} />
     </div>
+  );
+}
+
+function GraphicArea({ activeChart }) {
+  return (
+    <>
+      {/* Área do gráfico */}
+      <div
+        className="
+    relative w-full h-72 sm:h-80 
+    bg-surface 
+    rounded-xl 
+    flex items-center justify-center 
+    transition-all duration-500 
+    
+  "
+      >
+        {/* ✨ Transição suave entre os gráficos */}
+        <div
+          className={`absolute inset-0 transition-opacity duration-500 ${
+            activeChart === 'balance' ? 'opacity-100 z-10' : 'opacity-0 z-0'
+          }`}
+        >
+          <BalanceChart />
+        </div>
+
+        <div
+          className={`absolute inset-0 transition-opacity duration-500 ${
+            activeChart === 'expense' ? 'opacity-100 z-10' : 'opacity-0 z-0'
+          }`}
+        >
+          <ExpenseChart />
+        </div>
+
+        {/* Fallback caso não haja dados */}
+        {!activeChart && (
+          <p className="text-muted italic">Nenhum gráfico selecionado.</p>
+        )}
+      </div>
+    </>
   );
 }

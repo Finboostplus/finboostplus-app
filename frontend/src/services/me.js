@@ -14,7 +14,7 @@ export const getMe = async () => {
 // A CHAVE [REACTQUERY_KEYS.USER.ME] deve ser onde a query de usuário está.
 // Aqui, assumimos que a busca de usuário JÁ FOI FEITA.
 
-export const getMeExpenses = async () => {
+export const getMeExpenses = async (page, size = 5) => {
   // 1. Obter o userId do cache da query de usuário
   // Assumimos que o array de chaves do usuário é [REACTQUERY_KEYS.USER.ME]
   const user = queryClient.getQueryData([REACTQUERY_KEYS.USER.ME]);
@@ -29,19 +29,25 @@ export const getMeExpenses = async () => {
 
   try {
     // 2. Chamada de API para obter as despesas
-    const response = await apiApplication.get('user/me/expenses');
+    const response = await apiApplication.get(
+      `user/me/expenses?page=${page}&size=${size}`
+    );
     const expensesList = response.data.content;
 
     // 3. NORMALIZAÇÃO: Injetar o dado na chave separada, que agora tem o ID
     // CHAVE: [REACTQUERY_KEYS.USER.EXPENSES, userId]
     queryClient.setQueryData(
-      [REACTQUERY_KEYS.USER.EXPENSES, userId],
+      [REACTQUERY_KEYS.USER.EXPENSES, { userId, page, size }],
       expensesList
     );
 
     // 4. Retornar o dado (para a query principal)
     // OBS: Você pode retornar apenas a lista aqui, pois o setQueryData já lidou com o cache.
-    return expensesList || [];
+    return {
+      expenses: expensesList,
+      totalPages: response.data.totalPages,
+      expensesLength: response.data.totalElements,
+    };
   } catch (error) {
     // É uma boa prática lançar o erro do próprio objeto de erro para que o TanStack Query o capture
     throw error;

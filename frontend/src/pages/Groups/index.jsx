@@ -17,15 +17,15 @@ import Pagination from '../../components/PaginationController';
 export default function Groups() {
   const { data: user } = useMeQuery();
   const [page, setPage] = useState(0);
-  const pageSize = undefined;
   const membersLengthToShow = 4;
-  const { data: groupsData, isLoading } = useGroupsQuery(page, pageSize);
-  const groups = groupsData?.content ?? [];
-  const totalPages = groupsData?.totalPages ?? 1;
-
+  const { data, isLoading } = useGroupsQuery(page);
+  const groups = data?.groups;
+  const totalPages = data?.totalPages;
+  const groupsLength = data?.groupsLength;
+  console.log({ data });
   // Cria queries dinâmicas de membros (cacheadas)
   const membersQueries = useQueries({
-    queries: groups.map(group => ({
+    queries: groups?.map(group => ({
       queryKey: [REACTQUERY_KEYS.GROUPS.MEMBERS, group.id],
       queryFn: () => getGroupMembers(group.id),
       enabled: !!group.id,
@@ -53,7 +53,7 @@ export default function Groups() {
   });
 
   const filteredGroups = useFilteredGroups(groups, 'OWNER', filters);
-  const totalGroups = groups.length;
+  const totalGroups = groupsLength;
   const totalFiltered = filteredGroups.length;
 
   const title = useMemo(() => {

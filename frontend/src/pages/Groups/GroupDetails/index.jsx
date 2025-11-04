@@ -194,7 +194,7 @@ export default function GroupDetails() {
 
         {/* Conteúdo principal */}
         <section className="animate-fadeIn">
-          {/*   <ExpensesList group={group} /> */}
+          <ExpensesList />
           {/* {showBalances ? (
             <BalancesList group={group} />
           ) : (

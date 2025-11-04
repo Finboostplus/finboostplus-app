@@ -1,12 +1,13 @@
-import categories from '../../../../mockData/categories';
 import { getCurrentDate } from '../../../../utils/helpers';
 import InputUI from '../../../ui/Input';
 import SelectUI from '../../../ui/Select';
 import TextareaUI from '../../../ui/Textarea';
 import CurrencyInputUI from '../../../ui/CurrencyInput';
 import { useFormExpense } from '../useForm';
+import { useAllGroupExpenseCategoriesQuery } from '../../../../hooks/ReactQuery/useAllGroupExpenseCategoriesQuery';
 
-export default function FormFieldsExpenses({ data: members }) {
+export default function FormFieldsExpenses() {
+  const { data: allCategories } = useAllGroupExpenseCategoriesQuery();
   const { setAmount } = useFormExpense();
 
   const handleAmountChange = ({ float: numericValue }) => {
@@ -111,7 +112,7 @@ export default function FormFieldsExpenses({ data: members }) {
             className="w-full p-2 border border-neutral rounded-md text-text placeholder-muted 
                        focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition cursor-pointer"
           >
-            {categories?.map(({ id, name }) => (
+            {allCategories?.map(({ id, name }) => (
               <option key={id} value={id.toString()}>
                 {name}
               </option>
