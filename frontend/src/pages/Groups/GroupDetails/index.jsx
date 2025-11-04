@@ -19,6 +19,7 @@ import { CategoryIcon } from '../../../mockData/groupIcons/icons';
 import { ConfirmModal } from '../../../components/Modal';
 import { useDeleteGroupMutation } from '../../../hooks/ReactQuery/useDeleteGroupMutation';
 import { customToast } from '../../../components/CustomToast';
+import { ROLES } from '../../../utils/constants';
 
 function useQueryParams() {
   const { search } = useLocation(); // ex: "?page=0&size=10"
@@ -89,7 +90,7 @@ export default function GroupDetails() {
           </div>
 
           {/* Menu de ações */}
-          {group?.authority === 'OWNER' && (
+          {group?.authorization !== ROLES.user && (
             <Menu as="div" className="relative inline-block text-left">
               <MenuButton
                 className="flex items-center justify-center p-2 bg-primary/70 hover:bg-primary text-white rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer"
@@ -203,7 +204,9 @@ export default function GroupDetails() {
       </main>
 
       {/* Modal de adicionar despesa */}
-      <ModalButton modalChildren={<Expenses />} />
+      {group?.authorization !== ROLES.user && (
+        <ModalButton modalChildren={<Expenses groupData={group} />} />
+      )}
     </div>
   );
 }

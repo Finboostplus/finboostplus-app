@@ -7,5 +7,6 @@ export default function useMeQuery() {
     queryKey: [REACTQUERY_KEYS.USER.ME],
     queryFn: getMe,
     staleTime: Infinity,
+    refetchInterval: false,
   });
 }

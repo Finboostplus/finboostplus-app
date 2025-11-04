@@ -1,88 +1,112 @@
-import { Form, useParams } from 'react-router';
+import { Form } from 'react-router';
 import FormFieldsExpenses from './FormFieldsExpenses';
 import ButtonUI from '../../ui/Button';
 import CustomSplitAmount from './CustomSplitAmount';
 import { useFormExpense } from './useForm';
 import { useEffect, useState, useCallback } from 'react';
-import userData from '../../../mockData/user/user.data';
 import { customToast } from '../../CustomToast';
+import Modal from '../../Modal';
+import ListMembers from './ListMembers';
+import { FiUserPlus, FiX } from 'react-icons/fi';
+/* import useMeQuery from '../../../hooks/ReactQuery/useMeQuery'; */
+import { useMembersQuery } from '../../../hooks/ReactQuery/useMembersQuery';
+import { useCreateExpenseMutation } from '../../../hooks/ReactQuery/useCreateExpenseMutation';
 
-export default function ExpenseForm() {
-  const params = useParams();
-  const group = userData.groups.find(({ id }) => id === params['group-id']);
-  const groupMembers = group?.members || [];
+export default function ExpenseForm({ groupData: group }) {
+  /* const { data: user } = useMeQuery(); */
+  const useExpenseMutation = useCreateExpenseMutation(group?.id);
+  const {
+    data: { members: groupMembers },
+  } = useMembersQuery(group?.id, 0, '');
 
-  const { setMembers, amount, divisionAmount, remainingDifference, reset } =
+  const { setMembers, amount, divisionAmount, reset, getRemainingDifference } =
     useFormExpense();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedMembers, setSelectedMembers] = useState([]);
+  const [showMemberModal, setShowMemberModal] = useState(false);
 
-  // Inicializa membros do grupo
-  useEffect(() => {
-    /* setMembers(groupMembers.map(m => m.name)); */
-  }, [groupMembers, setMembers]);
-
-  // Reseta store ao desmontar
+  // 🔄 Reseta store ao desmontar
   useEffect(() => reset, [reset]);
 
-  const isDistributionValid = remainingDifference <= 0.01;
+  // 👥 Atualiza membros selecionados
+  useEffect(() => {
+    setMembers(selectedMembers.length > 0 ? selectedMembers : []);
+  }, [selectedMembers, setMembers]);
 
+  // ⚖️ Verifica se a distribuição está correta
+  const distributionOK =
+    selectedMembers.length > 0 && Math.abs(getRemainingDifference()) < 0.01;
+
+  // 📝 Envio do formulário
   const handleExpenseSubmit = useCallback(
     async e => {
       e.preventDefault();
+
+      if (!distributionOK) {
+        return customToast(
+          'Erro',
+          'A distribuição de valores não corresponde ao total da despesa.',
+          'error'
+        );
+      }
+
       setIsSubmitting(true);
 
       try {
         const formData = new FormData(e.target);
         const formValues = Object.fromEntries(formData);
 
-        // Validações
-        ['title_expense', 'date', 'payer_id'].forEach(field => {
-          if (!formValues[field]) throw new Error(`${field} é obrigatório.`);
-        });
-
-        // Monta payload
         const expenseData = {
           title: formValues.title_expense,
           description: formValues.description || '',
-          date: formValues.date,
-          amount: Number(amount),
-          payer_id: Number(formValues.payer_id),
-          category_id: Number(formValues.category_id),
-          group_id: params['group-id'],
-          splits: Object.entries(divisionAmount).map(([member, { float }]) => ({
-            member_name: member,
-            amount: float || 0,
-          })),
+          deadlineDate: formValues.date,
+          expenseValue: Number(amount),
+          categoryId: Number(formValues.category_id),
+          expenseDivision: Object.entries(divisionAmount).map(
+            ([memberId, val]) => ({
+              id: Number(memberId),
+              value: val.float,
+            })
+          ),
         };
 
-        if (!isDistributionValid) {
-          throw new Error(
-            'A distribuição de valores não corresponde ao total da despesa.'
-          );
-        }
+        console.log('💾 Dados da despesa preparados:', expenseData);
 
-        console.log('Dados da despesa preparados:', expenseData);
-        // await api.post('/expenses', expenseData);
-        customToast(
-          'Nova despesa',
-          'Despesa adicionada com sucesso!',
-          'success'
-        );
+        await useExpenseMutation.mutateAsync(expenseData, {
+          onSuccess: () =>
+            customToast(
+              'Nova despesa',
+              'Despesa adicionada com sucesso!',
+              'success'
+            ),
+          onError: ({ response: { data: error } }) => {
+            console.log({ error });
+            customToast(error.title, error.message, 'error');
+          },
+          onSettled: () => setIsSubmitting(false),
+        });
       } catch (err) {
         console.error(err);
-        alert(`Erro: ${err.message}`);
-      } finally {
+        customToast(
+          'Erro',
+          err?.message || 'Ocorreu um erro inesperado.',
+          'error'
+        );
         setIsSubmitting(false);
       }
     },
-    [amount, divisionAmount, isDistributionValid, params, groupMembers]
+    [amount, divisionAmount, distributionOK]
   );
 
+  const removeMember = memberId => {
+    setSelectedMembers(prev => prev.filter(m => m.id !== memberId));
+  };
+
   return (
-    <div className=" bg-surface dark:bg-surface-dark rounded-xl space-y-6">
-      {/* Título */}
-      <div>
+    <div className="bg-surface dark:bg-surface-dark rounded-xl space-y-6 p-6">
+      {/* Cabeçalho */}
+      <header>
         <h2 className="text-2xl font-bold text-center md:text-left">
           Adicionar nova despesa
         </h2>
@@ -90,7 +114,7 @@ export default function ExpenseForm() {
           Preencha os detalhes abaixo para adicionar uma despesa ao grupo{' '}
           <strong>{group?.name || ''}</strong>.
         </p>
-      </div>
+      </header>
 
       <Form
         onSubmit={handleExpenseSubmit}
@@ -98,24 +122,84 @@ export default function ExpenseForm() {
         className="grid md:grid-cols-[100%] max-md:flex max-md:flex-col gap-6"
         aria-label="Formulário para adicionar nova despesa"
       >
-        <FormFieldsExpenses members={groupMembers} />
-        <CustomSplitAmount members={groupMembers} />
+        {/* Campos principais */}
+        <FormFieldsExpenses data={groupMembers} />
 
+        {/* Seleção de membros */}
+        <div className="col-span-2 flex flex-col gap-2">
+          {selectedMembers.length === 0 && groupMembers?.length > 0 && (
+            <ButtonUI
+              type="button"
+              onClick={() => setShowMemberModal(true)}
+              className="flex items-center gap-2 justify-center bg-secondary text-white py-2 px-4 rounded-lg hover:bg-secondary/90 focus:outline-none focus:ring-2 focus:ring-primary transition-shadow shadow-sm cursor-pointer"
+            >
+              <FiUserPlus size={20} />
+              Selecionar participantes
+            </ButtonUI>
+          )}
+
+          {selectedMembers.length > 0 && (
+            <div className="flex flex-col justify-center gap-2">
+              <span className="text-xs font-bold">
+                {selectedMembers.length > 1
+                  ? 'Membros envolvidos'
+                  : 'Membro envolvido'}{' '}
+                na despesa:
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {selectedMembers.map(member => (
+                  <div
+                    key={member.id}
+                    className="flex items-center gap-1 bg-primary text-white text-sm px-2 py-1 rounded-full"
+                  >
+                    <span>{member.name}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeMember(member.id)}
+                      className="hover:text-error transition cursor-pointer"
+                    >
+                      <FiX size="20px" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Divisão personalizada */}
+        {selectedMembers.length > 0 && (
+          <CustomSplitAmount members={selectedMembers} />
+        )}
+
+        {/* Botão de envio */}
         <div className="col-span-2 mt-4">
           <ButtonUI
-            disabled={!isDistributionValid || isSubmitting}
-            aria-disabled={!isDistributionValid || isSubmitting}
             type="submit"
-            className={`bg-primary hover:bg-secondary text-white py-3 px-6 rounded w-full sm:w-auto font-semibold transition ${
-              !isDistributionValid || isSubmitting
-                ? 'opacity-50 cursor-not-allowed disabled:bg-gray-400'
-                : ''
-            }`}
+            disabled={isSubmitting || !distributionOK || amount <= 0}
+            aria-disabled={isSubmitting || !distributionOK || amount <= 0}
+            className={`
+      bg-primary hover:bg-secondary text-white py-3 px-6 rounded w-full sm:w-auto font-semibold transition
+      ${isSubmitting || !distributionOK || amount <= 0 ? 'opacity-50 bg-gray-400! cursor-not-allowed!' : 'cursor-pointer'}
+    `}
           >
-            <span>{isSubmitting ? 'Enviando...' : 'Adicionar Despesa'}</span>
+            {isSubmitting ? 'Enviando...' : 'Adicionar Despesa'}
           </ButtonUI>
         </div>
       </Form>
+
+      {/* Modal de seleção */}
+      <Modal isOpen={showMemberModal} fnClose={() => setShowMemberModal(false)}>
+        <ListMembers
+          groupID={group?.id}
+          onConfirm={selected => {
+            setSelectedMembers(selected);
+            setMembers(selected);
+            setShowMemberModal(false);
+          }}
+          onClose={() => setShowMemberModal(false)}
+        />
+      </Modal>
     </div>
   );
 }

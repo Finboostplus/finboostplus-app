@@ -18,9 +18,11 @@ import Modal from '../../components/Modal';
 
 import useMeQuery from '../../hooks/ReactQuery/useMeQuery';
 import { useGroupsQuery } from '../../hooks/ReactQuery/useGroupsQuery';
+import { useMeDashboardQuery } from '../../hooks/ReactQuery/useMeDashboardStatsQuery';
 
 export default function Profile() {
   const { data: user } = useMeQuery();
+  const { data: dashboard } = useMeDashboardQuery();
   const { data: groups } = useGroupsQuery();
   const groupsLength = groups?.content.length;
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -63,9 +65,7 @@ export default function Profile() {
         />
 
         <FavoriteCategory
-          topCategory={
-            user?.most_used_categorys || 'Nenhuma Despesa Registrada'
-          }
+          topCategory={dashboard[0]?.category || 'Nenhuma Despesa Registrada'}
         />
       </section>
 

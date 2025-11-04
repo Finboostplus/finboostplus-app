@@ -1,17 +1,13 @@
 import { Menu, MenuItem } from '@headlessui/react';
-import userData from '../../mockData/user/user.data';
 import {
   formatBRL,
   formatDateBR,
   formatRelativeDate,
 } from '../../utils/formatters';
-import useMeQuery from '../../hooks/ReactQuery/useMeQuery';
+import useMeExpensesQuery from '../../hooks/ReactQuery/useMeExpensesQuery';
 
 export default function LatestExpenses() {
-  const current_user = userData;
-  const { data: me } = useMeQuery();
-  const myExpenses = me?.totalExpenses;
-  console.log(myExpenses);
+  const { data: myExpenses } = useMeExpensesQuery();
   return (
     <section
       aria-labelledby="ultimas-despesas-heading"

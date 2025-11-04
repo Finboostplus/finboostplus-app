@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router';
 import GroupFilters from '../../components/Filters/Groups';
 import { useFilteredGroups } from '../../components/Filters/Groups/useFilteredGroups';
@@ -9,25 +9,50 @@ import ModalButton from '../../components/Modal/ModalButton';
 import { useGroupsQuery } from '../../hooks/ReactQuery/useGroupsQuery';
 import useMeQuery from '../../hooks/ReactQuery/useMeQuery';
 import { CategoryIcon } from '../../mockData/groupIcons/icons';
-import Pagination from './Pagination';
+import { useQueries } from '@tanstack/react-query';
+import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
+import { getGroupMembers } from '../../services/groups';
+import Pagination from '../../components/PaginationController';
 
 export default function Groups() {
   const { data: user } = useMeQuery();
   const [page, setPage] = useState(0);
-  const pageSize = undefined; // itens por página
-
+  const pageSize = undefined;
+  const membersLengthToShow = 4;
   const { data: groupsData, isLoading } = useGroupsQuery(page, pageSize);
-  const groups = groupsData?.content || [];
-  const totalPages = groupsData?.totalPages || 1;
+  const groups = groupsData?.content ?? [];
+  const totalPages = groupsData?.totalPages ?? 1;
 
-  // Estado de filtros
+  // Cria queries dinâmicas de membros (cacheadas)
+  const membersQueries = useQueries({
+    queries: groups.map(group => ({
+      queryKey: [REACTQUERY_KEYS.GROUPS.MEMBERS, group.id],
+      queryFn: () => getGroupMembers(group.id),
+      enabled: !!group.id,
+      staleTime: Infinity, // mantém o cache fresco indefinidamente
+    })),
+  });
+
+  // Cria um map: { [groupId]: members }
+  const membersMap = {};
+  membersQueries.forEach((q, i) => {
+    if (q.data)
+      membersMap[groups[i].id] = {
+        totalElements: q.data.totalElements,
+        members: q.data.members,
+      };
+  });
+
+  console.log({ membersMap });
+
+  // Filtros
   const [filters, setFilters] = useState({
     search: '',
     onlyOwner: false,
     sortOrder: 'desc',
   });
 
-  const filteredGroups = useFilteredGroups(groups, user.name, filters);
+  const filteredGroups = useFilteredGroups(groups, 'OWNER', filters);
   const totalGroups = groups.length;
   const totalFiltered = filteredGroups.length;
 
@@ -37,7 +62,7 @@ export default function Groups() {
     return `Meus grupos (${totalGroups})`;
   }, [filters, totalFiltered, totalGroups]);
 
-  if (isLoading) return <div>Carregando...</div>;
+  if (isLoading) return <div>Carregando grupos...</div>;
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-neutral p-6 transition-colors">
@@ -65,63 +90,91 @@ export default function Groups() {
         {filteredGroups.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-              {filteredGroups.map(group => (
-                <Link
-                  key={group.id}
-                  to={`/groups/${group.id}`}
-                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg block"
-                  aria-label={`Grupo ${group.name} com ${group.members?.length} membros`}
-                >
-                  <CardUI
-                    style={{ borderColor: user?.themeColor }}
-                    className="relative border-l-4 p-6 rounded-2xl shadow-md bg-surface hover:shadow-xl cursor-pointer transition-transform duration-200 ease-in-out hover:-translate-y-1"
+              {filteredGroups.map((group, index) => {
+                const membersData = membersMap[group?.id]?.members ?? [];
+                const membersLength =
+                  membersMap[group?.id]?.totalElements ?? [];
+                const membersLoading = membersMap[group?.id]?.isLoading;
+                return (
+                  <Link
+                    key={group.id}
+                    to={`/groups/${group.id}`}
+                    className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg block"
+                    aria-label={`Grupo ${group.name} com ${membersData.length} membros`}
                   >
-                    {/* Nome + Ícone */}
-                    <div className="flex items-center gap-3 mb-3 text-lg font-semibold text-primary">
-                      <span className="text-3xl">
-                        <CategoryIcon categoryKey={group.icon} size={30} />
-                      </span>
-                      <h3 className="truncate text-xl">{group.name}</h3>
-                    </div>
-
-                    {/* Quantidade de membros */}
-                    <p className="text-sm text-muted mb-4">
-                      {group.members?.length} membro
-                      {group.members?.length > 1 ? 's' : ''}
-                    </p>
-
-                    {/* Avatares dos membros */}
-                    <div className="relative mb-4 h-10">
-                      {group.members?.map(({ name, themeColor }, idx) => (
-                        <span
-                          key={idx}
-                          className="text-white text-sm w-10 h-10 rounded-full flex items-center justify-center absolute border-2 border-surface shadow-md"
-                          style={{
-                            backgroundColor: themeColor,
-                            left: `${idx * 1.4}rem`,
-                            zIndex: group.members.length - idx,
-                          }}
-                          aria-label={`Membro: ${name}`}
-                          title={name}
-                        >
-                          {name[0].toUpperCase()}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Status financeiro */}
-                    <p
-                      className={`text-sm font-semibold select-none ${
-                        group.totalExpenses <= 0
-                          ? 'text-green-500'
-                          : 'text-red-500'
-                      }`}
+                    <CardUI
+                      style={{ borderColor: user?.themeColor }}
+                      className="relative border-l-4 p-6 rounded-2xl shadow-md bg-surface hover:shadow-xl cursor-pointer transition-transform duration-200 ease-in-out hover:-translate-y-1"
                     >
-                      Despesas: {formatBRL(group.totalExpenses)}
-                    </p>
-                  </CardUI>
-                </Link>
-              ))}
+                      {/* Nome + Ícone */}
+                      <div className="flex items-center gap-3 mb-3 text-lg font-semibold text-primary">
+                        <span className="text-3xl">
+                          <CategoryIcon categoryKey={group.icon} size={30} />
+                        </span>
+                        <h3 className="truncate text-xl">{group.name}</h3>
+                      </div>
+
+                      {/* Quantidade de membros */}
+                      <p className="text-sm text-muted mb-4">
+                        {membersLoading
+                          ? 'Carregando membros...'
+                          : `${membersLength} membro${
+                              membersLength > 1 ? 's' : ''
+                            }`}
+                      </p>
+
+                      {/* Avatares */}
+                      <div className="relative mb-4 h-10">
+                        {!membersLoading && membersData.length > 0 && (
+                          <>
+                            {membersData
+                              .slice(0, membersLengthToShow)
+                              .map(({ name, themeColor }, idx) => (
+                                <span
+                                  key={idx}
+                                  className="text-white  text-sm w-10 h-10 rounded-full flex items-center justify-center absolute border-2 border-surface shadow-md"
+                                  style={{
+                                    backgroundColor: themeColor,
+                                    left: `${idx * 1.4}rem`,
+                                    zIndex: 3 - idx,
+                                  }}
+                                  aria-label={`Membro: ${name}`}
+                                  title={name}
+                                >
+                                  {name[0]?.toUpperCase()}
+                                </span>
+                              ))}
+
+                            {membersLength > membersLengthToShow && (
+                              <span
+                                className={`text-white ${membersLengthToShow > 0 && 'ml-2'} text-sm w-10 h-10 rounded-full flex items-center justify-center absolute border-2 border-surface shadow-md bg-gray-400`}
+                                style={{
+                                  left: `${membersLengthToShow * 1.4}rem`, // posição logo após os avatares visíveis
+                                  zIndex: 0,
+                                }}
+                                title={`${membersData.length - membersLengthToShow} membros adicionais`}
+                              >
+                                +{membersData.length - membersLengthToShow}
+                              </span>
+                            )}
+                          </>
+                        )}
+                      </div>
+
+                      {/* Status financeiro */}
+                      <p
+                        className={`text-sm font-semibold select-none ${
+                          group.totalExpenses <= 0
+                            ? 'text-green-500'
+                            : 'text-red-500'
+                        }`}
+                      >
+                        Despesas: {formatBRL(group.totalExpenses)}
+                      </p>
+                    </CardUI>
+                  </Link>
+                );
+              })}
             </div>
 
             {/* Paginação */}

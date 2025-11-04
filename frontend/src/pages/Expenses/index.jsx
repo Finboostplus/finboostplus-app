@@ -1,9 +1,9 @@
 import ExpenseForm from '../../components/forms/ExpenseForm';
 
-export default function Expenses() {
+export default function Expenses({ groupData }) {
   return (
     <section className="max-w-4xl mx-auto font-[var(--font-principal)] text-[var(--color-text)]">
-      <ExpenseForm />
+      <ExpenseForm groupData={groupData} />
     </section>
   );
 }
