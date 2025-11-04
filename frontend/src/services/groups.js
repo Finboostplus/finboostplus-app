@@ -6,7 +6,11 @@ export const getGroups = async (page = 0, size = 6) => {
     const response = await apiApplication.get(
       `/groups?page=${page}&size=${size}`
     );
-    return response.data;
+    return {
+      groups: response.data.content,
+      totalPages: response.data.totalPages,
+      groupsLength: response.data.totalElements,
+    };
   } catch (error) {
     throw error;
   }
@@ -66,6 +70,16 @@ export const getGroupById = async id => {
   } catch (error) {
     console.error(error);
     throw new Error('Erro ao obter grupo - id:', id);
+  }
+};
+
+export const getAllGroupsExpenseCategories = async () => {
+  try {
+    const response = await apiApplication.get('/groups/expenses/categories');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Erro ao obter todas as categorias de despesa.');
   }
 };
 
