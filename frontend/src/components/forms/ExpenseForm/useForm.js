@@ -6,42 +6,73 @@ import {
 
 export const useFormExpense = create((set, get) => ({
   amount: 0,
-  members: [],
-  divisionAmount: {}, // { member: { float, formatted, value } }
-  remainingDifference: 0,
+  members: [], // array de ids
+  divisionAmount: {}, // { memberId: { float, formatted, value } }
 
+  // 💰 Atualiza o valor total da despesa
   setAmount: value => {
-    const amount = value === null ? 0 : value;
-    const divisionAmount = calculateEqualShares(amount, get().members);
-    set({ amount, divisionAmount, remainingDifference: 0 });
+    const amount = Number(value) || 0;
+    const members = get().members;
+    const divisionAmount = calculateEqualShares(amount, members);
+    set({ amount, divisionAmount });
   },
 
-  /*   setMembers: members => {
-    const divisionAmount = calculateEqualShares(get().amount, members);
-    set({ members, divisionAmount, remainingDifference: 0 });
-  }, */
-
-  updateMemberShare: (member, raw) => {
-    //raw:{float,formatted,value}
-    const divisionAmount = { ...get().divisionAmount, [member]: raw };
-    const remainingDifference = calculateRemainingDifference(
-      get().amount,
-      divisionAmount
-    );
-
-    set({ divisionAmount, remainingDifference });
+  // 👥 Atualiza os membros participantes
+  setMembers: members => {
+    const amount = get().amount;
+    const divisionAmount = calculateEqualShares(amount, members);
+    set({ members, divisionAmount });
   },
 
+  updateMemberShare: (memberId, raw) => {
+    // converte string para número
+    if (raw === '') return;
+    let floatValue = 0;
+    if (typeof raw === 'string') {
+      floatValue = parseFloat(raw.replace(',', '.')) || 0;
+    } else if (typeof raw === 'number') {
+      floatValue = raw;
+    }
+
+    // atualiza a store com formato consistente
+    const divisionAmount = {
+      ...get().divisionAmount,
+      [memberId]: {
+        float: floatValue,
+        formatted: floatValue.toFixed(2), // para mostrar no input
+        value: String(floatValue), // string “bruta”
+      },
+    };
+
+    set({ divisionAmount });
+  },
+
+  // ♻️ Redistribui os valores igualmente
   redistributeEvenly: () => {
-    const divisionAmount = calculateEqualShares(get().amount, get().members);
-    set({ divisionAmount, remainingDifference: 0 });
+    const amount = get().amount;
+    const members = get().members;
+    const divisionAmount = calculateEqualShares(amount, members);
+    set({ divisionAmount });
   },
 
+  // 🔄 Resetar tudo
   reset: () =>
     set({
       amount: 0,
       members: [],
       divisionAmount: {},
-      remainingDifference: 0,
     }),
+
+  // 🧮 Soma total distribuída
+  getTotalAssigned: () =>
+    Object.values(get().divisionAmount).reduce(
+      (acc, val) => acc + (val?.float || 0),
+      0
+    ),
+
+  // ⚖️ Diferença restante
+  getRemainingDifference: () => get().amount - get().getTotalAssigned(),
+
+  // ✅ Verifica se está equilibrado
+  isBalanced: () => Math.abs(get().getRemainingDifference()) < 0.01,
 }));

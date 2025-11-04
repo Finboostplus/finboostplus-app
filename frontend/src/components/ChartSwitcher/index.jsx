@@ -36,7 +36,7 @@ export default function ChartSwitcher() {
       </div>
 
       {/* Área do gráfico */}
-      <div className="flex items-center justify-center w-full h-72">
+      <div className=" w-full h-72">
         {activeChart === 'balance' ? <BalanceChart /> : <ExpenseChart />}
       </div>
     </div>

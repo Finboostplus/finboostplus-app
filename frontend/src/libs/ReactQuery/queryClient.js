@@ -1,7 +1,17 @@
 import { QueryClient } from '@tanstack/react-query';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { SecureLS } from '../../utils/localStorageEncryption';
-export const queryClient = new QueryClient();
+
+const refetchInterval = 180000; // 3 minutos
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchInterval,
+      refetchOnWindowFocus: true,
+    },
+  },
+});
 
 export const localStoragePersistor = createAsyncStoragePersister({
   storage: {

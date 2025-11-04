@@ -1,35 +1,40 @@
-import { REACTQUERY_KEYS } from '../libs/ReactQuery/keys';
-import { queryClient } from '../libs/ReactQuery/queryClient';
 import { apiApplication } from './api';
 
 // Busca todos os grupos
 export const getGroups = async (page = 0, size = 6) => {
   try {
-    const userId = queryClient.getQueryData([REACTQUERY_KEYS.USER.ME]).id;
-
     const response = await apiApplication.get(
       `/groups?page=${page}&size=${size}`
     );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
-    // Para cada grupo, pega os membros
-    const groupsWithMembers = await Promise.all(
-      response.data.content.map(async group => {
-        const {
-          data: { content: members },
-        } = await apiApplication.get(`groups/${group.id}/members`);
-        members.some(member => {
-          if (member.authority === 'OWNER') {
-            if (member.id === userId) {
-              group['ownerId'] = member.name;
-            }
-          }
-        });
-        return { ...group, members }; // adiciona members ao grupo
-      })
+export const getGroupMembers = async (groupId, size = 4) => {
+  try {
+    const {
+      data: { content: members, totalElements },
+    } = await apiApplication.get(`groups/${groupId}/members?size=${size}`);
+    console.log({ members });
+    return { members, totalElements };
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getMembers = async (groupId, page, search) => {
+  try {
+    const query = new URLSearchParams({ page: page.toString() });
+    if (search) query.append('search', search);
+    const response = await apiApplication.get(
+      `/groups/${groupId}/members?${query.toString()}`
     );
-
-    // Retorna o objeto original, mas com grupos já populados
-    return { ...response.data, content: groupsWithMembers };
+    return {
+      totalPages: response.data.totalPages,
+      members: response.data.content,
+    };
   } catch (error) {
     throw error;
   }

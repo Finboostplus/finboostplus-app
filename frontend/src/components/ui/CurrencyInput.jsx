@@ -3,12 +3,11 @@ import CurrencyInput from 'react-currency-input-field';
 export default function CurrencyInputUI(props) {
   return (
     <CurrencyInput
-      decimalsLimit={2}
-      decimalScale={2}
-      decimalSeparator=","
-      groupSeparator="."
-      intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
       prefix="R$ "
+      maxLength={10}
+      decimalSeparator=","
+      decimalScale={2}
+      decimalsLimit={2}
       allowNegativeValue={false}
       {...props}
     />

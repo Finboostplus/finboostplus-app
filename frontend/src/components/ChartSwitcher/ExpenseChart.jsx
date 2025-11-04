@@ -1,67 +1,54 @@
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
-import userData from '../../mockData/user/user.data';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import { avatarBackgroundColors } from '../../mockData/colorsPallete/colors';
+import { useMeDashboardQuery } from '../../hooks/ReactQuery/useMeDashboardStatsQuery';
 
-const COLORS = [
-  '#ff69b4', // Rosa vibrante
-  '#ffb6c1', // Rosa claro
-  '#ffd700', // Dourado
-  '#ba55d3', // Roxo médio
-  '#87cefa', // Azul claro
-  '#ffa07a', // Coral suave
-];
-
-export default function ExpensePieChart() {
-  const expenseData = userData.dashboard.chartsData.expenseData;
+export default function ExpenseQuantityDonutChart() {
+  const { data: expenseData } = useMeDashboardQuery();
+  const total = expenseData?.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <PieChart>
-        {/* Pie principal */}
-        <Pie
-          data={expenseData}
-          dataKey="valor"
-          nameKey="categoria"
-          cx="50%"
-          cy="50%"
-          outerRadius="80%"
-          label={{ fill: 'var(--color-text)', fontWeight: 500 }}
-        >
-          {expenseData.map((entry, index) => (
-            <Cell
-              key={`${entry}-cell-${index}`}
-              fill={COLORS[index % COLORS.length]}
-            />
-          ))}
-        </Pie>
+    <div className="relative w-full h-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie
+            data={expenseData}
+            dataKey="quantity"
+            nameKey="category"
+            innerRadius="60%"
+            outerRadius="80%"
+            label={({ name, percent }) =>
+              `${name}: ${expenseData.find(c => c.category === name)?.quantity}`
+            }
+            labelLine={true}
+          >
+            {expenseData?.map((_, index) => (
+              <Cell
+                key={index}
+                fill={
+                  avatarBackgroundColors[index % avatarBackgroundColors.length]
+                }
+              />
+            ))}
+          </Pie>
+          <Tooltip
+            contentStyle={{
+              backgroundColor: 'var(--color-surface)',
+              borderColor: 'var(--color-muted)',
+              color: 'var(--color-text)',
+              borderRadius: '8px',
+            }}
+            labelStyle={{ color: 'var(--color-text)', fontWeight: 600 }}
+            formatter={value => [`${value}`, 'Quantidade de despesas']}
+          />
+        </PieChart>
+      </ResponsiveContainer>
 
-        {/* Tooltip */}
-        <Tooltip
-          contentStyle={{
-            backgroundColor: 'var(--color-surface)',
-            borderColor: 'var(--color-muted)',
-            color: 'var(--color-text)',
-          }}
-          labelStyle={{ color: 'var(--color-text)', fontWeight: 500 }}
-          itemStyle={{ color: 'var(--color-text)' }}
-        />
-
-        {/* Legenda */}
-        <Legend
-          layout="horizontal"
-          verticalAlign="bottom"
-          wrapperStyle={{
-            color: 'var(--color-text)',
-            fontWeight: 500,
-          }}
-        />
-      </PieChart>
-    </ResponsiveContainer>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-sm text-muted">Total</p>
+          <p className="text-lg font-semibold text-text">{total}</p>
+        </div>
+      </div>
+    </div>
   );
 }
