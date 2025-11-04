@@ -263,14 +263,14 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 	boolean doesMemberHasPendingExpenses(Long memberId, Long groupId);
 
 	@Query(nativeQuery = true, value = """
-			SELECT ud.user_id as userId,
-			       u.user_name as userName,
-			       ud.partial_value as partialValue,
-			       ud.status
-			FROM expenses e
-			INNER JOIN user_expense_divisions ud ON e.id = ud.expense_id
-			INNER JOIN users u ON u.id = ud.user_id
-			WHERE e.group_id = :groupId AND e.id = :expenseId
+			SELECT  UD.USER_ID AS USERID,
+				U.USER_NAME AS USERNAME,
+				UD.PARTIAL_VALUE AS PARTIALVALUE,
+				UD.STATUS
+			FROM EXPENSES E
+			INNER JOIN USER_EXPENSE_DIVISIONS UD ON E.ID = UD.EXPENSE_ID
+			INNER JOIN USERS U ON U.ID = UD.USER_ID
+			WHERE E.GROUP_ID = :groupId AND e.id = :expenseId
 			""")
 	List<UserExpenseDivisionProjection> listUsersExpenseDivision(Long groupId, Long expenseId);
 
