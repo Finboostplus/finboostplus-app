@@ -1,7 +1,5 @@
 package com.finboostplus.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.finboostplus.DTO.CategoryDTO;
 import com.finboostplus.DTO.ExpenseCreateDTO;
 import com.finboostplus.DTO.ExpenseUpdateDTO;
 import com.finboostplus.DTO.UserExpenseDivisionDTO;
@@ -48,11 +45,6 @@ public class ExpenseController {
 		return expenseService.createNewExpense(dto, groupId)
 				? new ResponseEntity<String>("Despesa criada com sucesso!", HttpStatus.CREATED)
 				: new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);
-	}
-
-	@GetMapping("/categories")
-	public ResponseEntity<List<CategoryDTO>> getCategory(){
-		return ResponseEntity.ok(categoryService.findAllCategories());
 	}
 
 	@GetMapping("{expenseId}")

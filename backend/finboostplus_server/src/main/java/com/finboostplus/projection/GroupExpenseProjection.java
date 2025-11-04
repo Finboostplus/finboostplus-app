@@ -10,6 +10,10 @@ public interface GroupExpenseProjection {
 
         BigDecimal getPartialValue();
 
+	Long getCategoryId();
+
+	String getCategoryName();
+
 	Long getGroupId();
 
 	String getGroupName();
