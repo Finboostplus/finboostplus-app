@@ -39,13 +39,18 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 				G.NAME,
 				G.DESCRIPTION,
 				G.ICON,
-				GM.AUTH_LEVEL AS AUTHORIZATION
+				GM.AUTH_LEVEL AS AUTHORIZATION,
+				(SELECT COALESCE(SUM (E.VALUE), 0)
+					FROM EXPENSES E
+					INNER JOIN USER_EXPENSE_DIVISIONS UED ON E.ID = UED.EXPENSE_ID
+					WHERE E.GROUP_ID = :groupId
+				) AS TOTAL
 			FROM
 				GROUPS AS G
 				INNER JOIN GROUP_MEMBERS AS GM ON GM.GROUP_ID = G.ID
 			WHERE
 				GM.GROUP_ID = :groupId
 				AND GM.USER_ID = :userId
-				                        """)
+			""")
 	GroupDetailsDTO getGroupDetails(Long groupId, Long userId);
 }
