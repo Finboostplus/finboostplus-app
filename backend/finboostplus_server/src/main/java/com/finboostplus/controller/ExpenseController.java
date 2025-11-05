@@ -66,6 +66,9 @@ public class ExpenseController {
 			@RequestParam(name = "page", defaultValue = "0") Integer page,
 			@RequestParam(name = "size", defaultValue = "4") Integer size) {
 		Pageable pageable = PageRequest.of(page, size);
+		if (status == null) {
+			status = Status.NOTAPPLY;
+		}
 		Page<GroupMemberExpenseProjection> expenses = expenseService.getAllGroupExpenses(
 				groupId, status, allMemberExpenses, allGroupMembersExpenses, pageable);
 		return ResponseEntity.ok(expenses);

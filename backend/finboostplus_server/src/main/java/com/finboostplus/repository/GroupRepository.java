@@ -15,15 +15,26 @@ import com.finboostplus.projection.GroupProjection;
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
 	@Query(nativeQuery = true, value = """
-			SELECT	groups.id,groups.name,groups.description,group_members.auth_level as authority, groups.icon, groups.created_at,
-			        COALESCE(SUM(expenses.value), 0) AS totalExpenses
-			FROM group_members
-				INNER JOIN groups ON group_members.group_id = groups.id
-				INNER JOIN users ON group_members.user_id = users.id
-				LEFT JOIN expenses ON expenses.group_id = groups.id
-			WHERE users.id =:memberId
-				GROUP BY groups.id, auth_level
-			""")
+			SELECT
+				GROUP_MEMBERS.USER_ID,
+				GROUPS.ID,
+				GROUPS.NAME,
+				GROUPS.DESCRIPTION,
+				GROUP_MEMBERS.AUTH_LEVEL AS AUTHORITY,
+				GROUPS.ICON,
+				GROUPS.CREATED_AT,
+				COALESCE(SUM(EXPENSES.VALUE), 0) AS TOTAL_EXPENSES
+			FROM
+				GROUP_MEMBERS
+				INNER JOIN GROUPS ON GROUP_MEMBERS.GROUP_ID = GROUPS.ID
+				INNER JOIN EXPENSES ON EXPENSES.GROUP_ID = GROUPS.ID
+			WHERE
+				GROUP_MEMBERS.USER_ID = :memberId
+			GROUP BY
+				GROUPS.ID,
+				GROUP_MEMBERS.USER_ID,
+				AUTH_LEVEL
+						""")
 	Page<GroupProjection> listUserGroupsPaged(Long memberId, Pageable pageable);
 
 	@Modifying
@@ -40,10 +51,15 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 				G.DESCRIPTION,
 				G.ICON,
 				GM.AUTH_LEVEL AS AUTHORIZATION,
-				(SELECT COALESCE(SUM (E.VALUE), 0)
-					FROM EXPENSES E
-					INNER JOIN USER_EXPENSE_DIVISIONS UED ON E.ID = UED.EXPENSE_ID
-					WHERE E.GROUP_ID = :groupId
+				(
+					SELECT
+						COALESCE(SUM(UED.PARTIAL_VALUE), 0)
+					FROM
+						EXPENSES E
+						INNER JOIN USER_EXPENSE_DIVISIONS UED ON E.ID = UED.EXPENSE_ID
+					WHERE
+						E.GROUP_ID = :groupId
+						AND UED.USER_ID = :userId
 				) AS TOTAL
 			FROM
 				GROUPS AS G
