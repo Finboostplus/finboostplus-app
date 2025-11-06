@@ -3,11 +3,12 @@ import { navItems } from './navItems';
 import SwitchTheme from './SwitchTheme';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { useLogout } from '../../../hooks/useLogout';
-import useMeQuery from '../../../hooks/ReactQuery/useMeQuery';
+import useMeQuery from '../../../hooks/ReactQuery/Queries/useMeQuery';
 
 export default function DropdownMenu() {
   const logout = useLogout();
   const { data: user, isLoading, error } = useMeQuery();
+
   const firstLetter = user?.name[0]?.toUpperCase() ?? '?';
 
   return (

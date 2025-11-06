@@ -1,49 +1,28 @@
 import { useState, useMemo } from 'react';
-import { Link } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import GroupFilters from '../../components/Filters/Groups';
 import { useFilteredGroups } from '../../components/Filters/Groups/useFilteredGroups';
 import GroupForm from '../../components/forms/GroupForm';
 import CardUI from '../../components/ui/Card';
 import { formatBRL } from '../../utils/formatters';
 import ModalButton from '../../components/Modal/ModalButton';
-import { useGroupsQuery } from '../../hooks/ReactQuery/useGroupsQuery';
-import useMeQuery from '../../hooks/ReactQuery/useMeQuery';
 import { CategoryIcon } from '../../mockData/groupIcons/icons';
-import { useQueries } from '@tanstack/react-query';
-import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
-import { getGroupMembers } from '../../services/groups';
 import Pagination from '../../components/PaginationController';
+import useMeQuery from '../../hooks/ReactQuery/Queries/useMeQuery';
+import { useGroupsQuery } from '../../hooks/ReactQuery/Queries/useGroupsQuery';
+import useGroupsWithMembers from './useGroupsWithMembers';
 
 export default function Groups() {
+  const [searchParams] = useSearchParams();
+  const createModal = searchParams.has('create');
   const { data: user } = useMeQuery();
   const [page, setPage] = useState(0);
   const membersLengthToShow = 4;
-  const { data, isLoading } = useGroupsQuery(page);
-  const groups = data?.groups;
-  const totalPages = data?.totalPages;
-  const groupsLength = data?.groupsLength;
-  console.log({ data });
-  // Cria queries dinâmicas de membros (cacheadas)
-  const membersQueries = useQueries({
-    queries: groups?.map(group => ({
-      queryKey: [REACTQUERY_KEYS.GROUPS.MEMBERS, group.id],
-      queryFn: () => getGroupMembers(group.id),
-      enabled: !!group.id,
-      staleTime: Infinity, // mantém o cache fresco indefinidamente
-    })),
-  });
-
-  // Cria um map: { [groupId]: members }
-  const membersMap = {};
-  membersQueries.forEach((q, i) => {
-    if (q.data)
-      membersMap[groups[i].id] = {
-        totalElements: q.data.totalElements,
-        members: q.data.members,
-      };
-  });
-
-  console.log({ membersMap });
+  const {
+    data: { groups, totalPages, groupsLength },
+    isLoading,
+  } = useGroupsQuery(page);
+  const membersMap = useGroupsWithMembers(groups);
 
   // Filtros
   const [filters, setFilters] = useState({
@@ -73,6 +52,7 @@ export default function Groups() {
             {title}
           </h1>
           <ModalButton
+            openState={createModal}
             modalChildren={<GroupForm />}
             className="bg-primary text-white px-4 py-2 rounded-lg shadow hover:bg-primary/90 transition"
           />

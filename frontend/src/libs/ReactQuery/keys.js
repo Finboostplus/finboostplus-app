@@ -7,7 +7,6 @@ export const REACTQUERY_KEYS = {
   GROUPS: {
     ALL: 'allGroups',
     MEMBERS: 'members',
-    DETAILS: 'groupDetails',
     EXPENSES: 'groupExpenses',
   },
   EXPENSES: {

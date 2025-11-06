@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
-import { getMe } from '../../services/me';
+import { REACTQUERY_KEYS } from '../../../libs/ReactQuery/keys';
+import { getMe } from '../../../services/me';
 
 export default function useMeQuery() {
   return useQuery({
@@ -8,5 +8,6 @@ export default function useMeQuery() {
     queryFn: getMe,
     staleTime: Infinity,
     refetchInterval: false,
+    placeholderData: { name: '', themeColor: '' },
   });
 }

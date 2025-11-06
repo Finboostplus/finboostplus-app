@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
-import { getMeDashboardStats } from '../../services/me';
+
+import { REACTQUERY_KEYS } from '../../../libs/ReactQuery/keys';
+import { getMeDashboardStats } from '../../../services/me';
 
 export function useMeDashboardQuery() {
   return useQuery({

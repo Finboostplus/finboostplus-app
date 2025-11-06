@@ -3,21 +3,31 @@ import FormFieldsExpenses from './FormFieldsExpenses';
 import ButtonUI from '../../ui/Button';
 import CustomSplitAmount from './CustomSplitAmount';
 import { useFormExpense } from './useForm';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { customToast } from '../../CustomToast';
 import Modal from '../../Modal';
 import ListMembers from './ListMembers';
 import { FiUserPlus, FiX } from 'react-icons/fi';
-/* import useMeQuery from '../../../hooks/ReactQuery/useMeQuery'; */
-import { useMembersQuery } from '../../../hooks/ReactQuery/useMembersQuery';
-import { useCreateExpenseMutation } from '../../../hooks/ReactQuery/useCreateExpenseMutation';
+import useMeQuery from '../../../hooks/ReactQuery/Queries/useMeQuery';
+import { useCreateExpenseMutation } from '../../../hooks/ReactQuery/Mutations/useCreateExpenseMutation';
+import { useMembersQuery } from '../../../hooks/ReactQuery/Queries/useMembersQuery';
 
 export default function ExpenseForm({ groupData: group }) {
-  /* const { data: user } = useMeQuery(); */
+  const [search, setSearch] = useState(''); // termo final para API
+  const { data: user } = useMeQuery();
   const useExpenseMutation = useCreateExpenseMutation(group?.id);
-  const {
-    data: { members: groupMembers },
-  } = useMembersQuery(group?.id, 0, '');
+  const { data: { members: groupMembers = [], totalPages } = {}, isLoading } =
+    useMembersQuery(group?.id, 0, search);
+
+  const excludeSelf = true; // 🔧 se quiser incluir o próprio usuário, basta trocar para false
+
+  // 🔍 Aplica filtro de exclusão do próprio usuário
+  const filteredMembers = useMemo(() => {
+    if (!groupMembers?.length) return [];
+    return excludeSelf
+      ? groupMembers.filter(m => m.id !== user?.id)
+      : groupMembers;
+  }, [groupMembers, user, excludeSelf]);
 
   const { setMembers, amount, divisionAmount, reset, getRemainingDifference } =
     useFormExpense();
@@ -123,11 +133,11 @@ export default function ExpenseForm({ groupData: group }) {
         aria-label="Formulário para adicionar nova despesa"
       >
         {/* Campos principais */}
-        <FormFieldsExpenses data={groupMembers} />
+        <FormFieldsExpenses data={filteredMembers} />
 
         {/* Seleção de membros */}
         <div className="col-span-2 flex flex-col gap-2">
-          {selectedMembers.length === 0 && groupMembers?.length > 0 && (
+          {selectedMembers.length === 0 && filteredMembers.length > 0 && (
             <ButtonUI
               type="button"
               onClick={() => setShowMemberModal(true)}
@@ -178,10 +188,11 @@ export default function ExpenseForm({ groupData: group }) {
             type="submit"
             disabled={isSubmitting || !distributionOK || amount <= 0}
             aria-disabled={isSubmitting || !distributionOK || amount <= 0}
-            className={`
-      bg-primary hover:bg-secondary text-white py-3 px-6 rounded w-full sm:w-auto font-semibold transition
-      ${isSubmitting || !distributionOK || amount <= 0 ? 'opacity-50 bg-gray-400! cursor-not-allowed!' : 'cursor-pointer'}
-    `}
+            className={`bg-primary hover:bg-secondary text-white py-3 px-6 rounded w-full sm:w-auto font-semibold transition ${
+              isSubmitting || !distributionOK || amount <= 0
+                ? 'opacity-50 bg-gray-400! cursor-not-allowed!'
+                : 'cursor-pointer'
+            }`}
           >
             {isSubmitting ? 'Enviando...' : 'Adicionar Despesa'}
           </ButtonUI>
@@ -191,12 +202,14 @@ export default function ExpenseForm({ groupData: group }) {
       {/* Modal de seleção */}
       <Modal isOpen={showMemberModal} fnClose={() => setShowMemberModal(false)}>
         <ListMembers
-          groupID={group?.id}
+          members={{ filteredMembers, totalPages }}
+          search={{ search, setSearch }}
           onConfirm={selected => {
             setSelectedMembers(selected);
             setMembers(selected);
             setShowMemberModal(false);
           }}
+          isLoading={isLoading}
           onClose={() => setShowMemberModal(false)}
         />
       </Modal>

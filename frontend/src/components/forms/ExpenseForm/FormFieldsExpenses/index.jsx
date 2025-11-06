@@ -4,7 +4,7 @@ import SelectUI from '../../../ui/Select';
 import TextareaUI from '../../../ui/Textarea';
 import CurrencyInputUI from '../../../ui/CurrencyInput';
 import { useFormExpense } from '../useForm';
-import { useAllGroupExpenseCategoriesQuery } from '../../../../hooks/ReactQuery/useAllGroupExpenseCategoriesQuery';
+import { useAllGroupExpenseCategoriesQuery } from '../../../../hooks/ReactQuery/Queries/useAllGroupExpenseCategoriesQuery';
 
 export default function FormFieldsExpenses() {
   const { data: allCategories } = useAllGroupExpenseCategoriesQuery();

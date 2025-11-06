@@ -1,6 +1,6 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import { avatarBackgroundColors } from '../../mockData/colorsPallete/colors';
-import { useMeDashboardQuery } from '../../hooks/ReactQuery/useMeDashboardStatsQuery';
+import { useMeDashboardQuery } from '../../hooks/ReactQuery/Queries/useMeDashboardStatsQuery';
 
 export default function ExpenseQuantityDonutChart() {
   const { data: expenseData } = useMeDashboardQuery();

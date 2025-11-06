@@ -16,15 +16,15 @@ import ProfileContent from './ProfileContent';
 import { Link } from 'react-router';
 import Modal from '../../components/Modal';
 
-import useMeQuery from '../../hooks/ReactQuery/useMeQuery';
-import { useGroupsQuery } from '../../hooks/ReactQuery/useGroupsQuery';
-import { useMeDashboardQuery } from '../../hooks/ReactQuery/useMeDashboardStatsQuery';
+import useMeQuery from '../../hooks/ReactQuery/Queries/useMeQuery';
+import { useMeDashboardQuery } from '../../hooks/ReactQuery/Queries/useMeDashboardStatsQuery';
+import { useGroupsQuery } from '../../hooks/ReactQuery/Queries/useGroupsQuery';
 
 export default function Profile() {
   const { data: user } = useMeQuery();
   const { data: dashboard } = useMeDashboardQuery();
-  const { data: groups } = useGroupsQuery();
-  const groupsLength = groups?.content.length;
+  const { data } = useGroupsQuery();
+  const groupsLength = data?.groupsLength;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const current_user = userData;
 

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
-import { getMeExpenses } from '../../services/me';
 import useMeQuery from './useMeQuery';
+import { REACTQUERY_KEYS } from '../../../libs/ReactQuery/keys';
+import { getMeExpenses } from '../../../services/me';
 
 export default function useMeExpensesQuery(page) {
   const { data: user } = useMeQuery();

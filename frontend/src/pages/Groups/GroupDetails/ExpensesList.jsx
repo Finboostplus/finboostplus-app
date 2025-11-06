@@ -1,179 +1,189 @@
 import { useState, useMemo } from 'react';
-import { FiSearch } from 'react-icons/fi';
+import { TbPigMoney } from 'react-icons/tb';
 import { formatBRL } from '../../../utils/formatters';
-import InputUI from '../../../components/ui/Input';
-import SelectUI from '../../../components/ui/Select';
-import CheckboxUI from '../../../components/ui/Checkbox';
 import { Link } from 'react-router';
 
-export const expenses = [
-  {
-    id: 1,
-    description: 'Pizza da sexta-feira',
-    amount: 128.5,
-    status: 'PENDING',
-    payerName: 'LunaStar',
-    createdAt: '2025-10-29T20:15:00Z',
-  },
-  {
-    id: 2,
-    description: 'Supermercado do mês',
-    amount: 450.0,
-    status: 'PAID',
-    payerName: 'Clark Kent',
-    createdAt: '2025-10-25T14:45:00Z',
-  },
-  {
-    id: 3,
-    description: 'Assinatura Netflix',
-    amount: 55.9,
-    status: 'PAID',
-    payerName: 'LunaStar',
-    createdAt: '2025-10-20T12:00:00Z',
-  },
-  {
-    id: 4,
-    description: 'Taxi para o evento',
-    amount: 79.75,
-    status: 'PENDING',
-    payerName: 'Clark Kent',
-    createdAt: '2025-10-30T08:30:00Z',
-  },
-  {
-    id: 5,
-    description: 'Jantar no restaurante',
-    amount: 230.0,
-    status: 'PENDING',
-    payerName: 'LunaStar',
-    createdAt: '2025-10-31T22:10:00Z',
-  },
-  {
-    id: 6,
-    description: 'Conta de energia',
-    amount: 189.9,
-    status: 'PAID',
-    payerName: 'Clark Kent',
-    createdAt: '2025-10-28T10:45:00Z',
-  },
-];
+import SelectUI from '../../../components/ui/Select';
+import CheckboxUI from '../../../components/ui/Checkbox';
+import ButtonUI from '../../../components/ui/Button';
+import Pagination from '../../../components/PaginationController';
+import Modal from '../../../components/Modal';
 
-export default function ExpensesList({ group }) {
-  const [search, setSearch] = useState('');
-  const [status, setStatus] = useState('ALL');
+import { usePermissions } from './usePermissions';
+import { useGroupExpensesQuery } from '../../../hooks/ReactQuery/Queries/useGroupExpensesQuery';
+import { EXPENSE_STATUS } from './statusExpense';
+
+export default function ExpensesList({ groupID, authorization }) {
+  const [page, setPage] = useState(0);
+  const [status, setStatus] = useState('PENDING');
   const [allMembers, setAllMembers] = useState(false);
-  const isLoading = false;
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
-  // 💡 Filtro local (mock sem API)
-  const filteredExpenses = useMemo(() => {
-    return expenses.filter(expense => {
-      const matchSearch = expense.description
-        .toLowerCase()
-        .includes(search.toLowerCase());
-      const matchStatus = status === 'ALL' ? true : expense.status === status;
-      const matchMember = allMembers ? true : expense.payerName === 'LunaStar';
-      return matchSearch && matchStatus && matchMember;
-    });
-  }, [search, status, allMembers]);
+  const { canViewAllExpenses } = usePermissions(authorization);
 
+  // 🧩 Filtros estabilizados para o React Query
+  const queryFilters = useMemo(() => {
+    const filters = { status };
+    if (canViewAllExpenses && allMembers)
+      filters.allGroupMembersExpenses = true;
+    return filters;
+  }, [status, allMembers, canViewAllExpenses]);
+
+  // 🔄 Query de despesas
+  const { data, isLoading } = useGroupExpensesQuery(
+    groupID,
+    page,
+    queryFilters
+  );
+
+  const expenses = data?.expenses ?? [];
+  const totalPages = data?.totalPages ?? 0;
+  const expensesLength = data?.expensesLength ?? 0;
+
+  // 🪄 Handlers
+  const handleStatusChange = e => {
+    setStatus(e.target.value);
+    setPage(0);
+  };
+
+  const handleAllMembersChange = checked => {
+    setAllMembers(checked);
+    setPage(0);
+  };
+
+  // 🧾 UI
   return (
     <section
-      className="bg-surface p-6 rounded-md shadow-lg transition-all"
+      className="bg-surface p-6 rounded-lg shadow-md transition-all duration-300"
       aria-labelledby="expenses-heading"
     >
-      <div className="flex items-center justify-between mb-6">
+      {/* 🧭 Cabeçalho */}
+      <header className="flex items-center justify-between mb-6">
         <h2
           id="expenses-heading"
-          className="text-2xl font-semibold text-text font-principal"
+          className="flex items-center gap-2 text-2xl font-semibold text-text font-principal"
         >
-          Despesas do grupo
+          <TbPigMoney className="w-7 h-7 text-primary" />
+          Despesas do Grupo
         </h2>
-      </div>
+      </header>
 
       {/* 🔍 Filtros */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 mb-8">
-        {/* 🔎 Busca + Status */}
-        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-          {/* Campo de busca */}
-          <div className="relative flex-1 min-w-[220px]">
-            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
-            <InputUI
-              placeholder="Buscar despesa..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              className="pl-9 w-full h-10 rounded-lg border border-border/50 bg-surface-light focus:ring-2 focus:ring-primary/40 transition-all"
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-8">
+        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+          <SelectUI
+            id="status-select"
+            value={status}
+            disabled={allMembers}
+            onChange={handleStatusChange}
+            className="flex-1 h-10 min-w-[160px] rounded-lg border border-border/40 bg-surface-light text-sm text-text focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all cursor-pointer shadow-sm"
+          >
+            {!allMembers ? (
+              <>
+                <option value="PENDING">Pendentes</option>
+                <option value="UNPAID">Não Pagas</option>
+                <option value="PAID">Pagas</option>
+              </>
+            ) : (
+              <option value="">Todas as despesas</option>
+            )}
+          </SelectUI>
+        </div>
+
+        {canViewAllExpenses && (
+          <div className="flex items-center sm:ml-4">
+            <CheckboxUI
+              label="Incluir despesas de todos os membros"
+              checked={allMembers}
+              onChange={handleAllMembersChange}
             />
           </div>
-
-          {/* Select de status */}
-          <div className="flex items-center">
-            <SelectUI
-              value={status}
-              onChange={e => setStatus(e.target.value)}
-              className="w-full sm:w-[160px] h-10 rounded-lg border border-border/50 bg-surface-light text-sm focus:ring-2 focus:ring-primary/40 transition-all cursor-pointer"
-            >
-              {[
-                { label: 'Todas', value: 'ALL' },
-                { label: 'Pendentes', value: 'PENDING' },
-                { label: 'Pagas', value: 'PAID' },
-              ].map(({ label, value }) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </SelectUI>
-          </div>
-        </div>
-
-        {/* 🎚️ Filtro extra */}
-        <div className="flex items-center gap-3">
-          <CheckboxUI
-            label="Mostrar de todos os membros"
-            checked={allMembers}
-            onChange={setAllMembers}
-          />
-        </div>
+        )}
       </div>
 
-      {/* 🧾 Lista */}
+      {/* 📜 Lista */}
       {isLoading ? (
-        <p className="text-muted text-sm italic">Carregando despesas...</p>
-      ) : filteredExpenses.length > 0 ? (
+        <p className="text-muted text-sm italic text-center">
+          Carregando despesas...
+        </p>
+      ) : expensesLength > 0 ? (
         <ul className="space-y-3 font-principal">
-          {filteredExpenses.map(expense => (
-            <li key={expense.id}>
-              <Link className="flex justify-between items-center px-4 py-3 rounded-xl bg-muted/30 hover:bg-muted/50 transition-colors border border-border/20">
-                <div className="flex flex-col">
-                  <span className="text-text text-base sm:text-lg font-medium">
-                    {expense.description}
-                  </span>
-                  <span className="text-xs sm:text-sm text-muted">
-                    por {expense.payerName}
-                  </span>
-                </div>
+          {expenses.map(expense => {
+            const COLOR_STATUS =
+              expense.status === 'PAID'
+                ? 'bg-success text-green-900'
+                : expense.status === 'PENDING'
+                  ? 'bg-warning text-yellow-900'
+                  : expense.status === 'UNPAID'
+                    ? 'bg-error text-red-900'
+                    : 'text-text';
+            return (
+              <li key={expense.expenseId}>
+                <ButtonUI
+                  onClick={() => setIsOpenModal(true)}
+                  className="relative flex w-full justify-between items-center px-4 py-3 rounded-xl bg-muted/20 hover:bg-muted/40 transition-colors border border-border/10 cursor-pointer"
+                >
+                  <div className="flex flex-col text-left">
+                    <span className="text-sm text-text font-medium capitalize">
+                      {expense.title}
+                      {expense.status !== null && (
+                        <span
+                          className={`absolute font-bold top-0 left-0 py-0.2 px-2 rounded-br-md ${COLOR_STATUS}`}
+                        >
+                          {EXPENSE_STATUS[expense.status]}
+                        </span>
+                      )}
+                    </span>
+                  </div>
 
-                <div className="text-right">
-                  <span
-                    className={`block font-semibold text-base sm:text-lg ${
-                      expense.status === 'PENDING'
-                        ? 'text-warning'
-                        : 'text-success'
-                    }`}
-                  >
-                    - {formatBRL(expense.amount)}
-                  </span>
-                  <span className="text-xs text-muted">
-                    {new Date(expense.createdAt).toLocaleDateString('pt-BR')}
-                  </span>
-                </div>
-              </Link>
-            </li>
-          ))}
+                  <div className="text-right">
+                    <span
+                      className={`block font-semibold text-base sm:text-lg ${COLOR_STATUS}`}
+                    >
+                      {formatBRL(expense.partialValue || expense.total)}
+                    </span>
+                    <span className="text-xs text-muted">
+                      Prazo final:{' '}
+                      {expense.deadlineDate
+                        ? new Date(expense.deadlineDate).toLocaleDateString(
+                            'pt-BR'
+                          )
+                        : 'Sem prazo'}
+                    </span>
+                  </div>
+                </ButtonUI>
+              </li>
+            );
+          })}
         </ul>
       ) : (
         <p className="text-muted text-sm italic text-center mt-4">
-          Nenhuma despesa encontrada.
+          Nenhuma despesa encontrada para os filtros selecionados.
         </p>
       )}
+
+      {/* 📄 Paginação */}
+      {totalPages > 1 && (
+        <div className="mt-6">
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onNext={() => setPage(p => (p + 1 < totalPages ? p + 1 : p))}
+            onPrev={() => setPage(p => Math.max(p - 1, 0))}
+          />
+        </div>
+      )}
+
+      {/* 🪟 Modal */}
+      <Modal
+        isOpen={isOpenModal}
+        fnClose={() => setIsOpenModal(false)}
+        setIsOpen={setIsOpenModal}
+      >
+        <div className="text-center py-4 text-sm text-text">
+          Detalhes da despesa selecionada.
+        </div>
+      </Modal>
     </section>
   );
 }
