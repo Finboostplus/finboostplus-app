@@ -83,16 +83,16 @@ public class GroupMemberService {
                 return groupMemberRepository.save(owner) != null ? true : false;
         }
 
-        @Transactional
-        public boolean switchAuthGroup(User user, Group group, int auth) {
-                GroupMember userAuth = new GroupMember();
-                userAuth.setUser(user);
-                userAuth.setGroup(group);
-                userAuth.setAuthorization(this.AUTHORITIES.get(auth));
-                userAuth.setEntryDate(Instant.now());
-                userAuth.setId(new GroupMemberId(user.getId(), group.getId()));
-                return groupMemberRepository.save(userAuth) != null ? true : false;
-        }
+        // @Transactional
+        // public boolean switchAuthGroup(User user, Group group, int auth) {
+        //         GroupMember userAuth = new GroupMember();
+        //         userAuth.setUser(user);
+        //         userAuth.setGroup(group);
+        //         userAuth.setAuthorization(this.AUTHORITIES.get(auth));
+        //         userAuth.setEntryDate(Instant.now());
+        //         userAuth.setId(new GroupMemberId(user.getId(), group.getId()));
+        //         return groupMemberRepository.save(userAuth) != null ? true : false;
+        // }
 
         @Transactional
         public boolean getUsersOnGroupByAuthority(Long userId, Long groupId, List<String> authLevels) {

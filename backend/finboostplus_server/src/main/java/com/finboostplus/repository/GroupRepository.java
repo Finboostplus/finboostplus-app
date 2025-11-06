@@ -16,25 +16,27 @@ import com.finboostplus.projection.GroupProjection;
 public interface GroupRepository extends JpaRepository<Group, Long> {
 	@Query(nativeQuery = true, value = """
 			SELECT
-				GROUP_MEMBERS.USER_ID,
-				GROUPS.ID,
-				GROUPS.NAME,
-				GROUPS.DESCRIPTION,
-				GROUP_MEMBERS.AUTH_LEVEL AS AUTHORITY,
-				GROUPS.ICON,
-				GROUPS.CREATED_AT,
-				COALESCE(SUM(EXPENSES.VALUE), 0) AS TOTAL_EXPENSES
+				G.ID,
+				G.NAME,
+				G.DESCRIPTION,
+				GM.AUTH_LEVEL AS AUTHORITY,
+				G.ICON,
+				G.CREATED_AT,
+				COALESCE(SUM(E.VALUE), 0) AS TOTAL_EXPENSES
 			FROM
-				GROUP_MEMBERS
-				INNER JOIN GROUPS ON GROUP_MEMBERS.GROUP_ID = GROUPS.ID
-				INNER JOIN EXPENSES ON EXPENSES.GROUP_ID = GROUPS.ID
+				GROUPS G
+				INNER JOIN GROUP_MEMBERS GM ON GM.GROUP_ID = G.ID
+				LEFT JOIN EXPENSES E ON E.GROUP_ID = G.ID
 			WHERE
-				GROUP_MEMBERS.USER_ID = :memberId
+				GM.USER_ID = :memberId
 			GROUP BY
-				GROUPS.ID,
-				GROUP_MEMBERS.USER_ID,
-				AUTH_LEVEL
-						""")
+				G.ID,
+				G.NAME,
+				G.DESCRIPTION,
+				GM.AUTH_LEVEL,
+				G.ICON,
+				G.CREATED_AT;
+			""")
 	Page<GroupProjection> listUserGroupsPaged(Long memberId, Pageable pageable);
 
 	@Modifying
