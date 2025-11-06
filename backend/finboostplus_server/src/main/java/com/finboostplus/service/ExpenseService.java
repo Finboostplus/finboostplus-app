@@ -148,12 +148,6 @@ public class ExpenseService {
 	public UserExpenseDivisionDTO getExpenseInfoDetails(Long groupId, Long expenseId) {
 		User user = userRepository.findByEmailIgnoreCase(userService.authenticated())
 				.orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
-		boolean hasAuthority = groupMemberRepository
-				.doesUserHasAnyAuthority(user.getId(), groupId, AUTHLEVELS);
-		if (!hasAuthority) {
-			throw new ForbiddenResourceException(
-					"Acesso negado");
-		}
 		Group group = groupRepository.findById(groupId)
 				.orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
 		Expense expense = expenseRepository.findById(expenseId).orElseThrow(
@@ -162,7 +156,8 @@ public class ExpenseService {
 		List<UserExpenseDivisionProjection> memberList = getExpenseDivisionDetails(group.getId(), expenseId);
 		return new UserExpenseDivisionDTO(expense.getId(), expense.getTitle(),
 				expense.getDescription(), groupId, group.getName(), expense.getStatus(),
-				expense.getValue(), category.getId(), category.getName(), expense.getCreatedAt(), memberList);
+				expense.getValue(), category.getId(), category.getName(), expense.getCreatedAt(),
+				memberList);
 	}
 
 	private List<UserExpenseDivisionProjection> getExpenseDivisionDetails(Long groupId, Long expenseId) {
@@ -177,23 +172,27 @@ public class ExpenseService {
 	// }
 
 	@Transactional(readOnly = true)
-	public <T extends GroupExpenseProjection> Page<T> getAllGroupExpenses(Long groupId, Status status, boolean allMemberExpenses,
+	public <T extends GroupExpenseProjection> Page<T> getAllGroupExpenses(Long groupId, Status status,
+			boolean allMemberExpenses,
 			boolean allGroupMembersExpenses, Pageable pageable) {
 		User user = userRepository.findByEmailIgnoreCase(userService.authenticated())
 				.orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
 		if (!groupMemberRepository.isUserMemberOfGroup(user.getId(), groupId)) {
 			throw new ForbiddenResourceException("Acesso negado");
 		}
-		if (allGroupMembersExpenses == true) {
+		boolean hasAuthority = groupMemberRepository
+				.doesUserHasAnyAuthority(user.getId(), groupId, AUTHLEVELS);
+		if (allGroupMembersExpenses == true && hasAuthority) {
 			allMemberExpenses = false;
-			if (groupMemberRepository.doesUserHasAnyAuthority(user.getId(), groupId, AUTHLEVELS)
-					&& status == null) {
-				return (Page<T>) expenseRepository.getAllGroupExpensesOfAllMembers(user.getId(), groupId, pageable);
+			if (status == Status.NOTAPPLY) {
+				return (Page<T>) expenseRepository.getAllGroupExpensesOfAllMembers(user.getId(),
+						groupId, pageable);
 			}
-			return (Page<T>) expenseRepository.getAllGroupExpensesOfAllMembersFiltered(user.getId(), groupId,
+			return (Page<T>) expenseRepository.getAllGroupExpensesOfAllMembersFiltered(user.getId(),
+					groupId,
 					status.name(), pageable);
 		}
-		if (allMemberExpenses == true && status == null) {
+		if (allMemberExpenses == true && status == Status.NOTAPPLY) {
 			return (Page<T>) expenseRepository.getAllGroupExpenses(user.getId(), groupId, pageable);
 		}
 		return (Page<T>) expenseRepository.getAllGroupExpensesFiltered(user.getId(), groupId,
