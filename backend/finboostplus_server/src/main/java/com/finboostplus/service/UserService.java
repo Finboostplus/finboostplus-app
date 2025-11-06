@@ -36,6 +36,7 @@ import com.finboostplus.exception.UserAlreadyRegisteredOnGroupException;
 import com.finboostplus.exception.UserNotFoundException;
 import com.finboostplus.exception.ValuesIncompatiblesException;
 import com.finboostplus.model.Group;
+import com.finboostplus.model.GroupMember;
 import com.finboostplus.model.Role;
 import com.finboostplus.model.User;
 import com.finboostplus.model.ValidateUser;
@@ -233,32 +234,35 @@ public class UserService implements UserDetailsService {
 	@Transactional
 	public boolean switchAuthority(Long newOwnerId, Long groupId, SwitchAuthorityRequestDTO authDTO) {
 		List<String> authLevels = List.of("OWNER", "ADMIN", "USER");
-		String setAuthority = authDTO.setAuthority();
-		String authority = authDTO.authority();
-
-		if (!authLevels.contains(authority.toUpperCase().trim())
-				&& authLevels.contains(setAuthority.toUpperCase().trim())) {
-			throw new ValuesIncompatiblesException(
-					"Os valores recebidos não coincidem com os valores suportados");
-		}
+		String setAuthority = authDTO.setAuthority().toUpperCase().trim();
+		if (!authLevels.contains(setAuthority))
+			throw new ValuesIncompatiblesException("Valor inválido");
 		User user = userRepository.findByEmailIgnoreCase(authenticated())
 				.orElseThrow(() -> new UserNotFoundException("Usuário nao encontrado"));
-		User newUserAuth = userRepository.findById(newOwnerId)
+		GroupMember newUserAuth = groupMemberRepository.findGroupMemberByMemberId(newOwnerId, groupId)
 				.orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+		if (user.getId() == newUserAuth.getUser().getId())
+			throw new ForbiddenResourceException("Operação inválida");
 		Group group = groupService.getGroup(groupId);
-		if (group == null) {
+		if (group == null)
 			throw new GroupNotFoundException("Grupo não encontrado");
-		}
-		if (!groupMemberRepository.isUserGroupOwner(user.getId(),
-				group.getId())) {
-			throw new ForbiddenResourceException("Usuário não tem permissão para realizar essa operação");
-		} else if (!groupMemberService.isUserMemberOfGroup(newUserAuth.getId(), group.getId())) {
-			throw new UserNotFoundException("Usuário não pertence a este grupo");
-		} else if (groupMemberService.switchAuthGroup(newUserAuth, group, authLevels.indexOf(setAuthority))
-				&& groupMemberService.switchAuthGroup(user, group, authLevels.indexOf(authority))) {
+		if (setAuthority == "OWNER") {
+			if (!groupMemberRepository.isUserGroupOwner(user.getId(),
+					group.getId()))
+				throw new ForbiddenResourceException("Acesso negado");
+			GroupMember owner = groupMemberRepository.findGroupMemberByMemberId(user.getId(), groupId)
+					.orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+			owner.setAuthorization("ADMIN");
+			newUserAuth.setAuthorization(setAuthority);
+			groupMemberRepository.save(owner);
+			groupMemberRepository.save(newUserAuth);
 			return true;
-		} else {
-			return false;
 		}
+		if (!groupMemberRepository.doesUserHasAnyAuthority(user.getId(),
+				group.getId(), List.of("OWNER" ,"ADMIN")))
+			throw new ForbiddenResourceException("Acesso negado");
+		newUserAuth.setAuthorization(setAuthority);
+		groupMemberRepository.save(newUserAuth);
+		return true;
 	}
 }

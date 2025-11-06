@@ -1,7 +1,7 @@
 package com.finboostplus.DTO;
 
 
-public record SwitchAuthorityRequestDTO(String setAuthority, String authority) {
+public record SwitchAuthorityRequestDTO(String setAuthority) {
 
 
 }

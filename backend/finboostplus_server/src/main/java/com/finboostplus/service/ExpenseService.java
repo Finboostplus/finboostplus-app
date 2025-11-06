@@ -146,7 +146,7 @@ public class ExpenseService {
 
 	@Transactional(readOnly = true)
 	public UserExpenseDivisionDTO getExpenseInfoDetails(Long groupId, Long expenseId) {
-		User user = userRepository.findByEmailIgnoreCase(userService.authenticated())
+		userRepository.findByEmailIgnoreCase(userService.authenticated())
 				.orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
 		Group group = groupRepository.findById(groupId)
 				.orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
@@ -157,6 +157,7 @@ public class ExpenseService {
 		return new UserExpenseDivisionDTO(expense.getId(), expense.getTitle(),
 				expense.getDescription(), groupId, group.getName(), expense.getStatus(),
 				expense.getValue(), category.getId(), category.getName(), expense.getCreatedAt(),
+				expense.getDeadlineDate(),
 				memberList);
 	}
 

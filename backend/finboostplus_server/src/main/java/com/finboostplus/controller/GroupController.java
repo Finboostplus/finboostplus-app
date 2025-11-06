@@ -107,7 +107,7 @@ public class GroupController {
 		return new ResponseEntity<>("Membro adicionado com sucesso!", HttpStatus.OK);
 	}
 
-	@PostMapping("/{groupId}/members/{newAuthId}/transfer-ownership")
+	@PutMapping("/{groupId}/members/{newAuthId}/transfer-ownership")
 	public ResponseEntity<Object> switchAuthority(@PathVariable Long groupId,
 			@PathVariable Long newAuthId,
 			@RequestBody SwitchAuthorityRequestDTO authDTO) {
