@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateMe } from '../../services/me';
-import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
+import { REACTQUERY_KEYS } from '../../../libs/ReactQuery/keys';
+import { updateMe } from '../../../services/me';
 
 export function useUpdateMeMutation() {
   const queryClient = useQueryClient();

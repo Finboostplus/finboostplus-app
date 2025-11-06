@@ -5,8 +5,9 @@ import {
   formatDateBR,
   formatRelativeDate,
 } from '../../utils/formatters';
-import useMeExpensesQuery from '../../hooks/ReactQuery/useMeExpensesQuery';
+
 import Pagination from '../PaginationController';
+import useMeExpensesQuery from '../../hooks/ReactQuery/Queries/useMeExpensesQuery';
 
 export default function LatestExpenses() {
   // 🔢 Estado da paginação

@@ -2,8 +2,8 @@ import { useState } from 'react';
 import ButtonUI from '../ui/Button';
 import Modal from '.';
 
-export default function ModalButton({ modalChildren }) {
-  const [isOpenModal, setIsOpenModal] = useState(false);
+export default function ModalButton({ modalChildren, openState = false }) {
+  const [isOpenModal, setIsOpenModal] = useState(openState);
 
   return (
     <>

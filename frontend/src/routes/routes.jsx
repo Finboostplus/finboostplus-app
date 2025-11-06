@@ -7,7 +7,6 @@ import { groupSettingsLoader } from '../pages/Groups/GroupDetails/GroupSettings/
 import { loginLoader } from '../loaders/loginLoader';
 import { registerLoader } from '../loaders/registerLoader';
 import { protectRoutersLoader } from '../loaders/protectRoutersLoader';
-import { groupDetailsLoader } from '../pages/Groups/GroupDetails/groupDetailsLoader';
 
 // Layout e App carregados normalmente
 import Layout from '../components/Layout';
@@ -55,7 +54,6 @@ export const appRouter = createBrowserRouter([
               {
                 path: ':group_id',
                 element: <GroupDetails />,
-                loader: groupDetailsLoader,
               },
               {
                 path: ':group_id/settings',
@@ -64,6 +62,7 @@ export const appRouter = createBrowserRouter([
               },
             ],
           },
+
           { path: 'profile', element: <Profile /> },
         ],
       },

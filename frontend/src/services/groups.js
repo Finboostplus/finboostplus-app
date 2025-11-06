@@ -16,32 +16,22 @@ export const getGroups = async (page = 0, size = 6) => {
   }
 };
 
-export const getGroupMembers = async (groupId, size = 4) => {
-  try {
-    const {
-      data: { content: members, totalElements },
-    } = await apiApplication.get(`groups/${groupId}/members?size=${size}`);
-    console.log({ members });
-    return { members, totalElements };
-  } catch (error) {
-    throw error;
-  }
-};
+//Obtém os membros de um grupo
+export const getGroupMembers = async ({ groupId, page, size, search } = {}) => {
+  const query = new URLSearchParams();
+  if (page) query.append('page', page);
+  if (size) query.append('size', size);
+  if (search) query.append('search', search);
 
-export const getMembers = async (groupId, page, search) => {
-  try {
-    const query = new URLSearchParams({ page: page.toString() });
-    if (search) query.append('search', search);
-    const response = await apiApplication.get(
-      `/groups/${groupId}/members?${query.toString()}`
-    );
-    return {
-      totalPages: response.data.totalPages,
-      members: response.data.content,
-    };
-  } catch (error) {
-    throw error;
-  }
+  const { data } = await apiApplication.get(
+    `/groups/${groupId}/members?${query.toString()}`
+  );
+
+  return {
+    members: data.content,
+    totalPages: data.totalPages,
+    totalElements: data.totalElements,
+  };
 };
 
 // Cria um novo grupo
@@ -55,6 +45,7 @@ export const createGroup = async group => {
   }
 };
 
+//Obter um grupo por id
 export const getGroupById = async id => {
   try {
     const response = await apiApplication
@@ -72,7 +63,7 @@ export const getGroupById = async id => {
     throw new Error('Erro ao obter grupo - id:', id);
   }
 };
-
+//Obter todas as categorias de despesa de um grupo
 export const getAllGroupsExpenseCategories = async () => {
   try {
     const response = await apiApplication.get('/groups/expenses/categories');
@@ -92,6 +83,52 @@ export const updateGroup = async (id, group) => {
 
 // Remove um grupo pelo id
 export const deleteGroup = async id => {
-  const response = await apiApplication.delete(`/groups/${id}`);
-  return response.data;
+  try {
+    const response = await apiApplication.delete(`/groups/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getGroupExpenses = async ({ groupID, page, filter = null }) => {
+  try {
+    const query = new URLSearchParams({ size: 6, page: page.toString() });
+    if (filter !== null) {
+      if (filter) {
+        Object.entries(filter).forEach(([key, value]) => {
+          if (value !== null && value !== undefined && value !== '') {
+            query.append(key, value.toString());
+          }
+        });
+      }
+    }
+
+    const response = await apiApplication.get(
+      `/groups/${groupID}/expenses?${query.toString()}`
+    );
+    return {
+      expenses: response.data.content,
+      totalPages: response.data.totalPages,
+      expensesLength: response.data.totalElements,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getGroupExpenseById = async (group_id, expense_id) => {
+  try {
+    const response = await apiApplication.get(
+      `/groups/${group_id}/expenses/${expense_id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(
+      'Erro ao obter uma despesa específica de um grupo - id da despesa e grupo:',
+      expense_id,
+      group_id
+    );
+  }
 };

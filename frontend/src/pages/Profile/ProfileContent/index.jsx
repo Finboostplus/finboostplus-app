@@ -6,10 +6,11 @@ import { avatarBackgroundColors } from '../../../mockData/colorsPallete/colors';
 import { Form } from 'react-router';
 import { customToast } from '../../../components/CustomToast';
 import { useLogout } from '../../../hooks/useLogout';
-import useMeQuery from '../../../hooks/ReactQuery/useMeQuery';
-import { useUpdateMeMutation } from '../../../hooks/ReactQuery/useUpdateMeMutation';
+
 import { meDataSchema } from '../../../schemas/me/request';
 import { FaLock, FaUnlock } from 'react-icons/fa';
+import useMeQuery from '../../../hooks/ReactQuery/Queries/useMeQuery';
+import { useUpdateMeMutation } from '../../../hooks/ReactQuery/Mutations/useUpdateMeMutation';
 
 export default function ProfileContent({ setIsModalOpen }) {
   const { data: user, isLoading } = useMeQuery();

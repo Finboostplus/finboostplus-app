@@ -1,32 +1,19 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import ButtonUI from '../../../ui/Button';
-
-import useMeQuery from '../../../../hooks/ReactQuery/useMeQuery';
-import { useMembersQuery } from '../../../../hooks/ReactQuery/useMembersQuery';
 import InputUI from '../../../ui/Input';
 import Pagination from '../../../PaginationController';
 
-export default function ListMembers({ groupID, onClose, onConfirm }) {
-  const [search, setSearch] = useState(''); // termo final para API
+export default function ListMembers({
+  isLoading,
+  members: { filteredMembers, totalPages },
+  onConfirm,
+  search: { search, setSearch },
+}) {
   const [inputValue, setInputValue] = useState(''); // valor do input enquanto digita
   const [page, setPage] = useState(0);
 
-  const { data: user } = useMeQuery();
-  const {
-    data: { members, totalPages } = { members: [], totalPages: 0 },
-    isLoading,
-  } = useMembersQuery(groupID, page, search);
-
   const [checkedMembers, setCheckedMembers] = useState([]);
-
-  const excludeSelf = false; // se excluir da lista de membros
-
-  const filteredMembers = useMemo(() => {
-    if (!members) return [];
-    return excludeSelf ? members.filter(m => m.id !== user?.id) : members;
-  }, [members, user, excludeSelf]);
-
   // Alterna seleção de membros
   const toggleMember = id => {
     setCheckedMembers(prev =>

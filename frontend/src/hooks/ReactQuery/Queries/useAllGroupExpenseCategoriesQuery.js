@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
-import { getAllGroupsExpenseCategories } from '../../services/groups';
+import { REACTQUERY_KEYS } from '../../../libs/ReactQuery/keys';
+import { getAllGroupsExpenseCategories } from '../../../services/groups';
 
 export function useAllGroupExpenseCategoriesQuery() {
   return useQuery({

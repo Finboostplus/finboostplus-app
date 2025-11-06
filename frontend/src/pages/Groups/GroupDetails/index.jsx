@@ -1,9 +1,4 @@
-import {
-  useLoaderData,
-  useLocation,
-  useNavigate,
-  useParams,
-} from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useState } from 'react';
 import { FiSettings, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
@@ -17,34 +12,21 @@ import ModalButton from '../../../components/Modal/ModalButton';
 
 import { CategoryIcon } from '../../../mockData/groupIcons/icons';
 import { ConfirmModal } from '../../../components/Modal';
-import { useDeleteGroupMutation } from '../../../hooks/ReactQuery/useDeleteGroupMutation';
 import { customToast } from '../../../components/CustomToast';
-import { ROLES } from '../../../utils/constants';
 
-function useQueryParams() {
-  const { search } = useLocation(); // ex: "?page=0&size=10"
-  return new URLSearchParams(search);
-}
+import { usePermissions } from './usePermissions';
+import { useGroupByIdQuery } from '../../../hooks/ReactQuery/Queries/useGroupsQuery';
+import { useDeleteGroupMutation } from '../../../hooks/ReactQuery/Mutations/useDeleteGroupMutation';
 
 export default function GroupDetails() {
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const group = useLoaderData();
-  const navigate = useNavigate();
   const { group_id } = useParams();
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const { data: group } = useGroupByIdQuery(group_id);
+  const { authorization } = group;
+  const { canEditGroupInfo, canDeleteGroup, canCreateExpenses } =
+    usePermissions(authorization);
   const deleteGroup = useDeleteGroupMutation(group_id);
 
-  /*  const [showBalances, setShowBalances] = useState(true); */
-
-  // classes reutilizáveis
-  /*  const baseBtn =
-    'cursor-pointer font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-full transition duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50';
-  const activeBtn =
-    'bg-primary text-white hover:bg-primary/90 focus:ring-primary';
-  const inactiveBtn =
-    'bg-neutral text-text hover:bg-neutral/80 focus:ring-muted'; */
-  /*  if (isLoading) return <p>Carregando grupo...</p>;
-  if (isError) return <p>Erro ao carregar grupo.</p>;
-  if (!group) return <p>Grupo não encontrado.</p>; */
   return (
     <div
       key={group_id}
@@ -55,19 +37,7 @@ export default function GroupDetails() {
           isOpen={isOpenModal}
           onCancel={() => setIsOpenModal(false)}
           onConfirm={() => {
-            deleteGroup.mutate(undefined, {
-              onSuccess: () => {
-                navigate('/groups');
-                customToast(
-                  'Exclusão',
-                  'Grupo excluído com sucesso',
-                  'success'
-                );
-              },
-              onError: () => {
-                customToast('Erro', 'Erro ao tentar excluir o grupo', 'error');
-              },
-            });
+            deleteGroup.mutate();
           }}
           confirmLabel="Excluir"
           message={`Tem certeza de que deseja excluir o grupo "${group?.name}"? Essa ação não pode ser desfeita.`}
@@ -90,7 +60,7 @@ export default function GroupDetails() {
           </div>
 
           {/* Menu de ações */}
-          {group?.authorization !== ROLES.user && (
+          {canEditGroupInfo && canDeleteGroup && (
             <Menu as="div" className="relative inline-block text-left">
               <MenuButton
                 className="flex items-center justify-center p-2 bg-primary/70 hover:bg-primary text-white rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer"
@@ -146,11 +116,11 @@ export default function GroupDetails() {
           <div className="mt-2 w-full">
             <p
               className={`text-4xl sm:text-5xl font-bold ${
-                group?.totalExpenses <= 0 ? 'text-success' : 'text-red-500'
+                group?.total <= 0 ? 'text-success' : 'text-red-500'
               } mb-1`}
               aria-live="polite"
             >
-              {formatBRL(group?.totalExpenses)}
+              {formatBRL(group?.total)}
             </p>
             <p className="text-muted text-base sm:text-lg">acumulado do mês</p>
             {group?.description && (
@@ -194,7 +164,7 @@ export default function GroupDetails() {
 
         {/* Conteúdo principal */}
         <section className="animate-fadeIn">
-          <ExpensesList />
+          <ExpensesList groupID={group_id} authorization={authorization} />
           {/* {showBalances ? (
             <BalancesList group={group} />
           ) : (
@@ -204,7 +174,7 @@ export default function GroupDetails() {
       </main>
 
       {/* Modal de adicionar despesa */}
-      {group?.authorization !== ROLES.user && (
+      {canCreateExpenses && (
         <ModalButton modalChildren={<Expenses groupData={group} />} />
       )}
     </div>
