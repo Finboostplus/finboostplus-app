@@ -27,6 +27,7 @@ import com.finboostplus.DTO.ChangePasswordDTO;
 import com.finboostplus.DTO.UserCreateDTO;
 import com.finboostplus.DTO.UserDataDTO;
 import com.finboostplus.DTO.UserExpensesDTO;
+import com.finboostplus.DTO.UserMonthlyExpensesDTO;
 import com.finboostplus.DTO.UserUpdateDTO;
 import com.finboostplus.config.TokenRevocationUtil;
 import com.finboostplus.service.ExpenseService;
@@ -104,6 +105,12 @@ public class UserController {
         ? Sort.by("created_at").ascending()
         : Sort.by("created_at").descending());
 		Page<UserExpensesDTO> expenses = userService.getAllUserExpenses(pageable);
+		return ResponseEntity.ok(expenses);
+	}
+
+	@GetMapping("/me/monthly-expenses")
+	public ResponseEntity<List<UserMonthlyExpensesDTO>> getUserMonthlyExpenses() {
+		List<UserMonthlyExpensesDTO> expenses = userService.getUserMonthlyExpenses();
 		return ResponseEntity.ok(expenses);
 	}
 

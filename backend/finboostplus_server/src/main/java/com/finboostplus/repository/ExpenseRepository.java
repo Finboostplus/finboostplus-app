@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.finboostplus.DTO.CategoryRegisterDTO;
 import com.finboostplus.DTO.UserExpensesDTO;
+import com.finboostplus.DTO.UserMonthlyExpensesDTO;
 import com.finboostplus.model.Expense;
 import com.finboostplus.projection.GroupAuthorityExpenseProjection;
 import com.finboostplus.projection.GroupMemberExpenseProjection;
@@ -43,6 +44,39 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			""")
 	Page<UserExpensesDTO> getAllUserExpenses(Long userId, Pageable pageable);
 
+	@Query(nativeQuery = true, value = """
+			WITH
+				MESES AS (
+					SELECT
+						GENERATE_SERIES(1, 12) AS MES_NUM
+				)
+			SELECT
+				TO_CHAR(TO_DATE(M.MES_NUM::TEXT, 'MM'), 'FMMonth') AS MONTH,
+				COALESCE(SUM(UED.PARTIAL_VALUE), 0) AS TOTAL
+			FROM
+				MESES M
+				LEFT JOIN EXPENSES E ON EXTRACT(
+					MONTH
+					FROM
+						E.DEADLINE_DATE
+				) = M.MES_NUM
+				AND EXTRACT(
+					YEAR
+					FROM
+						E.DEADLINE_DATE
+				) = EXTRACT(
+					YEAR
+					FROM
+						CURRENT_DATE
+				)
+				LEFT JOIN USER_EXPENSE_DIVISIONS UED ON E.ID = UED.EXPENSE_ID
+				AND UED.USER_ID = 1
+			GROUP BY
+				M.MES_NUM
+			ORDER BY
+				M.MES_NUM
+						""")
+	List<UserMonthlyExpensesDTO> getUserMonthlyExpenses(Long userId);
 	// @Query(nativeQuery = true, value = """
 	// SELECT expenses.id, expenses.title, expenses.description,
 	// categories.name as categoryName,
