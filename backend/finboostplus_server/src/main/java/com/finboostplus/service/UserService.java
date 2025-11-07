@@ -27,6 +27,7 @@ import com.finboostplus.DTO.SwitchAuthorityRequestDTO;
 import com.finboostplus.DTO.UserCreateDTO;
 import com.finboostplus.DTO.UserDataDTO;
 import com.finboostplus.DTO.UserExpensesDTO;
+import com.finboostplus.DTO.UserMonthlyExpensesDTO;
 import com.finboostplus.DTO.UserUpdateDTO;
 import com.finboostplus.exception.ForbiddenResourceException;
 import com.finboostplus.exception.GroupNotFoundException;
@@ -104,6 +105,12 @@ public class UserService implements UserDetailsService {
 		User user = userRepository.findByEmailIgnoreCase(authenticated())
 				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 		return expenseRepository.getAllUserExpenses(user.getId(), pageable);
+	}
+
+	public List<UserMonthlyExpensesDTO> getUserMonthlyExpenses() {
+		User user = userRepository.findByEmailIgnoreCase(authenticated())
+				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+		return expenseRepository.getUserMonthlyExpenses(user.getId());
 	}
 
 	@Transactional
@@ -259,7 +266,7 @@ public class UserService implements UserDetailsService {
 			return true;
 		}
 		if (!groupMemberRepository.doesUserHasAnyAuthority(user.getId(),
-				group.getId(), List.of("OWNER" ,"ADMIN")))
+				group.getId(), List.of("OWNER", "ADMIN")))
 			throw new ForbiddenResourceException("Acesso negado");
 		newUserAuth.setAuthorization(setAuthority);
 		groupMemberRepository.save(newUserAuth);
