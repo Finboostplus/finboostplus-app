@@ -1,29 +1,25 @@
+updateRoleGroupMember;
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateExpenseDetails } from '../../../services/groups';
+import { updateRoleGroupMember } from '../../../services/groups';
 import { REACTQUERY_KEYS } from '../../../libs/ReactQuery/keys';
 import { customToast } from '../../../components/CustomToast';
 
-export function useUpdateGroupExpenseByIdMutation() {
+export function useUpdateRoleGroupMemberMutation(groupID, page, search) {
   const queryClient = useQueryClient();
 
   return useMutation({
     // 🔧 Recebe os parâmetros e o payload com os novos dados
-    mutationFn: async ({ group_id, expense_id, data }) => {
-      return await updateExpenseDetails(group_id, expense_id, data);
+    mutationFn: async ({ group_id, member_id, newRole }) => {
+      return await updateRoleGroupMember(group_id, member_id, newRole);
     },
 
     // ✅ Atualiza o cache após sucesso
-    onSuccess: (_response, { group_id, expense_id }) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [REACTQUERY_KEYS.GROUPS.EXPENSES],
+        queryKey: search
+          ? [REACTQUERY_KEYS.MEMBERS.ALL, Number(groupID), page, search]
+          : [REACTQUERY_KEYS.MEMBERS.ALL, Number(groupID), page],
       });
-      queryClient.invalidateQueries({
-        queryKey: [REACTQUERY_KEYS.USER.EXPENSES, 'me'],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [REACTQUERY_KEYS.GROUPS.ALL, 'detail', Number(group_id)],
-      });
-
       customToast(
         'Despesa atualizada com sucesso',
         'As informações da despesa foram salvas corretamente.',
@@ -33,9 +29,9 @@ export function useUpdateGroupExpenseByIdMutation() {
 
     // ⚠️ Exibe mensagem de erro, caso algo dê errado
     onError: error => {
-      console.error('Erro ao atualizar despesa:', error);
+      console.error('Erro ao definir um novo cargo para o membro:', error);
       customToast(
-        'Erro ao atualizar despesa',
+        'Erro ao atualizar membro para um novo cargo',
         'Não foi possível salvar as alterações. Tente novamente.',
         'error'
       );

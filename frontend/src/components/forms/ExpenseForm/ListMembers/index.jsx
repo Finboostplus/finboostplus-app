@@ -6,35 +6,37 @@ import Pagination from '../../../PaginationController';
 
 export default function ListMembers({
   isLoading,
-  members: { filteredMembers, totalPages },
+  members: { groupMembers, totalPages },
   onConfirm,
   search: { search, setSearch },
 }) {
-  const [inputValue, setInputValue] = useState(''); // valor do input enquanto digita
+  const [inputValue, setInputValue] = useState('');
   const [page, setPage] = useState(0);
-
   const [checkedMembers, setCheckedMembers] = useState([]);
-  // Alterna seleção de membros
+
   const toggleMember = id => {
     setCheckedMembers(prev =>
       prev.includes(id) ? prev.filter(m => m !== id) : [...prev, id]
     );
   };
 
-  // Debounce para busca
   useEffect(() => {
     const handler = setTimeout(() => {
       setSearch(inputValue.trim());
       setPage(0);
     }, 500);
-
     return () => clearTimeout(handler);
-  }, [inputValue]); // 👈 apenas inputValue aqui
+  }, [inputValue]);
 
-  // Reseta seleção ao mudar de página ou busca
   useEffect(() => {
     setCheckedMembers([]);
   }, [page, search]);
+
+  // 🧠 Ordena a lista: OWNER → ADMIN → USER
+  const sortedMembers = [...(groupMembers || [])].sort((a, b) => {
+    const order = { OWNER: 0, ADMIN: 1, USER: 2 };
+    return order[a.authority] - order[b.authority];
+  });
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -59,25 +61,19 @@ export default function ListMembers({
           <p className="text-sm text-muted text-center py-4 animate-pulse">
             Carregando membros...
           </p>
-        ) : filteredMembers.length > 0 ? (
-          filteredMembers.map(member => {
+        ) : sortedMembers.length > 0 ? (
+          sortedMembers.map(member => {
             const isSelected = checkedMembers.includes(member.id);
-
             return (
               <div
                 key={member.id}
                 onClick={() => toggleMember(member.id)}
-                className={`
-            group flex items-center justify-between gap-3 p-3 rounded-xl cursor-pointer
-            transition-all duration-200 border
-            ${
-              isSelected
-                ? 'bg-primary/10 border-primary/40 shadow-sm'
-                : 'border-transparent hover:bg-primary/5 hover:border-primary/20'
-            }
-          `}
+                className={`group flex items-center justify-between gap-3 p-3 rounded-xl cursor-pointer transition-all duration-200 border ${
+                  isSelected
+                    ? 'bg-primary/10 border-primary/40 shadow-sm'
+                    : 'border-transparent hover:bg-primary/5 hover:border-primary/20'
+                }`}
               >
-                {/* Avatar + nome */}
                 <div className="flex items-center gap-3 flex-1">
                   <div
                     className="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-white text-sm shadow-sm group-hover:scale-105 transition-transform duration-200"
@@ -89,15 +85,26 @@ export default function ListMembers({
                     <span className="text-text font-medium leading-tight truncate">
                       {member.name}
                     </span>
-                    {member.role && (
-                      <span className="text-xs text-muted capitalize">
-                        {member.role}
+                    {member.authority && (
+                      <span
+                        className={`text-xs capitalize ${
+                          member.authority === 'OWNER'
+                            ? 'text-amber-600 font-semibold'
+                            : member.authority === 'ADMIN'
+                              ? 'text-blue-500'
+                              : 'text-muted'
+                        }`}
+                      >
+                        {member.authority === 'OWNER'
+                          ? 'Dono'
+                          : member.authority === 'ADMIN'
+                            ? 'Administrador'
+                            : 'Membro'}
                       </span>
                     )}
                   </div>
                 </div>
 
-                {/* Rótulo de seleção */}
                 {isSelected && (
                   <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-full animate-fade-in">
                     Selecionado
@@ -113,7 +120,7 @@ export default function ListMembers({
         )}
       </div>
 
-      {/* Paginação simples */}
+      {/* Paginação */}
       {totalPages > 1 && (
         <Pagination
           onNext={() => setPage(prev => Math.min(prev + 1, totalPages - 1))}
@@ -123,16 +130,14 @@ export default function ListMembers({
         />
       )}
 
-      {/* Botões de ação */}
+      {/* Botões */}
       <div className="flex justify-end gap-3 mt-4">
         <ButtonUI
           type="button"
           disabled={checkedMembers.length === 0}
           aria-disabled={checkedMembers.length === 0}
           onClick={() =>
-            onConfirm(
-              filteredMembers.filter(m => checkedMembers.includes(m.id))
-            )
+            onConfirm(sortedMembers.filter(m => checkedMembers.includes(m.id)))
           }
           className={`px-6 py-2 rounded-lg font-semibold shadow-sm text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface dark:focus:ring-offset-surface-dark bg-primary hover:bg-primary/90 active:bg-primary-dark cursor-pointer ${
             checkedMembers.length === 0

@@ -12,21 +12,24 @@ import ModalButton from '../../../components/Modal/ModalButton';
 
 import { CategoryIcon } from '../../../mockData/groupIcons/icons';
 import { ConfirmModal } from '../../../components/Modal';
-import { customToast } from '../../../components/CustomToast';
 
 import { usePermissions } from './usePermissions';
 import { useGroupByIdQuery } from '../../../hooks/ReactQuery/Queries/useGroupsQuery';
 import { useDeleteGroupMutation } from '../../../hooks/ReactQuery/Mutations/useDeleteGroupMutation';
 
 export default function GroupDetails() {
+  const navigate = useNavigate();
   const { group_id } = useParams();
   const [isOpenModal, setIsOpenModal] = useState(false);
   const { data: group } = useGroupByIdQuery(group_id);
+
   const { authorization } = group;
   const { canEditGroupInfo, canDeleteGroup, canCreateExpenses } =
     usePermissions(authorization);
   const deleteGroup = useDeleteGroupMutation(group_id);
-
+  /* if (isError) {
+    return navigate('/404', { replace: true });
+  } */
   return (
     <div
       key={group_id}
@@ -142,34 +145,11 @@ export default function GroupDetails() {
               </>
             )}
           </div>
-
-          {/* Botões: Saldos / Despesas */}
-          {/*  <div className="flex flex-col sm:flex-row gap-4 mt-6 w-full sm:w-auto">
-            <ButtonUI
-              fnClick={() => setShowBalances(true)}
-              title="Saldos"
-              className={`${baseBtn} ${showBalances ? activeBtn : inactiveBtn}`}
-              aria-label="Ver saldos entre os membros"
-            />
-            <ButtonUI
-              fnClick={() => setShowBalances(false)}
-              title="Despesas"
-              className={`${baseBtn} ${
-                !showBalances ? activeBtn : inactiveBtn
-              }`}
-              aria-label="Ver despesas recentes do grupo"
-            />
-          </div> */}
         </section>
 
         {/* Conteúdo principal */}
         <section className="animate-fadeIn">
           <ExpensesList groupID={group_id} authorization={authorization} />
-          {/* {showBalances ? (
-            <BalancesList group={group} />
-          ) : (
-            <ExpensesList group={group} />
-          )} */}
         </section>
       </main>
 

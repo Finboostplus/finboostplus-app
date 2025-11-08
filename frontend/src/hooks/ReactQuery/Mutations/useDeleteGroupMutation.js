@@ -13,16 +13,15 @@ export function useDeleteGroupMutation(id) {
     onSuccess: () => {
       // Invalida a lista de grupos para forçar um refetch
       queryClient.invalidateQueries({
-        predicate: query =>
-          query.queryKey[0] === REACTQUERY_KEYS.GROUPS.ALL &&
-          query.queryKey[1]?.groupID === id, // só o id importa
+        queryKey: [REACTQUERY_KEYS.GROUPS.ALL],
       });
       queryClient.invalidateQueries({
-        predicate: query =>
-          query.queryKey[0] === REACTQUERY_KEYS.GROUPS.EXPENSES &&
-          query.queryKey[1]?.groupID === id, // só o id importa
+        queryKey: [REACTQUERY_KEYS.GROUPS.EXPENSES],
       });
-      queryClient.invalidateQueries([REACTQUERY_KEYS.GROUPS.MEMBERS, id]);
+      queryClient.invalidateQueries([
+        REACTQUERY_KEYS.GROUPS.MEMBERS,
+        Number(id),
+      ]);
 
       // Opcional: remover manualmente do cache local
       queryClient.setQueryData([REACTQUERY_KEYS.GROUPS.ALL], oldData => {

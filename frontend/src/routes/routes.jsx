@@ -1,9 +1,7 @@
 import { createBrowserRouter } from 'react-router';
 import { lazy } from 'react';
-import { groupAction } from '../actions/groupAction';
 import { loginAction } from '../actions/loginAction';
 import { registerAction } from '../actions/registerAction';
-import { groupSettingsLoader } from '../pages/Groups/GroupDetails/GroupSettings/groupSettingsLoader';
 import { loginLoader } from '../loaders/loginLoader';
 import { registerLoader } from '../loaders/registerLoader';
 import { protectRoutersLoader } from '../loaders/protectRoutersLoader';
@@ -11,6 +9,9 @@ import { protectRoutersLoader } from '../loaders/protectRoutersLoader';
 // Layout e App carregados normalmente
 import Layout from '../components/Layout';
 import App from '../App';
+import ExpenseDetails from '../pages/Expenses/ExpenseDetails';
+import { protectRouterGroupLoader } from './protectRouterGroupLoader';
+import { groupDetailsLoader } from '../pages/Groups/GroupDetails/groupDetailsLoader';
 
 const Login = lazy(() => import('../pages/Login'));
 const Register = lazy(() => import('../pages/Register'));
@@ -50,15 +51,24 @@ export const appRouter = createBrowserRouter([
           {
             path: 'groups',
             children: [
-              { index: true, element: <Groups />, action: groupAction },
+              { index: true, element: <Groups /> },
               {
                 path: ':group_id',
                 element: <GroupDetails />,
+                loader: groupDetailsLoader,
+              },
+              {
+                path: ':group_id/expenses/:expense_id',
+                element: <ExpenseDetails />,
+                loader: groupDetailsLoader,
               },
               {
                 path: ':group_id/settings',
                 element: <GroupSettings />,
-                loader: groupSettingsLoader,
+                loader: async () => {
+                  await protectRouterGroupLoader();
+                  await groupDetailsLoader();
+                },
               },
             ],
           },

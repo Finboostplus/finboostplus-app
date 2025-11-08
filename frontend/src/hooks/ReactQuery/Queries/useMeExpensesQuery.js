@@ -7,9 +7,9 @@ export default function useMeExpensesQuery(page) {
   const { data: user } = useMeQuery();
   const userId = user?.id;
   return useQuery({
-    queryKey: [REACTQUERY_KEYS.USER.EXPENSES, { userId, page }],
+    queryKey: [REACTQUERY_KEYS.USER.EXPENSES, 'me', Number(userId), page],
     queryFn: async () => await getMeExpenses(page),
     enabled: !!userId,
-    placeholderData: { expenses: [], totalPages: 0, expensesLength: 0 },
+    placeholderData: previousData => previousData,
   });
 }

@@ -51,7 +51,7 @@ export default function LatestExpenses() {
               <li key={expense.expenseId}>
                 <MenuItem
                   as="a"
-                  href={`/groups/${expense.groupId}`}
+                  href={`/groups/${expense.groupId}/expenses/${expense.expenseId}`}
                   aria-label={`Despesa: ${expense.title}`}
                 >
                   <div className="text-text bg-neutral border-surface rounded-lg p-4 border hover:shadow-sm transition-shadow cursor-pointer">

@@ -5,40 +5,43 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 import { Fragment, useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import ButtonUI from '../ui/Button';
-import { useActionData, useRevalidator } from 'react-router';
 import { customToast } from '../CustomToast';
 
-export default function Modal({ children, isOpen, setIsOpen, fnClose }) {
+export default function Modal({
+  children,
+  isOpen,
+  setIsOpen,
+  fnClose,
+  autoCloseOnSuccess = true, // 👈 opcional
+}) {
   const [showConfirm, setShowConfirm] = useState(false);
-  const actionData = useActionData();
-  const revalidator = useRevalidator();
+  const queryClient = useQueryClient();
 
+  // 🔍 Observa mutations do React Query
   useEffect(() => {
-    if (actionData?.modalClose) {
-      setIsOpen(false);
-      return;
-    }
-    if (actionData?.errors) {
-      const nameField = actionData.errors?.name;
-      customToast(nameField.title, nameField.message, 'error');
-    } else if (actionData?.success) {
-      const { data: notification } = actionData;
-      customToast(notification.title, notification.message, 'success');
-      setIsOpen(false);
-    }
-    revalidator.revalidate();
-  }, [actionData]);
+    if (!autoCloseOnSuccess || !isOpen) return;
 
-  // 🚫 não fecha o modal direto — só abre o de confirmação
+    const unsubscribe = queryClient.getMutationCache().subscribe(mutation => {
+      if (mutation?.action?.type === 'success') {
+        setIsOpen(false);
+      } else if (mutation?.action?.type === 'error') {
+        const err = mutation.state.error;
+        customToast('Erro', err?.message || 'Algo deu errado', 'error');
+      }
+    });
+
+    return () => unsubscribe?.();
+  }, [autoCloseOnSuccess, isOpen, queryClient]);
+
   function handleCloseAttempt() {
     setShowConfirm(true);
   }
 
-  // ✅ agora sim, fecha de fato
   function handleConfirmClose() {
     setShowConfirm(false);
-    fnClose(); // fecha o modal principal
+    fnClose?.();
   }
 
   function handleCancelClose() {
@@ -47,7 +50,6 @@ export default function Modal({ children, isOpen, setIsOpen, fnClose }) {
 
   return (
     <>
-      {/* Modal principal */}
       <Transition show={isOpen} as={Fragment}>
         <Dialog onClose={handleCloseAttempt} className="fixed z-50 inset-0">
           <div className="fixed inset-0 flex items-center justify-center p-4">
@@ -90,6 +92,7 @@ export default function Modal({ children, isOpen, setIsOpen, fnClose }) {
                 >
                   <span>x</span>
                 </ButtonUI>
+
                 <div className="p-6 sm:p-8">{children}</div>
               </DialogPanel>
             </TransitionChild>
@@ -97,7 +100,6 @@ export default function Modal({ children, isOpen, setIsOpen, fnClose }) {
         </Dialog>
       </Transition>
 
-      {/* Modal de confirmação reutilizável */}
       <ConfirmModal
         isOpen={showConfirm}
         onConfirm={handleConfirmClose}
