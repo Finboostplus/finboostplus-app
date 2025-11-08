@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.finboostplus.DTO.GroupDetailsDTO;
+import com.finboostplus.DTO.GroupMemberAuthorityDTO;
 import com.finboostplus.model.Group;
 import com.finboostplus.projection.GroupProjection;
 
@@ -39,6 +40,14 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 			""")
 	Page<GroupProjection> listUserGroupsPaged(Long memberId, Pageable pageable);
 
+	@Query(nativeQuery = true, value = """
+			SELECT GM.AUTH_LEVEL AS AUTHORITY
+			FROM GROUP_MEMBERS AS GM
+			WHERE GM.GROUP_ID = :groupId
+				AND GM.USER_ID = :memberId
+			""")
+	GroupMemberAuthorityDTO getMemberAuthority(Long groupId, Long memberId);
+
 	@Modifying
 	@Query(nativeQuery = true, value = """
 			DELETE FROM groups
@@ -55,13 +64,11 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 				GM.AUTH_LEVEL AS AUTHORIZATION,
 				(
 					SELECT
-						COALESCE(SUM(UED.PARTIAL_VALUE), 0)
+						COALESCE(SUM(E.VALUE), 0)
 					FROM
 						EXPENSES E
-						INNER JOIN USER_EXPENSE_DIVISIONS UED ON E.ID = UED.EXPENSE_ID
 					WHERE
 						E.GROUP_ID = :groupId
-						AND UED.USER_ID = :userId
 				) AS TOTAL
 			FROM
 				GROUPS AS G
