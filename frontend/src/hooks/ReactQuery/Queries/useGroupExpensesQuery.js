@@ -14,23 +14,20 @@ export function useGroupExpensesQuery(groupID, page, filter) {
     // forçando o TanStack Query a fazer uma nova busca (refetch).
     queryKey: [
       REACTQUERY_KEYS.GROUPS.EXPENSES,
-      {
-        groupID,
-        page,
-        status, // Chave do filtro 1
-        allGroupMembersExpenses, // Chave do filtro 2 (se existir)
-      },
+      'filters',
+      Number(groupID),
+      page,
+      status, // Chave do filtro 1
+      allGroupMembersExpenses, // Chave do filtro 2 (se existir)
+      ,
     ],
+
     // 3. A queryFn continua usando o objeto 'filter' completo para a chamada de API
     queryFn: async () => await getGroupExpenses({ groupID, page, filter }),
-
+    staleTime: Infinity,
     // Configurações mantidas
     enabled: !!groupID,
-    staleTime: Infinity,
-    placeholderData: {
-      expenses: [],
-      totalPages: 0,
-      expensesLength: 0,
-    },
+    /* staleTime: Infinity, */
+    placeholderData: previousData => previousData,
   });
 }

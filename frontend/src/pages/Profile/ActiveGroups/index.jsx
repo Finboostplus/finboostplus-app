@@ -4,7 +4,11 @@ import { FiUsers } from 'react-icons/fi';
 import { useGroupsQuery } from '../../../hooks/ReactQuery/Queries/useGroupsQuery';
 
 export default function ActiveGroups() {
-  const { data, isLoading } = useGroupsQuery();
+  const {
+    data: { groups, groupsLength },
+    isLoading,
+  } = useGroupsQuery();
+
   const groupLimit = 4;
 
   if (isLoading) {
@@ -16,9 +20,8 @@ export default function ActiveGroups() {
     );
   }
 
-  const groups = data?.groups ?? [];
   const groupsToShow = groups.slice(0, groupLimit);
-  const hasMoreGroups = groups.length > groupLimit;
+  const hasMoreGroups = groupsLength > groupLimit;
 
   if (groups.length === 0) {
     return (
@@ -68,7 +71,7 @@ export default function ActiveGroups() {
                      transition-colors"
           aria-label="Ver todos os grupos"
         >
-          +{groups.length - groupLimit} mais
+          +{groupsLength - groupLimit} mais
         </Link>
       )}
     </section>

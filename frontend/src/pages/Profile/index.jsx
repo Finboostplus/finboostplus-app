@@ -24,6 +24,7 @@ export default function Profile() {
   const { data: user } = useMeQuery();
   const { data: dashboard } = useMeDashboardQuery();
   const { data } = useGroupsQuery();
+  console.log({ data });
   const groupsLength = data?.groupsLength;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const current_user = userData;
@@ -99,6 +100,7 @@ export default function Profile() {
       <Modal
         fnClose={() => setIsModalOpen(false)}
         isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
         children={
           <ProfileContent
             current_user={current_user}

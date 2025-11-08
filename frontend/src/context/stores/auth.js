@@ -151,3 +151,24 @@ export const useAuthStore = create()(
     }
   )
 );
+
+export const useAuthorityStore = create((set, get) => ({
+  // Objeto que guarda a authority por grupo
+  authorities: {},
+
+  // Define a authority de um grupo
+  setAuthority: (groupId, authority) => {
+    set({
+      authorities: {
+        ...get().authorities,
+        [groupId]: authority,
+      },
+    });
+  },
+
+  // Pega a authority de um grupo
+  getAuthority: groupId => get().authorities[groupId],
+  resetAuthority: () => {
+    set({ authorities: {} });
+  },
+}));

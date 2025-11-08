@@ -8,6 +8,7 @@ export const REACTQUERY_KEYS = {
     ALL: 'allGroups',
     MEMBERS: 'members',
     EXPENSES: 'groupExpenses',
+    ME_AUTHORITY: 'authority',
   },
   EXPENSES: {
     CATEGORIES: 'allCategories',

@@ -7,7 +7,7 @@ const refetchInterval = 180000; // 3 minutos
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: 1,
+      retry: false,
       refetchInterval,
       refetchOnWindowFocus: true,
       refetchOnReconnect: true,
