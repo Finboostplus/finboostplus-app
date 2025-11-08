@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.finboostplus.DTO.GroupCreateDTO;
 import com.finboostplus.DTO.GroupDetailsDTO;
+import com.finboostplus.DTO.GroupMemberAuthorityDTO;
 import com.finboostplus.DTO.GroupMemberResponseDTO;
 import com.finboostplus.DTO.GroupUpdateDTO;
 import com.finboostplus.exception.ForbiddenResourceException;
@@ -113,6 +114,19 @@ public class GroupService {
 		Group group = groupRepository.findById(idGroup)
 				.orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
 		return group;
+	}
+
+	@Transactional(readOnly = true)
+	public GroupMemberAuthorityDTO getMemberAuthority(Long groupId, Long memberId) {
+		User user = userRepository
+				.findByEmailIgnoreCase(userService.authenticated())
+				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
+		boolean isLoggedUserMemberOfGroup = groupMemberRepository.isUserMemberOfGroup(user.getId(), groupId);
+		boolean isUserMemberOfGroup = groupMemberRepository.isUserMemberOfGroup(memberId, groupId);
+		if (isLoggedUserMemberOfGroup && isUserMemberOfGroup) {
+			return groupRepository.getMemberAuthority(groupId, memberId);
+		}
+		throw new ForbiddenResourceException("Acesso negado");
 	}
 
 	@Transactional(readOnly = true)

@@ -24,12 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.finboostplus.DTO.CategoryDTO;
 import com.finboostplus.DTO.GroupCreateDTO;
 import com.finboostplus.DTO.GroupDetailsDTO;
+import com.finboostplus.DTO.GroupMemberAuthorityDTO;
 import com.finboostplus.DTO.GroupMemberDTO;
 import com.finboostplus.DTO.GroupMemberResponseDTO;
 import com.finboostplus.DTO.GroupUpdateDTO;
 import com.finboostplus.DTO.SwitchAuthorityRequestDTO;
 import com.finboostplus.model.Group;
 import com.finboostplus.projection.GroupProjection;
+import com.finboostplus.repository.GroupRepository;
 import com.finboostplus.repository.UserRepository;
 import com.finboostplus.service.CategoryService;
 import com.finboostplus.service.ExpenseService;
@@ -89,6 +91,12 @@ public class GroupController {
 	public ResponseEntity<GroupDetailsDTO> getGroupDetails(@PathVariable Long groupId) {
 		GroupDetailsDTO dto = groupService.getGroupDetails(groupId);
 		return new ResponseEntity<>(dto, HttpStatus.OK);
+	}
+
+	@GetMapping("/{groupId}/members/{memberId}/authority")
+	public ResponseEntity<GroupMemberAuthorityDTO> getMemberAuthority(@PathVariable Long groupId, @PathVariable Long memberId) {
+		GroupMemberAuthorityDTO authority = groupService.getMemberAuthority(groupId, memberId);
+		return ResponseEntity.ok(authority);
 	}
 
 	@PostMapping
