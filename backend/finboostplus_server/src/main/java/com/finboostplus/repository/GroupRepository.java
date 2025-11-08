@@ -17,26 +17,29 @@ import com.finboostplus.projection.GroupProjection;
 public interface GroupRepository extends JpaRepository<Group, Long> {
 	@Query(nativeQuery = true, value = """
 			SELECT
-				G.ID,
+				G.ID AS GROUP_ID,
 				G.NAME,
 				G.DESCRIPTION,
 				GM.AUTH_LEVEL AS AUTHORITY,
 				G.ICON,
 				G.CREATED_AT,
-				COALESCE(SUM(E.VALUE), 0) AS TOTAL_EXPENSES
+				COALESCE(SUM(UED.PARTIAL_VALUE), 0) AS PARTIAL_TOTAL,
+				COALESCE(SUM(E.VALUE), 0) AS TOTAL
 			FROM
 				GROUPS G
 				INNER JOIN GROUP_MEMBERS GM ON GM.GROUP_ID = G.ID
 				LEFT JOIN EXPENSES E ON E.GROUP_ID = G.ID
-			WHERE
-				GM.USER_ID = :memberId
+				AND E.STATUS != 'PAID' -- aplica filtro no join!
+				LEFT JOIN USER_EXPENSE_DIVISIONS UED ON UED.EXPENSE_ID = E.ID
+				AND UED.USER_ID = :memberId
+				AND UED.STATUS != 'PAID'
 			GROUP BY
 				G.ID,
 				G.NAME,
 				G.DESCRIPTION,
 				GM.AUTH_LEVEL,
 				G.ICON,
-				G.CREATED_AT;
+				G.CREATED_AT
 			""")
 	Page<GroupProjection> listUserGroupsPaged(Long memberId, Pageable pageable);
 
@@ -64,11 +67,21 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 				GM.AUTH_LEVEL AS AUTHORIZATION,
 				(
 					SELECT
+						COALESCE(SUM(UED.PARTIAL_VALUE), 0)
+					FROM
+						USER_EXPENSE_DIVISIONS UED
+					WHERE
+						UED.USER_ID = :userId
+						AND UED.STATUS != 'PAID'
+				) AS PARTIAL_TOTAL,
+				(
+					SELECT
 						COALESCE(SUM(E.VALUE), 0)
 					FROM
 						EXPENSES E
 					WHERE
 						E.GROUP_ID = :groupId
+						AND E.STATUS != 'PAID'
 				) AS TOTAL
 			FROM
 				GROUPS AS G

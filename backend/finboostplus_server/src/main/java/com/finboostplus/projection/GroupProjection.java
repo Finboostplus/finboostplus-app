@@ -1,9 +1,10 @@
 package com.finboostplus.projection;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 public interface GroupProjection {
-	Long getId();
+	Long getGroupId();
 
 	String getName();
 
@@ -15,5 +16,7 @@ public interface GroupProjection {
 
 	Instant getCreatedAt();
 
-	Double getTotalExpenses();
+	BigDecimal getPartial_total();
+
+	BigDecimal getTotal();
 }
