@@ -197,8 +197,10 @@ public class GroupService {
 		String loggedAuth = loggedInMember.getAuthorization();
 		if ("OWNER".equals(loggedAuth)) {
 			groupMemberRepository.deleteByUserIdAndGroupId(memberId, groupId);
+			return;
 		} else if ("ADMIN".equals(loggedAuth) && "USER".equals(targetAuth)) {
 			groupMemberRepository.deleteByUserIdAndGroupId(memberId, groupId);
+			return;
 		}
 		throw new ForbiddenResourceException("Recurso não permitido");
 	}

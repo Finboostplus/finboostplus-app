@@ -31,7 +31,6 @@ import com.finboostplus.DTO.GroupUpdateDTO;
 import com.finboostplus.DTO.SwitchAuthorityRequestDTO;
 import com.finboostplus.model.Group;
 import com.finboostplus.projection.GroupProjection;
-import com.finboostplus.repository.GroupRepository;
 import com.finboostplus.repository.UserRepository;
 import com.finboostplus.service.CategoryService;
 import com.finboostplus.service.ExpenseService;
