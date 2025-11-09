@@ -67,7 +67,8 @@ export default function GroupSettings() {
               <span className="text-primary">{group.name}</span>
             </h1>
             <p className="text-muted text-sm sm:text-base">
-              Gerencie o grupo e seus membros com estilo 😎
+              Defina as permissões, ajuste as regras e garanta o controle total
+              sobre o seu grupo.
             </p>
           </div>
         </header>
