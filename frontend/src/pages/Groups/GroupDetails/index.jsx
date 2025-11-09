@@ -7,18 +7,19 @@ import BalancesList from './BalancesList'; */
 import ExpensesList from './ExpensesList';
 
 import Expenses from '../../Expenses';
-import { formatBRL } from '../../../utils/formatters';
 import ModalButton from '../../../components/Modal/ModalButton';
 
 import { CategoryIcon } from '../../../mockData/groupIcons/icons';
-import { ConfirmModal } from '../../../components/Modal';
+import Modal, { ConfirmModal } from '../../../components/Modal';
 
 import { usePermissions } from './usePermissions';
 import { useGroupByIdQuery } from '../../../hooks/ReactQuery/Queries/useGroupsQuery';
 import { useDeleteGroupMutation } from '../../../hooks/ReactQuery/Mutations/useDeleteGroupMutation';
+import GroupFinancialStatus from '../GrupoFinancialStatus';
+import ButtonUI from '../../../components/ui/Button';
 
 export default function GroupDetails() {
-  const navigate = useNavigate();
+  const [groupModalIsOpen, setGroupModalIsOpen] = useState(false);
   const { group_id } = useParams();
   const [isOpenModal, setIsOpenModal] = useState(false);
   const { data: group } = useGroupByIdQuery(group_id);
@@ -104,48 +105,7 @@ export default function GroupDetails() {
           )}
         </header>
 
-        {/* Total do grupo */}
-        <section
-          className="bg-surface p-4 sm:p-6 rounded-lg shadow-md mb-8 flex flex-col items-center sm:items-start text-center sm:text-left transition-colors"
-          aria-labelledby="group-total-heading"
-        >
-          <h2
-            id="group-total-heading"
-            className="text-xl sm:text-2xl font-light text-text"
-          >
-            Total de despesas
-          </h2>
-
-          <div className="mt-2 w-full">
-            <p
-              className={`text-4xl sm:text-5xl font-bold ${
-                group?.total <= 0 ? 'text-success' : 'text-red-500'
-              } mb-1`}
-              aria-live="polite"
-            >
-              {formatBRL(group?.total)}
-            </p>
-            <p className="text-muted text-base sm:text-lg">acumulado do mês</p>
-            {group?.description && (
-              <>
-                <hr className="my-3 border-t border-muted/50" />
-                <div className="mt-2 text-text">
-                  <div
-                    title="Descrição do grupo"
-                    className="rounded-xl bg-muted/10 p-3 shadow-sm border border-border/40 hover:bg-muted/20 transition-colors duration-200"
-                  >
-                    <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">
-                      Descrição
-                    </h4>
-                    <p className="text-sm leading-relaxed text-foreground/90 wrap-break-word">
-                      {group?.description}
-                    </p>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        </section>
+        <GroupFinancialStatus group={group} variant="detailed" />
 
         {/* Conteúdo principal */}
         <section className="animate-fadeIn">
@@ -155,7 +115,21 @@ export default function GroupDetails() {
 
       {/* Modal de adicionar despesa */}
       {canCreateExpenses && (
-        <ModalButton modalChildren={<Expenses groupData={group} />} />
+        <>
+          <ButtonUI
+            onClick={() => setGroupModalIsOpen(true)}
+            className="fixed z-10 cursor-pointer bottom-5 right-6 bg-primary font-bold text-3xl text-white px-4 py-2 rounded-lg shadow hover:bg-primary/90 transition"
+          >
+            +
+          </ButtonUI>
+
+          <Modal
+            fnClose={() => setGroupModalIsOpen(false)}
+            isOpen={groupModalIsOpen}
+            setIsOpen={setGroupModalIsOpen}
+            children={<Expenses groupData={group} />}
+          />
+        </>
       )}
     </div>
   );

@@ -11,12 +11,12 @@ export function useDeleteGroupMemberMutation(groupID, page, search) {
     mutationFn: async ({ group_id, member_id }) => {
       return await deleteGroupMember(group_id, member_id);
     },
-    onSuccess: () => {
+    onSuccess: (_response, { group_id }) => {
       queryClient.invalidateQueries({
         queryKey: [REACTQUERY_KEYS.MEMBERS.ALL],
       });
       queryClient.invalidateQueries({
-        queryKey: [REACTQUERY_KEYS.GROUPS.MEMBERS],
+        queryKey: [REACTQUERY_KEYS.GROUPS.MEMBERS, group_id],
       });
       queryClient.invalidateQueries({
         queryKey: [REACTQUERY_KEYS.GROUPS.ALL],

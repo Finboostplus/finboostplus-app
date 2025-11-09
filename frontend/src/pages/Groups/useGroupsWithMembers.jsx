@@ -2,24 +2,32 @@ import { useQueries } from '@tanstack/react-query';
 import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
 import { getGroupMembers } from '../../services/groups';
 
-export default function useGroupsWithMembers(groups) {
-  // Cria queries dinâmicas de membros (cacheadas)
+//resumo dos membros na lista paginada
+export default function useGroupsWithMembers(groups = []) {
   const membersQueries = useQueries({
-    queries: groups.map(group => ({
-      queryKey: [REACTQUERY_KEYS.GROUPS.MEMBERS, group.id],
-      queryFn: () => getGroupMembers({ groupId: group.id, size: 4 }),
-      enabled: !!group.id,
-      staleTime: Infinity, // mantém o cache fresco indefinidamente
+    queries: groups.map(({ groupId }) => ({
+      queryKey: [REACTQUERY_KEYS.GROUPS.MEMBERS, groupId],
+      queryFn: () => getGroupMembers({ groupId, size: 4 }),
+      enabled: !!groupId,
+      staleTime: Infinity,
     })),
   });
-  // Cria um map: { [groupId]: members }
+
   const membersMap = {};
+
   membersQueries.forEach((q, i) => {
-    if (q.data)
-      membersMap[groups[i].id] = {
-        totalElements: q.data.totalElements,
-        members: q.data.members,
-      };
+    const groupId = groups[i]?.groupId;
+    if (!groupId) return;
+
+    membersMap[groupId] = q.data
+      ? {
+          totalElements: q.data.totalElements,
+          members: q.data.members,
+        }
+      : {
+          totalElements: 0,
+          members: [],
+        };
   });
 
   return membersMap;

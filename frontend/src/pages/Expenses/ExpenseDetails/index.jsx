@@ -19,18 +19,24 @@ import { getCurrentDate } from '../../../utils/helpers';
 import { ConfirmModal } from '../../../components/Modal';
 import { validateExpensePayload } from '../../../schemas/createNewExpense/updateExpenseForm';
 import { customToast } from '../../../components/CustomToast';
-import { useAuthorityStore } from '../../../context/stores/auth';
-
+import { useQuery } from '@tanstack/react-query';
+import { REACTQUERY_KEYS } from '../../../libs/ReactQuery/keys';
+import useMeQuery from '../../../hooks/ReactQuery/Queries/useMeQuery';
+import { getGroupUserAuthenticatedAuthority } from '../../../services/groups';
+import { MdOutlineFactCheck } from 'react-icons/md';
 export default function ExpenseDetails() {
-  const { getAuthority } = useAuthorityStore();
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const navigate = useNavigate();
   const { group_id, expense_id } = useParams();
-
-  const userRole = getAuthority(group_id); // papel do usuário neste grupo
-  alert(userRole);
-  const canEditExpense = ['OWNER', 'ADMIN'].includes(userRole); // pode editar campos
-  const canChangeStatus = userRole === 'OWNER'; // só OWNER altera status
+  const { data } = useMeQuery();
+  const { id: userId } = data;
+  const { data: authority } = useQuery({
+    queryKey: [REACTQUERY_KEYS.GROUPS.ME_AUTHORITY, group_id, userId],
+    queryFn: () => getGroupUserAuthenticatedAuthority(group_id, userId),
+    enabled: !!group_id && !!userId,
+  });
+  const canEditExpense = ['OWNER', 'ADMIN'].includes(authority); // pode editar campos
+  const canChangeStatus = authority === 'OWNER'; // só OWNER altera status
 
   const {
     data: expense,
@@ -318,7 +324,18 @@ export default function ExpenseDetails() {
 
       {/* Participantes */}
       <section className="mt-10">
-        <h3 className="text-lg font-semibold text-text mb-5">Participantes</h3>
+        <div className="flex items-center justify-between mb-6  pb-2">
+          {/* Título Principal: Mais forte e com cor sutil */}
+          <h3 className="text-xl font-bold text-text dark:text-primary-300">
+            👥 Participantes
+          </h3>
+
+          {/* Status da Despesa: Fonte menor e cinza sutil */}
+          <span className="text-sm font-medium text-muted flex items-center gap-2">
+            <span>Status da Despesa</span>
+            <MdOutlineFactCheck size={20} />
+          </span>
+        </div>
 
         <div className="space-y-4">
           {expense.memberList?.map(member => {
@@ -352,7 +369,7 @@ export default function ExpenseDetails() {
                     handleChangeStatusExpensePartialValue(member.userId)
                   }
                   disabled={isLoading || !canChangeStatus} // bloqueia se não pode alterar
-                  className={`flex min-w-[130px] justify-center items-center gap-2 px-5 py-2 rounded-lg font-medium shadow-sm transition-all text-white ${STATUS_COLORS[member.status].bg}`}
+                  className={`flex min-w-[130px] cursor-pointer justify-center items-center gap-2 px-5 py-2 rounded-lg font-medium shadow-sm transition-all text-white ${STATUS_COLORS[member.status].bg}`}
                   type="button"
                 >
                   {isLoading ? 'ALTERANDO...' : EXPENSE_STATUS[member.status]}

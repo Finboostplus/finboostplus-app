@@ -87,9 +87,6 @@ export default function ProfileContent({ setIsModalOpen }) {
 
         setIsModalOpen(false);
       },
-      onError: () => {
-        customToast('Erro de atualização', 'Erro ao atualizar perfil', 'error');
-      },
       onSettled: () => {
         setIsSubmitting(false);
       },

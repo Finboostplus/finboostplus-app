@@ -72,3 +72,12 @@ export const getMeDashboardStats = async () => {
     throw new Error('Erro ao obter dados das despesas');
   }
 };
+
+export const getMeExpensesByMonthly = async () => {
+  try {
+    const response = await apiApplication.get('user/me/monthly-expenses');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

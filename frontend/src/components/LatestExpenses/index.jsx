@@ -91,13 +91,17 @@ export default function LatestExpenses() {
             ))}
           </Menu>
 
-          {/* 🔄 Controle de Paginação */}
-          <Pagination
-            onNext={handleNext}
-            onPrev={handlePrev}
-            page={page}
-            totalPages={totalPages}
-          />
+          {totalPages > 1 && (
+            <>
+              {/* 🔄 Controle de Paginação */}
+              <Pagination
+                onNext={handleNext}
+                onPrev={handlePrev}
+                page={page}
+                totalPages={totalPages}
+              />
+            </>
+          )}
         </>
       )}
     </section>

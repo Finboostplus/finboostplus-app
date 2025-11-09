@@ -3,21 +3,19 @@ import { Link, useRouteError } from 'react-router';
 
 export default function NotFound() {
   const error = useRouteError();
-  console.log(error);
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-surface dark:bg-surface-dark text-text dark:text-text-dark p-6 transition-colors duration-300">
       <div className="flex flex-col items-center text-center animate-fadeIn">
         <FaPiggyBank className="w-20 h-20 text-primary dark:text-primary-dark mb-4" />
         <h1 className="text-5xl font-extrabold text-primary dark:text-primary-dark mb-2">
-          {error ? error.status : '404'}
+          {error.status ?? '404'}
         </h1>
         <h2 className="text-2xl font-semibold mb-2">
-          {error ? error.statusText : 'Página não encontrada'}
+          {error.statusText ?? 'Página não encontrada'}
         </h2>
         <p className="text-sm sm:text-base max-w-md text-muted dark:text-muted-dark mb-6">
-          {error
-            ? error.data
-            : 'Parece que essa página, grupo ou despesa não existe mais.'}
+          {error.data ??
+            'Parece que essa página, grupo ou despesa não existe mais.'}
           <br />
           Verifique o link ou volte para o painel principal do FinBoost+.
         </p>

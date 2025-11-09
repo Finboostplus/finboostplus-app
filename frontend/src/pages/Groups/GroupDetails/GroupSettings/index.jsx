@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLoaderData, useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 import {
   FiArrowLeft,
   FiEdit3,
@@ -19,8 +19,6 @@ import { useGroupByIdQuery } from '../../../../hooks/ReactQuery/Queries/useGroup
 import { useUpdateGroupMutation } from '../../../../hooks/ReactQuery/Mutations/useUpdateGroupMutation';
 
 export default function GroupSettings() {
-  const loader = useLoaderData();
-  console.log({ loader });
   const { group_id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -123,7 +121,12 @@ export default function GroupSettings() {
               Abrir Gerenciador de Membros
             </ButtonUI>
 
-            <Modal isOpen={isOpen} fnClose={() => setIsOpen(false)}>
+            <Modal
+              isOpen={isOpen}
+              fnClose={() => setIsOpen(false)}
+              setIsOpen={setIsOpen}
+              autoCloseOnSuccess={false}
+            >
               <MembersManager group={group} />
             </Modal>
           </section>
@@ -131,7 +134,7 @@ export default function GroupSettings() {
           {/* Botões */}
           <footer className="flex flex-col sm:flex-row gap-3 justify-evenly pt-6">
             <Link
-              to="/groups"
+              to={`/groups/${group_id}`}
               className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-neutral-500/80 text-white hover:bg-neutral-600 transition-all hover:scale-[1.02]"
             >
               <FiArrowLeft className="text-lg" />

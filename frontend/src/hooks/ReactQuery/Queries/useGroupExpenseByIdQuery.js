@@ -8,7 +8,7 @@ export function useGroupExpenseByIdQuery(group_id, expense_id) {
       REACTQUERY_KEYS.GROUPS.EXPENSES,
       'groups',
       Number(group_id),
-      expense_id,
+      Number(expense_id),
     ],
     enabled: !!group_id && !!expense_id,
     queryFn: async () => await getGroupExpenseById(group_id, expense_id),

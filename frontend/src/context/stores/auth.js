@@ -5,6 +5,9 @@ import { jwtDecode } from 'jwt-decode';
 import { customToast } from '../../components/CustomToast';
 import CookieStorage from 'zustand-persist-cookie-storage';
 import { SecureLS } from '../../utils/localStorageEncryption';
+import { queryClient } from '../../libs/ReactQuery/queryClient';
+import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
+import { getMe } from '../../services/me';
 
 export const CustomCookieStorage = () => {
   const base = CookieStorage({ expires: 7 }); // fallback padrão
@@ -101,8 +104,19 @@ export const useAuthStore = create()(
             exp: jwtData.expires_in,
           };
           set({ user });
-          customToast('Login realizado', 'Bem-vindo!', 'success');
-          /*   await useGroupStore.getState().getAllGroupUser(); */
+          const currentUser = await queryClient.ensureQueryData({
+            queryKey: [REACTQUERY_KEYS.USER.ME],
+            queryFn: getMe,
+          });
+
+          customToast(
+            'Login realizado com sucesso!',
+            currentUser
+              ? `Seja bem-vindo(a), ${currentUser.name}! 🚀`
+              : `Seja bem-vindo(a) ao FinBoost! 💰`,
+            'success'
+          );
+
           return;
         } catch (e) {
           const { title, error } = e;
@@ -151,24 +165,3 @@ export const useAuthStore = create()(
     }
   )
 );
-
-export const useAuthorityStore = create((set, get) => ({
-  // Objeto que guarda a authority por grupo
-  authorities: {},
-
-  // Define a authority de um grupo
-  setAuthority: (groupId, authority) => {
-    set({
-      authorities: {
-        ...get().authorities,
-        [groupId]: authority,
-      },
-    });
-  },
-
-  // Pega a authority de um grupo
-  getAuthority: groupId => get().authorities[groupId],
-  resetAuthority: () => {
-    set({ authorities: {} });
-  },
-}));

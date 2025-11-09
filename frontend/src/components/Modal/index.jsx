@@ -7,7 +7,6 @@ import {
 import { Fragment, useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import ButtonUI from '../ui/Button';
-import { customToast } from '../CustomToast';
 
 export default function Modal({
   children,
@@ -27,8 +26,8 @@ export default function Modal({
       if (mutation?.action?.type === 'success') {
         setIsOpen(false);
       } else if (mutation?.action?.type === 'error') {
-        const err = mutation.state.error;
-        customToast('Erro', err?.message || 'Algo deu errado', 'error');
+        const err = mutation.action.error;
+        console.error(err);
       }
     });
 

@@ -19,12 +19,23 @@ import Modal from '../../components/Modal';
 import useMeQuery from '../../hooks/ReactQuery/Queries/useMeQuery';
 import { useMeDashboardQuery } from '../../hooks/ReactQuery/Queries/useMeDashboardStatsQuery';
 import { useGroupsQuery } from '../../hooks/ReactQuery/Queries/useGroupsQuery';
+import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
+import { getMeExpensesByMonthly } from '../../services/me';
+import { useQuery } from '@tanstack/react-query';
+import { getMonthlyExpensesSummary } from '../../components/SummaryCards/expenseUtils';
 
 export default function Profile() {
   const { data: user } = useMeQuery();
   const { data: dashboard } = useMeDashboardQuery();
   const { data } = useGroupsQuery();
-  console.log({ data });
+  const { data: expensesResponse } = useQuery({
+    queryKey: [REACTQUERY_KEYS.USER.DASHBOARD, 'balance'],
+    queryFn: getMeExpensesByMonthly,
+  });
+
+  const summary = expensesResponse?.length
+    ? getMonthlyExpensesSummary(expensesResponse)
+    : { totalExpenses: 0 };
   const groupsLength = data?.groupsLength;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const current_user = userData;
@@ -59,8 +70,8 @@ export default function Profile() {
         </Link>
 
         <StatBox
-          number={formatBRL(current_user.dashboard.totalMonthlySpent)}
-          label="Despesas"
+          number={formatBRL(summary.totalExpenses)}
+          label="Despesas por ano"
           color="border-b-4 border-success"
           icon={<FaMoneyBillWave className="text-success text-2xl" />}
         />

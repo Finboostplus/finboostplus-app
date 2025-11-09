@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { REACTQUERY_KEYS } from '../../../libs/ReactQuery/keys';
 import { getGroupMembers } from '../../../services/groups';
 
+//Membros de um grupo específico
 export const useMembersQuery = (groupID, page, search) => {
   return useQuery({
     queryKey: search

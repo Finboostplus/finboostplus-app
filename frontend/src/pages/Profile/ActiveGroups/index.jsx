@@ -48,8 +48,8 @@ export default function ActiveGroups() {
     <section aria-labelledby="active-groups" className="flex flex-wrap gap-2">
       {groupsToShow.map(group => (
         <Link
-          key={group.id}
-          to={`/groups/${group.id}`}
+          key={group.groupId}
+          to={`/groups/${group.groupId}`}
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full 
                      bg-muted/30 border border-border text-sm font-medium font-principal
                      text-foreground hover:bg-muted/50 hover:border-muted-foreground/30 

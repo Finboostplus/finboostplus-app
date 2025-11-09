@@ -54,6 +54,15 @@ export function MembersManager({ group }) {
 
   // Confirma a troca de cargo
   const handleConfirmChangeRole = async () => {
+    if (!confirmModal.newRole) {
+      await handleRemoveMember(confirmModal.memberId);
+      setConfirmModal({
+        isOpen: false,
+        message: '',
+        memberId: null,
+        newRole: null,
+      });
+    }
     if (confirmModal.memberId && confirmModal.newRole) {
       await handleChangeRole(confirmModal.memberId, confirmModal.newRole);
       setConfirmModal({
@@ -131,13 +140,13 @@ export function MembersManager({ group }) {
                 <div className="flex items-center gap-3">
                   <div
                     style={{ backgroundColor: member.themeColor }}
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ring-2 ring-white/30"
+                    className="w-10 h-10 uppercase rounded-full flex items-center justify-center text-white font-bold ring-2 ring-white/30"
                   >
                     {member.name[0]}
                   </div>
                   <div>
                     <p className="font-semibold flex items-center gap-1">
-                      {member.name}
+                      <span className="capitalize">{member.name}</span>
                       {member.authority === 'OWNER' && (
                         <BiSolidCrown
                           className="text-yellow-400 ml-1"
@@ -186,7 +195,14 @@ export function MembersManager({ group }) {
 
                   {member.authority !== 'OWNER' && (
                     <ButtonUI
-                      onClick={() => handleRemoveMember(member.id)}
+                      onClick={() => {
+                        setConfirmModal({
+                          isOpen: true,
+                          message: `Tem certeza que deseja remover ${member.name} do grupo?`,
+                          memberId: member.id,
+                          newRole: null,
+                        });
+                      }}
                       className="p-2 cursor-pointer rounded-full bg-red-100/80 hover:bg-red-200 text-red-600 transition"
                       title="Remover membro"
                     >

@@ -137,20 +137,32 @@ export default function ExpensesList({ groupID, authorization }) {
                   </div>
 
                   {/* 💰 Valor e informações */}
-                  <div className="text-right">
+                  <div className="text-right space-y-1">
+                    <div className="flex gap-2">
+                      {/* Identificador da despesa */}
+                      {expense.total ? (
+                        <span
+                          className={`inline-flex items-center px-2 text-xs font-medium rounded-full ${color.bg} text-white`}
+                        >
+                          Valor total da despesa
+                        </span>
+                      ) : (
+                        <span
+                          className={`inline-flex items-center px-2 text-xs font-medium rounded-full ${color.bg} text-white`}
+                        >
+                          Sua parte da despesa
+                        </span>
+                      )}
+                    </div>
+                    {/* Valor principal */}
                     <span
                       className={`block font-semibold text-base sm:text-lg ${color.text}`}
                     >
-                      {formatBRL(expense.partialValue || expense.total)}
+                      {formatBRL(expense.partialValue ?? expense.total)}
                     </span>
 
-                    <span className="text-xs text-muted block">
-                      {expense.partialValue
-                        ? 'Sua parte na despesa'
-                        : 'Valor total da despesa'}
-                    </span>
-
-                    <span className="text-xs text-muted">
+                    {/* Prazo */}
+                    <span className="text-xs text-muted dark:text-muted-dark">
                       Prazo final:{' '}
                       {expense.deadlineDate
                         ? new Date(expense.deadlineDate).toLocaleDateString(
