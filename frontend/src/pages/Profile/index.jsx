@@ -47,12 +47,12 @@ export default function Profile() {
         <div className="flex items-center gap-4">
           <div
             style={{ backgroundColor: user?.themeColor }}
-            className="w-14 h-14 rounded-full flex items-center justify-center font-bold text-white text-xl shadow-md"
+            className="w-14 h-14 uppercase rounded-full flex items-center justify-center font-bold text-white text-xl shadow-md"
           >
-            {user?.name[0].toUpperCase()}
+            {user?.name[0]}
           </div>
           <div>
-            <h1 className="text-xl font-semibold">{user?.name}</h1>
+            <h1 className="text-xl font-semibold capitalize">{user?.name}</h1>
             <p className="text-sm text-muted">{user?.email}</p>
           </div>
         </div>

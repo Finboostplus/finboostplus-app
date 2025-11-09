@@ -107,7 +107,7 @@ export default function ProfileContent({ setIsModalOpen }) {
           <h2 className="text-2xl font-bold text-center md:text-left">
             Editar perfil
           </h2>
-          <p className="text-sm text-muted dark:text-muted-dark mt-1">
+          <p className="text-sm text-muted mt-1 max-md:text-center">
             Atualize suas informações pessoais e personalize seu avatar.
           </p>
         </div>
@@ -116,10 +116,10 @@ export default function ProfileContent({ setIsModalOpen }) {
         <div className="flex flex-col items-center gap-6">
           {/* Avatar Preview */}
           <div
-            style={{ backgroundColor: userData.themeColor || '#999' }}
-            className="w-24 h-24 rounded-full transition-[background] flex items-center justify-center font-bold text-white text-3xl shadow-md border select-none border-white/20 duration-300 hover:scale-105"
+            style={{ backgroundColor: userData?.themeColor || '#999' }}
+            className="w-24 h-24 uppercase rounded-full transition-[background] flex items-center justify-center font-bold text-white text-3xl shadow-md border select-none border-white/20 duration-300 hover:scale-105"
           >
-            {userData.name[0]?.toUpperCase() || '?'}
+            {userData?.name[0] || '?'}
           </div>
 
           <div className="w-full space-y-4">

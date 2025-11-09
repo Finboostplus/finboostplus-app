@@ -7,9 +7,7 @@ import useMeQuery from '../../../hooks/ReactQuery/Queries/useMeQuery';
 
 export default function DropdownMenu() {
   const logout = useLogout();
-  const { data: user, isLoading, error } = useMeQuery();
-
-  const firstLetter = user?.name[0]?.toUpperCase() ?? '?';
+  const { data: user } = useMeQuery();
 
   return (
     <Menu
@@ -23,7 +21,9 @@ export default function DropdownMenu() {
         style={{ backgroundColor: user?.themeColor }}
         aria-label={`Abrir menu do usuário ${user?.name}`}
       >
-        <span aria-hidden="true">{firstLetter}</span>
+        <span className="capitalize" aria-hidden="true">
+          {user?.name[0] ?? '?'}
+        </span>
       </MenuButton>
 
       {/* Menu dropdown */}
@@ -31,7 +31,7 @@ export default function DropdownMenu() {
         anchor="bottom end"
         className="absolute mt-2 w-56 origin-top-right rounded-xl bg-surface border border-muted shadow-lg ring-1 ring-black/5 z-50
           transition-opacity duration-150 ease-out
-          data-[closed]:opacity-0 data-[enter]:opacity-100"
+          data-closed:opacity-0 data-enter:opacity-100"
       >
         <div className="p-2 space-y-1">
           {navItems.map(({ icon, label, href, isDanger }, index) => (
