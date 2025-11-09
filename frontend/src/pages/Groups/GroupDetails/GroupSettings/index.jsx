@@ -53,8 +53,8 @@ export default function GroupSettings() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-primary/10 via-background to-surface flex justify-center items-start p-6 sm:p-10 font-principal">
-      <main className="w-full max-w-3xl bg-surface/80 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl p-8 sm:p-10 space-y-10 text-text transition-all duration-300 hover:shadow-[0_0_30px_-5px_rgba(0,0,0,0.2)]">
+    <div className="min-h-screen  flex justify-center items-start p-6 sm:p-10 font-principal">
+      <main className="w-full max-w-3xl bg-surface/80 backdrop-blur-xl border border-white/10 rounded-3xl  p-8 sm:p-10 space-y-10 text-text transition-all duration-300 ">
         {/* Cabeçalho */}
         <header className="relative text-center pb-6 border-b border-white/10">
           <div className="absolute inset-0 bg-linear-to-r from-primary/20 to-transparent blur-2xl rounded-3xl" />
@@ -106,7 +106,7 @@ export default function GroupSettings() {
           </section>
 
           {/* Acesso ao Gerenciamento de Membros */}
-          <section className="bg-white/5 border border-white/10 rounded-2xl shadow-lg p-8 text-center backdrop-blur-sm hover:bg-white/10 transition-all flex flex-col items-center gap-4">
+          <section className="bg-white/5 border border-white/10 rounded-2xl  p-8 text-center backdrop-blur-sm hover:bg-white/10 transition-all flex flex-col items-center gap-4">
             <FiUsers className="w-12 h-12 text-primary mb-2" />
             <h2 className="text-lg sm:text-xl font-semibold text-text">
               Gerenciar membros do grupo

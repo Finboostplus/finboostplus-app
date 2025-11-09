@@ -30,12 +30,8 @@ export async function protectRoutersLoader({ request, params }) {
     staleTime: Infinity,
   });
 
-  // 🚫 5. Bloqueia se não for dono
   if (authority !== 'OWNER') {
-    throw new Response('Você não pode acessar essa página!', {
-      status: 403,
-      statusText: 'Acesso negado!',
-    });
+    return redirect(path.split('/settings')[0]);
   }
 
   return null;

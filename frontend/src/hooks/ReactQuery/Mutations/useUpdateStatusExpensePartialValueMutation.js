@@ -24,8 +24,14 @@ export function useUpdateStatusExpensePartialValueMutation() {
       queryClient.invalidateQueries({
         queryKey: [REACTQUERY_KEYS.GROUPS.ALL, 'page'],
       });
+
       queryClient.invalidateQueries({
-        queryKey: [REACTQUERY_KEYS.GROUPS.EXPENSES],
+        queryKey: [
+          REACTQUERY_KEYS.GROUPS.EXPENSES,
+          'groups',
+          Number(group_id),
+          Number(expense_id),
+        ],
       });
       customToast(
         'Status atualizado',

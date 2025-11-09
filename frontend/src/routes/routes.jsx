@@ -9,6 +9,8 @@ import Layout from '../components/Layout';
 import App from '../App';
 import ExpenseDetails from '../pages/Expenses/ExpenseDetails';
 import { redirectIfAuthenticatedLoader } from '../loaders/redirectIfAuthenticatedLoader';
+import NotFound from '../pages/Notfound';
+import { expenseLoader } from '../loaders/expenseLoader';
 
 const Login = lazy(() => import('../pages/Login'));
 const Register = lazy(() => import('../pages/Register'));
@@ -18,7 +20,6 @@ const Profile = lazy(() => import('../pages/Profile'));
 const GroupSettings = lazy(
   () => import('../pages/Groups/GroupDetails/GroupSettings')
 );
-const NotFound = lazy(() => import('../pages/Notfound'));
 
 // Export router diretamente (não como função)
 export const appRouter = createBrowserRouter([
@@ -53,6 +54,7 @@ export const appRouter = createBrowserRouter([
               {
                 path: ':group_id/expenses/:expense_id',
                 element: <ExpenseDetails />,
+                loader: expenseLoader,
               },
               {
                 path: ':group_id/settings',

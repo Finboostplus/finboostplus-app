@@ -4,7 +4,7 @@ import {
   EXPENSE_STATUS,
   STATUS_COLORS,
 } from '../../Groups/GroupDetails/statusExpense';
-import { Form, useNavigate, useParams } from 'react-router';
+import { Form, useLoaderData, useNavigate, useParams } from 'react-router';
 import { formatBRL, formatDateBR } from '../../../utils/formatters';
 import InputUI from '../../../components/ui/Input';
 import TextareaUI from '../../../components/ui/Textarea';
@@ -19,30 +19,18 @@ import { getCurrentDate } from '../../../utils/helpers';
 import { ConfirmModal } from '../../../components/Modal';
 import { validateExpensePayload } from '../../../schemas/createNewExpense/updateExpenseForm';
 import { customToast } from '../../../components/CustomToast';
-import { useQuery } from '@tanstack/react-query';
-import { REACTQUERY_KEYS } from '../../../libs/ReactQuery/keys';
-import useMeQuery from '../../../hooks/ReactQuery/Queries/useMeQuery';
-import { getGroupUserAuthenticatedAuthority } from '../../../services/groups';
 import { MdOutlineFactCheck } from 'react-icons/md';
 export default function ExpenseDetails() {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const navigate = useNavigate();
   const { group_id, expense_id } = useParams();
-  const { data } = useMeQuery();
-  const { id: userId } = data;
-  const { data: authority } = useQuery({
-    queryKey: [REACTQUERY_KEYS.GROUPS.ME_AUTHORITY, group_id, userId],
-    queryFn: () => getGroupUserAuthenticatedAuthority(group_id, userId),
-    enabled: !!group_id && !!userId,
-  });
+  const loaderData = useLoaderData();
+  const authority = loaderData;
   const canEditExpense = ['OWNER', 'ADMIN'].includes(authority); // pode editar campos
   const canChangeStatus = authority === 'OWNER'; // só OWNER altera status
 
-  const {
-    data: expense,
-    isLoading: isLoadingExpense,
-    isError,
-  } = useGroupExpenseByIdQuery(group_id, expense_id);
+  const { data: expense, isLoading: isLoadingExpense } =
+    useGroupExpenseByIdQuery(group_id, expense_id);
 
   const { data: categories } = useAllGroupExpenseCategoriesQuery();
   const { mutateAsync, isPending: isLoading } =
@@ -69,9 +57,6 @@ export default function ExpenseDetails() {
       });
     }
   }, [expense]);
-
-  if (isLoadingExpense)
-    return <p className="text-center text-muted">Carregando...</p>;
 
   const color = STATUS_COLORS[expense?.status] || STATUS_COLORS.DEFAULT;
 
@@ -114,6 +99,10 @@ export default function ExpenseDetails() {
     }
   }
 
+  if (isLoadingExpense) {
+    return <span>Carregado...</span>;
+  }
+
   return (
     <Form
       onSubmit={handleSubmit}
@@ -130,7 +119,7 @@ export default function ExpenseDetails() {
             <div className="flex items-center flex-wrap gap-3">
               <h2 className="text-2xl font-bold text-text">{expense.title}</h2>
               <span
-                className={`inline-block text-sm font-semibold px-3 py-1 rounded-full ${color.bg} ${color.text}`}
+                className={`inline-block text-sm font-semibold px-3 py-1 rounded-full ${color.bg} text-white`}
               >
                 {EXPENSE_STATUS[expense.status] || 'DESCONHECIDO'}
               </span>
@@ -148,7 +137,7 @@ export default function ExpenseDetails() {
 
                 return (
                   <div className="flex flex-col gap-1 w-full max-w-[250px]">
-                    <div className="flex justify-between text-xs font-medium text-muted">
+                    <div className="flex gap-2 justify-between text-xs font-medium text-muted">
                       <span>
                         {formatBRL(totalPago)} / {formatBRL(total)}
                       </span>
@@ -177,8 +166,8 @@ export default function ExpenseDetails() {
           </div>
         </div>
 
-        <p className="text-sm text-muted whitespace-nowrap">
-          Criado em{' '}
+        <p className="inline-flex gap-1 text-sm text-muted whitespace-nowrap">
+          Criado em:{' '}
           <span className="font-medium text-text">
             {formatDateBR(expense.createdAt)}
           </span>
@@ -268,6 +257,7 @@ export default function ExpenseDetails() {
                 <SelectUI
                   label="Categoria"
                   name="categoryId"
+                  className="cursor-pointer"
                   value={formData.categoryId}
                   onChange={handleChange}
                   options={categories.map(c => ({
