@@ -75,7 +75,7 @@ export default function AddMemberForm({ onSubmit, onCancel }) {
           <ButtonUI
             type="button"
             onClick={onCancel}
-            className="px-6 py-2 rounded-lg font-semibold shadow-md bg-muted text-white hover:bg-muted/80 transition"
+            className="px-6 py-2 cursor-pointer rounded-lg font-semibold shadow-md bg-muted text-white hover:bg-muted/80 transition"
           >
             Cancelar
           </ButtonUI>
@@ -83,11 +83,8 @@ export default function AddMemberForm({ onSubmit, onCancel }) {
         <ButtonUI
           type="submit"
           disabled={isSubmitDisabled}
-          className={`px-6 py-2 rounded-lg font-semibold shadow-md text-white transition ${
-            isSubmitDisabled
-              ? 'bg-primary/60 cursor-not-allowed opacity-70'
-              : 'bg-primary hover:bg-primary/90 active:bg-primary-dark'
-          }`}
+          className={`px-6 py-2 disabled:bg-muted/20 disabled:cursor-not-allowed cursor-pointer rounded-lg font-semibold shadow-md text-white transition bg-primary hover:bg-primary/90 active:bg-primary-dark 
+           `}
         >
           {isSubmitting ? 'Adicionando...' : 'Adicionar'}
         </ButtonUI>

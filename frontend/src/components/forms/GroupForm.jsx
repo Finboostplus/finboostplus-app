@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import InputUI from '../ui/Input';
 import ButtonUI from '../ui/Button';
@@ -46,15 +46,18 @@ export default function GroupForm({ page }) {
   const IconComponent = entry.icon;
   const iconColor = entry.color;
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-
-    mutateAsync({
-      name: groupName,
-      description,
-      icon: selectedIcon,
-    });
-  };
+  const handleSubmit = useCallback(
+    async e => {
+      e.preventDefault();
+      if (isPending || isDisabled) return;
+      mutateAsync({
+        name: groupName,
+        description,
+        icon: selectedIcon,
+      });
+    },
+    [isPending, isDisabled]
+  );
 
   return (
     <Form
