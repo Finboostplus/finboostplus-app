@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { TbPigMoney } from 'react-icons/tb';
 import {
   EXPENSE_STATUS,
@@ -20,20 +20,28 @@ import { ConfirmModal } from '../../../components/Modal';
 import { validateExpensePayload } from '../../../schemas/createNewExpense/updateExpenseForm';
 import { customToast } from '../../../components/CustomToast';
 import { MdOutlineFactCheck } from 'react-icons/md';
+import { NotFoundError } from '../../../utils/errors';
+import { usePermissions } from '../../Groups/GroupDetails/usePermissions';
 export default function ExpenseDetails() {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const navigate = useNavigate();
   const { group_id, expense_id } = useParams();
   const loaderData = useLoaderData();
   const authority = loaderData;
-  const canEditExpense = ['OWNER', 'ADMIN'].includes(authority); // pode editar campos
-  const canChangeStatus = authority === 'OWNER'; // só OWNER altera status
+  const { canEditExpenses, canChangeStatusExpenses, canDeleteExpenses } =
+    usePermissions(authority);
+  const {
+    data: expense,
+    isLoading: isLoadingExpense,
+    isError,
+  } = useGroupExpenseByIdQuery(group_id, expense_id);
 
-  const { data: expense, isLoading: isLoadingExpense } =
-    useGroupExpenseByIdQuery(group_id, expense_id);
+  if (isError) {
+    throw new NotFoundError('A despesa solicitada não foi encontrada.');
+  }
 
   const { data: categories } = useAllGroupExpenseCategoriesQuery();
-  const { mutateAsync, isPending: isLoading } =
+  const { mutateAsync: mutateStatus, isPending: isLoadingStatus } =
     useUpdateStatusExpensePartialValueMutation();
   const { mutateAsync: updateExpense, isPending } =
     useUpdateGroupExpenseByIdMutation();
@@ -58,23 +66,33 @@ export default function ExpenseDetails() {
     }
   }, [expense]);
 
-  const color = STATUS_COLORS[expense?.status] || STATUS_COLORS.DEFAULT;
-
-  function handleChange(e) {
+  const handleChange = e => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-  }
+  };
 
-  async function handleSubmit(e) {
+  // Verifica se há alterações em relação à despesa original
+  const hasChanges = useMemo(() => {
+    if (!expense) return false;
+    return (
+      formData.title.trim() !== '' && // título obrigatório
+      (formData.title !== expense.title ||
+        formData.description !== (expense.description ?? '') ||
+        formData.categoryId !== expense.categoryId ||
+        formData.deadlineDate !== expense.deadlineDate)
+    );
+  }, [formData, expense]);
+
+  const handleSubmit = async e => {
     e.preventDefault();
-    if (!canEditExpense) return; // bloqueia edição
+    if (!canEditExpenses || !hasChanges) return;
 
     try {
       const data = {
         title: formData.title,
         description: formData.description,
-        deadlineDate: formData.deadlineDate,
         categoryId: formData.categoryId,
+        deadlineDate: formData.deadlineDate,
       };
       const validation = validateExpensePayload(data);
       if (!validation.success) {
@@ -87,21 +105,20 @@ export default function ExpenseDetails() {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-  async function handleChangeStatusExpensePartialValue(member_id) {
-    if (!canChangeStatus) return; // bloqueia alteração de status
+  const handleChangeStatusExpensePartialValue = async member_id => {
+    if (!canChangeStatusExpenses) return;
     try {
-      const data = { group_id, expense_id, member_id };
-      await mutateAsync(data);
+      await mutateStatus({ group_id, expense_id, member_id });
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-  if (isLoadingExpense) {
-    return <span>Carregado...</span>;
-  }
+  if (isLoadingExpense) return <span>Carregado...</span>;
+
+  const color = STATUS_COLORS[expense?.status] || STATUS_COLORS.DEFAULT;
 
   return (
     <Form
@@ -114,7 +131,6 @@ export default function ExpenseDetails() {
           <div className="p-3 rounded-2xl bg-primary/10 text-primary shadow-md">
             <TbPigMoney className="w-8 h-8" />
           </div>
-
           <div className="flex flex-col gap-2">
             <div className="flex items-center flex-wrap gap-3">
               <h2 className="text-2xl font-bold text-text">{expense.title}</h2>
@@ -124,8 +140,6 @@ export default function ExpenseDetails() {
                 {EXPENSE_STATUS[expense.status] || 'DESCONHECIDO'}
               </span>
             </div>
-
-            {/* Progresso de pagamento */}
             {expense.memberList?.length > 0 &&
               (() => {
                 const totalPago = expense.memberList
@@ -142,21 +156,16 @@ export default function ExpenseDetails() {
                         {formatBRL(totalPago)} / {formatBRL(total)}
                       </span>
                       <span
-                        className={`font-semibold ${
-                          allPaid ? 'text-green-500' : 'text-muted'
-                        }`}
+                        className={`font-semibold ${allPaid ? 'text-green-500' : 'text-muted'}`}
                       >
                         {allPaid
                           ? 'Pago totalmente ✅'
                           : `${Math.floor(porcentagem)}% pago`}
                       </span>
                     </div>
-
                     <div className="w-full bg-border rounded-full h-2 overflow-hidden">
                       <div
-                        className={`h-full transition-all duration-500 ${
-                          allPaid ? 'bg-green-500' : 'bg-primary'
-                        }`}
+                        className={`h-full transition-all duration-500 ${allPaid ? 'bg-green-500' : 'bg-primary'}`}
                         style={{ width: `${porcentagem}%` }}
                       />
                     </div>
@@ -165,7 +174,6 @@ export default function ExpenseDetails() {
               })()}
           </div>
         </div>
-
         <p className="inline-flex gap-1 text-sm text-muted whitespace-nowrap">
           Criado em:{' '}
           <span className="font-medium text-text">
@@ -179,7 +187,6 @@ export default function ExpenseDetails() {
         <h3 className="text-lg font-semibold text-text mb-4">
           Informações da Despesa
         </h3>
-
         <div className="grid sm:grid-cols-2 gap-4">
           <div className="bg-secondary/10 p-4 rounded-xl">
             <p className="text-sm text-muted font-medium">Grupo</p>
@@ -187,14 +194,12 @@ export default function ExpenseDetails() {
               {expense.groupName}
             </p>
           </div>
-
           <div className="bg-secondary/10 p-4 rounded-xl">
             <p className="text-sm text-muted font-medium">Total</p>
             <p className="text-base font-semibold text-text">
               {formatBRL(expense.total)}
             </p>
           </div>
-
           <div className="bg-secondary/10 p-4 rounded-xl sm:col-span-2">
             <p className="text-sm text-muted font-medium">Categoria Atual</p>
             <p className="text-base font-semibold text-text">
@@ -205,32 +210,30 @@ export default function ExpenseDetails() {
       </section>
 
       {/* Campos editáveis */}
-      {canEditExpense && (
+      {canEditExpenses && (
         <section className="bg-linear-to-br from-background via-secondary/5 to-background border border-border rounded-2xl p-6 shadow-md transition-all duration-200 hover:shadow-lg">
           <h3 className="text-lg font-semibold text-text mb-6 flex items-center gap-2">
             ✏️ Editar informações da despesa
           </h3>
-
           <div className="grid gap-6">
             <InputUI
               label="Título"
               name="title"
+              className="bg-white"
               placeholder="Título da despesa"
               value={formData.title}
               onChange={handleChange}
             />
-
             <TextareaUI
               label="Descrição"
               name="description"
               placeholder="Descrição da despesa..."
               value={formData.description}
               onChange={handleChange}
-              className="w-full min-h-[100px] rounded-lg border border-border bg-background px-3 py-2 text-text shadow-sm transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/30 placeholder:text-muted resize-none"
+              className="w-full min-h-[100px] rounded-lg border border-border bg-background px-3 py-2 text-text shadow-sm transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/30 placeholder:text-muted resize-none bg-white"
             />
-
             <div className="grid sm:grid-cols-2 gap-6">
-              <div className="flex  flex-col gap-2">
+              <div className="flex flex-col gap-2">
                 <label
                   htmlFor="deadlineDate"
                   className="text-sm font-semibold text-text flex items-center gap-2"
@@ -242,7 +245,6 @@ export default function ExpenseDetails() {
                     (data limite da despesa)
                   </span>
                 </label>
-
                 <InputUI
                   id="deadlineDate"
                   type="date"
@@ -250,7 +252,7 @@ export default function ExpenseDetails() {
                   min={getCurrentDate()}
                   value={formData.deadlineDate}
                   onChange={handleChange}
-                  className="focus:ring-2 focus:ring-primary/50 transition-all"
+                  className="focus:ring-2 bg-white focus:ring-primary/50 transition-all"
                 />
               </div>
               <div className="flex items-end">
@@ -277,18 +279,26 @@ export default function ExpenseDetails() {
             <div className="flex justify-end gap-3 pt-2">
               <ButtonUI
                 type="submit"
-                className="px-6 py-2 cursor-pointer font-semibold rounded-lg shadow-md bg-primary text-white hover:bg-primary/90 transition-all hover:scale-[1.02] active:scale-95"
+                disabled={!hasChanges || isPending}
+                title={
+                  !hasChanges
+                    ? 'Sem alterações ou título vazio'
+                    : 'Salvar alterações'
+                }
+                className="px-6 disabled:bg-muted/70 disabled:scale-none disabled:shadow-none disabled:cursor-not-allowed py-2 cursor-pointer font-semibold rounded-lg shadow-md bg-primary text-white hover:bg-primary/90 transition-all hover:scale-[1.02] active:scale-95"
               >
                 {isPending ? 'Enviando...' : 'Salvar alterações'}
               </ButtonUI>
 
-              <ButtonUI
-                type="button"
-                onClick={() => setIsOpenConfirmModal(true)}
-                className="px-6 py-2 font-semibold rounded-lg shadow-md bg-error text-white hover:bg-red-500 transition-all hover:scale-[1.02] active:scale-95 cursor-pointer"
-              >
-                {isDeleting ? 'Excluindo...' : 'Excluir despesa'}
-              </ButtonUI>
+              {canDeleteExpenses && (
+                <ButtonUI
+                  type="button"
+                  onClick={() => setIsOpenConfirmModal(true)}
+                  className="px-6 py-2 font-semibold rounded-lg shadow-md bg-error text-white hover:bg-red-500 transition-all hover:scale-[1.02] active:scale-95 cursor-pointer"
+                >
+                  {isDeleting ? 'Excluindo...' : 'Excluir despesa'}
+                </ButtonUI>
+              )}
 
               <ConfirmModal
                 isOpen={isOpenConfirmModal}
@@ -305,7 +315,7 @@ export default function ExpenseDetails() {
                 }}
                 cancelLabel="Voltar"
                 confirmLabel="Excluir"
-                message="Tem certeza que deseja excluir esta despesa? Essa ação não pode ser desfeita."
+                message="Tem certeza que deseja excluir esta despesa? Esta ação não pode ser desfeita."
               />
             </div>
           </div>
@@ -314,13 +324,10 @@ export default function ExpenseDetails() {
 
       {/* Participantes */}
       <section className="mt-10">
-        <div className="flex items-center justify-between mb-6  pb-2">
-          {/* Título Principal: Mais forte e com cor sutil */}
+        <div className="flex items-center justify-between mb-6 pb-2">
           <h3 className="text-xl font-bold text-text dark:text-primary-300">
             👥 Participantes
           </h3>
-
-          {/* Status da Despesa: Fonte menor e cinza sutil */}
           <span className="text-sm font-medium text-muted flex items-center gap-2">
             <span>Status da Despesa</span>
             <MdOutlineFactCheck size={20} />
@@ -329,18 +336,17 @@ export default function ExpenseDetails() {
 
         <div className="space-y-4">
           {expense.memberList?.map(member => {
-            const status = member.status;
             const statusMap = {
               PAID: { label: 'Pago' },
               PENDING: { label: 'Aguardando pagamento' },
               UNPAID: { label: 'Não pago' },
             };
-            const currentStatus = statusMap[status] || statusMap.UNPAID;
+            const currentStatus = statusMap[member.status] || statusMap.UNPAID;
 
             return (
               <div
                 key={member.userId}
-                className="flex items-center justify-between bg-secondary/10 hover:bg-secondary/20 transition-all rounded-2xl p-4 shadow-sm"
+                className="flex items-center justify-between bg-secondary/10 transition-all rounded-2xl p-4 shadow-sm"
               >
                 <div>
                   <p className="font-semibold text-text">{member.userName}</p>
@@ -358,11 +364,13 @@ export default function ExpenseDetails() {
                   onClick={() =>
                     handleChangeStatusExpensePartialValue(member.userId)
                   }
-                  disabled={isLoading || !canChangeStatus} // bloqueia se não pode alterar
-                  className={`flex min-w-[130px] cursor-pointer justify-center items-center gap-2 px-5 py-2 rounded-lg font-medium shadow-sm transition-all text-white ${STATUS_COLORS[member.status].bg}`}
+                  disabled={!canChangeStatusExpenses}
+                  className={`flex min-w-[130px] disabled:cursor-auto cursor-pointer justify-center items-center gap-2 px-5 py-2 rounded-lg font-medium shadow-sm transition-all text-white ${STATUS_COLORS[member.status].bg}`}
                   type="button"
                 >
-                  {isLoading ? 'ALTERANDO...' : EXPENSE_STATUS[member.status]}
+                  {isLoadingStatus
+                    ? 'ALTERANDO...'
+                    : EXPENSE_STATUS[member.status]}
                 </ButtonUI>
               </div>
             );

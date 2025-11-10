@@ -28,6 +28,14 @@ export function useUpdateStatusExpensePartialValueMutation() {
       queryClient.invalidateQueries({
         queryKey: [
           REACTQUERY_KEYS.GROUPS.EXPENSES,
+          'filters',
+          Number(group_id),
+        ],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: [
+          REACTQUERY_KEYS.GROUPS.EXPENSES,
           'groups',
           Number(group_id),
           Number(expense_id),

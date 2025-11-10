@@ -10,8 +10,9 @@ const PERMISSIONS = {
   VIEW_ALL_EXPENSES: [ROLES.admin, ROLES.owner],
   EDIT_EXPENSES: [ROLES.admin, ROLES.owner],
   EDIT_EXPENSE_VALUE: [ROLES.owner],
-  DELETE_EXPENSES: [ROLES.admin, ROLES.owner],
+  DELETE_EXPENSES: [ROLES.owner],
   CREATE_EXPENSES: [ROLES.admin, ROLES.owner],
+  CHANGE_STATUS_EXPENSES: [ROLES.owner],
 
   // 👥 Membros
   MANAGE_MEMBERS: [ROLES.admin, ROLES.owner],
@@ -19,6 +20,7 @@ const PERMISSIONS = {
   // 🏠 Grupo
   EDIT_GROUP_INFO: [ROLES.owner],
   DELETE_GROUP: [ROLES.owner],
+  ADD_GROUP_MEMEBER: [ROLES.owner, ROLES.admin],
 
   // 📊 Extras
   GENERATE_REPORTS: [ROLES.owner],

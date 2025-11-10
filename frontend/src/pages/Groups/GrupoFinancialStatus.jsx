@@ -18,7 +18,10 @@ export default function GroupFinancialStatus({ group, variant = 'compact' }) {
         <span className="flex items-center gap-2 text-muted">
           <TbCoin className={`text-base ${colorClass}`} />
           <span className={`font-medium ${colorClass}`}>
-            {formatBRL(group?.total)}
+            {formatBRL(group?.total, {
+              style: 'decimal',
+              notation: 'compact',
+            })}
           </span>
         </span>
 
@@ -29,7 +32,10 @@ export default function GroupFinancialStatus({ group, variant = 'compact' }) {
               group?.partial_total <= 0 ? 'text-success' : 'text-error'
             }`}
           >
-            {formatBRL(group?.partial_total)}
+            {formatBRL(group?.partial_total, {
+              style: 'decimal',
+              notation: 'compact',
+            })}
           </span>
         </span>
       </div>

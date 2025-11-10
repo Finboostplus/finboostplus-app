@@ -158,7 +158,9 @@ export default function ExpensesList({ groupID, authorization }) {
                     <span
                       className={`block font-semibold text-base sm:text-lg ${color.text}`}
                     >
-                      {formatBRL(expense.partialValue ?? expense.total)}
+                      {formatBRL(
+                        allMembers ? expense.total : expense.partialValue
+                      )}
                     </span>
 
                     {/* Prazo */}

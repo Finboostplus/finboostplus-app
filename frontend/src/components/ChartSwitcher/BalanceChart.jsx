@@ -25,14 +25,19 @@ export default function BalanceChart() {
     })) ?? [];
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer
+      lassName="relative w-full aspect-[4/3] sm:aspect-[5/3] rounded-xl"
+      width="100%"
+      height="100%"
+    >
       <AreaChart
         data={expensesByMonthly}
-        margin={{ top: 10, right: 30, left: 30, bottom: 10 }}
+        margin={{ top: 15, right: 35, left: 0, bottom: 5 }}
       >
-        {/* Grade */}
+        {/* Linhas de grade */}
         <CartesianGrid stroke="var(--color-border)" strokeDasharray="3 3" />
 
+        {/* Eixo X (meses) */}
         <XAxis
           dataKey="name"
           stroke="var(--color-text)"
@@ -41,30 +46,37 @@ export default function BalanceChart() {
           tickLine={false}
         />
 
+        {/* Eixo Y (valores) */}
         <YAxis
           stroke="var(--color-text)"
           tickFormatter={value => formatBRL(value)}
           tick={{ fontSize: 12, fill: 'var(--color-text)' }}
           axisLine={false}
           tickLine={false}
+          width={80}
         />
 
-        {/* Tooltip com tema dinâmico */}
+        {/* Tooltip estilizado */}
         <Tooltip
-          formatter={value => formatBRL(value)}
-          contentStyle={{
-            backgroundColor: 'var(--color-surface)',
-            borderColor: 'var(--color-border)',
-            color: 'var(--color-text)',
+          content={({ active, payload, label }) => {
+            if (active && payload && payload.length) {
+              return (
+                <div className="bg-surface border border-border/40 shadow-md rounded-lg px-3 py-2 text-sm text-text">
+                  <p className="font-semibold">{label}</p>
+                  <p className="text-muted-foreground">
+                    Despesas:{' '}
+                    <span className="font-medium">
+                      {formatBRL(payload[0].value)}
+                    </span>
+                  </p>
+                </div>
+              );
+            }
+            return null;
           }}
-          labelStyle={{
-            color: 'var(--color-text-muted)',
-            fontWeight: 500,
-          }}
-          itemStyle={{ color: 'var(--color-text)' }}
         />
 
-        {/* Gradiente suave (segue o tema pelas CSS vars) */}
+        {/* Gradiente suave (mantém o tema dinâmico) */}
         <defs>
           <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
             <stop
@@ -84,7 +96,9 @@ export default function BalanceChart() {
           stroke="var(--color-error)"
           fill="url(#colorExpense)"
           strokeWidth={2}
-          animationDuration={800}
+          dot={{ r: 3, strokeWidth: 1, fill: 'var(--color-error)' }}
+          activeDot={{ r: 5 }}
+          animationDuration={700}
         />
       </AreaChart>
     </ResponsiveContainer>

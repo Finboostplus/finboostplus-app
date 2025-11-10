@@ -78,14 +78,14 @@ export default function Modal({
             >
               <DialogPanel
                 className="w-full max-w-lg sm:max-w-xl md:max-w-2xl max-h-[90vh] overflow-y-auto 
-                           rounded-2xl p-6 sm:p-8 relative shadow-lg transition-all font-[var(--font-principal)]
-                           bg-[var(--color-surface)] text-[var(--color-text)]"
+                           rounded-2xl p-6 sm:p-8 relative shadow-lg transition-all font-principal
+                           bg-surface text-text"
                 data-testid="modal-panel"
               >
                 <ButtonUI
                   aria-label="Fechar modal"
                   onClick={handleCloseAttempt}
-                  className="text-3xl font-extrabold text-white bg-[var(--color-error)] 
+                  className="text-3xl font-extrabold text-white bg-error 
                 w-10 h-10 rounded-lg absolute top-3 right-3 opacity-80 
                 hover:opacity-100 transition-opacity cursor-pointer shadow-md flex justify-center"
                 >

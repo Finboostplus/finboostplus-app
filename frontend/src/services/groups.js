@@ -64,7 +64,7 @@ export const getGroupById = async id => {
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Erro ao obter grupo - id:', id);
+    throw error;
   }
 };
 //Obter todas as categorias de despesa de um grupo
@@ -133,11 +133,7 @@ export const getGroupExpenseById = async (group_id, expense_id) => {
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error(
-      'Erro ao obter uma despesa específica de um grupo - id da despesa e grupo:',
-      expense_id,
-      group_id
-    );
+    throw error;
   }
 };
 
@@ -211,6 +207,25 @@ export const getGroupUserAuthenticatedAuthority = async (group_id, userId) => {
       `/groups/${group_id}/members/${userId}/authority`
     );
     return response.data.authority;
+  } catch (error) {
+    throw error;
+  }
+};
+export const leaveGroup = async group_id => {
+  try {
+    const response = await apiApplication.delete(`/groups/${group_id}/members`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const addMemberGroup = async (group_id, data) => {
+  try {
+    const response = await apiApplication.post(
+      `/groups/${group_id}/members`,
+      data
+    );
+    return response.data;
   } catch (error) {
     throw error;
   }
