@@ -16,7 +16,6 @@ export const login = ({ username, password }) => {
       config
     )
     .then(({ data }) => {
-      console.log(data);
       return { value: data };
     })
     .catch(error => {

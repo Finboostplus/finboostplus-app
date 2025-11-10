@@ -9,7 +9,6 @@ export function useCreateExpenseMutation(groupID) {
     mutationFn: expenseData => createExpense(groupID, expenseData),
 
     onSuccess: (_response, expenseData) => {
-      console.log({ expenseData, groupID });
       // 1. Invalida os detalhes do Grupo ESPECÍFICO (passando o ID)
       queryClient.invalidateQueries({
         queryKey: [REACTQUERY_KEYS.GROUPS.ALL, 'detail', Number(groupID)],
@@ -26,6 +25,10 @@ export function useCreateExpenseMutation(groupID) {
       // Se ela usa o groupID, inclua o ID aqui:
       queryClient.invalidateQueries({
         queryKey: [REACTQUERY_KEYS.GROUPS.EXPENSES, 'filters', Number(groupID)],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: [REACTQUERY_KEYS.GROUPS.ALL, 'page'],
       });
 
       // Se a chave de despesas é genérica:

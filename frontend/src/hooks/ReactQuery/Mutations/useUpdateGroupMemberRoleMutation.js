@@ -17,8 +17,8 @@ export function useUpdateRoleGroupMemberMutation(groupID, page, search) {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: search
-          ? [REACTQUERY_KEYS.MEMBERS.ALL, Number(groupID), page, search]
-          : [REACTQUERY_KEYS.MEMBERS.ALL, Number(groupID), page],
+          ? [REACTQUERY_KEYS.MEMBERS.ALL, 'page', Number(groupID), page, search]
+          : [REACTQUERY_KEYS.MEMBERS.ALL, 'page', Number(groupID), page],
       });
       customToast(
         'Despesa atualizada com sucesso',

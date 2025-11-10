@@ -70,8 +70,6 @@ export default function ExpenseForm({ groupData: group }) {
           ),
         };
 
-        console.log('💾 Dados da despesa preparados:', expenseData);
-
         await useExpenseMutation.mutateAsync(expenseData, {
           onSuccess: () =>
             customToast(
@@ -80,7 +78,6 @@ export default function ExpenseForm({ groupData: group }) {
               'success'
             ),
           onError: ({ response: { data: error } }) => {
-            console.log({ error });
             customToast(error.title, error.message, 'error');
           },
           onSettled: () => setIsSubmitting(false),

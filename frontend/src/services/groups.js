@@ -129,7 +129,7 @@ export const getGroupExpenseById = async (group_id, expense_id) => {
     const response = await apiApplication.get(
       `/groups/${group_id}/expenses/${expense_id}`
     );
-    console.log(response);
+
     return response.data;
   } catch (error) {
     console.error(error);
@@ -157,7 +157,6 @@ export const updatePartialValueExpenseStatus = async (
 };
 
 export const updateExpenseDetails = async (group_id, expense_id, data) => {
-  console.log({ group_id, expense_id, data });
   try {
     const response = await apiApplication.put(
       `/groups/${group_id}/expenses/${expense_id}`,
@@ -201,6 +200,17 @@ export const updateRoleGroupMember = async (group_id, member_id, newRole) => {
     );
 
     return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getGroupUserAuthenticatedAuthority = async (group_id, userId) => {
+  try {
+    const response = await apiApplication.get(
+      `/groups/${group_id}/members/${userId}/authority`
+    );
+    return response.data.authority;
   } catch (error) {
     throw error;
   }

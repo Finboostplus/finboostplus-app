@@ -76,13 +76,13 @@ export default function ListMembers({
               >
                 <div className="flex items-center gap-3 flex-1">
                   <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-white text-sm shadow-sm group-hover:scale-105 transition-transform duration-200"
+                    className="w-10 h-10 uppercase rounded-full flex items-center justify-center font-semibold text-white text-sm shadow-sm group-hover:scale-105 transition-transform duration-200"
                     style={{ backgroundColor: member.themeColor || '#888' }}
                   >
-                    {member.name[0].toUpperCase()}
+                    {member.name[0]}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-text font-medium leading-tight truncate">
+                    <span className="text-text capitalize font-medium leading-tight truncate">
                       {member.name}
                     </span>
                     {member.authority && (

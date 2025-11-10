@@ -16,30 +16,36 @@ import com.finboostplus.projection.GroupProjection;
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
 	@Query(nativeQuery = true, value = """
-			SELECT
-				G.ID AS GROUP_ID,
-				G.NAME,
-				G.DESCRIPTION,
-				GM.AUTH_LEVEL AS AUTHORITY,
-				G.ICON,
-				G.CREATED_AT,
-				COALESCE(SUM(UED.PARTIAL_VALUE), 0) AS PARTIAL_TOTAL,
-				COALESCE(SUM(E.VALUE), 0) AS TOTAL
-			FROM
-				GROUPS G
-				INNER JOIN GROUP_MEMBERS GM ON GM.GROUP_ID = G.ID
-				LEFT JOIN EXPENSES E ON E.GROUP_ID = G.ID
-				AND E.STATUS != 'PAID' -- aplica filtro no join!
-				LEFT JOIN USER_EXPENSE_DIVISIONS UED ON UED.EXPENSE_ID = E.ID
-				AND UED.USER_ID = :memberId
-				AND UED.STATUS != 'PAID'
-			GROUP BY
-				G.ID,
-				G.NAME,
-				G.DESCRIPTION,
-				GM.AUTH_LEVEL,
-				G.ICON,
-				G.CREATED_AT
+			    SELECT
+			        G.ID AS GROUP_ID,
+			        G.NAME,
+			        G.DESCRIPTION,
+			        GM.AUTH_LEVEL AS AUTHORITY,
+			        G.ICON,
+			        G.CREATED_AT,
+			        COALESCE(SUM(UED.PARTIAL_VALUE), 0) AS PARTIAL_TOTAL,
+			        COALESCE(SUM(E.VALUE), 0) AS TOTAL
+			    FROM
+			        GROUPS G
+			        INNER JOIN GROUP_MEMBERS GM
+			            ON GM.GROUP_ID = G.ID
+			            AND GM.USER_ID = :memberId
+			        LEFT JOIN EXPENSES E
+			            ON E.GROUP_ID = G.ID
+			            AND E.STATUS != 'PAID'
+			        LEFT JOIN USER_EXPENSE_DIVISIONS UED
+			            ON UED.EXPENSE_ID = E.ID
+			            AND UED.USER_ID = :memberId
+			            AND UED.STATUS != 'PAID'
+			    GROUP BY
+			        G.ID,
+			        G.NAME,
+			        G.DESCRIPTION,
+			        GM.AUTH_LEVEL,
+			        G.ICON,
+			        G.CREATED_AT
+			    ORDER BY
+			        G.CREATED_AT DESC
 			""")
 	Page<GroupProjection> listUserGroupsPaged(Long memberId, Pageable pageable);
 
@@ -60,35 +66,31 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 
 	@Query(nativeQuery = true, value = """
 			SELECT
-				G.ID,
-				G.NAME,
-				G.DESCRIPTION,
-				G.ICON,
-				GM.AUTH_LEVEL AS AUTHORIZATION,
-				(
-					SELECT
-						COALESCE(SUM(UED.PARTIAL_VALUE), 0)
-					FROM
-						USER_EXPENSE_DIVISIONS UED
-					WHERE
-						UED.USER_ID = :userId
-						AND UED.STATUS != 'PAID'
-				) AS PARTIAL_TOTAL,
-				(
-					SELECT
-						COALESCE(SUM(E.VALUE), 0)
-					FROM
-						EXPENSES E
-					WHERE
-						E.GROUP_ID = :groupId
-						AND E.STATUS != 'PAID'
-				) AS TOTAL
-			FROM
-				GROUPS AS G
-				INNER JOIN GROUP_MEMBERS AS GM ON GM.GROUP_ID = G.ID
-			WHERE
-				GM.GROUP_ID = :groupId
-				AND GM.USER_ID = :userId
+			    G.ID,
+			    G.NAME,
+			    G.DESCRIPTION,
+			    G.ICON,
+			    GM.AUTH_LEVEL AS AUTHORIZATION,
+			    COALESCE((
+			        SELECT SUM(UED.PARTIAL_VALUE)
+			        FROM USER_EXPENSE_DIVISIONS UED
+			        INNER JOIN EXPENSES E ON E.ID = UED.EXPENSE_ID
+			        WHERE UED.USER_ID = :userId
+			          AND E.GROUP_ID = :groupId
+			          AND UED.STATUS != 'PAID'
+			    ), 0) AS PARTIAL_TOTAL,
+			    COALESCE((
+			        SELECT SUM(E.VALUE)
+			        FROM EXPENSES E
+			        WHERE E.GROUP_ID = :groupId
+			          AND E.STATUS != 'PAID'
+			    ), 0) AS TOTAL
+			FROM GROUPS G
+			INNER JOIN GROUP_MEMBERS GM
+			    ON GM.GROUP_ID = G.ID
+			    AND GM.USER_ID = :userId
+			WHERE G.ID = :groupId
 			""")
 	GroupDetailsDTO getGroupDetails(Long groupId, Long userId);
+
 }

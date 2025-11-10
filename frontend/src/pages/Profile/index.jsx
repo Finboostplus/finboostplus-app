@@ -19,12 +19,23 @@ import Modal from '../../components/Modal';
 import useMeQuery from '../../hooks/ReactQuery/Queries/useMeQuery';
 import { useMeDashboardQuery } from '../../hooks/ReactQuery/Queries/useMeDashboardStatsQuery';
 import { useGroupsQuery } from '../../hooks/ReactQuery/Queries/useGroupsQuery';
+import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
+import { getMeExpensesByMonthly } from '../../services/me';
+import { useQuery } from '@tanstack/react-query';
+import { getMonthlyExpensesSummary } from '../../components/SummaryCards/expenseUtils';
 
 export default function Profile() {
   const { data: user } = useMeQuery();
   const { data: dashboard } = useMeDashboardQuery();
   const { data } = useGroupsQuery();
-  console.log({ data });
+  const { data: expensesResponse } = useQuery({
+    queryKey: [REACTQUERY_KEYS.USER.DASHBOARD, 'balance'],
+    queryFn: getMeExpensesByMonthly,
+  });
+
+  const summary = expensesResponse?.length
+    ? getMonthlyExpensesSummary(expensesResponse)
+    : { totalExpenses: 0 };
   const groupsLength = data?.groupsLength;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const current_user = userData;
@@ -36,12 +47,12 @@ export default function Profile() {
         <div className="flex items-center gap-4">
           <div
             style={{ backgroundColor: user?.themeColor }}
-            className="w-14 h-14 rounded-full flex items-center justify-center font-bold text-white text-xl shadow-md"
+            className="w-14 h-14 uppercase rounded-full flex items-center justify-center font-bold text-white text-xl shadow-md"
           >
-            {user?.name[0].toUpperCase()}
+            {user?.name[0]}
           </div>
           <div>
-            <h1 className="text-xl font-semibold">{user?.name}</h1>
+            <h1 className="text-xl font-semibold capitalize">{user?.name}</h1>
             <p className="text-sm text-muted">{user?.email}</p>
           </div>
         </div>
@@ -59,8 +70,8 @@ export default function Profile() {
         </Link>
 
         <StatBox
-          number={formatBRL(current_user.dashboard.totalMonthlySpent)}
-          label="Despesas"
+          number={formatBRL(summary.totalExpenses)}
+          label="Despesas por ano"
           color="border-b-4 border-success"
           icon={<FaMoneyBillWave className="text-success text-2xl" />}
         />

@@ -16,11 +16,21 @@ export function useUpdateStatusExpensePartialValueMutation() {
     },
     onSuccess: (updatedMember, { group_id, expense_id, member_id }) => {
       queryClient.invalidateQueries({
+        queryKey: [REACTQUERY_KEYS.USER.EXPENSES, 'me'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [REACTQUERY_KEYS.GROUPS.ALL, 'detail', Number(group_id)],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [REACTQUERY_KEYS.GROUPS.ALL, 'page'],
+      });
+
+      queryClient.invalidateQueries({
         queryKey: [
           REACTQUERY_KEYS.GROUPS.EXPENSES,
           'groups',
           Number(group_id),
-          expense_id,
+          Number(expense_id),
         ],
       });
       customToast(

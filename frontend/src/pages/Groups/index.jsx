@@ -4,7 +4,6 @@ import GroupFilters from '../../components/Filters/Groups';
 import { useFilteredGroups } from '../../components/Filters/Groups/useFilteredGroups';
 import GroupForm from '../../components/forms/GroupForm';
 import CardUI from '../../components/ui/Card';
-import { formatBRL } from '../../utils/formatters';
 import { CategoryIcon } from '../../mockData/groupIcons/icons';
 import Pagination from '../../components/PaginationController';
 import useMeQuery from '../../hooks/ReactQuery/Queries/useMeQuery';
@@ -12,6 +11,7 @@ import { useGroupsQuery } from '../../hooks/ReactQuery/Queries/useGroupsQuery';
 import useGroupsWithMembers from './useGroupsWithMembers';
 import ButtonUI from '../../components/ui/Button';
 import Modal from '../../components/Modal';
+import GroupFinancialStatus from './GrupoFinancialStatus';
 
 export default function Groups() {
   const [searchParams] = useSearchParams();
@@ -101,15 +101,15 @@ export default function Groups() {
                 }`}
               >
                 {filteredGroups.map(group => {
-                  const membersData = membersMap[group?.id]?.members ?? [];
+                  const membersData = membersMap[group?.groupId]?.members ?? [];
                   const membersLength =
-                    membersMap[group?.id]?.totalElements ?? 0;
-                  const membersLoading = membersMap[group?.id]?.isLoading;
+                    membersMap[group?.groupId]?.totalElements ?? 0;
+                  const membersLoading = membersMap[group?.groupId]?.isLoading;
 
                   return (
                     <Link
-                      key={group.id}
-                      to={`/groups/${group.id}`}
+                      key={group.groupId}
+                      to={`/groups/${group.groupId}`}
                       className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg block"
                       aria-label={`Grupo ${group.name} com ${membersData.length} membros`}
                     >
@@ -141,7 +141,7 @@ export default function Groups() {
                                 .map(({ name, themeColor }, idx) => (
                                   <span
                                     key={idx}
-                                    className="text-white text-sm w-10 h-10 rounded-full flex items-center justify-center absolute border-2 border-surface shadow-md"
+                                    className="text-white uppercase text-sm w-10 h-10 rounded-full flex items-center justify-center absolute border-2 border-surface shadow-md"
                                     style={{
                                       backgroundColor: themeColor,
                                       left: `${idx * 1.4}rem`,
@@ -150,7 +150,7 @@ export default function Groups() {
                                     aria-label={`Membro: ${name}`}
                                     title={name}
                                   >
-                                    {name[0]?.toUpperCase()}
+                                    {name[0]}
                                   </span>
                                 ))}
 
@@ -169,16 +169,7 @@ export default function Groups() {
                           )}
                         </div>
 
-                        {/* Status financeiro */}
-                        <p
-                          className={`text-sm font-semibold select-none ${
-                            group.totalExpenses <= 0
-                              ? 'text-green-500'
-                              : 'text-red-500'
-                          }`}
-                        >
-                          Despesas: {formatBRL(group.totalExpenses)}
-                        </p>
+                        <GroupFinancialStatus group={group} />
                       </CardUI>
                     </Link>
                   );
