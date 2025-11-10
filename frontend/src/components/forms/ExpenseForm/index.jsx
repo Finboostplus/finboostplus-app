@@ -41,7 +41,7 @@ export default function ExpenseForm({ groupData: group }) {
   const handleExpenseSubmit = useCallback(
     async e => {
       e.preventDefault();
-
+      if (isSubmitting) return;
       if (!distributionOK) {
         return customToast(
           'Erro',
@@ -92,7 +92,7 @@ export default function ExpenseForm({ groupData: group }) {
         setIsSubmitting(false);
       }
     },
-    [amount, divisionAmount, distributionOK]
+    [amount, divisionAmount, distributionOK, isSubmitting]
   );
 
   const removeMember = memberId => {
@@ -169,16 +169,12 @@ export default function ExpenseForm({ groupData: group }) {
         )}
 
         {/* Botão de envio */}
-        <div className="col-span-2 mt-4">
+        <div className="col-span-2 mt-4 w-full flex justify-end">
           <ButtonUI
             type="submit"
             disabled={isSubmitting || !distributionOK || amount <= 0}
             aria-disabled={isSubmitting || !distributionOK || amount <= 0}
-            className={`bg-primary hover:bg-secondary text-white py-3 px-6 rounded w-full sm:w-auto font-semibold transition ${
-              isSubmitting || !distributionOK || amount <= 0
-                ? 'opacity-50 bg-gray-400! cursor-not-allowed!'
-                : 'cursor-pointer'
-            }`}
+            className={`bg-primary hover:bg-secondary text-white cursor-pointer disabled:bg-muted/20 disabled:cursor-not-allowed  py-3 px-6 rounded w-full sm:w-auto font-semibold transition`}
           >
             {isSubmitting ? 'Enviando...' : 'Adicionar Despesa'}
           </ButtonUI>

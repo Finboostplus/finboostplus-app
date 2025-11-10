@@ -23,10 +23,11 @@ export function useDeleteGroupMemberMutation(groupID, page, search) {
       });
       customToast('Membro removido', 'Membro removido com sucesso.', 'success');
     },
-    onError: () => {
+    onError: error => {
       customToast(
         'Erro ao excluir o membro do grupo',
-        'Não foi possível excluir o membro do grupo. Tente novamente.',
+        error.response?.data?.message ||
+          'Não foi possível excluir o membro do grupo. Tente novamente.',
         'error'
       );
     },
