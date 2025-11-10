@@ -131,9 +131,11 @@ Camada de interface que consome a API Spring Boot. Estrutura orientada a escalab
 │   │   ├── 📁 Logo
 │   │   │   └── 📄 index.jsx
 │   │   ├── 📁 Modal
-│   │   │   ├── 📄 ModalButton.jsx
+│   │   │   └── 📄 index.jsx
+│   │   ├── 📁 PaginationController
 │   │   │   └── 📄 index.jsx
 │   │   ├── 📁 SummaryCards
+│   │   │   ├── 📄 expenseUtils.js
 │   │   │   └── 📄 index.jsx
 │   │   ├── 📁 UserGreeting
 │   │   │   └── 📄 index.jsx
@@ -142,6 +144,8 @@ Camada de interface que consome a API Spring Boot. Estrutura orientada a escalab
 │   │   │   │   ├── 📁 CustomSplitAmount
 │   │   │   │   │   └── 📄 index.jsx
 │   │   │   │   ├── 📁 FormFieldsExpenses
+│   │   │   │   │   └── 📄 index.jsx
+│   │   │   │   ├── 📁 ListMembers
 │   │   │   │   │   └── 📄 index.jsx
 │   │   │   │   ├── 📄 index.jsx
 │   │   │   │   └── 📄 useForm.js
@@ -165,10 +169,27 @@ Camada de interface que consome a API Spring Boot. Estrutura orientada a escalab
 │   │       └── 📄 theme.js
 │   ├── 📁 hooks
 │   │   ├── 📁 ReactQuery
-│   │   │   ├── 📄 useDeleteGroupMutation.js
-│   │   │   ├── 📄 useGroupsQuery.js
-│   │   │   ├── 📄 useMeQuery.js
-│   │   │   └── 📄 useUpdateMeMutation.js
+│   │   │   ├── 📁 Mutations
+│   │   │   │   ├── 📄 addMemberGroupMutation.js
+│   │   │   │   ├── 📄 useCreateExpenseMutation.js
+│   │   │   │   ├── 📄 useDeleteExpenseByIdMutation.js
+│   │   │   │   ├── 📄 useDeleteGroupMemberMutation.js
+│   │   │   │   ├── 📄 useDeleteGroupMutation.js
+│   │   │   │   ├── 📄 useDeleteMeGroupByIdMutation.js
+│   │   │   │   ├── 📄 useUpdateGroupExpenseByIdMutation.js
+│   │   │   │   ├── 📄 useUpdateGroupMemberRoleMutation.js
+│   │   │   │   ├── 📄 useUpdateGroupMutation.js
+│   │   │   │   ├── 📄 useUpdateMeMutation.js
+│   │   │   │   └── 📄 useUpdateStatusExpensePartialValueMutation.js
+│   │   │   └── 📁 Queries
+│   │   │       ├── 📄 useAllGroupExpenseCategoriesQuery.js
+│   │   │       ├── 📄 useGroupExpenseByIdQuery.js
+│   │   │       ├── 📄 useGroupExpensesQuery.js
+│   │   │       ├── 📄 useGroupsQuery.js
+│   │   │       ├── 📄 useMeDashboardStatsQuery.js
+│   │   │       ├── 📄 useMeExpensesQuery.js
+│   │   │       ├── 📄 useMeQuery.js
+│   │   │       └── 📄 useMembersQuery.js
 │   │   ├── 📄 useAuth.js
 │   │   ├── 📄 useExpenses.js
 │   │   ├── 📄 useGroups.js
@@ -181,9 +202,9 @@ Camada de interface que consome a API Spring Boot. Estrutura orientada a escalab
 │   │       ├── 📄 main.jsx
 │   │       └── 📄 queryClient.js
 │   ├── 📁 loaders
-│   │   ├── 📄 loginLoader.js
+│   │   ├── 📄 expenseLoader.js
 │   │   ├── 📄 protectRoutersLoader.js
-│   │   └── 📄 registerLoader.js
+│   │   └── 📄 redirectIfAuthenticatedLoader.js
 │   ├── 📁 mockData
 │   │   ├── 📁 categories
 │   │   │   └── 📄 index.js
@@ -205,18 +226,24 @@ Camada de interface que consome a API Spring Boot. Estrutura orientada a escalab
 │   │   ├── 📁 Dashboard
 │   │   │   └── 📄 index.jsx
 │   │   ├── 📁 Expenses
+│   │   │   ├── 📁 ExpenseDetails
+│   │   │   │   └── 📄 index.jsx
 │   │   │   └── 📄 index.jsx
 │   │   ├── 📁 Groups
 │   │   │   ├── 📁 GroupDetails
 │   │   │   │   ├── 📁 GroupSettings
+│   │   │   │   │   ├── 📄 MembersManager.jsx
 │   │   │   │   │   ├── 📄 groupSettingsLoader.js
 │   │   │   │   │   └── 📄 index.jsx
+│   │   │   │   ├── 📄 AddMember.jsx
 │   │   │   │   ├── 📄 BalancesList.jsx
 │   │   │   │   ├── 📄 ExpensesList.jsx
-│   │   │   │   ├── 📄 groupDetailsLoader.js
-│   │   │   │   └── 📄 index.jsx
-│   │   │   ├── 📄 Pagination.jsx
-│   │   │   └── 📄 index.jsx
+│   │   │   │   ├── 📄 index.jsx
+│   │   │   │   ├── 📄 statusExpense.js
+│   │   │   │   └── 📄 usePermissions.js
+│   │   │   ├── 📄 GrupoFinancialStatus.jsx
+│   │   │   ├── 📄 index.jsx
+│   │   │   └── 📄 useGroupsWithMembers.jsx
 │   │   ├── 📁 Login
 │   │   │   └── 📄 index.jsx
 │   │   ├── 📁 Notfound
@@ -238,7 +265,8 @@ Camada de interface que consome a API Spring Boot. Estrutura orientada a escalab
 │   │   │   ├── 📄 form.js
 │   │   │   └── 📄 request.js
 │   │   ├── 📁 createNewExpense
-│   │   │   └── 📄 form.js
+│   │   │   ├── 📄 form.js
+│   │   │   └── 📄 updateExpenseForm.js
 │   │   ├── 📁 loginUser
 │   │   │   ├── 📄 form.js
 │   │   │   ├── 📄 request.js
@@ -263,6 +291,7 @@ Camada de interface que consome a API Spring Boot. Estrutura orientada a escalab
 │   │   └── 🎨 custom-toast.css
 │   ├── 📁 utils
 │   │   ├── 📄 constants.js
+│   │   ├── 📄 errors.js
 │   │   ├── 📄 formatters.js
 │   │   ├── 📄 helpers.js
 │   │   ├── 📄 localStorageEncryption.js
@@ -282,7 +311,6 @@ Camada de interface que consome a API Spring Boot. Estrutura orientada a escalab
 ├── 📄 eslint.config.js
 ├── 🌐 index.html
 ├── ⚙️ nginx.conf
-├── ⚙️ package-lock.json
 ├── ⚙️ package.json
 ├── ⚙️ vercel.json
 └── 📄 vite.config.js
