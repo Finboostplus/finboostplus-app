@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router';
 import {
   FiArrowLeft,
@@ -17,28 +17,45 @@ import Modal from '../../../../components/Modal';
 import { MembersManager } from './MembersManager';
 import { useGroupByIdQuery } from '../../../../hooks/ReactQuery/Queries/useGroupsQuery';
 import { useUpdateGroupMutation } from '../../../../hooks/ReactQuery/Mutations/useUpdateGroupMutation';
+import { CategoryIcon } from '../../../../mockData/groupIcons/icons';
 
 export default function GroupSettings() {
   const { group_id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [isChanged, setIsChanged] = useState(false);
 
-  // Query que busca o grupo pelo ID
   const { data: group, isLoading } = useGroupByIdQuery(group_id);
-
-  // Mutation para atualizar o grupo
   const { mutateAsync: updateGroup, isPending } = useUpdateGroupMutation();
 
-  // Handler de envio do formulário
+  // Inicializa os campos com os valores do grupo
+  useEffect(() => {
+    if (group) {
+      setName(group.name);
+      setDescription(group.description);
+      setIsChanged(false); // Inicialmente não há alterações
+    }
+  }, [group]);
+
+  // Atualiza o estado de alteração
+  useEffect(() => {
+    if (!group) return;
+    const changed =
+      name.trim() !== group.name || description.trim() !== group.description;
+    setIsChanged(changed && name.trim() !== '');
+  }, [name, description, group]);
+
   const handleSubmit = async e => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const payload = {
-      name: formData.get('name'),
-      description: formData.get('description'),
-    };
+    if (!isChanged) return; // Segurança extra
 
     try {
-      await updateGroup({ group_id, data: payload });
+      await updateGroup({
+        group_id,
+        data: { name: name.trim(), description: description.trim() },
+      });
+      setIsChanged(false); // Reset após salvar
     } catch (error) {
       console.error('Erro ao atualizar grupo:', error);
     }
@@ -53,22 +70,22 @@ export default function GroupSettings() {
   }
 
   return (
-    <div className="min-h-screen  flex justify-center items-start p-6 sm:p-10 font-principal">
-      <main className="w-full max-w-3xl bg-surface/80 backdrop-blur-xl border border-white/10 rounded-3xl  p-8 sm:p-10 space-y-10 text-text transition-all duration-300 ">
+    <div className="min-h-screen flex justify-center items-start p-6 sm:p-10 font-principal">
+      <main className="w-full max-w-3xl bg-white/80 backdrop-blur-xl border border-white/20 rounded-3xl p-8 sm:p-10 space-y-10  transition-all duration-300">
         {/* Cabeçalho */}
-        <header className="relative text-center pb-6 border-b border-white/10">
-          <div className="absolute inset-0 bg-linear-to-r from-primary/20 to-transparent blur-2xl rounded-3xl" />
+        <header className="relative text-center pb-6 border-b border-white/20">
+          <div className="absolute inset-0 blur-2xl rounded-3xl" />
           <div className="relative z-10 flex flex-col items-center gap-3">
-            <div className="p-4 bg-primary/20 text-primary rounded-full ring-2 ring-primary/50 shadow-md">
-              <FiSettings className="w-8 h-8" />
+            <div className="p-5  text-primary rounded-full">
+              <CategoryIcon categoryKey={group?.icon} className="w-15 h-15" />
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
               Configurações de{' '}
               <span className="text-primary">{group.name}</span>
             </h1>
-            <p className="text-muted text-sm sm:text-base">
-              Defina as permissões, ajuste as regras e garanta o controle total
-              sobre o seu grupo.
+            <p className="text-muted text-sm max-sm:text-base">
+              Defina as permissões, ajuste as regras e tenha controle total
+              sobre seu grupo.
             </p>
           </div>
         </header>
@@ -76,7 +93,7 @@ export default function GroupSettings() {
         {/* Formulário principal */}
         <form onSubmit={handleSubmit} className="space-y-10" autoComplete="off">
           {/* Informações básicas */}
-          <section className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-6 backdrop-blur-sm hover:bg-white/10 transition-all">
+          <section className="bg-gradient-to-tr from-white/10 to-white/5 border border-white/10 rounded-2xl p-6 space-y-6 backdrop-blur-sm  transition-all duration-300">
             <FieldSection
               id="groupName"
               label="Nome do grupo"
@@ -84,9 +101,10 @@ export default function GroupSettings() {
             >
               <InputUI
                 name="name"
-                defaultValue={group.name}
-                placeholder="Digite um novo nome para o grupo"
-                className="transition-all focus:ring-2 focus:ring-primary/40 rounded-xl"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                placeholder="Digite um novo nome"
+                className="transition-all focus:ring-2 focus:ring-primary/40 rounded-xl  focus:shadow-md"
               />
             </FieldSection>
 
@@ -97,29 +115,30 @@ export default function GroupSettings() {
             >
               <TextareaUI
                 name="description"
-                defaultValue={group.description}
+                value={description}
+                onChange={e => setDescription(e.target.value)}
                 rows={4}
                 placeholder="Adicione uma breve descrição..."
-                className="w-full min-h-[100px] rounded-lg border border-border bg-background px-3 py-2 text-text shadow-sm transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/30 placeholder:text-muted resize-none"
+                className="w-full min-h-[100px] rounded-lg border border-border bg-background px-3 py-2 text-text  transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/30 placeholder:text-muted resize-none focus:shadow-md"
               />
             </FieldSection>
           </section>
 
-          {/* Acesso ao Gerenciamento de Membros */}
-          <section className="bg-white/5 border border-white/10 rounded-2xl  p-8 text-center backdrop-blur-sm hover:bg-white/10 transition-all flex flex-col items-center gap-4">
+          {/* Gerenciamento de membros */}
+          <section className="bg-linear-to-tr from-white/10 to-white/5 border border-white/10 rounded-2xl p-8 text-center backdrop-blur-sm  transition-all flex flex-col items-center gap-4">
             <FiUsers className="w-12 h-12 text-primary mb-2" />
             <h2 className="text-lg sm:text-xl font-semibold text-text">
-              Gerenciar membros do grupo
+              Gerenciar membros
             </h2>
             <p className="text-muted text-sm max-w-md">
-              Adicione, remova ou altere as permissões dos membros do seu grupo.
+              Adicione, remova ou altere permissões dos membros do grupo.
             </p>
             <ButtonUI
               onClick={() => setIsOpen(true)}
-              className="flex cursor-pointer items-center justify-center gap-2 mt-4 px-5 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 hover:scale-[1.03] transition-all shadow-md"
+              className="flex cursor-pointer items-center justify-center gap-2 mt-4 px-5 py-3 rounded-xl bg-linear-to-tr from-primary/70 to-primary/50 text-white hover:from-primary/80 hover:to-primary/60 hover:scale-[1.03] transition-all "
             >
               <FiUserPlus className="w-5 h-5" />
-              Abrir Gerenciador de Membros
+              Abrir Gerenciador
             </ButtonUI>
 
             <Modal
@@ -136,7 +155,7 @@ export default function GroupSettings() {
           <footer className="flex flex-col sm:flex-row gap-3 justify-evenly pt-6">
             <Link
               to={`/groups/${group_id}`}
-              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-neutral-500/80 text-white hover:bg-neutral-600 transition-all hover:scale-[1.02]"
+              className="flex-1 cursor-pointer flex items-center justify-center gap-2 py-3 rounded-xl bg-neutral-500/80 text-white hover:bg-neutral-600 transition-all hover:scale-[1.02] "
             >
               <FiArrowLeft className="text-lg" />
               Voltar
@@ -144,9 +163,16 @@ export default function GroupSettings() {
 
             <ButtonUI
               type="submit"
-              disabled={isPending}
-              title="Salvar alterações"
-              className="flex-1 cursor-pointer flex items-center justify-center gap-2 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 hover:scale-[1.02] shadow-md transition-all disabled:opacity-60"
+              disabled={!isChanged || isPending}
+              title={
+                !isChanged
+                  ? 'Sem alterações ou nome do grupo vazio'
+                  : 'Salvar alterações'
+              }
+              className={`
+                flex-1 disabled:hover:scale-none disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2 py-3 rounded-xl bg-linear-to-tr from-primary/70 to-primary/50 text-white hover:from-primary/80 hover:to-primary/60 hover:scale-[1.03]  transition-all disabled:opacity-60
+                ${!isChanged && 'disabled:from-muted/70 disabled:to-muted/70'}
+                `}
             >
               <FiSave className="w-5 h-5 sm:w-6 sm:h-6" />
               {isPending ? 'Salvando...' : 'Salvar'}

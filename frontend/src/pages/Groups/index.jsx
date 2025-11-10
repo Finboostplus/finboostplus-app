@@ -96,7 +96,7 @@ export default function Groups() {
           {filteredGroups.length > 0 ? (
             <>
               <div
-                className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-opacity duration-200 ${
+                className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 transition-opacity duration-200 ${
                   isFetching ? 'opacity-70' : 'opacity-100'
                 }`}
               >
@@ -110,7 +110,7 @@ export default function Groups() {
                     <Link
                       key={group.groupId}
                       to={`/groups/${group.groupId}`}
-                      className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg block"
+                      className="focus:outline-none w-full focus-visible:ring-2 focus-visible:ring-primary rounded-lg block"
                       aria-label={`Grupo ${group.name} com ${membersData.length} membros`}
                     >
                       <CardUI

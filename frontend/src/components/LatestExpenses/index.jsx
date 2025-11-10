@@ -31,7 +31,7 @@ export default function LatestExpenses() {
   return (
     <section
       aria-labelledby="ultimas-despesas-heading"
-      className="bg-surface rounded-2xl p-6 shadow-md border border-neutral transition-colors"
+      className="bg-surface border border-border rounded-2xl p-6 shadow-md  transition-colors"
     >
       <h2
         id="ultimas-despesas-heading"

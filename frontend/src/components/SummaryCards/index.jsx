@@ -17,7 +17,7 @@ export default function SummaryCards() {
     : { totalExpenses: 0, mostExpense: { month: '', total: 0 } };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
       {/* Total de Gastos no Ano */}
       <CardUI className="relative overflow-hidden p-6 rounded-2xl shadow-md border border-border bg-surface text-text transition-colors">
         <MdCreditCardOff className="absolute right-4 top-4 w-20 h-20 opacity-10 text-muted-foreground" />

@@ -4,7 +4,7 @@ import SummaryCards from './components/SummaryCards';
 
 function App() {
   return (
-    <div>
+    <div className="flex flex-col gap-10">
       <SummaryCards />
       <ChartSwitcher />
       <LatestExpenses />

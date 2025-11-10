@@ -4,13 +4,38 @@ export const parseBRL = value => {
   return parseFloat(value) || 0;
 };
 
-// Converte de número (1234.56) para string formatada (R$ 1.234,56)
-export const formatBRL = value => {
-  const numericValue = typeof value === 'string' ? parseFloat(value) : value;
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(isNaN(numericValue) ? 0 : numericValue);
+export const formatBRL = (
+  value,
+  {
+    locale = 'pt-BR',
+    currency = 'BRL',
+    style = 'currency',
+    notation = 'standard',
+    compactDisplay = undefined,
+    minimumFractionDigits = 2,
+    maximumFractionDigits = 2,
+  } = {}
+) => {
+  let numericValue;
+
+  if (typeof value === 'bigint') {
+    numericValue = Number(value);
+  } else if (typeof value === 'string') {
+    numericValue = parseFloat(value.replace(',', '.'));
+  } else {
+    numericValue = value;
+  }
+
+  if (isNaN(numericValue)) numericValue = 0;
+
+  return new Intl.NumberFormat(locale, {
+    style,
+    currency,
+    notation,
+    compactDisplay,
+    minimumFractionDigits,
+    maximumFractionDigits,
+  }).format(numericValue);
 };
 
 export function formatDateBR(dateString) {

@@ -9,10 +9,12 @@ export function usePermissions(role) {
       canEditExpenses: false,
       canEditExpenseValue: false,
       canDeleteExpenses: false,
+      canChangeStatusExpenses: false,
       canManageMembers: false,
       canEditGroupInfo: false,
       canDeleteGroup: false,
       canGenerateReports: false,
+      canAddMemberGroup: false, // nova permissão
     };
   }
 
@@ -23,9 +25,11 @@ export function usePermissions(role) {
     canEditExpenses: hasPermission(role, 'EDIT_EXPENSES'),
     canEditExpenseValue: hasPermission(role, 'EDIT_EXPENSE_VALUE'),
     canDeleteExpenses: hasPermission(role, 'DELETE_EXPENSES'),
+    canChangeStatusExpenses: hasPermission(role, 'CHANGE_STATUS_EXPENSES'),
     canManageMembers: hasPermission(role, 'MANAGE_MEMBERS'),
     canEditGroupInfo: hasPermission(role, 'EDIT_GROUP_INFO'),
     canDeleteGroup: hasPermission(role, 'DELETE_GROUP'),
     canGenerateReports: hasPermission(role, 'GENERATE_REPORTS'),
+    canAddMemberGroup: hasPermission(role, 'ADD_GROUP_MEMEBER'), // lógica adicionada
   };
 }

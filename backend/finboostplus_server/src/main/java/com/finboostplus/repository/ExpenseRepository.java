@@ -45,38 +45,24 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 	Page<UserExpensesDTO> getAllUserExpenses(Long userId, Pageable pageable);
 
 	@Query(nativeQuery = true, value = """
-			WITH
-				MESES AS (
-					SELECT
-						GENERATE_SERIES(1, 12) AS MES_NUM
+				WITH MESES AS (
+					SELECT GENERATE_SERIES(1, 12) AS MES_NUM
 				)
-			SELECT
-				TO_CHAR(TO_DATE(M.MES_NUM::TEXT, 'MM'), 'FMMonth') AS MONTH,
-				COALESCE(SUM(UED.PARTIAL_VALUE), 0) AS TOTAL
-			FROM
-				MESES M
-				LEFT JOIN EXPENSES E ON EXTRACT(
-					MONTH
-					FROM
-						E.DEADLINE_DATE
-				) = M.MES_NUM
-				AND EXTRACT(
-					YEAR
-					FROM
-						E.DEADLINE_DATE
-				) = EXTRACT(
-					YEAR
-					FROM
-						CURRENT_DATE
-				)
-				LEFT JOIN USER_EXPENSE_DIVISIONS UED ON E.ID = UED.EXPENSE_ID
-				AND UED.USER_ID = 1
-			GROUP BY
-				M.MES_NUM
-			ORDER BY
-				M.MES_NUM
-						""")
-	List<UserMonthlyExpensesDTO> getUserMonthlyExpenses(Long userId);
+				SELECT
+					TO_CHAR(TO_DATE(M.MES_NUM::TEXT, 'MM'), 'TMMonth') AS month,
+					COALESCE(SUM(UED.partial_value), 0) AS total
+				FROM MESES M
+				LEFT JOIN expenses E
+					ON EXTRACT(MONTH FROM E.deadline_date) = M.MES_NUM
+					AND EXTRACT(YEAR FROM E.deadline_date) = EXTRACT(YEAR FROM CURRENT_DATE)
+				LEFT JOIN user_expense_divisions UED
+					ON E.id = UED.expense_id
+					AND UED.user_id = :userId
+				GROUP BY M.MES_NUM
+				ORDER BY M.MES_NUM
+			""")
+	List<UserMonthlyExpensesDTO> getUserMonthlyExpenses(@Param("userId") Long userId);
+
 	// @Query(nativeQuery = true, value = """
 	// SELECT expenses.id, expenses.title, expenses.description,
 	// categories.name as categoryName,

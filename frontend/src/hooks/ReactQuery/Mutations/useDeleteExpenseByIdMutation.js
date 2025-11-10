@@ -31,10 +31,11 @@ export function useDeleteExpenseByIdMutation() {
         'success'
       );
     },
-    onError: () => {
+    onError: error => {
       customToast(
         'Erro ao excluir despesa',
-        'Não foi possível excluir a despesa. Tente novamente.',
+        error?.response?.data?.message ||
+          'Não foi possível excluir a despesa. Tente novamente.',
         'error'
       );
     },
