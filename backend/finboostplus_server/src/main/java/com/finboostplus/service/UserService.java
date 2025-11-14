@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import email.RegistrationEmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -81,7 +82,10 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	ExpenseRepository expenseRepository;
 
-	@Override
+    @Autowired
+    EmailProducerService emailProducerService;
+
+    @Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		List<UserDetailsProjection> result = userRepository.searchUserAndRolesByEmail(username);
 		if (result.size() == 0) {
@@ -132,16 +136,8 @@ public class UserService implements UserDetailsService {
 		validateUser.setUuid(UUID.randomUUID());
 		validateUser.setExpirationDate(Instant.now().plusSeconds(900));
 		validateUserRepository.save(validateUser);
-		emailService.enviarEmailTexto(userSaved.getEmail(),
-				"Conta criada com sucesso!",
-				"Seja bem vindo(a) " + userSaved.getName() + " ao FinboostPlus!\n" +
-						"Para ativar sua conta, acesse o link: http://localhost:8080/user/userValidate/" // Futuramente:
-																	// https://finboostplus.com.br
-																	// ou
-																	// algo
-																	// assim
-						+ validateUser.getUuid());
-		System.out.print(validateUser.getUuid()); // Ajuda para ativar o usuário cadastrado
+        RegistrationEmailSender registrationEmailSender = new RegistrationEmailSender(userSaved.getEmail(), userSaved.getName(), validateUser.getUuid());
+        emailProducerService.sendRegisterEmail(registrationEmailSender);
 		return userSaved.getId() != null;
 	}
 
