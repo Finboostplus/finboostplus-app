@@ -1,6 +1,7 @@
 package com.finboostplus.notificationemail.config;
 
-import email.RegistrationEmailSender;
+import email.ForgotPasswordMessage;
+import email.RegistrationEmailMessage;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ import static org.apache.kafka.clients.consumer.ConsumerConfig.*;
 
 @Configuration
 public class KafkaConsumerConfig {
+
     @Value("${spring.kafka.bootstrap-servers:localhost:9092}")
     private String bootstrapServers;
 
@@ -24,8 +26,9 @@ public class KafkaConsumerConfig {
     private String groupId;
 
     @Bean
-    public ConsumerFactory<String, RegistrationEmailSender> messageConsumerFactory() {
-        JsonDeserializer<RegistrationEmailSender> deserializer = new JsonDeserializer<>(RegistrationEmailSender.class);
+    public ConsumerFactory<String, RegistrationEmailMessage> registrationConsumerFactory() {
+        JsonDeserializer<RegistrationEmailMessage> deserializer =
+                new JsonDeserializer<>(RegistrationEmailMessage.class);
         deserializer.addTrustedPackages("*");
         deserializer.ignoreTypeHeaders();
 
@@ -40,10 +43,37 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, RegistrationEmailSender> messageKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, RegistrationEmailSender> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, RegistrationEmailMessage>
+    registrationKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, RegistrationEmailMessage> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(messageConsumerFactory());
+        factory.setConsumerFactory(registrationConsumerFactory());
+        return factory;
+    }
+
+    @Bean
+    public ConsumerFactory<String, ForgotPasswordMessage> forgotPasswordConsumerFactory() {
+        JsonDeserializer<ForgotPasswordMessage> deserializer =
+                new JsonDeserializer<>(ForgotPasswordMessage.class);
+        deserializer.addTrustedPackages("*");
+        deserializer.ignoreTypeHeaders();
+
+        Map<String, Object> props = new HashMap<>();
+        props.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(GROUP_ID_CONFIG, groupId);
+        props.put(KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        props.put(AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+        return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), deserializer);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ForgotPasswordMessage>
+    forgotPasswordKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ForgotPasswordMessage> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(forgotPasswordConsumerFactory());
         return factory;
     }
 }

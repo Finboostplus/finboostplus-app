@@ -4,6 +4,8 @@ import com.finboostplus.projection.UserDetailsProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.query.Param;
+
 
 import com.finboostplus.DTO.UserDataDTO;
 import com.finboostplus.model.*;
@@ -20,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 				INNER JOIN roles ON roles.id = users_roles.role_id
 				WHERE users.e_mail = :email
 			""")
-	List<UserDetailsProjection> searchUserAndRolesByEmail(String email);
+	List<UserDetailsProjection> searchUserAndRolesByEmail(@Param("email") String email);
 
 	Optional<User> findByEmailIgnoreCase(String email);
 

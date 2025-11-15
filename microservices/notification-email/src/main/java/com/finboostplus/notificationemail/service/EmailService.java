@@ -27,13 +27,6 @@ public class EmailService {
     }*/
 
     public String sendTextEmail(String recipient, String subject, String message) {
-
-        logger.info("Preparing to send email");
-        logger.debug("Sender: {}", sender);
-        logger.debug("Recipient: {}", recipient);
-        logger.debug("Subject: {}", subject);
-        logger.debug("Message: {}", message);
-
         try {
             SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
             simpleMailMessage.setFrom(sender);
@@ -43,11 +36,9 @@ public class EmailService {
 
             javaMailSender.send(simpleMailMessage);
 
-            logger.info("Email successfully sent to {}", recipient);
             return "Email sent successfully";
 
         } catch (Exception e) {
-            logger.error("Email error: ", e);
             return "Error while trying to send email: " + e.getMessage();
         }
     }
