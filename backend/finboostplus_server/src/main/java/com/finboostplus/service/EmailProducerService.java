@@ -1,5 +1,6 @@
 package com.finboostplus.service;
 
+import email.ExpenseDueReminderMessage;
 import email.ForgotPasswordMessage;
 import email.RegistrationEmailMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class EmailProducerService {
 
     @Value("${topic.message.producer.forgot.password.email}")
     private String forgotPasswordTopic;
+
+    @Value("${topic.message.producer.expense.due.reminder.email}")
+    private String expenseDueReminderTopic;
 
     @Autowired
     private KafkaTemplate<String, Object> kafkaTemplate;
@@ -38,7 +42,13 @@ public class EmailProducerService {
         }
     }
 
-
+    public void sendExpenseNearExpirationMessage(final ExpenseDueReminderMessage expenseDueReminderMessage){
+        try {
+            kafkaTemplate.send(expenseDueReminderTopic, expenseDueReminderMessage);
+        } catch (Exception e) {
+            log.error("Erro ao produzir mensagem no Kafka para topico {}: {}", expenseDueReminderTopic, e.getMessage(), e);
+        }
+    }
 
 
 }

@@ -14,7 +14,6 @@ import com.finboostplus.repository.ExpenseRepository;
 import com.finboostplus.service.NotificationService;
 
 @Component
-@EnableScheduling
 public class ExpenseNotificationScheduler {
         @Autowired
         private ExpenseRepository expenseRepository;
@@ -22,14 +21,14 @@ public class ExpenseNotificationScheduler {
         @Autowired
         private NotificationService notificationService;
 
-        @Scheduled(cron = "0 0 9 * * *")
+
+        @Scheduled(cron = "0 0 9 * * *") //Roda todos os dias às 9h
         public void checkExpiringExpenses() {
-                Instant today = Instant.now();
+
+                LocalDate today = LocalDate.now();
                 LocalDate notificationDate = LocalDate.now().plusDays(3); // 3 dias antes
-
-                List<Expense> expiringExpenses = expenseRepository
+                                List<Expense> expiringExpenses = expenseRepository
                                 .findByExpirationDateBetween(today, notificationDate);
-
                 for (Expense expense : expiringExpenses) {
                         notificationService.notifyExpenseExpiring(expense);
                 }

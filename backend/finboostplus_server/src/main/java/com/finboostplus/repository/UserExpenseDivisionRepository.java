@@ -20,19 +20,19 @@ public interface UserExpenseDivisionRepository extends JpaRepository<UserExpense
                              (status = 'UNPAID' or status = 'PENDING')
                         )
                         """)
-        boolean doesUserHasAnyExpense(long memberId);
+        boolean doesUserHasAnyExpense(@Param("memberId") long memberId);
 
         @Query(nativeQuery = true, value = """
                         SELECT * FROM user_expense_divisions WHERE user_id = :userId AND expense_id = :expenseId
                             """)
-        UserExpenseDivision findByMemberIdAndExpenseId(Long userId, Long expenseId);
+        UserExpenseDivision findByMemberIdAndExpenseId(@Param("userId")Long userId, @Param("expenseId") Long expenseId);
 
         @Query(nativeQuery = true, value = """
                         SELECT EXISTS (
                                 SELECT 1 FROM user_expense_divisions u WHERE u.user_id = :userId AND u.expense_id = :expenseId
                         )
                         """)
-        boolean existsByUserIdAndExpenseId(Long userId, Long expenseId);
+        boolean existsByUserIdAndExpenseId(@Param("userId") Long userId, @Param("expenseId") Long expenseId);
 
         @Query(nativeQuery = true, value = """
                         SELECT EXISTS(
@@ -40,13 +40,13 @@ public interface UserExpenseDivisionRepository extends JpaRepository<UserExpense
                               FROM user_expense_divisions e WHERE e.expense_id = :expenseId AND (e.status = 'PENDING' OR e.status = 'UNPAID')
                            )
                         """)
-        boolean isExpensePaid(Long expenseId);
+        boolean isExpensePaid(@Param("expenseId") Long expenseId);
 
         @Query(nativeQuery = true, value = """
                         SELECT * from users WHERE id in
                                 ( SELECT user_id from user_expense_divisions WHERE expense_id = :expenseId AND status != 'PAID' )
                                 """)
-        List<User> findUserByExpenseId(Long expenseId);
+        List<User> findUserByExpenseId(@Param("expenseId") Long expenseId);
 
         @Modifying
         @Query(nativeQuery = true, value = """
@@ -60,5 +60,5 @@ public interface UserExpenseDivisionRepository extends JpaRepository<UserExpense
                         DELETE FROM user_expense_divisions
                         WHERE user_id = :memberId
                         """)
-        void deleteExpenseRelationByMemberId(@Param("memberId") Long groupId);
+        void deleteExpenseRelationByMemberId(@Param("memberId") Long memberId);
 }

@@ -47,7 +47,7 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 			    ORDER BY
 			        G.CREATED_AT DESC
 			""")
-	Page<GroupProjection> listUserGroupsPaged(Long memberId, Pageable pageable);
+	Page<GroupProjection> listUserGroupsPaged(@Param("memberId") Long memberId, Pageable pageable);
 
 	@Query(nativeQuery = true, value = """
 			SELECT GM.AUTH_LEVEL AS AUTHORITY
@@ -55,7 +55,7 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 			WHERE GM.GROUP_ID = :groupId
 				AND GM.USER_ID = :memberId
 			""")
-	GroupMemberAuthorityDTO getMemberAuthority(Long groupId, Long memberId);
+	GroupMemberAuthorityDTO getMemberAuthority(@Param("groupId") Long groupId, @Param("memberId") Long memberId);
 
 	@Modifying
 	@Query(nativeQuery = true, value = """
@@ -91,6 +91,6 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 			    AND GM.USER_ID = :userId
 			WHERE G.ID = :groupId
 			""")
-	GroupDetailsDTO getGroupDetails(Long groupId, Long userId);
+	GroupDetailsDTO getGroupDetails(@Param("groupId") Long groupId, @Param("userId") Long userId);
 
 }

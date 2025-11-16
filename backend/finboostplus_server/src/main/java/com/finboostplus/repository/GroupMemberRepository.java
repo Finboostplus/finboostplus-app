@@ -26,7 +26,7 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
 			        and gm.auth_level = 'OWNER'
 			   )
 			""")
-	boolean isUserGroupOwner(long userId, long groupId);
+	boolean isUserGroupOwner(@Param("userId") long userId, @Param("groupId") long groupId);
 
 	@Query(nativeQuery = true, value = """
 			SELECT EXISTS (
@@ -36,7 +36,7 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
 			      AND gm.group_id = :groupId
 			)
 			""")
-	boolean isUserMemberOfGroup(long userId, long groupId);
+	boolean isUserMemberOfGroup(@Param("userId") long userId, @Param("groupId") long groupId);
 
 	@Query(nativeQuery = true, value = """
 			SELECT u.id, u.user_name, u.theme_color, gm.auth_level as authority FROM users u
@@ -44,7 +44,7 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
 			on gm.user_id = u.id
 			WHERE gm.group_id = :groupId
 			""")
-	Page<GroupMemberResponseDTO> findMembersByGroupId(long groupId, Pageable pageable);
+	Page<GroupMemberResponseDTO> findMembersByGroupId(@Param("groupId") long groupId, Pageable pageable);
 
 	@Query(nativeQuery = true, value = """
 			SELECT u.id, u.user_name, u.theme_color, gm.auth_level as authority FROM users u
@@ -53,7 +53,9 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
 			WHERE gm.group_id = :groupId
 			AND u.user_name like %:search%
 			""")
-	Page<GroupMemberResponseDTO> findMembersByGroupIdFiltered(long groupId, Pageable pageable, String search);
+	Page<GroupMemberResponseDTO> findMembersByGroupIdFiltered(@Param("groupId") long groupId,
+                                                              @Param("search") String search,
+                                                              Pageable pageable);
 
 	@Query(nativeQuery = true, value = """
 			SELECT *
@@ -70,7 +72,7 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
 			        where auth_level = 'OWNER' and user_id =:memberId
 			   )
 			""")
-	boolean isUserOwnerOfAnyGroup(long memberId);
+	boolean isUserOwnerOfAnyGroup(@Param("memberId") long memberId);
 
 	@Query(nativeQuery = true, value = """
 			        SELECT EXISTS (
@@ -81,7 +83,7 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
 			              AND gm.auth_level IN (:authLevels)
 			        )
 			""")
-	boolean doesUserHasAnyAuthority(Long userId, Long groupId, List<String> authLevels);
+	boolean doesUserHasAnyAuthority(@Param("userId") Long userId, @Param("groupId") Long groupId, @Param("authLevels") List<String> authLevels);
 
 	List<GroupMember> findByUser_id(Long userId);
 
@@ -89,7 +91,7 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
 
 	@Modifying
 	@Query(value = "DELETE FROM group_members WHERE user_id = :userId AND group_id = :groupId", nativeQuery = true)
-	void deleteByUserIdAndGroupId(Long userId, Long groupId);
+	void deleteByUserIdAndGroupId(@Param("userId") Long userId, @Param("groupId") Long groupId);
 
 	@Modifying
 	@Query(value = """

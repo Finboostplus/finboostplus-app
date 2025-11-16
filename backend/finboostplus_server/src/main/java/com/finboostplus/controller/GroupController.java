@@ -77,7 +77,7 @@ public class GroupController {
 	}
 
 	@GetMapping("/{groupId}/members")
-	public ResponseEntity<Page<GroupMemberResponseDTO>> findAllMembersByGroupId(@PathVariable Long groupId,
+	public ResponseEntity<Page<GroupMemberResponseDTO>> findAllMembersByGroupId(@PathVariable("groupId") Long groupId,
 			@RequestParam(name = "page", defaultValue = "0") Integer page,
 			@RequestParam(name = "size", defaultValue = "10") Integer size,
 			@RequestParam(name = "search", defaultValue = "") String search) {
@@ -87,13 +87,13 @@ public class GroupController {
 	}
 
 	@GetMapping("/{groupId}")
-	public ResponseEntity<GroupDetailsDTO> getGroupDetails(@PathVariable Long groupId) {
+	public ResponseEntity<GroupDetailsDTO> getGroupDetails(@PathVariable("groupId") Long groupId) {
 		GroupDetailsDTO dto = groupService.getGroupDetails(groupId);
 		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}
 
 	@GetMapping("/{groupId}/members/{memberId}/authority")
-	public ResponseEntity<GroupMemberAuthorityDTO> getMemberAuthority(@PathVariable Long groupId, @PathVariable Long memberId) {
+	public ResponseEntity<GroupMemberAuthorityDTO> getMemberAuthority(@PathVariable("groupId") Long groupId, @PathVariable("memberId") Long memberId) {
 		GroupMemberAuthorityDTO authority = groupService.getMemberAuthority(groupId, memberId);
 		return ResponseEntity.ok(authority);
 	}
@@ -107,16 +107,18 @@ public class GroupController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
-	@PostMapping("/{groupId}/members")
-	public ResponseEntity<String> addGroupMember(@PathVariable Long groupId,
-			@RequestBody GroupMemberDTO groupMemberDTO) {
-		groupMemberService.addGroupMember(groupId, groupMemberDTO);
-		return new ResponseEntity<>("Membro adicionado com sucesso!", HttpStatus.OK);
-	}
+    @PostMapping("/{groupId}/members")
+    public ResponseEntity<String> addGroupMember(
+            @PathVariable("groupId") Long groupId,
+            @RequestBody GroupMemberDTO groupMemberDTO
+    ) {
+        groupMemberService.addGroupMember(groupId, groupMemberDTO);
+        return ResponseEntity.ok("Membro adicionado com sucesso!");
+    }
 
 	@PutMapping("/{groupId}/members/{newAuthId}/transfer-ownership")
-	public ResponseEntity<Object> switchAuthority(@PathVariable Long groupId,
-			@PathVariable Long newAuthId,
+	public ResponseEntity<Object> switchAuthority(@PathVariable("groupId") Long groupId,
+			@PathVariable("newAuthId") Long newAuthId,
 			@RequestBody SwitchAuthorityRequestDTO authDTO) {
 		if (userService.switchAuthority(newAuthId, groupId, authDTO)) {
 			return ResponseEntity.ok("Autoridade transferida com sucesso");
@@ -125,7 +127,7 @@ public class GroupController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<String> updateGroup(@PathVariable Long id, @RequestBody GroupUpdateDTO groupUpdateDTO) {
+	public ResponseEntity<String> updateGroup(@PathVariable("id") Long id, @RequestBody GroupUpdateDTO groupUpdateDTO) {
 		Optional<Group> group = groupService.updateGroup(id, groupUpdateDTO);
 		if (group.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -134,22 +136,22 @@ public class GroupController {
 	}
 
 	@DeleteMapping("/{groupId}/members")
-	public ResponseEntity<Void> leaveGroup(@PathVariable Long groupId) {
+	public ResponseEntity<Void> leaveGroup(@PathVariable("groupId") Long groupId) {
 		groupService.leaveGroup(groupId);
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("/{groupId}/members/{memberId}")
 	public ResponseEntity<Void> removeGroupMember(
-			@PathVariable Long groupId,
-			@PathVariable Long memberId) {
+			@PathVariable("groupId") Long groupId,
+			@PathVariable("memberId") Long memberId) {
 		groupService.removeGroupMember(groupId, memberId);
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("/{groupId}")
 	public ResponseEntity<Void> deleteGroup(
-			@PathVariable Long groupId) {
+			@PathVariable("groupId") Long groupId) {
 		groupService.deleteGroup(groupId);
 		return ResponseEntity.noContent().build();
 	}

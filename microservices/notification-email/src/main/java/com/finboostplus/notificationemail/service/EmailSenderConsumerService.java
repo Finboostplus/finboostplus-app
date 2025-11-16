@@ -1,5 +1,6 @@
 package com.finboostplus.notificationemail.service;
 
+import email.ExpenseDueReminderMessage;
 import email.ForgotPasswordMessage;
 import email.RegistrationEmailMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,4 +51,25 @@ public class EmailSenderConsumerService {
         String response = emailService.sendTextEmail(recipient, subject, message);
         System.out.println("Forgot Password: "+response);
     }
+
+
+    @KafkaListener(
+            topics = "${topic.message.consumer.expense.due.reminder.email}",
+            groupId = "${topic.api.consumer.group-id}",
+            containerFactory = "expenseDueReminderKafkaListenerContainerFactory"
+    )
+    public void createExpenseDueReminderEmail(ExpenseDueReminderMessage expenseDueReminderMessage) {
+        String recipient = expenseDueReminderMessage.getEmail();
+        String subject = "Despesa próxima ao vencimento";
+
+        String message = "Olá " + expenseDueReminderMessage.getUserName() + ",\n\n" +
+                "Gostaríamos de informar que sua despesa intitulada \"" + expenseDueReminderMessage.getExpenseTitle() + "\" " +
+                "vence em " + expenseDueReminderMessage.getDaysUntilExpiration() + " dia(s).\n\n" +
+                "Atenciosamente,\n" +
+                "Equipe FinBoostPlus";
+
+        String response = emailService.sendTextEmail(recipient, subject, message);
+        System.out.println("Expense Due Reminder: " + response);
+    }
+
 }
