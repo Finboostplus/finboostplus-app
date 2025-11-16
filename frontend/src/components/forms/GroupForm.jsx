@@ -8,6 +8,11 @@ import { createGroup } from '../../services/groups';
 import { Form } from 'react-router';
 import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
 import { customToast } from '../CustomToast';
+import {
+  createGroupFormSchema,
+  validatorGroupForm,
+} from '../../schemas/createGroup/form';
+import { ZodError } from 'zod';
 
 export default function GroupForm({ page }) {
   const queryClient = useQueryClient();
@@ -50,13 +55,18 @@ export default function GroupForm({ page }) {
     async e => {
       e.preventDefault();
       if (isPending || isDisabled) return;
-      mutateAsync({
+
+      const formData = {
         name: groupName,
         description,
         icon: selectedIcon,
-      });
+      };
+
+      if (validatorGroupForm(formData)) {
+        await mutateAsync(formData);
+      }
     },
-    [isPending, isDisabled]
+    [isPending, isDisabled, groupName, selectedIcon, mutateAsync]
   );
 
   return (

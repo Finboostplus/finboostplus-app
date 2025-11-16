@@ -11,6 +11,7 @@ import { FiUserPlus, FiX } from 'react-icons/fi';
 
 import { useCreateExpenseMutation } from '../../../hooks/ReactQuery/Mutations/useCreateExpenseMutation';
 import { useMembersQuery } from '../../../hooks/ReactQuery/Queries/useMembersQuery';
+import { validatorCreateNewExpense } from '../../../schemas/createNewExpense/form';
 
 export default function ExpenseForm({ groupData: group }) {
   const [search, setSearch] = useState(''); // termo final para API
@@ -50,8 +51,6 @@ export default function ExpenseForm({ groupData: group }) {
         );
       }
 
-      setIsSubmitting(true);
-
       try {
         const formData = new FormData(e.target);
         const formValues = Object.fromEntries(formData);
@@ -70,18 +69,22 @@ export default function ExpenseForm({ groupData: group }) {
           ),
         };
 
-        await useExpenseMutation.mutateAsync(expenseData, {
-          onSuccess: () =>
-            customToast(
-              'Nova despesa',
-              'Despesa adicionada com sucesso!',
-              'success'
-            ),
-          onError: ({ response: { data: error } }) => {
-            customToast(error.title, error.message, 'error');
-          },
-          onSettled: () => setIsSubmitting(false),
-        });
+        if (validatorCreateNewExpense(expenseData)) {
+          setIsSubmitting(true);
+
+          await useExpenseMutation.mutateAsync(expenseData, {
+            onSuccess: () =>
+              customToast(
+                'Nova despesa',
+                'Despesa adicionada com sucesso!',
+                'success'
+              ),
+            onError: ({ response: { data: error } }) => {
+              customToast(error.title, error.message, 'error');
+            },
+            onSettled: () => setIsSubmitting(false),
+          });
+        }
       } catch (err) {
         console.error(err);
         customToast(
