@@ -155,7 +155,7 @@ public class GroupService {
 		if (search.isBlank() || search.isEmpty()) {
 			return groupMemberRepository.findMembersByGroupId(groupId, pageable);
 		}
-		return groupMemberRepository.findMembersByGroupIdFiltered(groupId, pageable, search);
+		return groupMemberRepository.findMembersByGroupIdFiltered(groupId, search, pageable);
 	}
 
 	@Transactional

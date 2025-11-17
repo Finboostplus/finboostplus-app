@@ -4,6 +4,8 @@ import com.finboostplus.projection.UserDetailsProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.query.Param;
+
 
 import com.finboostplus.DTO.UserDataDTO;
 import com.finboostplus.model.*;
@@ -20,9 +22,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 				INNER JOIN roles ON roles.id = users_roles.role_id
 				WHERE users.e_mail = :email
 			""")
-	List<UserDetailsProjection> searchUserAndRolesByEmail(String email);
+	List<UserDetailsProjection> searchUserAndRolesByEmail(@Param("email") String email);
 
-	Optional<User> findByEmailIgnoreCase(String email);
+    Optional<User> findByEmailIgnoreCase(String email);
 
 	@Query(nativeQuery = true, value = """
 			SELECT EXISTS(
@@ -35,17 +37,17 @@ public interface UserRepository extends JpaRepository<User, Long> {
 			    AND gm.auth_level IN (:authorities)
 			);
 			""")
-	boolean isUserAuthorityValidToGroup(long userId, long groupId, List<String> authorities);
+	boolean isUserAuthorityValidToGroup(@Param("userId") long userId, @Param("groupId") long groupId, @Param("authorities") List<String> authorities);
 
 	@Query(nativeQuery = true, value = """
 			SELECT id, user_name, e_mail, theme_color
 				FROM users
 				WHERE e_mail = :email
 			""")
-	Optional<UserDataDTO> getUserData(String email);
+	Optional<UserDataDTO> getUserData(@Param("email") String email);
 
 	@Query(nativeQuery = true, value = """
 			SELECT password FROM users WHERE e_mail = :email
 			""")
-	String doesPasswordMatch(String email);
+	String doesPasswordMatch(@Param("email") String email);
 }

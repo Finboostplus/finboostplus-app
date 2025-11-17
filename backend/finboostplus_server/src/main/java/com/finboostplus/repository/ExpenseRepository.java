@@ -1,9 +1,9 @@
 package com.finboostplus.repository;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.finboostplus.enums.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -42,7 +42,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			WHERE
 				UED.USER_ID = :userId
 			""")
-	Page<UserExpensesDTO> getAllUserExpenses(Long userId, Pageable pageable);
+	Page<UserExpensesDTO> getAllUserExpenses(@Param("userId") Long userId, Pageable pageable);
 
 	@Query(nativeQuery = true, value = """
 				WITH MESES AS (
@@ -94,7 +94,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			ORDER BY
 				QUANTITY DESC
 			""")
-	List<CategoryRegisterDTO> getExpensesByCategory(Long userId);
+	List<CategoryRegisterDTO> getExpensesByCategory(@Param("userId") Long userId);
 
 	@Query(nativeQuery = true, countQuery = "Select count(*) from user_expense_divisions", value = """
 			SELECT
@@ -125,7 +125,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			    END,
 			    E.DEADLINE_DATE ASC
 			""")
-	Page<GroupMemberExpenseProjection> getAllGroupExpenses(Long memberId, Long groupId, Pageable pageable);
+	Page<GroupMemberExpenseProjection> getAllGroupExpenses(@Param("memberId") Long memberId, @Param("groupId") Long groupId, Pageable pageable);
 
 	@Query(nativeQuery = true, countQuery = "Select count(*) from user_expense_divisions", value = """
 			SELECT
@@ -156,8 +156,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			        ELSE 4
 			    END,
 			    E.DEADLINE_DATE ASC
-						""")
-	Page<GroupMemberExpenseProjection> getAllGroupExpensesFiltered(Long memberId, Long groupId, String status,
+			""")
+	Page<GroupMemberExpenseProjection> getAllGroupExpensesFiltered(@Param("memberId") Long memberId, @Param("groupId") Long groupId, @Param("status") String status,
 			Pageable pageable);
 
 	@Query(nativeQuery = true, countQuery = "Select count(*) from user_expense_divisions", value = """
@@ -201,8 +201,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			        ELSE 4
 			    END,
 			    E.DEADLINE_DATE ASC
-									""")
-	Page<GroupAuthorityExpenseProjection> getAllGroupExpensesOfAllMembers(Long userId, Long groupId,
+			""")
+	Page<GroupAuthorityExpenseProjection> getAllGroupExpensesOfAllMembers(@Param("userId") Long userId, @Param("groupId") Long groupId,
 			Pageable pageable);
 
 	@Query(nativeQuery = true, countQuery = "Select count(*) from user_expense_divisions", value = """
@@ -249,11 +249,13 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			    END,
 			    E.DEADLINE_DATE ASC
 			""")
-	Page<GroupAuthorityExpenseProjection> getAllGroupExpensesOfAllMembersFiltered(Long memberId, Long groupId,
-			String status,
-			Pageable pageable);
+	Page<GroupAuthorityExpenseProjection> getAllGroupExpensesOfAllMembersFiltered(@Param("memberId") Long memberId, @Param("groupId") Long groupId,
+                                                                                  @Param("status") String status,
+			                                                                      Pageable pageable);
 
-	@Modifying
+    List<Expense> findByDeadlineDateBeforeAndStatus(LocalDate date, Status status);
+
+    @Modifying
 	@Query(value = """
 			UPDATE user_expense_divisions
 			SET status = :status
@@ -270,7 +272,17 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			""", nativeQuery = true)
 	void setPaidExpense(@Param("expenseId") Long expenseId, @Param("status") String status);
 
-	@Query(value = """
+    @Modifying
+    @Query(value = """
+            UPDATE expenses
+            SET status = 'UNPAID'
+            WHERE id = :expenseId
+              AND status = 'PENDING'
+            """, nativeQuery = true)
+    void markExpenseAsUnpaid(@Param("expenseId") Long expenseId);
+
+
+    @Query(value = """
 			SELECT EXISTS(
 			   SELECT 1
 			   FROM user_expense_divisions ued
@@ -280,7 +292,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			     AND (ued.status = 'PENDING' OR ued.status = 'UNPAID')
 			)
 			""", nativeQuery = true)
-	boolean doesMemberHasPendingExpenses(Long memberId, Long groupId);
+	boolean doesMemberHasPendingExpenses(@Param("memberId") Long memberId, @Param("groupId") Long groupId);
 
 	@Query(nativeQuery = true, value = """
 			SELECT  UD.USER_ID AS USERID,
@@ -292,7 +304,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			INNER JOIN USERS U ON U.ID = UD.USER_ID
 			WHERE E.GROUP_ID = :groupId AND e.id = :expenseId
 			""")
-	List<UserExpenseDivisionProjection> listUsersExpenseDivision(Long groupId, Long expenseId);
+	List<UserExpenseDivisionProjection> listUsersExpenseDivision(@Param("groupId") Long groupId, @Param("expenseId") Long expenseId);
 
 	@Query(value = """
 			SELECT EXISTS(
@@ -300,7 +312,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			      FROM expenses e WHERE e.group_id = :groupId AND (e.status = 'PENDING' OR e.status = 'UNPAID')
 			   )
 			""", nativeQuery = true)
-	boolean groupHasPendingExpenses(Long groupId);
+	boolean groupHasPendingExpenses(@Param("groupId") Long groupId);
 
 	@Query(value = """
 			SELECT EXISTS(
@@ -308,7 +320,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			      FROM user_expense_divisions e WHERE e.expense_id = :expenseId AND (e.status = 'PENDING' OR e.status = 'UNPAID')
 			   )
 			""", nativeQuery = true)
-	boolean isExpensePaid(Long expenseId);
+	boolean isExpensePaid(@Param("expenseId") Long expenseId);
 
 	@Modifying
 	@Query(value = """
@@ -319,10 +331,10 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
 	@Query(value = """
 			SELECT * FROM expenses
-			WHERE deadline_date BETWEEN :creatAt AND :deadlineDate
+			WHERE deadline_date BETWEEN :today AND :deadlineDate
 			AND status != 'PAID'
 			""", nativeQuery = true)
 	List<Expense> findByExpirationDateBetween(
-			@Param("creatAt") Instant creatAt,
+			@Param("today") LocalDate today,
 			@Param("deadlineDate") LocalDate deadlineDate);
 }
