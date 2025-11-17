@@ -26,7 +26,6 @@ public class NotificationService {
                 Long daysUntilExpiration = ChronoUnit.DAYS.between(
                                 LocalDate.now(),
                                 expense.getDeadlineDate());
-                System.out.println("Chegou aqui!");
                 for (User user : users) {
                     ExpenseDueReminderMessage expenseDueReminderMessage = new
                             ExpenseDueReminderMessage(user.getName(), user.getEmail(), expense.getTitle(), daysUntilExpiration);

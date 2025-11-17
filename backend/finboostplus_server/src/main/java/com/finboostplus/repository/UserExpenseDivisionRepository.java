@@ -49,6 +49,16 @@ public interface UserExpenseDivisionRepository extends JpaRepository<UserExpense
         List<User> findUserByExpenseId(@Param("expenseId") Long expenseId);
 
         @Modifying
+        @Query(value = """
+                        UPDATE user_expense_divisions
+                        SET status = 'UNPAID'
+                        WHERE expense_id = :expenseId
+                          AND status = 'PENDING'
+                        """, nativeQuery = true)
+        void markDivisionAsUnpaid(@Param("expenseId") Long expenseId);
+
+
+    @Modifying
         @Query(nativeQuery = true, value = """
                         DELETE FROM user_expense_divisions ued
                         WHERE expense_id = :expenseId

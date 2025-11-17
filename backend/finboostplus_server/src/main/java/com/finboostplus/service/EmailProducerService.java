@@ -1,5 +1,6 @@
 package com.finboostplus.service;
 
+import email.ExpenseCreatedNotificationMessage;
 import email.ExpenseDueReminderMessage;
 import email.ForgotPasswordMessage;
 import email.RegistrationEmailMessage;
@@ -22,6 +23,9 @@ public class EmailProducerService {
 
     @Value("${topic.message.producer.expense.due.reminder.email}")
     private String expenseDueReminderTopic;
+
+    @Value("${topic.message.producer.expense.created.notification.email}")
+    private String expenseCreatedNotificationTopic;
 
     @Autowired
     private KafkaTemplate<String, Object> kafkaTemplate;
@@ -50,5 +54,12 @@ public class EmailProducerService {
         }
     }
 
+    public void expenseCreatedNotification(final ExpenseCreatedNotificationMessage expenseCreatedNotificationMessage){
+        try {
+            kafkaTemplate.send(expenseCreatedNotificationTopic, expenseCreatedNotificationMessage);
+        } catch (Exception e) {
+            log.error("Erro ao produzir mensagem no Kafka para topico {}: {}", expenseCreatedNotificationTopic, e.getMessage(), e);
+        }
+    }
 
 }

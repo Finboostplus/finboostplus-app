@@ -1,5 +1,6 @@
 package com.finboostplus.notificationemail.config;
 
+import email.ExpenseCreatedNotificationMessage;
 import email.ExpenseDueReminderMessage;
 import email.ForgotPasswordMessage;
 import email.RegistrationEmailMessage;
@@ -96,11 +97,35 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ExpenseDueReminderMessage>
-    expenseDueReminderKafkaListenerContainerFactory() {
+    public ConcurrentKafkaListenerContainerFactory<String, ExpenseDueReminderMessage> expenseDueReminderKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, ExpenseDueReminderMessage> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(expenseDueReminderConsumerFactory());
+        return factory;
+    }
+
+    @Bean
+    public ConsumerFactory<String, ExpenseCreatedNotificationMessage> expenseCreatedNotificationConsumerFactory() {
+        JsonDeserializer<ExpenseCreatedNotificationMessage> deserializer =
+                new JsonDeserializer<>(ExpenseCreatedNotificationMessage.class);
+        deserializer.addTrustedPackages("*");
+        deserializer.ignoreTypeHeaders();
+
+        Map<String, Object> props = new HashMap<>();
+        props.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(GROUP_ID_CONFIG, groupId);
+        props.put(KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        props.put(AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+        return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), deserializer);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ExpenseCreatedNotificationMessage> expenseCreatedNotificationKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ExpenseCreatedNotificationMessage> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(expenseCreatedNotificationConsumerFactory());
         return factory;
     }
 }

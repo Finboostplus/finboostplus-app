@@ -3,6 +3,7 @@ package com.finboostplus.repository;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.finboostplus.enums.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -155,7 +156,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			        ELSE 4
 			    END,
 			    E.DEADLINE_DATE ASC
-						""")
+			""")
 	Page<GroupMemberExpenseProjection> getAllGroupExpensesFiltered(@Param("memberId") Long memberId, @Param("groupId") Long groupId, @Param("status") String status,
 			Pageable pageable);
 
@@ -200,7 +201,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			        ELSE 4
 			    END,
 			    E.DEADLINE_DATE ASC
-									""")
+			""")
 	Page<GroupAuthorityExpenseProjection> getAllGroupExpensesOfAllMembers(@Param("userId") Long userId, @Param("groupId") Long groupId,
 			Pageable pageable);
 
@@ -252,7 +253,9 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                                                                                   @Param("status") String status,
 			                                                                      Pageable pageable);
 
-	@Modifying
+    List<Expense> findByDeadlineDateBeforeAndStatus(LocalDate date, Status status);
+
+    @Modifying
 	@Query(value = """
 			UPDATE user_expense_divisions
 			SET status = :status
@@ -269,7 +272,17 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 			""", nativeQuery = true)
 	void setPaidExpense(@Param("expenseId") Long expenseId, @Param("status") String status);
 
-	@Query(value = """
+    @Modifying
+    @Query(value = """
+            UPDATE expenses
+            SET status = 'UNPAID'
+            WHERE id = :expenseId
+              AND status = 'PENDING'
+            """, nativeQuery = true)
+    void markExpenseAsUnpaid(@Param("expenseId") Long expenseId);
+
+
+    @Query(value = """
 			SELECT EXISTS(
 			   SELECT 1
 			   FROM user_expense_divisions ued
