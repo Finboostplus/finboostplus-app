@@ -14,7 +14,6 @@ import com.finboostplus.repository.ExpenseRepository;
 import com.finboostplus.service.NotificationService;
 
 @Component
-@EnableScheduling
 public class ExpenseNotificationScheduler {
         @Autowired
         private ExpenseRepository expenseRepository;
