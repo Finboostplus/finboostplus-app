@@ -219,7 +219,7 @@ export default function ExpenseDetails() {
             <InputUI
               label="Título"
               name="title"
-              className="bg-white"
+              className="bg-surface"
               placeholder="Título da despesa"
               value={formData.title}
               onChange={handleChange}
@@ -230,7 +230,7 @@ export default function ExpenseDetails() {
               placeholder="Descrição da despesa..."
               value={formData.description}
               onChange={handleChange}
-              className="w-full min-h-[100px] rounded-lg border border-border bg-background px-3 py-2 text-text shadow-sm transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/30 placeholder:text-muted resize-none bg-white"
+              className="w-full min-h-[100px] rounded-lg border border-border bg-background px-3 py-2 text-text shadow-sm transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/30 placeholder:text-muted resize-none bg-surface"
             />
             <div className="grid sm:grid-cols-2 gap-6">
               <div className="flex flex-col gap-2">
@@ -252,7 +252,7 @@ export default function ExpenseDetails() {
                   min={getCurrentDate()}
                   value={formData.deadlineDate}
                   onChange={handleChange}
-                  className="focus:ring-2 bg-white focus:ring-primary/50 transition-all"
+                  className="focus:ring-2 bg-surface focus:ring-primary/50 transition-all"
                 />
               </div>
               <div className="flex items-end">

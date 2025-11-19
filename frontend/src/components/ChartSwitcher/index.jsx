@@ -9,26 +9,40 @@ export default function ChartSwitcher() {
   const [activeChart, setActiveChart] = useState('balance');
   const { data: expenseData } = useMeDashboardQuery();
   const total = expenseData?.reduce((sum, item) => sum + item.quantity, 0) || 0;
+<<<<<<< HEAD
+=======
+
+  const currentYear = new Date().getFullYear();
+  const title =
+    activeChart === 'balance'
+      ? `Como Você Gastou em ${currentYear}`
+      : `Despesas por Categoria ( ${total} )`;
+>>>>>>> develop
 
   return (
     <div className="w-full bg-surface p-6 rounded-2xl shadow-md border border-border/40 transition-colors duration-300 space-y-6">
       {/* Cabeçalho */}
-      <div className="flex  flex-1  justify-between items-center flex-wrap gap-3">
+      <div className="flex flex-1 justify-between items-center flex-wrap gap-3">
         <h2 className="text-xl font-semibold text-text transition-all duration-300">
+<<<<<<< HEAD
           {activeChart === 'balance'
             ? `Como Você Gastou em (${new Date().getFullYear()})`
             : `Despesas por Categoria (${total})`}
+=======
+          {title}
+>>>>>>> develop
         </h2>
 
         {/* Alternador */}
         <div className="relative flex bg-muted/20 rounded-full p-1.5 text-sm font-medium w-fit select-none">
-          {/* Indicador animado */}
+          {/* Indicador */}
           <div
-            className={`absolute top-1 bottom-1 w-[50%] bg-primary rounded-full transition-all duration-300 ${
+            className={`absolute top-1 bottom-1 w-1/2 bg-primary rounded-full transition-all duration-300 ${
               activeChart === 'expense' ? 'left-1/2' : 'left-1'
             }`}
-          ></div>
-          {/* Opção: Gastos Mensais */}
+          />
+
+          {/* Opção: Resumo Anual */}
           <ButtonUI
             onClick={() => setActiveChart('balance')}
             className={`relative z-10 w-1/2 flex items-center gap-2 px-4 py-1.5 rounded-full cursor-pointer transition-colors duration-300 ${
@@ -40,10 +54,11 @@ export default function ChartSwitcher() {
             <FaChartLine size={16} />
             <span>Resumo Anual</span>
           </ButtonUI>
-          {/* Opção: Saldo Geral */}
+
+          {/* Opção: Divisão de Gastos */}
           <ButtonUI
             onClick={() => setActiveChart('expense')}
-            className={`relative z-10 w-1/2 flex items-center gap-2 px-4 py-0.5 rounded-full cursor-pointer transition-colors duration-300 ${
+            className={`relative z-10 w-1/2 flex items-center gap-2 px-4 py-1.5 rounded-full cursor-pointer transition-colors duration-300 ${
               activeChart === 'expense'
                 ? 'text-white'
                 : 'text-muted-foreground hover:text-text'
@@ -56,7 +71,8 @@ export default function ChartSwitcher() {
       </div>
 
       {/* Área dos gráficos */}
-      <div className="relative w-full min-h-72 sm:h-80  rounded-xl ">
+      <div className="relative w-full min-h-72 sm:h-80 rounded-xl">
+        {/* BalanceChart */}
         <div
           className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
             activeChart === 'balance' ? 'opacity-100 z-10' : 'opacity-0 z-0'
@@ -65,6 +81,7 @@ export default function ChartSwitcher() {
           <BalanceChart />
         </div>
 
+        {/* ExpenseChart */}
         <div
           className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
             activeChart === 'expense' ? 'opacity-100 z-10' : 'opacity-0 z-0'
