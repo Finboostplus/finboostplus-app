@@ -145,7 +145,7 @@ public class UserService implements UserDetailsService {
 																	// algo
 																	// assim
 						+ validateUser.getUuid());
-		System.out.println("Para ativar sua conta, acesse o link: " + urlBase + "/user/userValidate/");
+		System.out.println("Para ativar sua conta, acesse o link: " + urlBase + "/user/userValidate/" + validateUser.getUuid());
 		System.out.print(validateUser.getUuid()); // Ajuda para ativar o usuário cadastrado
 		return userSaved.getId() != null;
 	}
