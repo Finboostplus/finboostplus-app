@@ -49,6 +49,7 @@ import com.finboostplus.repository.UserExpenseDivisionRepository;
 import com.finboostplus.repository.UserRepository;
 import com.finboostplus.repository.ValidateUserRepository;
 import com.finboostplus.util.PasswordGenerator;
+import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -80,6 +81,9 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	ExpenseRepository expenseRepository;
+
+	@Value("${URL_BASE}")
+	private String urlBase;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -135,12 +139,13 @@ public class UserService implements UserDetailsService {
 		emailService.enviarEmailTexto(userSaved.getEmail(),
 				"Conta criada com sucesso!",
 				"Seja bem vindo(a) " + userSaved.getName() + " ao FinboostPlus!\n" +
-						"Para ativar sua conta, acesse o link: http://localhost:8080/user/userValidate/" // Futuramente:
+						"Para ativar sua conta, acesse o link: " + urlBase + "/user/userValidate/" // Futuramente:
 																	// https://finboostplus.com.br
 																	// ou
 																	// algo
 																	// assim
 						+ validateUser.getUuid());
+		System.out.println("Para ativar sua conta, acesse o link: " + urlBase + "/user/userValidate/");
 		System.out.print(validateUser.getUuid()); // Ajuda para ativar o usuário cadastrado
 		return userSaved.getId() != null;
 	}
