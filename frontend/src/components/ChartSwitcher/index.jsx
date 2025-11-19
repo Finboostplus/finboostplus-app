@@ -3,9 +3,12 @@ import { FaChartLine, FaChartPie } from 'react-icons/fa';
 import BalanceChart from './BalanceChart';
 import ExpenseChart from './ExpenseChart';
 import ButtonUI from '../ui/Button';
+import { useMeDashboardQuery } from '../../hooks/ReactQuery/Queries/useMeDashboardStatsQuery';
 
 export default function ChartSwitcher() {
   const [activeChart, setActiveChart] = useState('balance');
+  const { data: expenseData } = useMeDashboardQuery();
+  const total = expenseData?.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
   return (
     <div className="w-full bg-surface p-6 rounded-2xl shadow-md border border-border/40 transition-colors duration-300 space-y-6">
@@ -14,7 +17,7 @@ export default function ChartSwitcher() {
         <h2 className="text-xl font-semibold text-text transition-all duration-300">
           {activeChart === 'balance'
             ? `Como Você Gastou em (${new Date().getFullYear()})`
-            : 'Despesas por Categoria (Geral)'}
+            : `Despesas por Categoria (${total})`}
         </h2>
 
         {/* Alternador */}

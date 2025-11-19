@@ -365,7 +365,7 @@ export default function ExpenseDetails() {
                     handleChangeStatusExpensePartialValue(member.userId)
                   }
                   disabled={!canChangeStatusExpenses}
-                  className={`flex min-w-[130px] disabled:cursor-auto cursor-pointer justify-center items-center gap-2 px-5 py-2 rounded-lg font-medium shadow-sm transition-all text-white ${STATUS_COLORS[member.status].bg}`}
+                  className={`flex min-w-[130px] disabled:cursor-none cursor-pointer justify-center items-center gap-2 px-5 py-2 rounded-lg font-medium shadow-sm transition-all text-white ${STATUS_COLORS[member.status].bg}`}
                   type="button"
                 >
                   {isLoadingStatus
