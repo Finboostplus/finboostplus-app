@@ -5,19 +5,20 @@ import SummaryCards from './components/SummaryCards';
 import { useGroupsQuery } from './hooks/ReactQuery/Queries/useGroupsQuery';
 
 function App() {
-  const {
-    data: { groupsLength },
-  } = useGroupsQuery();
+  const { data } = useGroupsQuery();
+
+  const hasGroups = (data?.groupsLength ?? 0) > 0;
+
   return (
     <div className="flex flex-col gap-10">
-      {groupsLength == 0 ? (
-        <EmptyGroupInvite />
-      ) : (
+      {hasGroups ? (
         <>
           <SummaryCards />
           <ChartSwitcher />
           <LatestExpenses />
         </>
+      ) : (
+        <EmptyGroupInvite />
       )}
     </div>
   );
