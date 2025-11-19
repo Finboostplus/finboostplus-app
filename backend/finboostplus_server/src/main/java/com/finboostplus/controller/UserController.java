@@ -43,6 +43,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/user")
@@ -199,8 +200,14 @@ public class UserController {
 		return ResponseEntity.ok("Senha alterada com sucesso!");
 	}
 
-	@GetMapping(value = "/userValidate/{uuid}")
-	public String validateUser(@PathVariable("uuid") String uuid) {
-		return userService.validateUser(uuid);
-	}
+    @GetMapping("/userValidate/{uuid}")
+    public RedirectView validateUser(@PathVariable String uuid) {
+        boolean valid = userService.validateUser(uuid);
+        if (!valid) {
+            return new RedirectView("/token-invalido");
+            // você pode apontar para HTML, endpoint do frontend, etc.
+        }
+        // Sucesso → redireciona para o login
+        return new RedirectView("http://localhost:5173/login");
+    }
 }
