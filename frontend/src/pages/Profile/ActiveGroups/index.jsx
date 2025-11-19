@@ -52,7 +52,7 @@ export default function ActiveGroups() {
           key={group.groupId}
           to={`/groups/${group.groupId}`}
           className="flex items-center gap-3 px-4 py-3 rounded-xl
-                     bg-linear-to-r from-white/60 to-white/10
+                      bg-surface border border-muted
                       text-sm font-medium text-foreground
                      shadow-sm hover:shadow-lg hover:scale-105
                      transition-all duration-200 group w-40"
