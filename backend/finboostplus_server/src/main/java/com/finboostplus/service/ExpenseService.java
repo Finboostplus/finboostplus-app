@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
+import email.ExpenseCreatedNotificationMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -71,6 +72,9 @@ public class ExpenseService {
 	@Autowired
 	GroupRepository groupRepository;
 
+    @Autowired
+    EmailProducerService emailProducerService;
+
 	private final List<String> AUTHLEVELS = List.of("OWNER", "ADMIN");
 
 	private void isUserAllowed(Long groupId) {
@@ -118,6 +122,7 @@ public class ExpenseService {
 				throw new ForbiddenResourceException("Membro da despesa não pertence ao grupo");
 			}
 		}
+
 		Status status = expenseDTO.deadlineDate().isAfter(LocalDate.now()) ? Status.PENDING : Status.UNPAID;
 		Expense expense = new Expense(
 				expenseDTO.title(),
@@ -129,6 +134,7 @@ public class ExpenseService {
 				expenseDTO.deadlineDate(),
 				status);
 		expense = expenseRepository.save(expense);
+
 		for (MembersExpenseDivisionCreateDTO member : expenseDTO.expenseDivision()) {
 			UserExpenseDivisionId userExpenseDivisionId = new UserExpenseDivisionId(member.id(),
 					expense.getId());
@@ -140,6 +146,11 @@ public class ExpenseService {
 					member.value(),
 					status);
 			userExpenseDivisionRepository.save(userExpenseDivision);
+            User userToMsg = userRepository.findById(member.id()).orElseThrow(
+                    () -> new UsernameNotFoundException("Usuário não encontrado!"));
+            ExpenseCreatedNotificationMessage expenseCreatedNotificationMessage =
+                    new ExpenseCreatedNotificationMessage(userToMsg.getName(), userToMsg.getEmail(), expenseDTO.title(), group.getName(), member.value(), expenseDTO.deadlineDate());
+            emailProducerService.expenseCreatedNotification(expenseCreatedNotificationMessage);
 		}
 		return true;
 	}

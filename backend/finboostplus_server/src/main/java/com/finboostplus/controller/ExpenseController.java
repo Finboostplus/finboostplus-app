@@ -41,15 +41,15 @@ public class ExpenseController {
 
 	@PostMapping
 	public ResponseEntity<String> createNewExpense(@Valid @RequestBody ExpenseCreateDTO dto,
-			@PathVariable Long groupId) {
+			@PathVariable("groupId") Long groupId) {
 		return expenseService.createNewExpense(dto, groupId)
 				? new ResponseEntity<String>("Despesa criada com sucesso!", HttpStatus.CREATED)
 				: new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);
 	}
 
 	@GetMapping("{expenseId}")
-	public ResponseEntity<Object> getExpenseDetails(@PathVariable Long groupId,
-			@PathVariable Long expenseId) {
+	public ResponseEntity<Object> getExpenseDetails(@PathVariable("groupId") Long groupId,
+			@PathVariable("expenseId")  Long expenseId) {
 		UserExpenseDivisionDTO expenseDivDTO = expenseService.getExpenseInfoDetails(groupId, expenseId);
 		if (expenseDivDTO != null) {
 			return ResponseEntity.ok(expenseDivDTO);
@@ -59,7 +59,7 @@ public class ExpenseController {
 
 	@GetMapping
 	public ResponseEntity<Page<GroupMemberExpenseProjection>> getAllGroupExpenses(
-			@PathVariable Long groupId,
+			@PathVariable("groupId") Long groupId,
 			@RequestParam(required = false) Status status,
 			@RequestParam(defaultValue = "true") boolean allMemberExpenses,
 			@RequestParam(defaultValue = "false") boolean allGroupMembersExpenses,
@@ -76,7 +76,7 @@ public class ExpenseController {
 
 	@PutMapping("{expenseId}")
 	public ResponseEntity<String> updateExpense(@Valid @RequestBody ExpenseUpdateDTO dto,
-			@PathVariable Long groupId, @PathVariable Long expenseId) {
+			@PathVariable("groupId") Long groupId, @PathVariable("expenseId") Long expenseId) {
 		return expenseService.updateExpense(dto, groupId, expenseId)
 				? new ResponseEntity<String>("Despesa atualizada com sucesso!", HttpStatus.OK)
 				: new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);
@@ -84,10 +84,10 @@ public class ExpenseController {
 
 	@PatchMapping("/{expenseId}/member/{memberId}")
 	public ResponseEntity<Object> updateMemberExpenseStatus(
-			@PathVariable Long memberId,
-			@PathVariable Long groupId,
-			@PathVariable Long expenseId,
-			ExpenseUpdateDTO dto) {
+			@PathVariable("memberId") Long memberId,
+			@PathVariable("groupId") Long groupId,
+			@PathVariable("expenseId") Long expenseId,
+			@RequestBody ExpenseUpdateDTO dto) {
 		boolean isUpdated = expenseService.updateExpenseStatus(memberId, groupId,
 				expenseId, dto);
 		if (isUpdated) {
@@ -97,7 +97,7 @@ public class ExpenseController {
 	}
 
 	@DeleteMapping("{expenseId}")
-	public ResponseEntity<Void> deleteExpense(@PathVariable Long expenseId, @PathVariable Long groupId) {
+	public ResponseEntity<Void> deleteExpense(@PathVariable("expenseId") Long expenseId, @PathVariable("groupId") Long groupId) {
 		expenseService.deleteExpense(expenseId, groupId);
 		return ResponseEntity.noContent().build();
 	}

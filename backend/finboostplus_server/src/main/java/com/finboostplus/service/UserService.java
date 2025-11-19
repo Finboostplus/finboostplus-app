@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import email.ForgotPasswordMessage;
+import email.RegistrationEmailMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -73,18 +75,18 @@ public class UserService implements UserDetailsService {
 	GroupMemberService groupMemberService;
 
 	@Autowired
-	private EmailService emailService;
-
-	@Autowired
 	ValidateUserRepository validateUserRepository;
 
 	@Autowired
 	ExpenseRepository expenseRepository;
 
-	@Override
+    @Autowired
+    EmailProducerService emailProducerService;
+
+    @Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		List<UserDetailsProjection> result = userRepository.searchUserAndRolesByEmail(username);
-		if (result.size() == 0) {
+		if (result.isEmpty()) {
 			throw new UsernameNotFoundException("Email não encontrado");
 		}
 		User user = new User();
@@ -132,16 +134,8 @@ public class UserService implements UserDetailsService {
 		validateUser.setUuid(UUID.randomUUID());
 		validateUser.setExpirationDate(Instant.now().plusSeconds(900));
 		validateUserRepository.save(validateUser);
-		emailService.enviarEmailTexto(userSaved.getEmail(),
-				"Conta criada com sucesso!",
-				"Seja bem vindo(a) " + userSaved.getName() + " ao FinboostPlus!\n" +
-						"Para ativar sua conta, acesse o link: http://localhost:8080/user/userValidate/" // Futuramente:
-																	// https://finboostplus.com.br
-																	// ou
-																	// algo
-																	// assim
-						+ validateUser.getUuid());
-		System.out.print(validateUser.getUuid()); // Ajuda para ativar o usuário cadastrado
+        RegistrationEmailMessage registrationEmailMessage = new RegistrationEmailMessage(userSaved.getEmail(), userSaved.getName(), validateUser.getUuid());
+        emailProducerService.sendRegisterEmail(registrationEmailMessage);
 		return userSaved.getId() != null;
 	}
 
@@ -155,7 +149,7 @@ public class UserService implements UserDetailsService {
 		if (!dto.email().equals(user.getEmail())) {
 			user.setEmail(dto.email());
 		}
-		if (!dto.themeColor().equals(user.getThemeColor()) && dto.themeColor() != null) {
+		if (dto.themeColor() != null && !dto.themeColor().equals(user.getThemeColor())) {
 			user.setThemeColor(dto.themeColor());
 		}
 		User userUpdated = userRepository.save(user);
@@ -214,19 +208,17 @@ public class UserService implements UserDetailsService {
 		User user = userRepository.findByEmailIgnoreCase(userName)
 				.orElseThrow(() -> new UserNotFoundException("Usuário nao encontrado"));
 		String newPassword = PasswordGenerator.generateRandomPassword();
-		emailService.enviarEmailTexto(user.getEmail(),
-				"Esqueceu sua senha?",
-				"Olá " + user.getName() + " sua nova senha é " + newPassword);
-		PasswordEncoder passwordEncoder = passwordEncoder();
+        ForgotPasswordMessage forgotPasswordMessage = new ForgotPasswordMessage(user.getEmail(), user.getName(), newPassword);
+        emailProducerService.sendForgotPasswordEmail(forgotPasswordMessage);
+        PasswordEncoder passwordEncoder = passwordEncoder();
 		user.setPassword(passwordEncoder.encode(newPassword));
 	}
 
 	public String validateUser(String uuid) {
-		Optional<ValidateUser> validateUser = Optional
-				.of(validateUserRepository.findByUuid(UUID.fromString(uuid)).get());
+		Optional<ValidateUser> validateUser = validateUserRepository.findByUuid(UUID.fromString(uuid));
 		if (validateUser.isEmpty()) {
 			return "Token inválido ou expirado";
-		} else if (validateUser.isPresent() && validateUser.get().getExpirationDate().isBefore(Instant.now())) {
+		} else if (validateUser.get().getExpirationDate().isBefore(Instant.now())) {
 			return "Token inválido ou expirado";
 		}
 		User user = validateUser.get().getUser();
@@ -253,7 +245,7 @@ public class UserService implements UserDetailsService {
 		Group group = groupService.getGroup(groupId);
 		if (group == null)
 			throw new GroupNotFoundException("Grupo não encontrado");
-		if (setAuthority == "OWNER") {
+		if (setAuthority.equals("OWNER")) {
 			if (!groupMemberRepository.isUserGroupOwner(user.getId(),
 					group.getId()))
 				throw new ForbiddenResourceException("Acesso negado");

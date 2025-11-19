@@ -188,7 +188,7 @@ public class UserController {
 
 	@PostMapping("/forgot-password")
 	public ResponseEntity<Void> forgotPassword(@RequestBody String userName) {
-		userService.forgotPassword(userName);
+        userService.forgotPassword(userName);
 		return ResponseEntity.noContent().build();
 	}
 

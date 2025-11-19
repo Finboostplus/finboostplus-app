@@ -42,14 +42,15 @@ public class GroupMemberService {
 
         @Transactional
         public void addGroupMember(Long groupId, GroupMemberDTO groupMemberDTO) {
+
                 User user = userRepository.findByEmailIgnoreCase(userService.authenticated())
                                 .orElseThrow(() -> new UserNotFoundException("Usuário logado não encontrado"));
                 User groupNewMember = userRepository.findByEmailIgnoreCase(groupMemberDTO.email())
                                 .orElseThrow(() -> new UserNotFoundException(
                                                 "Usuário que se deseja inserir não foi encontrado"));
-		if (!groupNewMember.isEnabled()) {
-			throw new UserNotFoundException("Usuário não encontrado");
-		}
+                if (!groupNewMember.isEnabled()) {
+                    throw new UserNotFoundException("Usuário não encontrado");
+                }
                 Group group = groupRepository.findById(Long.parseLong(String.valueOf(groupId)))
                                 .orElseThrow(() -> new GroupNotFoundException("Grupo não encontrado"));
                 boolean isUserGroupMember = groupMemberRepository.isUserMemberOfGroup(groupNewMember.getId(), groupId);
@@ -57,8 +58,7 @@ public class GroupMemberService {
                         throw new UserAlreadyRegisteredOnGroupException("Usuário já é membro no grupo");
                 }
                 if (userRepository.isUserAuthorityValidToGroup(user.getId(), groupId,
-                                this.AUTHORITIES) == true
-                                && (groupMemberDTO.authorization().equals("USER")
+                                this.AUTHORITIES) && (groupMemberDTO.authorization().equals("USER")
                                                 || groupMemberDTO.authorization().equals("ADMIN"))) {
                         GroupMember member = new GroupMember();
                         member.setUser(groupNewMember);
