@@ -5,7 +5,6 @@ import {
   FiEdit3,
   FiFileText,
   FiSave,
-  FiSettings,
   FiUserPlus,
   FiUsers,
 } from 'react-icons/fi';
@@ -71,7 +70,7 @@ export default function GroupSettings() {
 
   return (
     <div className="min-h-screen flex justify-center items-start p-6 sm:p-10 font-principal">
-      <main className="w-full max-w-3xl bg-white/80 backdrop-blur-xl border border-white/20 rounded-3xl p-8 sm:p-10 space-y-10  transition-all duration-300">
+      <main className="w-full max-w-3xl bg-surface/80 backdrop-blur-xl border border-surface/20 rounded-3xl p-8 sm:p-10 space-y-10  transition-all duration-300">
         {/* Cabeçalho */}
         <header className="relative text-center pb-6 border-b border-white/20">
           <div className="absolute inset-0 blur-2xl rounded-3xl" />
@@ -79,7 +78,7 @@ export default function GroupSettings() {
             <div className="p-5  text-primary rounded-full">
               <CategoryIcon categoryKey={group?.icon} className="w-15 h-15" />
             </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+            <h1 className="text-3xl text-text sm:text-4xl font-extrabold tracking-tight">
               Configurações de{' '}
               <span className="text-primary">{group.name}</span>
             </h1>
@@ -93,7 +92,7 @@ export default function GroupSettings() {
         {/* Formulário principal */}
         <form onSubmit={handleSubmit} className="space-y-10" autoComplete="off">
           {/* Informações básicas */}
-          <section className="bg-gradient-to-tr from-white/10 to-white/5 border border-white/10 rounded-2xl p-6 space-y-6 backdrop-blur-sm  transition-all duration-300">
+          <section className="bg-linear-to-tr from-white/10 to-white/5 border border-white/10 rounded-2xl p-6 space-y-6 backdrop-blur-sm  transition-all duration-300">
             <FieldSection
               id="groupName"
               label="Nome do grupo"

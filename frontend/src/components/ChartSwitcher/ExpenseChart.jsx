@@ -66,20 +66,6 @@ export default function ExpenseQuantityDonutChart() {
             </Pie>
           </PieChart>
         </ResponsiveContainer>
-
-        {/* Total centralizado */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-lg font-bold text-text leading-none">
-            {formatBRL(total, {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-              style: 'decimal',
-            })}
-          </span>
-          <span className="text-sm text-muted-foreground leading-none">
-            Total
-          </span>
-        </div>
       </div>
     </div>
   );
