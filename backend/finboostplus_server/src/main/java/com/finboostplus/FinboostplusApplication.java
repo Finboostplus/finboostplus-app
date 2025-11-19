@@ -12,6 +12,7 @@ import com.finboostplus.repository.UserRepository;
 
 @SpringBootApplication
 @EnableJpaAuditing
+@EnableScheduling
 public class FinboostplusApplication implements CommandLineRunner {
         @Autowired
         UserRepository userRepository;
