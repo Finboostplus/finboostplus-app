@@ -9,28 +9,19 @@ export default function ChartSwitcher() {
   const [activeChart, setActiveChart] = useState('balance');
   const { data: expenseData } = useMeDashboardQuery();
   const total = expenseData?.reduce((sum, item) => sum + item.quantity, 0) || 0;
-<<<<<<< HEAD
-=======
 
   const currentYear = new Date().getFullYear();
   const title =
     activeChart === 'balance'
       ? `Como Você Gastou em ${currentYear}`
       : `Despesas por Categoria ( ${total} )`;
->>>>>>> develop
 
   return (
     <div className="w-full bg-surface p-6 rounded-2xl shadow-md border border-border/40 transition-colors duration-300 space-y-6">
       {/* Cabeçalho */}
       <div className="flex flex-1 justify-between items-center flex-wrap gap-3">
         <h2 className="text-xl font-semibold text-text transition-all duration-300">
-<<<<<<< HEAD
-          {activeChart === 'balance'
-            ? `Como Você Gastou em (${new Date().getFullYear()})`
-            : `Despesas por Categoria (${total})`}
-=======
           {title}
->>>>>>> develop
         </h2>
 
         {/* Alternador */}
