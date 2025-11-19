@@ -226,22 +226,25 @@ public class UserService implements UserDetailsService {
 		user.setPassword(passwordEncoder.encode(newPassword));
 	}
 
-	public String validateUser(String uuid) {
-		Optional<ValidateUser> validateUser = Optional
-				.of(validateUserRepository.findByUuid(UUID.fromString(uuid)).get());
-		if (validateUser.isEmpty()) {
-			return "Token inválido ou expirado";
-		} else if (validateUser.isPresent() && validateUser.get().getExpirationDate().isBefore(Instant.now())) {
-			return "Token inválido ou expirado";
-		}
-		User user = validateUser.get().getUser();
-		if (user.isEnabled()) {
-			throw new ForbiddenResourceException("Usuário já habilitado");
-		}
-		user.setActive(true);
-		validateUserRepository.delete(validateUser.get());
-		return "";
-	}
+    public boolean validateUser(String uuid) {
+        Optional<ValidateUser> validateUser =
+                validateUserRepository.findByUuid(UUID.fromString(uuid));
+        // token não encontrado
+        if (validateUser.isEmpty()) {
+            return false;
+        }
+        // token expirado
+        if (validateUser.get().getExpirationDate().isBefore(Instant.now())) {
+            return false;
+        }
+        User user = validateUser.get().getUser();
+        if (user.isEnabled()) {
+            throw new ForbiddenResourceException("Usuário já habilitado");
+        }
+        user.setActive(true);
+        validateUserRepository.delete(validateUser.get());
+        return true;
+    }
 
 	@Transactional
 	public boolean switchAuthority(Long newOwnerId, Long groupId, SwitchAuthorityRequestDTO authDTO) {
