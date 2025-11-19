@@ -208,6 +208,6 @@ public class UserController {
             // você pode apontar para HTML, endpoint do frontend, etc.
         }
         // Sucesso → redireciona para o login
-        return new RedirectView("http://localhost:5173/login");
+        return new RedirectView("https://finboostplus-app-zeta.vercel.app/login");
     }
 }
