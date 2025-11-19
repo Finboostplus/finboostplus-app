@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const PWAInstaller = () => {
+const PWAInstaller = ({ hideWhenModalOpen = false }) => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
 
@@ -50,10 +50,10 @@ const PWAInstaller = () => {
     setShowInstallButton(false);
   };
 
-  if (!showInstallButton) return null;
+  if (!showInstallButton || hideWhenModalOpen) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
+    <div className="fixed bottom-4 left-4 z-30">
       <div className="bg-blue-600 text-white p-4 rounded-lg shadow-lg max-w-sm">
         <div className="flex items-center justify-between">
           <div>
