@@ -66,7 +66,7 @@ export default function GroupForm({ page }) {
         await mutateAsync(formData);
       }
     },
-    [isPending, isDisabled, groupName, selectedIcon, mutateAsync]
+    [isPending, isDisabled, groupName, description, selectedIcon, mutateAsync]
   );
 
   return (
