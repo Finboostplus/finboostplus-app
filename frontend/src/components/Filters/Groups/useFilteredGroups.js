@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
 
-export function useFilteredGroups(groups, currentUserId, filters) {
+export function useFilteredGroups(groups, role, filters) {
   const { search, onlyOwner, sortOrder } = filters;
 
   return useMemo(() => {
     return groups
-      .filter(
+      ?.filter(
         group =>
-          (!onlyOwner || group.ownerId === currentUserId) &&
+          (!onlyOwner || group.authority === role) &&
           group.name.toLowerCase().includes(search.trim().toLowerCase())
       )
       .sort((a, b) => {
@@ -15,5 +15,5 @@ export function useFilteredGroups(groups, currentUserId, filters) {
         const bDate = new Date(b.createdAt).getTime();
         return sortOrder === 'asc' ? aDate - bDate : bDate - aDate;
       });
-  }, [groups, currentUserId, filters]);
+  }, [groups, role, filters]);
 }

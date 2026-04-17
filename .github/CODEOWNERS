@@ -1,11 +1,17 @@
 # Responsável pelo diretório frontend
-/frontend/   @cleytonjesus07
+/frontend/ @cleytonjesus07
 
 # Responsável pelo diretório backend
-/backend/    @Bruno-Pimenta
+/backend/ @Bruno-Pimenta
 
-# Responsável pelo arquivo de configuração geral
-/config.yml  @Alan-oliveir
+# Responsável pelo diretório docs
+/docs/ @Alan-oliveir
+
+# Responsável pelo diretório project_docs
+/project_docs/ @Alan-oliveir
+
+# Responsável pelas configurações do GitHub
+/.github/ @Alan-oliveir
 
 # Responsável por todo o repositório (fallback)
-*           @Alan-oliveir
+* @Alan-oliveir

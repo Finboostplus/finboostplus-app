@@ -1,0 +1,128 @@
+package com.finboostplus.exception.handler;
+
+import com.finboostplus.exception.*;
+import com.finboostplus.exception.error.CustomError;
+import com.finboostplus.exception.error.ValidationError;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.time.Instant;
+
+@ControllerAdvice
+public class ControllerExceptionHandler {
+
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<?> resourceNotFoundException(ResourceNotFoundException e) {
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		CustomError error = new CustomError(Instant.now(), "Not Found", status.value(), e.getMessage());
+		return ResponseEntity.status(status).body(error);
+	}
+
+	@ExceptionHandler(DatabaseException.class)
+	public ResponseEntity<?> databaseException(DatabaseException e) {
+		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+		CustomError error = new CustomError(Instant.now(), "Internal Server Error", status.value(),
+				e.getMessage());
+		return ResponseEntity.status(status).body(error);
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<?> methodArgumentNotValidException(MethodArgumentNotValidException e) {
+		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+		ValidationError error = new ValidationError(Instant.now(), "Erro de validação", status.value(),
+				"Dados inválidos");
+		for (FieldError f : e.getBindingResult().getFieldErrors()) {
+			error.addError(f.getField(), f.getDefaultMessage());
+		}
+		return ResponseEntity.status(status).body(error);
+	}
+
+	@ExceptionHandler(EmailAlreadyRegisteredException.class)
+	public ResponseEntity<?> emailAlreadyRegisteredException(EmailAlreadyRegisteredException e) {
+		HttpStatus status = HttpStatus.CONFLICT;
+		CustomError error = new CustomError(Instant.now(), "Internal Server Error", status.value(),
+				e.getMessage());
+		return ResponseEntity.status(status).body(error);
+	}
+
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<?> userNotFoundException(UserNotFoundException e) {
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		CustomError error = new CustomError(Instant.now(), "User Not Found", status.value(), e.getMessage());
+		return ResponseEntity.status(status).body(error);
+	}
+
+	@ExceptionHandler(ForbiddenResourceException.class)
+	public ResponseEntity<?> forbiddenResourceException(ForbiddenResourceException e) {
+		HttpStatus status = HttpStatus.FORBIDDEN;
+		CustomError error = new CustomError(Instant.now(), "Resource Not Allowed", status.value(),
+				e.getMessage());
+		return ResponseEntity.status(status).body(error);
+	}
+
+	@ExceptionHandler(UserAlreadyRegisteredOnGroupException.class)
+	public ResponseEntity<?> userAlreadyRegisteredOnGroupException(UserAlreadyRegisteredOnGroupException e) {
+		HttpStatus status = HttpStatus.CONFLICT;
+		CustomError error = new CustomError(Instant.now(), "Internal Server Error", status.value(),
+				e.getMessage());
+		return ResponseEntity.status(status).body(error);
+	}
+
+	@ExceptionHandler(ValuesIncompatiblesException.class)
+	public ResponseEntity<?> valuesInCompatiblesException(ValuesIncompatiblesException e) {
+		HttpStatus status = HttpStatus.CONFLICT;
+		CustomError error = new CustomError(Instant.now(), "Internal Server Error", status.value(),
+				e.getMessage());
+		return ResponseEntity.status(status).body(error);
+	}
+
+	@ExceptionHandler(CategoryNotFoundException.class)
+	public ResponseEntity<?> categoryNotFoundException(CategoryNotFoundException e) {
+		HttpStatus status = HttpStatus.CONFLICT;
+		CustomError error = new CustomError(Instant.now(), "Internal Server Error", status.value(),
+				e.getMessage());
+		return ResponseEntity.status(status).body(error);
+	}
+
+	@ExceptionHandler(ExpenseNotFoundException.class)
+	public ResponseEntity<?> expenseNotFoundException(ExpenseNotFoundException e) {
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		CustomError error = new CustomError(Instant.now(), "Expense Not Found", status.value(), e.getMessage());
+		return ResponseEntity.status(status).body(error);
+	}
+
+	@ExceptionHandler(GroupNotFoundException.class)
+	public ResponseEntity<?> groupNotFoundException(GroupNotFoundException e) {
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		CustomError error = new CustomError(Instant.now(), "Group Not Found", status.value(), e.getMessage());
+		return ResponseEntity.status(status).body(error);
+	}
+
+	@ExceptionHandler(MemberHasPendingExpensesException.class)
+	public ResponseEntity<?> memberHasPendingExpensesException(MemberHasPendingExpensesException e) {
+		HttpStatus status = HttpStatus.FORBIDDEN;
+		CustomError error = new CustomError(Instant.now(), "Resource Not Allowed", status.value(),
+				e.getMessage());
+		return ResponseEntity.status(status).body(error);
+	}
+
+	@ExceptionHandler(OwnerLeaveNotAllowedException.class)
+	public ResponseEntity<?> ownerLeaveNotAllowedException(OwnerLeaveNotAllowedException e) {
+		HttpStatus status = HttpStatus.FORBIDDEN;
+		CustomError error = new CustomError(Instant.now(), "Resource Not Allowed", status.value(),
+				e.getMessage());
+		return ResponseEntity.status(status).body(error);
+	}
+
+	@ExceptionHandler(InvalidCredentialsException.class)
+	public ResponseEntity<?> invalidCredentialsException(InvalidCredentialsException e) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		CustomError error = new CustomError(Instant.now(), "Invalid Credentials", status.value(),
+				e.getMessage());
+		return ResponseEntity.status(status).body(error);
+	}
+}

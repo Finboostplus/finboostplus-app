@@ -1,49 +1,68 @@
-import ProtectedRoute from './ProtectedRoute';
 import { createBrowserRouter } from 'react-router';
 import { lazy } from 'react';
-import { groupDetailsLoader } from '../pages/Groups/GroupDetails/groupDetailsLoader';
-import { loginAction } from '../pages/Login/loginAction';
-import { registerAction } from '../pages/Register/registerAction';
-const App = lazy(() => import('../App'));
-const Layout = lazy(() => import('../components/Layout'));
+import { loginAction } from '../actions/loginAction';
+import { registerAction } from '../actions/registerAction';
+import { protectRoutersLoader } from '../loaders/protectRoutersLoader';
+
+// Layout e App carregados normalmente
+import Layout from '../components/Layout';
+import App from '../App';
+import ExpenseDetails from '../pages/Expenses/ExpenseDetails';
+import { redirectIfAuthenticatedLoader } from '../loaders/redirectIfAuthenticatedLoader';
+import NotFound from '../pages/Notfound';
+import { expenseLoader } from '../loaders/expenseLoader';
+
 const Login = lazy(() => import('../pages/Login'));
 const Register = lazy(() => import('../pages/Register'));
-const Dashboard = lazy(() => import('../pages/Dashboard'));
 const Groups = lazy(() => import('../pages/Groups'));
 const GroupDetails = lazy(() => import('../pages/Groups/GroupDetails'));
 const Profile = lazy(() => import('../pages/Profile'));
-const NotFound = lazy(() => import('../pages/Notfound'));
-export const routes = createBrowserRouter([
-  // Rotas públicas (login e registro)
+const GroupSettings = lazy(
+  () => import('../pages/Groups/GroupDetails/GroupSettings')
+);
+
+// Export router diretamente (não como função)
+export const appRouter = createBrowserRouter([
   {
     element: <Layout />,
-    children: [
-      { path: '/login', element: <Login />, action: loginAction },
-      { path: '/register', element: <Register />, action: registerAction },
-    ],
-  },
-  // Rotas privadas (todas as outras)
-  {
-    path: '/',
-    element: <ProtectedRoute />, // <== Aqui é onde protegemos tudo
-    errorElement: <NotFound />,
+    errorElement: <NotFound />, // <-- Captura qualquer erro de rota
+    loader: redirectIfAuthenticatedLoader,
     children: [
       {
-        element: <Layout />,
+        path: '/login',
+        element: <Login />,
+        action: loginAction,
+      },
+      {
+        path: '/register',
+        element: <Register />,
+        action: registerAction,
+      },
+      {
+        path: '/',
+        loader: protectRoutersLoader,
         children: [
-          { index: true, element: <App /> }, // Redirecionamento ou página inicial
-          { path: 'dashboard', element: <Dashboard /> },
+          { index: true, element: <App /> },
           {
             path: 'groups',
             children: [
               { index: true, element: <Groups /> },
               {
-                path: ':group-id',
+                path: ':group_id',
                 element: <GroupDetails />,
-                loader: groupDetailsLoader,
+              },
+              {
+                path: ':group_id/expenses/:expense_id',
+                element: <ExpenseDetails />,
+                loader: expenseLoader,
+              },
+              {
+                path: ':group_id/settings',
+                element: <GroupSettings />,
               },
             ],
           },
+
           { path: 'profile', element: <Profile /> },
         ],
       },

@@ -516,3 +516,50 @@
 - Upload de comprovantes de despesas
 - Relatórios em PDF
 - Integração com sistemas de pagamento
+
+---
+
+## Histórico de Versões
+
+| Versão | Data                     | Autor | Justificativa das Mudanças |
+|--------|--------------------------|-------|---------------------------|
+| **v1.0** | **02 de Agosto de 2025** | **Equipe FinBoost+** | **Versão inicial do contrato de API** - Definição completa dos endpoints da API RESTful para o sistema de controle financeiro compartilhado. Inclui especificações para autenticação (JWT + OAuth2), gestão de usuários, grupos, despesas e dashboard. Estrutura baseada nos requisitos funcionais do MVP com foco em documentação técnica clara para desenvolvimento e integração. |
+
+### **Características da Versão v1.0**
+
+**Endpoints Principais:**
+- Autenticação completa (login, registro, recuperação de senha)
+- CRUD de usuários com perfil e preferências
+- Gestão completa de grupos e membros
+- Sistema robusto de despesas compartilhadas
+- Dashboard com métricas e resumos
+
+**Padrões Técnicos:**
+- API RESTful com JSON
+- Autenticação via JWT Bearer Token
+- Códigos de status HTTP padronizados
+- Estrutura de erro consistente
+- Paginação em listagens
+
+**Requisitos de Segurança:**
+- Headers de autenticação obrigatórios
+- Validação de permissões por grupo
+- Sanitização de entrada de dados
+- Proteção contra ataques comuns
+
+### **Notas de Implementação**
+
+**Desenvolvimento**: Implementação seguindo as melhores práticas de REST e segurança
+**Documentação Interativa:** Scalar (quando implementado)  
+
+---
+
+### **Metadados do Documento**
+
+**Documento:** Contrato de API - FinBoost+ Sistema de Controle Financeiro  
+**Versão Atual:** v1.0  
+**Data da Última Atualização:** 15 de Agosto de 2025  
+**Próxima Revisão Prevista:** Durante o desenvolvimento da API  
+**Status:** Baseline para implementação  
+**Tipo:** Documentação Técnica de API  
+**Público:** Equipe de desenvolvimento (Backend + Frontend)  

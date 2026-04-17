@@ -1,40 +1,49 @@
-import { GrMoney } from 'react-icons/gr';
-import { MdCreditCardOff } from 'react-icons/md';
+import { MdCreditCardOff, MdBarChart } from 'react-icons/md';
 import CardUI from '../ui/Card';
-import userData from '../../mockData/user/user.data';
 import { formatBRL } from '../../utils/formatters';
+import { REACTQUERY_KEYS } from '../../libs/ReactQuery/keys';
+import { getMeExpensesByMonthly } from '../../services/me';
+import { useQuery } from '@tanstack/react-query';
+import { getMonthlyExpensesSummary } from './expenseUtils';
 
 export default function SummaryCards() {
-  const current_user = userData;
-  const totalBalanceBRL = formatBRL(current_user.dashboard.totalBalance);
-  const totalMonthlySpentBRL = formatBRL(
-    current_user.dashboard.totalMonthlySpent
-  );
-  const isNegative = current_user.dashboard.totalBalance < 0;
+  const { data: expensesResponse } = useQuery({
+    queryKey: [REACTQUERY_KEYS.USER.DASHBOARD, 'balance'],
+    queryFn: getMeExpensesByMonthly,
+  });
+
+  const summary = expensesResponse?.length
+    ? getMonthlyExpensesSummary(expensesResponse)
+    : { totalExpenses: 0, mostExpense: { month: '', total: 0 } };
 
   return (
-    <CardUI className="grid grid-cols-2 gap-6 max-md:flex max-md:flex-col mb-6">
-      {/* Saldo Total */}
-      <CardUI
-        className={`relative p-6 rounded-2xl shadow-md border
-          ${
-            isNegative
-              ? 'border-error bg-error/10 text-error'
-              : 'border-success bg-success/10 text-success'
-          }
-        `}
-      >
-        <p className="text-sm font-medium">Saldo Total</p>
-        <p className="text-2xl font-extrabold mt-2">{totalBalanceBRL}</p>
-        <GrMoney className="absolute right-4 top-4 w-[80px] h-[80px] opacity-20" />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
+      {/* Total de Gastos no Ano */}
+      <CardUI className="relative overflow-hidden p-6 rounded-2xl shadow-md border border-border bg-surface text-text transition-colors">
+        <MdCreditCardOff className="absolute right-4 top-4 w-20 h-20 opacity-10 text-muted-foreground" />
+        <div className="flex flex-col gap-2">
+          <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+            Total de Gastos no Ano
+          </p>
+          <p className="text-2xl font-extrabold">
+            {formatBRL(summary.totalExpenses)}
+          </p>
+        </div>
       </CardUI>
 
-      {/* Total Gasto */}
-      <CardUI className="relative p-6 rounded-2xl shadow-md border border-muted bg-neutral text-text transition-colors">
-        <p className="text-sm font-medium">Total Gasto (Mês)</p>
-        <p className="text-2xl font-extrabold mt-2">{totalMonthlySpentBRL}</p>
-        <MdCreditCardOff className="absolute right-4 top-4 w-[80px] h-[80px] opacity-20" />
+      {/* Mês com Maior Gasto */}
+      <CardUI className="relative overflow-hidden p-6 rounded-2xl shadow-md border border-border bg-surface text-text transition-colors">
+        <MdBarChart className="absolute right-4 top-4 w-20 h-20 opacity-10 text-muted-foreground" />
+        <div className="flex flex-col gap-2">
+          <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+            Mês com Maior Gasto
+          </p>
+          <p className="text-2xl font-extrabold">
+            {summary.maxExpenseMonth?.month || '-'} (
+            {formatBRL(summary.maxExpenseMonth?.total)})
+          </p>
+        </div>
       </CardUI>
-    </CardUI>
+    </div>
   );
 }

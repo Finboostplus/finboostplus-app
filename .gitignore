@@ -13,9 +13,11 @@ frontend/.DS_Store
 frontend/.eslintcache
 
 # IntelliJ/WebStorm/Vscode (IDE/Editor)
-.idea/
 .vscode/
+.idea/
+*.iws
 *.iml
+*.ipr
 
 # Logs
 logs/

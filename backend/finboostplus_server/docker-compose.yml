@@ -1,0 +1,41 @@
+services:
+  server:
+    build:
+      context: .
+    ports:
+      - 8080:8080
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/build
+    environment:
+      - POSTGRES_URL=jdbc:postgresql://db:5432/finboostplus
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/finboostplus
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_MAIL_USERNAME=${MENSAGERIE_EMAIL}
+      - SPRING_MAIL_PASSWORD=${MENSAGERIE_PASSWORD}
+      - SPRING_CLIENT_ID=${CLIENT_ID}
+      - SPRING_CLIENT_SECRET=${CLIENT_SECRET}
+      - CORS_ORIGINS=${CORS_ORIGINS}
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql
+    environment:
+      - POSTGRES_DB=finboostplus
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  db-data:

@@ -1,18 +1,20 @@
 site_name: FinBoost+ Documentation
-site_description: Documentação completa da aplicação FinBoost+ (Frontend e Backend)
+site_description: Documentação completa da aplicação FinBoost+
 site_author: Equipe FinBoost+
-repo_url: https://github.com/seu-usuario/finboostplus-app
+repo_url: https://github.com/Finboostplus/finboostplus-app
 repo_name: finboostplus-app
 docs_dir: docs
 site_dir: site
 
 theme:
   name: material
+  language: pt-BR
   features:
     - navigation.tabs
     - navigation.sections
     - navigation.expand
     - navigation.top
+    - navigation.footer
     - search.highlight
     - search.suggest
     - content.code.copy
@@ -31,7 +33,8 @@ theme:
         name: Switch to light mode
 
 plugins:
-  - search
+  - search:
+      lang: pt
   - mermaid2
 
 markdown_extensions:
@@ -51,32 +54,50 @@ markdown_extensions:
   - attr_list
   - md_in_html
 
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Finboostplus
+  generator: false
+
+copyright: FinBoost+ Team - Controle Financeiro e Compartilhamento de Despesas
+
 nav:
-  - Home: index.md
-  - Projeto:
+  - Início: index.md
+  - Guia do Usuário:
+      - Introdução: user_guide/intro.md
+      - Instalação e Setup: user_guide/setup.md
+      - Como Usar: user_guide/usage.md
+      - FAQ: user_guide/faq.md
+  - Sobre o Projeto:
       - Visão Geral: project/overview.md
-      - Requisitos: project/requirements.md
-      - User Stories: project/user-stories.md
-      - Diagramas: project/diagrams.md
-      - Personas: project/personas.md
+      - MVP (Resumo): project/mvp_summary.md
+      - Funcionalidades: project/features.md
+      - Personas Principais: project/personas_key.md
+      - Equipe: project/team.md
+      - Documentação Completa: project/full_docs.md
+  - Arquitetura e API:
+      - Visão da Arquitetura: technical/architecture.md
+      - API - Documentação e Guia: technical/api_documentation.md
+      - Banco de Dados: technical/database.md
+      - Autenticação: technical/auth.md
+      - Estratégia de Testes: technical/testing_strategy.md
   - Frontend:
-      - Visão Geral: frontend/index.md
-      - Getting Started: frontend/getting-started.md
-      - Arquitetura: frontend/architecture.md
-      - Componentes: frontend/components.md
-      - Páginas: frontend/pages.md
-      - Hooks: frontend/hooks.md
-      - Serviços: frontend/services.md
-      - Styling: frontend/styling.md
-      - Testes: frontend/testing.md
-      - Deploy: frontend/deployment.md
-      - API Reference: frontend/api-reference.md
+      - Estrutura e Padrões: frontend/structure.md
+      - Componentes Principais: frontend/components.md
+      - Hooks Customizados: frontend/hooks.md
+      - Testes Frontend: frontend/testing.md
   - Backend:
-      - Visão Geral: backend/index.md
-      - Getting Started: backend/getting-started.md
-      - Arquitetura: backend/architecture.md
-      - API Endpoints: backend/api-endpoints.md
-      - Database: backend/database.md
-      - Autenticação: backend/authentication.md
-      - Testes: backend/testing.md
-      - Deploy: backend/deployment.md
+      - Estrutura e Padrões: backend/structure.md
+      - Modelos e Schemas: backend/models.md
+      - Testes Backend: backend/testing.md
+  - Uso de IA:
+      - Como Usamos IA: ai_docs/ai_usage.md
+      - Frontend - Uso de IA: frontend/ai_usage.md
+      - Frontend - Registro de Prompts: frontend/ai_prompts_log.md
+      - Backend - Uso de IA: backend/ai_usage.md
+      - Backend - Registro de Prompts: backend/ai_prompts_log.md
+  - Para Desenvolvedores:
+      - Configuração de Ambiente: dev/environment.md
+      - Links Úteis: dev/useful_links.md
+      - Wiki de Desenvolvimento: "https://github.com/Finboostplus/finboostplus-app/wiki"

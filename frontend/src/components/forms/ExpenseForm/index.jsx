@@ -2,55 +2,202 @@ import { Form } from 'react-router';
 import FormFieldsExpenses from './FormFieldsExpenses';
 import ButtonUI from '../../ui/Button';
 import CustomSplitAmount from './CustomSplitAmount';
-import { useState } from 'react';
+import { useFormExpense } from './useForm';
+import { useEffect, useState, useCallback, useMemo } from 'react';
+import { customToast } from '../../CustomToast';
+import Modal from '../../Modal';
+import ListMembers from './ListMembers';
+import { FiUserPlus, FiX } from 'react-icons/fi';
 
-export default function ExpenseForm() {
-  const [splitType, setSplitType] = useState('equal');
-  const activeBtnClasses = 'bg-primary text-white border-transparent';
-  const inactiveBtnClasses =
-    'bg-neutral text-text border border-gray-300 hover:bg-secondary hover:text-white transition';
+import { useCreateExpenseMutation } from '../../../hooks/ReactQuery/Mutations/useCreateExpenseMutation';
+import { useMembersQuery } from '../../../hooks/ReactQuery/Queries/useMembersQuery';
+import { validatorCreateNewExpense } from '../../../schemas/createNewExpense/form';
+
+export default function ExpenseForm({ groupData: group }) {
+  const [search, setSearch] = useState(''); // termo final para API
+  const useExpenseMutation = useCreateExpenseMutation(group?.id);
+  const { data: { members: groupMembers = [], totalPages } = {}, isLoading } =
+    useMembersQuery(group?.id, 0, search);
+
+  const { setMembers, amount, divisionAmount, reset, getRemainingDifference } =
+    useFormExpense();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedMembers, setSelectedMembers] = useState([]);
+  const [showMemberModal, setShowMemberModal] = useState(false);
+
+  // 🔄 Reseta store ao desmontar
+  useEffect(() => reset, [reset]);
+
+  // 👥 Atualiza membros selecionados
+  useEffect(() => {
+    setMembers(selectedMembers.length > 0 ? selectedMembers : []);
+  }, [selectedMembers, setMembers]);
+
+  // ⚖️ Verifica se a distribuição está correta
+  const distributionOK =
+    selectedMembers.length > 0 && Math.abs(getRemainingDifference()) < 0.01;
+
+  // 📝 Envio do formulário
+  const handleExpenseSubmit = useCallback(
+    async e => {
+      e.preventDefault();
+      if (isSubmitting) return;
+      if (!distributionOK) {
+        return customToast(
+          'Erro',
+          'A distribuição de valores não corresponde ao total da despesa.',
+          'error'
+        );
+      }
+
+      try {
+        const formData = new FormData(e.target);
+        const formValues = Object.fromEntries(formData);
+
+        const expenseData = {
+          title: formValues.title_expense,
+          description: formValues.description || '',
+          deadlineDate: formValues.date,
+          expenseValue: Number(amount),
+          categoryId: Number(formValues.category_id),
+          expenseDivision: Object.entries(divisionAmount).map(
+            ([memberId, val]) => ({
+              id: Number(memberId),
+              value: Number(val.float.toFixed(2)),
+            })
+          ),
+        };
+
+        if (validatorCreateNewExpense(expenseData)) {
+          setIsSubmitting(true);
+
+          await useExpenseMutation.mutateAsync(expenseData, {
+            onSuccess: () =>
+              customToast(
+                'Nova despesa',
+                'Despesa adicionada com sucesso!',
+                'success'
+              ),
+            onError: ({ response: { data: error } }) => {
+              customToast(error.title, error.message, 'error');
+            },
+            onSettled: () => setIsSubmitting(false),
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        customToast(
+          'Erro',
+          err?.message || 'Ocorreu um erro inesperado.',
+          'error'
+        );
+        setIsSubmitting(false);
+      }
+    },
+    [amount, divisionAmount, distributionOK, isSubmitting]
+  );
+
+  const removeMember = memberId => {
+    setSelectedMembers(prev => prev.filter(m => m.id !== memberId));
+  };
 
   return (
-    <Form
-      method="post"
-      className="grid md:grid-cols-2 gap-6 max-md:flex max-md:flex-col"
-      aria-label="Formulário para adicionar nova despesa"
-    >
-      <FormFieldsExpenses />
+    <div className="bg-surface dark:bg-surface-dark rounded-xl space-y-6 p-6">
+      {/* Cabeçalho */}
+      <header>
+        <h2 className="text-2xl font-bold text-center md:text-left">
+          Adicionar nova despesa
+        </h2>
+        <p className="text-sm text-muted dark:text-muted-dark mt-1">
+          Preencha os detalhes abaixo para adicionar uma despesa ao grupo{' '}
+          <strong>{group?.name || ''}</strong>.
+        </p>
+      </header>
 
-      {/* Como dividir */}
-      <div className="col-span-2">
-        <p className="font-semibold mt-4 mb-2">Como dividir?</p>
-        <div className="flex gap-4" role="group" aria-label="Método de divisão">
-          <ButtonUI
-            title="Dividir igual"
-            fnClick={() => setSplitType('equal')}
-            type="button"
-            className={`py-2 px-4 rounded border cursor-pointer font-semibold ${splitType === 'equal' ? activeBtnClasses : inactiveBtnClasses}`}
-            aria-pressed={splitType === 'equal'}
-          />
-          <ButtonUI
-            title="Personalizar"
-            fnClick={() => setSplitType('personalize')}
-            type="button"
-            className={`py-2 px-4 rounded border cursor-pointer font-semibold ${splitType === 'personalize' ? activeBtnClasses : inactiveBtnClasses}`}
-            aria-pressed={splitType === 'personalize'}
-          />
+      <Form
+        onSubmit={handleExpenseSubmit}
+        method="post"
+        className="grid md:grid-cols-[100%] max-md:flex max-md:flex-col gap-6"
+        aria-label="Formulário para adicionar nova despesa"
+      >
+        {/* Campos principais */}
+        <FormFieldsExpenses data={groupMembers} />
+
+        {/* Seleção de membros */}
+        <div className="col-span-2 flex flex-col gap-2">
+          {selectedMembers.length === 0 && groupMembers.length > 0 && (
+            <ButtonUI
+              type="button"
+              onClick={() => setShowMemberModal(true)}
+              className="flex items-center gap-2 justify-center bg-secondary text-white py-2 px-4 rounded-lg hover:bg-secondary/90 focus:outline-none focus:ring-2 focus:ring-primary transition-shadow shadow-sm cursor-pointer"
+            >
+              <FiUserPlus size={20} />
+              Selecionar participantes
+            </ButtonUI>
+          )}
+
+          {selectedMembers.length > 0 && (
+            <div className="flex flex-col justify-center gap-2">
+              <span className="text-xs font-bold">
+                {selectedMembers.length > 1
+                  ? 'Membros envolvidos'
+                  : 'Membro envolvido'}{' '}
+                na despesa:
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {selectedMembers.map(member => (
+                  <div
+                    key={member.id}
+                    className="flex items-center gap-1 bg-primary text-white text-sm px-2 py-1 rounded-full"
+                  >
+                    <span>{member.name}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeMember(member.id)}
+                      className="hover:text-error transition cursor-pointer"
+                    >
+                      <FiX size="20px" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      </div>
 
-      {splitType === 'personalize' && <CustomSplitAmount />}
+        {/* Divisão personalizada */}
+        {selectedMembers.length > 0 && (
+          <CustomSplitAmount members={selectedMembers} />
+        )}
 
-      {/* Botão de enviar */}
-      <div className="col-span-2 mt-8">
-        <ButtonUI
-          title="Adicionar Despesa"
-          type="submit"
-          className="bg-primary hover:bg-secondary text-white py-3 px-6 rounded w-full sm:w-auto font-semibold transition disabled:bg-gray-200 disabled:cursor-not-allowed"
-          disabled={true}
-          aria-disabled={true}
+        {/* Botão de envio */}
+        <div className="col-span-2 mt-4 w-full flex justify-end">
+          <ButtonUI
+            type="submit"
+            disabled={isSubmitting || !distributionOK || amount <= 0}
+            aria-disabled={isSubmitting || !distributionOK || amount <= 0}
+            className={`bg-primary hover:bg-secondary text-white cursor-pointer disabled:bg-muted/20 disabled:cursor-not-allowed  py-3 px-6 rounded w-full sm:w-auto font-semibold transition`}
+          >
+            {isSubmitting ? 'Enviando...' : 'Adicionar Despesa'}
+          </ButtonUI>
+        </div>
+      </Form>
+
+      {/* Modal de seleção */}
+      <Modal isOpen={showMemberModal} fnClose={() => setShowMemberModal(false)}>
+        <ListMembers
+          members={{ groupMembers, totalPages }}
+          search={{ search, setSearch }}
+          onConfirm={selected => {
+            setSelectedMembers(selected);
+            setMembers(selected);
+            setShowMemberModal(false);
+          }}
+          isLoading={isLoading}
+          onClose={() => setShowMemberModal(false)}
         />
-      </div>
-    </Form>
+      </Modal>
+    </div>
   );
 }

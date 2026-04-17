@@ -1,38 +1,85 @@
 import { useState } from 'react';
-import { FaChartLine, FaWallet } from 'react-icons/fa';
+import { FaChartLine, FaChartPie } from 'react-icons/fa';
 import BalanceChart from './BalanceChart';
 import ExpenseChart from './ExpenseChart';
+import ButtonUI from '../ui/Button';
+import { useMeDashboardQuery } from '../../hooks/ReactQuery/Queries/useMeDashboardStatsQuery';
 
 export default function ChartSwitcher() {
   const [activeChart, setActiveChart] = useState('balance');
+  const { data: expenseData } = useMeDashboardQuery();
+  const total = expenseData?.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
-  const toggleChart = () => {
-    setActiveChart(prev => (prev === 'balance' ? 'expense' : 'balance'));
-  };
+  const currentYear = new Date().getFullYear();
+  const title =
+    activeChart === 'balance'
+      ? `Como Você Gastou em ${currentYear}`
+      : `Despesas por Categoria ( ${total} )`;
 
   return (
-    <div className="w-full bg-[var(--color-surface)] p-4 rounded-2xl shadow-md space-y-4 mb-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-[var(--color-text)]">
-          Visualização Financeira
+    <div className="w-full bg-surface p-6 rounded-2xl shadow-md border border-border/40 transition-colors duration-300 space-y-6">
+      {/* Cabeçalho */}
+      <div className="flex flex-1 justify-between items-center flex-wrap gap-3">
+        <h2 className="text-xl font-semibold text-text transition-all duration-300">
+          {title}
         </h2>
-        <button
-          onClick={toggleChart}
-          className="flex items-center gap-2 bg-[var(--color-primary)] text-white px-3 py-1.5 rounded-lg hover:opacity-90 transition cursor-pointer"
-        >
-          {activeChart === 'balance' ? (
-            <FaWallet size={18} />
-          ) : (
-            <FaChartLine size={18} />
-          )}
-          <span className="text-sm">
-            {activeChart === 'balance' ? 'Gastos Mensais' : 'Saldo Geral'}
-          </span>
-        </button>
+
+        {/* Alternador */}
+        <div className="relative flex bg-muted/20 rounded-full p-1.5 text-sm font-medium w-fit select-none">
+          {/* Indicador */}
+          <div
+            className={`absolute top-1 bottom-1 w-1/2 bg-primary rounded-full transition-all duration-300 ${
+              activeChart === 'expense' ? 'left-1/2' : 'left-1'
+            }`}
+          />
+
+          {/* Opção: Resumo Anual */}
+          <ButtonUI
+            onClick={() => setActiveChart('balance')}
+            className={`relative z-10 w-1/2 flex items-center gap-2 px-4 py-1.5 rounded-full cursor-pointer transition-colors duration-300 ${
+              activeChart === 'balance'
+                ? 'text-white'
+                : 'text-muted-foreground hover:text-text'
+            }`}
+          >
+            <FaChartLine size={16} />
+            <span>Resumo Anual</span>
+          </ButtonUI>
+
+          {/* Opção: Divisão de Gastos */}
+          <ButtonUI
+            onClick={() => setActiveChart('expense')}
+            className={`relative z-10 w-1/2 flex items-center gap-2 px-4 py-1.5 rounded-full cursor-pointer transition-colors duration-300 ${
+              activeChart === 'expense'
+                ? 'text-white'
+                : 'text-muted-foreground hover:text-text'
+            }`}
+          >
+            <FaChartPie size={16} />
+            <span>Divisão de Gastos</span>
+          </ButtonUI>
+        </div>
       </div>
 
-      <div className="h-[300px]">
-        {activeChart === 'balance' ? <BalanceChart /> : <ExpenseChart />}
+      {/* Área dos gráficos */}
+      <div className="relative w-full min-h-72 sm:h-80 rounded-xl">
+        {/* BalanceChart */}
+        <div
+          className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
+            activeChart === 'balance' ? 'opacity-100 z-10' : 'opacity-0 z-0'
+          }`}
+        >
+          <BalanceChart />
+        </div>
+
+        {/* ExpenseChart */}
+        <div
+          className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
+            activeChart === 'expense' ? 'opacity-100 z-10' : 'opacity-0 z-0'
+          }`}
+        >
+          <ExpenseChart />
+        </div>
       </div>
     </div>
   );
